@@ -1,6 +1,7 @@
 import type { Profile } from '@utils/lens'
 
 import { getRandomProfilePicture } from './getRandomProfilePicture'
+import imageCdn from './imageCdn'
 import sanitizeIpfsUrl from './sanitizeIpfsUrl'
 
 const getProfilePicture = (
@@ -14,7 +15,7 @@ const getProfilePicture = (
       ? channel?.picture?.uri
       : getRandomProfilePicture(channel?.handle)
   const sanitized = sanitizeIpfsUrl(url)
-  return sanitized
+  return imageCdn(sanitized, type)
 }
 
 export default getProfilePicture

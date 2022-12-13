@@ -84,7 +84,7 @@ const UserMenu = () => {
         </Button>
       }
     >
-      <div className="px-1 mt-1.5 w-48 divide-y shadow max-h-96 divide-gray-200 dark:divide-gray-800 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-800 bg-secondary dark:bg-theme">
+      <div className="px-1 mt-1.5 w-48 divide-y shadow max-h-96 divide-gray-200 dark:divide-gray-800 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-800 bg-white">
         {showAccountSwitcher ? (
           <>
             <button
