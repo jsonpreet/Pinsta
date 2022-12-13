@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Link from 'next/link'
-import type { FC } from 'react'
+import { FC, useState } from 'react'
 import type { PinstaPublication } from '@utils/custom-types'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -18,6 +18,7 @@ const PinCard: FC<Props> = ({ pin }) => {
   //const thumbnailUrl = getThumbnailUrl(pin)
 
   const thumbnailUrl = imageCdn(getThumbnailUrl(pin))
+  const [loading, setLoading] = useState(false)
 
   return (
     <div className="group">
@@ -39,7 +40,11 @@ const PinCard: FC<Props> = ({ pin }) => {
                 wrapperClassName='w-full'
                 placeholderSrc='https://placekitten.com/300/500'
                 src={thumbnailUrl}
-                className='rounded-xl border w-full border-gray-100'
+                className={clsx('rounded-xl border w-full border-gray-100', {
+                  'h-80': loading
+                })}
+                beforeLoad={() => setLoading(true)}
+                afterLoad={() => setLoading(false)}
               />
             </Link>
           </div>
