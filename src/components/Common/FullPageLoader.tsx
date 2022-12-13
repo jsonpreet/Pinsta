@@ -1,8 +1,21 @@
 import React from 'react'
+import MetaTags from './MetaTags'
 
-function FullPageLoader() {
+const FullPageLoader = () => {
   return (
-    <div>FullPageLoader</div>
+    <>
+      <div className="grid h-screen place-items-center">
+        <MetaTags />
+        <div className="animate-pulse">
+          <img
+            src='/logo.png'
+            draggable={false}
+            className="w-12 h-12"
+            alt="Pinsta"
+          />
+        </div>
+      </div>
+    </>
   )
 }
 

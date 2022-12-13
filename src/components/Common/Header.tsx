@@ -88,7 +88,7 @@ const Header: FC<Props> = ({ className }) => {
             {currentProfileId ? (
               <>
                 <Link
-                  href="/notifications"
+                  href="/"
                   className="relative pr-1"
                 >
                   <Button variant="material" className="!p-[9px]">
