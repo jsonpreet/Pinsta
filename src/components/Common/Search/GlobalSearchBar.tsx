@@ -5,7 +5,7 @@ import type { Profile } from '@utils/lens'
 import { SearchProfilesDocument, SearchPublicationsDocument, SearchRequestTypes } from '@utils/lens'
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { LENS_CUSTOM_FILTERS, LENSTUBE_APP_ID, LENSTUBE_BYTES_APP_ID } from '@utils/constants'
+import { LENS_CUSTOM_FILTERS } from '@utils/constants'
 import useDebounce from '@hooks/useDebounce'
 import useOutsideClick from '@hooks/useOutsideClick'
 import { BsSearch } from "react-icons/bs";
@@ -37,7 +37,6 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                     type: activeSearch,
                     query: keyword,
                     limit: 30,
-                    sources: [LENSTUBE_APP_ID, LENSTUBE_BYTES_APP_ID],
                     customFilters: LENS_CUSTOM_FILTERS
                 }
                 }
