@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import type { FC } from 'react'
 import { useState } from 'react'
-import { LENS_CUSTOM_FILTERS } from '@utils/constants'
+import { LENS_CUSTOM_FILTERS, APP } from '@utils/constants'
 
 import Login from './Auth/Login'
 import { BsSearch, BsBell } from "react-icons/bs";
@@ -70,7 +70,7 @@ const Header: FC<Props> = ({ className }) => {
                 src={`/logo.png`}
                 draggable={false}
                 className="w-10 h-10"
-                alt="Pinsta"
+                alt={APP.Name}
               /> <span className='font-bold text-4xl brandGradientText uppercase'>Pinsta</span>
             </Link>
           </div>

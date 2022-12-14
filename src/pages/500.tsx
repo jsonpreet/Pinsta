@@ -2,7 +2,7 @@ import { Button } from '@components/Shared/Button'
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
-import { STATIC_ASSETS } from '@utils/constants'
+import { APP } from '@utils/constants'
 
 export default function Custom500() {
     return (
@@ -12,8 +12,8 @@ export default function Custom500() {
             </Head>
             <div className="flex flex-col items-center justify-start h-full mt-10 md:mt-20">
                 <img
-                    src={`${STATIC_ASSETS}/images/brand/lenstube.svg`}
-                    alt="LensTube"
+                    src={`${APP.URL}/logo.png`}
+                    alt={APP.Name}
                     draggable={false}
                     height={50}
                     width={50}
