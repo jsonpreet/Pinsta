@@ -51,17 +51,13 @@ export const POLYGONSCAN_URL = IS_MAINNET
 export const POLYGON_CHAIN_ID = IS_MAINNET ? 137 : 80001
 
 // cdn
-export const IMAGE_CDN_URL = 'https://img.lenstube.xyz'
-export const VIDEO_CDN_URL = 'https://cdn.livepeer.com'
+export const IMAGE_CDN_URL = 'https://ik.imagekit.io/gzmagoxn0r'
 
 export const SCROLL_ROOT_MARGIN = '1000px 0px'
 
 // ipfs
 export const IPFS_FREE_UPLOAD_LIMIT = IS_MAINNET ? 1000 : 100
 export const IPFS_GATEWAY = 'https://lens.infura-ipfs.io/ipfs/'
-
-// livepeer
-export const LIVEPEER_API_KEY = process.env.LIVEPEER_API_KEY as string
 
 // error messages
 export const ERROR_MESSAGE = 'Oops, something went wrong!'

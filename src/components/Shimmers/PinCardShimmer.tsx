@@ -10,7 +10,7 @@ export const CardShimmer = () => {
   )
 }
 
-const VideoCardShimmer = () => {
+const PinCardShimmer = () => {
   return (
     <div className="w-full rounded-xl">
       <div className="flex flex-col space-x-2 animate-pulse">
@@ -34,4 +34,4 @@ const VideoCardShimmer = () => {
   )
 }
 
-export default VideoCardShimmer
+export default PinCardShimmer

@@ -17,7 +17,7 @@ type Props = {
 const PinCard: FC<Props> = ({ pin }) => {
   //const thumbnailUrl = getThumbnailUrl(pin)
 
-  const thumbnailUrl = imageCdn(getThumbnailUrl(pin))
+  const thumbnailUrl = imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
   const [loading, setLoading] = useState(false)
 
   return (
@@ -36,9 +36,9 @@ const PinCard: FC<Props> = ({ pin }) => {
               /> */}
               <LazyLoadImage
                 alt={`Pin`}
-                effect='blur'
-                wrapperClassName='w-full'
-                placeholderSrc='https://placekitten.com/300/500'
+                // effect='blur'
+                // placeholderSrc='https://placekitten.com/300/500'
+                wrapperClassName='w-full bg-gray-100'
                 src={thumbnailUrl}
                 className={clsx('rounded-xl border w-full border-gray-100', {
                   'h-80': loading
