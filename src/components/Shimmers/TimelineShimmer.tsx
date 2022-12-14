@@ -3,14 +3,26 @@ import React, { useMemo } from 'react'
 import PinCardShimmer from './PinCardShimmer'
 
 const TimelineShimmer = () => {
-  const cards = useMemo(() => Array(16).fill(1), [])
+  const cards = useMemo(() => Array(32).fill(1), [])
+  const heights = [200, 400, 300, 200, 300, 400, 100, 200, 400, 200, 100, 300, 400, 100, 400, 100, 200, 150, 300, 200, 300, 400, 100, 200, 400, 220, 100, 300, 400, 100, 400, 300]
   return (
-    <div className="grid gap-x-4 2xl:grid-cols-5 md:gap-y-8 gap-y-2 ultrawide:grid-cols-6 laptop:grid-cols-4 md:grid-cols-2 grid-col-1">
+    <div className='lg:columns-7 sm:columns-3 gap-4 overflow-auto'>
       {cards.map((i, idx) => (
-        <PinCardShimmer key={`${i}_${idx}`} />
+        <PinCardShimmer height={heights[idx]} key={`${i}_${idx}`} />
       ))}
     </div>
   )
 }
 
 export default TimelineShimmer
+
+// const TimelineShimmer = () => {
+//   const cards = useMemo(() => Array(16).fill(1), [])
+//   return (
+//     <div className='w-full lg:columns-7 sm:columns-3 gap-4'>
+//       {cards.map((i, idx) => (
+//         <PinCardShimmer height={heights[idx]} key={`${i}_${idx}`} />
+//       ))}
+//     </div>
+//   )
+// }
