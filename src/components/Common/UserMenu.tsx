@@ -10,7 +10,7 @@ import { useTheme } from 'next-themes'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import type { CustomErrorWithData } from '@utils/custom-types'
-import { ADMIN_IDS, IS_MAINNET } from '@utils/constants'
+import { IS_MAINNET } from '@utils/constants'
 import clearLocalStorage from '@utils/functions/clearLocalStorage'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import { useAccount, useDisconnect } from 'wagmi'
@@ -40,7 +40,6 @@ const UserMenu = () => {
   })
   const [getChannels] = useAllProfilesLazyQuery()
   const { address } = useAccount()
-  const isAdmin = ADMIN_IDS.includes(currentProfile?.id)
 
   const logout = () => {
     setCurrentProfile(null)
