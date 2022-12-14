@@ -17,7 +17,7 @@ import {
 import { ThemeProvider, useTheme } from 'next-themes'
 import type { ReactNode } from 'react'
 import React from 'react'
-import { IS_MAINNET, LENSTUBE_APP_NAME, POLYGON_RPC_URL } from '@utils/constants'
+import { IS_MAINNET, APP, POLYGON_RPC_URL } from '@utils/constants'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
@@ -44,7 +44,7 @@ const connectors = connectorsForWallets([
             injectedWallet({ chains, shimDisconnect: true }),
             metaMaskWallet({ chains, shimDisconnect: true }),
             rainbowWallet({ chains }),
-            coinbaseWallet({ appName: LENSTUBE_APP_NAME, chains }),
+            coinbaseWallet({ appName: APP.Name, chains }),
             walletConnectWallet({ chains })
         ]
     }
