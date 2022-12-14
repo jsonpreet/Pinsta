@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
-import { STATIC_ASSETS } from '@utils/constants'
+import { APP } from '@utils/constants'
 
 export const NoDataFound = ({
   text = 'No data found',
@@ -15,7 +15,7 @@ export const NoDataFound = ({
         >
             {withImage && (
                 <img
-                    src={`/images/illustrations/no-results.png`}
+                    src={`${APP.URL}/logo.png`}
                     className="w-32 my-4 md:w-36"
                     alt="no results"
                     draggable={false}
