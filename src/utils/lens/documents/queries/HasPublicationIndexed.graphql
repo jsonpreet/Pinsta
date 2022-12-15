@@ -1,7 +1,0 @@
-query HasPublicationIndexed($request: PublicationQueryRequest!) {
-  publication(request: $request) {
-    ... on Post {
-      id
-    }
-  }
-}
