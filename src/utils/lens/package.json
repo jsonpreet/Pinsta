@@ -1,8 +1,0 @@
-{
-  "name": "lens",
-  "version": "0.0.0",
-  "main": "./generated.ts",
-  "dependencies": {
-    "typescript": "4.9.4"
-  }
-}
