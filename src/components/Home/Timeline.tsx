@@ -11,12 +11,14 @@ type Props = {
 const Timeline: FC<Props> = ({ pins, pinType = 'Post' }) => {
     return (
         <>
-            <Masonry sx={{ margin: 0 }} columns={7} spacing={2}>
-                {pins?.map((pin: PinstaPublication) => {
-                    const isPub = pin.__typename === pinType
-                    return <PinCard key={`${pin?.id}_${pin.createdAt}_${pin.__typename}`} pin={pin} />
-                })} 
-            </Masonry>
+            <div className='-mx-2'>
+                <Masonry sx={{ margin: 0 }} columns={7} spacing={2}>
+                    {pins?.map((pin: PinstaPublication) => {
+                        const isPub = pin.__typename === pinType
+                        return <PinCard key={`${pin?.id}_${pin.createdAt}_${pin.__typename}`} pin={pin} />
+                    })} 
+                </Masonry>
+            </div>
         </>
     )
 }

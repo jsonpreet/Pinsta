@@ -58,19 +58,19 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
     }
 
     return (
-        <div className="md:w-96">
+        <div className="w-full">
             <div ref={resultsRef}>
                 <div className="relative">
-                    <div className="relative w-full overflow-hidden border border-gray-200 cursor-default dark:border-gray-700 bg-white rounded-full sm:text-sm">
+                    <div className="relative w-full overflow-hidden border border-gray-200 cursor-default dark:border-gray-700 bg-gray-50 rounded-lg sm:text-sm">
                         <input
-                            className="w-full py-2 pl-4 pr-10 text-sm bg-transparent focus:outline-none"
+                            className="w-full py-3 pl-12 pr-4 text-sm bg-transparent focus:outline-none"
                             onChange={(event) => setKeyword(event.target.value)}
-                            placeholder="Search by channel / hashtag"
+                            placeholder="Search"
                             value={keyword}
                         />
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-4">
                             <BsSearch
-                                className="w-4 h-4 text-gray-400"
+                                className="w-4 h-4 text-gray-600"
                                 aria-hidden="true"
                             />
                         </div>

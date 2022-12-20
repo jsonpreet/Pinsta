@@ -12,7 +12,7 @@ html {
 }
 
 body{
-  background-color: rgb(255 255 255);
+  background-color: rgb(244 244 245);
   font-family: "Roboto", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   font-size: 16px;
@@ -30,8 +30,16 @@ body{
   font-family: 'Oswald', sans-serif;
 }
 
+.cursor-zoom{
+    cursor: zoom-in;
+}
+
 .boxShadow {
   box-shadow: inset 0 1px 2px #eee
+}
+
+.sidebar-shadow {
+  box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.20)
 }
 
 .header-glassy {
@@ -42,6 +50,10 @@ body{
     @apply text-transparent bg-clip-text bg-gradient-to-r from-[#df3f95] to-[#ec1e25]  transition;
 }
 
+// .primary-button {
+//   @apply bg-gradient-to-r from-[#df3f95] to-[#ec1e25] hover:from-[#ec1e25] hover:to-[#ec1e25] text-white;
+// }
+
 .primary-button {
-  @apply bg-gradient-to-r from-[#df3f95] to-[#ec1e25] hover:from-[#ec1e25] hover:to-[#ec1e25] text-white;
+  @apply bg-red-600 hover:bg-gray-700 text-white;
 }

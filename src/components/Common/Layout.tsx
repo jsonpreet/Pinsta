@@ -19,6 +19,7 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 
 import FullPageLoader from './FullPageLoader'
 import Header from './Header'
+import Sidebar from './Sidebar'
 
 interface Props {
   children: ReactNode
@@ -111,8 +112,8 @@ const Layout: FC<Props> = ({ children }) => {
         <>
             <Head>
                 <meta
-                name="theme-color"
-                content={resolvedTheme === 'dark' ? '#000000' : '#ffffff'}
+                    name="theme-color"
+                    content={resolvedTheme === 'dark' ? '#000000' : '#ffffff'}
                 />
             </Head>
             <Toaster
@@ -120,10 +121,15 @@ const Layout: FC<Props> = ({ children }) => {
                 toastOptions={getToastOptions(resolvedTheme)}
             />
             <div className='flex pb-10 md:pb-0'>
-                <div className='w-full'>
+                <div className='hidden bg-primary fixed top-0 left-0 md:flex md:flex-shrink-0'>
+                    <Sidebar />
+                </div>
+                <div className='flex flex-col mx-auto flex-1 md:ml-52'>
                     <Header />
-                    <div className='2xl:py-6 py-4 ultrawide:max-w-[110rem] mx-auto md:px-4 ultrawide:px-0'>
-                        {children}
+                    <div className='relative'>
+                        <div className='py-8 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
+                            {children}
+                        </div>
                     </div>
                 </div>
             </div>

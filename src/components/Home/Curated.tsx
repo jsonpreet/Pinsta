@@ -24,6 +24,7 @@ const Curated = () => {
     })
 
     const pageInfo = data?.explorePublications?.pageInfo
+    
     const pins = data?.explorePublications?.items as PinstaPublication[]
 
     const { observe } = useInView({

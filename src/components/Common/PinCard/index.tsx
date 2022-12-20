@@ -7,6 +7,7 @@ import type { PinstaPublication } from '@utils/custom-types'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import imageCdn from '@utils/functions/imageCdn'
+import { motion } from "framer-motion"
 
 dayjs.extend(relativeTime)
 
@@ -15,44 +16,49 @@ type Props = {
 }
 
 const PinCard: FC<Props> = ({ pin }) => {
-  //const thumbnailUrl = getThumbnailUrl(pin)
-
   const thumbnailUrl = imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
   const [loading, setLoading] = useState(false)
+  const [show, setShow] = useState(false)
 
   return (
-    <div className="group">
+    <motion.div
+      className="group"
+      initial={{ opacity: 0, y: 200 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        type: "spring", stiffness: 200, damping: 24
+      }}
+    >
       {!pin.hidden ? (
         <>
-          <div className="bg-white rounded-xl overflow-hidden relative flex flex-col items-center justify-center">
-            <Link href={`/pin/${pin.id}`} className='cursor-zoom group w-full flex relative flex-col'>
+          <div className="bg-white rounded-lg overflow-hidden relative flex flex-col items-center justify-center">
+            <Link href={`/pin/${pin.id}`} className='cursor-zoom group w-full flex relative flex-col' onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               {/* <img
-                className="object-cover bg-gray-100 rounded-lg border cursor-pointer dark:bg-gray-800 dark:border-gray-700/80"
-                loading="lazy"
-                height={1000}
-                width={1000}
-                src={thumbnailUrl}
                 alt={`Pin`}
+                src={thumbnailUrl}
+                className='rounded-lg border bg-gray-100 w-full border-gray-100'
               /> */}
               <LazyLoadImage
                 alt={`Pin`}
-                // effect='blur'
+                delayTime={100}
+                effect='opacity'
                 // placeholderSrc='https://placekitten.com/300/500'
-                wrapperClassName='w-full bg-gray-100'
+                wrapperClassName='w-full bg-white'
                 src={thumbnailUrl}
-                className={clsx('rounded-xl border w-full border-gray-100', {
-                  'h-80': loading
+                className={clsx('rounded-lg border w-full border-gray-100', {
+                  'h-60': loading
                 })}
                 beforeLoad={() => setLoading(true)}
                 afterLoad={() => setLoading(false)}
               />
+              <span className={`${show ? `opacity-100` : `opacity-0`} rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1`}></span>
             </Link>
           </div>
         </>
       ) : (
         null
       )}
-    </div>
+    </motion.div>
   )
 }
 
