@@ -121,10 +121,10 @@ const Layout: FC<Props> = ({ children }) => {
                 toastOptions={getToastOptions(resolvedTheme)}
             />
             <div className='flex pb-10 md:pb-0'>
-                <div className='hidden bg-primary fixed top-0 left-0 md:flex md:flex-shrink-0'>
+                {/* <div className='hidden bg-primary fixed top-0 left-0 md:flex md:flex-shrink-0'>
                     <Sidebar />
-                </div>
-                <div className='flex flex-col mx-auto flex-1 md:ml-52'>
+                </div> */}
+                <div className='flex flex-col mx-auto flex-1'>
                     <Header />
                     <div className='relative'>
                         <div className='py-8 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>

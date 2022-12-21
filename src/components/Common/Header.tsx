@@ -6,6 +6,9 @@ import { useState } from 'react'
 import Login from './Auth/Login'
 import { BsSearch } from "react-icons/bs";
 import GlobalSearchBar from './Search/GlobalSearchBar'
+import { APP } from '@utils/constants';
+import { HOME } from '@utils/paths';
+import Link from 'next/link';
 
 type Props = {
   className?: string
@@ -17,12 +20,26 @@ const Header: FC<Props> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'sticky py-4 z-10 flex-shrink-0 flex w-full items-center drop-shadow-sm border-b border-gray-200 -left-64 bg-white',
+        'sticky py-4 z-10 flex-shrink-0 flex w-full items-center drop-shadow-sm border-b border-gray-200 bg-white',
         className
       )}
     >
       <div className="w-full">
         <div className="flex px-8 items-center justify-between w-full">
+          <div className="mr-8">
+            <Link
+              href={HOME}
+              className="flex space-x-2 items-center"
+            >
+              <img
+                src={`/logo.png`}
+                draggable={false}
+                className="w-8 h-8"
+                alt={APP.Name}
+              />
+              <span className='font-bold text-3xl brandGradientText uppercase hidden md:inline-flex'>Pinsta</span>
+            </Link>
+          </div>
           <div className="hidden md:block w-[calc(100%-200px)]">
             <GlobalSearchBar />
           </div>

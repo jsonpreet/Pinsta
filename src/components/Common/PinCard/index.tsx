@@ -8,6 +8,7 @@ import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import imageCdn from '@utils/functions/imageCdn'
 import { motion } from "framer-motion"
+import getProfilePicture from '@utils/functions/getProfilePicture';
 
 dayjs.extend(relativeTime)
 
@@ -31,8 +32,8 @@ const PinCard: FC<Props> = ({ pin }) => {
     >
       {!pin.hidden ? (
         <>
-          <div className="bg-white rounded-lg overflow-hidden relative flex flex-col items-center justify-center">
-            <Link href={`/pin/${pin.id}`} className='cursor-zoom group w-full flex relative flex-col' onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+          <div className="overflow-hidden relative flex flex-col items-center">
+            <Link href={`/pin/${pin.id}`} className='cursor-zoom group w-full flex bg-white rounded-lg relative flex-col' onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               {/* <img
                 alt={`Pin`}
                 src={thumbnailUrl}
@@ -53,6 +54,17 @@ const PinCard: FC<Props> = ({ pin }) => {
               />
               <span className={`${show ? `opacity-100` : `opacity-0`} rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1`}></span>
             </Link>
+            <div className='flex flex-col items-start w-full justify-start px-1 py-2'>
+              <Link href={`/pin/${pin.id}`} className="flex space-x-2 items-center">
+                <img
+                  className="w-8 h-8 rounded-full"
+                  src={getProfilePicture(pin.profile)}
+                  alt={pin.profile?.handle}
+                  draggable={false}
+                />
+                <span className='text-sm text-light text-gray-500 dark:text-gray-200 hover:text-gray-800'>{pin.profile?.handle}</span>
+              </Link>
+            </div>
           </div>
         </>
       ) : (
