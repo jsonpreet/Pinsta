@@ -26,8 +26,8 @@ const DropMenu: FC<Props> = ({
   positionClassName,
   position = 'right'
 }) => (
-  <Menu as="div" className="relative">
-    <Menu.Button as="div" className="flex cursor-pointer">
+  <Menu as="div" className="relative focus:ring-0 focus-visible:outline-none focus:outline-none">
+    <Menu.Button as="div" className="flex cursor-pointer focus-visible:outline-none focus:outline-none focus:ring-0">
       {trigger}
     </Menu.Button>
     <Transition
@@ -38,7 +38,7 @@ const DropMenu: FC<Props> = ({
       leaveFrom="transform scale-100 opacity-100"
       leaveTo="transform scale-95 opacity-0"
       className={clsx(
-        'absolute z-10',
+        'absolute z-10 focus:outline-none focus:ring-0 focus-visible:outline-none',
         {
           'right-0': position === 'right',
           'left-0': position === 'left',

@@ -6,8 +6,11 @@ import { PublicationMainFocus, PublicationSortCriteria, PublicationTypes, useExp
 import { useInView } from 'react-cool-inview'
 import type { PinstaPublication } from '@utils/custom-types'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
+import useAppStore from '@lib/store'
 
 const Curated = () => {
+    const activeTagFilter = useAppStore((state) => state.activeTagFilter)
+
     const request = {
         sortCriteria: PublicationSortCriteria.CuratedProfiles,
         limit: 50,
@@ -15,6 +18,7 @@ const Curated = () => {
         publicationTypes: [PublicationTypes.Post],
         customFilters: LENS_CUSTOM_FILTERS,
         metadata: {
+            tags: activeTagFilter !== 'all' ? { oneOf: [activeTagFilter] } : undefined,
             mainContentFocus: [PublicationMainFocus.Image]
         }
     }

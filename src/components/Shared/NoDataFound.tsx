@@ -9,14 +9,14 @@ export const NoDataFound = ({
 }) => {
     return (
         <div
-        className={clsx('flex flex-col p-1 space-y-1 rounded-lg', {
+        className={clsx('flex flex-col p-1 space-y-1', {
             'items-center justify-center': isCenter
         })}
         >
             {withImage && (
                 <img
                     src={`${APP.URL}/logo.png`}
-                    className="w-32 my-4 md:w-36"
+                    className="w-28 my-4 md:w-28"
                     alt="no results"
                     draggable={false}
                 />

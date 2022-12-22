@@ -7,6 +7,8 @@ interface AppState {
     hasNewNotification: boolean
     userSigNonce: number
     currentProfile: Profile | null
+    activeTagFilter: string
+    setActiveTagFilter: (activeTagFilter: string) => void
     setCurrentProfile: (channel: Profile | null) => void
     setUserSigNonce: (userSigNonce: number) => void
     setShowCreateChannel: (showCreateChannel: boolean) => void
@@ -18,6 +20,8 @@ export const useAppStore = create<AppState>((set) => ({
     hasNewNotification: false,
     userSigNonce: 0,
     currentProfile: null,
+    activeTagFilter: 'all',
+    setActiveTagFilter: (activeTagFilter) => set(() => ({ activeTagFilter })),
     setCurrentProfile: (channel) => set(() => ({ currentProfile: channel })),
     setUserSigNonce: (userSigNonce) => set(() => ({ userSigNonce })),
     setHasNewNotification: (b) => set(() => ({ hasNewNotification: b })),

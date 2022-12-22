@@ -8,7 +8,7 @@ import type { CustomErrorWithData } from '@utils/custom-types'
 import { POLYGON_CHAIN_ID } from '@utils/constants'
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
 
-import UserMenu from '../UserMenu'
+import UserMenu from '../Menu/UserMenu'
 
 type Props = {
   handleSign: () => void

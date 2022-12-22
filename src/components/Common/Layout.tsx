@@ -20,6 +20,7 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import FullPageLoader from './FullPageLoader'
 import Header from './Header'
 import Sidebar from './Sidebar'
+import CategoriesList from './CategoriesList'
 
 interface Props {
   children: ReactNode
@@ -45,6 +46,7 @@ const Layout: FC<Props> = ({ children }) => {
     const { mounted } = useIsMounted()
     const { address } = useAccount()
     const { pathname, replace, asPath } = useRouter()
+    const showFilter = pathname === '/' || pathname === '/explore' || pathname === '/following'
 
     const resetAuthState = () => {
         setCurrentProfile(null)
@@ -120,16 +122,16 @@ const Layout: FC<Props> = ({ children }) => {
                 position="bottom-right"
                 toastOptions={getToastOptions(resolvedTheme)}
             />
-            <div className='flex pb-10 md:pb-0'>
-                {/* <div className='hidden bg-primary fixed top-0 left-0 md:flex md:flex-shrink-0'>
-                    <Sidebar />
-                </div> */}
-                <div className='flex flex-col mx-auto flex-1'>
-                    <Header />
-                    <div className='relative'>
-                        <div className='py-8 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
-                            {children}
+            <div className='relative'>
+                <Header />
+                <div className='pb-8 mt-[64px]'>
+                    {showFilter && 
+                        <div className='overflow-hidden md:px-6'>
+                            <CategoriesList />
                         </div>
+                    }
+                    <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
+                        {children}
                     </div>
                 </div>
             </div>

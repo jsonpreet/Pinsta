@@ -36,7 +36,7 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                 request: {
                     type: activeSearch,
                     query: keyword,
-                    limit: 30,
+                    limit: 10,
                     customFilters: LENS_CUSTOM_FILTERS
                 }
                 }
@@ -61,7 +61,7 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
         <div className="w-full">
             <div ref={resultsRef}>
                 <div className="relative">
-                    <div className="relative w-full overflow-hidden border border-gray-200 cursor-default dark:border-gray-700 bg-gray-50 rounded-full sm:text-sm">
+                    <div className="relative w-full overflow-hidden border border-gray-200 cursor-default dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-full sm:text-sm">
                         <input
                             className="w-full py-3 pl-12 pr-4 text-sm bg-transparent focus:outline-none"
                             onChange={(event) => setKeyword(event.target.value)}
@@ -77,7 +77,7 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                     </div>
                     <div
                         className={clsx(
-                        'md:absolute w-full z-10 mt-1 text-base bg-white overflow-hidden dark:bg-theme rounded-xl ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+                        'md:absolute w-full z-10 mt-1 text-base bg-white dark:bg-gray-800 overflow-hidden dark:bg-theme rounded-xl ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
                         { hidden: debouncedValue.length === 0 }
                         )}
                     >

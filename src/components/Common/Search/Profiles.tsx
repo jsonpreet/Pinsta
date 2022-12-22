@@ -17,36 +17,36 @@ interface Props {
 const Profiles: FC<Props> = ({ results, loading, clearSearch }) => {
     return (
         <>
-            {results?.map((channel: Profile) => (
+            {results?.map((profile: Profile) => (
                 <div
                     onClick={() => clearSearch()}
-                    key={channel.id}
+                    key={profile.id}
                     className="relative pl-3 pr-4 cursor-default select-none hover:bg-gray-100 dark:hover:bg-gray-900"
                     role="button"
                 >
                     <Link
-                        href={`/channel/${channel?.handle}`}
-                        key={channel?.handle}
+                        href={`/${profile?.handle}`}
+                        key={profile?.handle}
                         className="flex flex-col justify-center py-2 space-y-1 rounded-xl"
                     >
                         <span className="flex items-center justify-between">
                             <div className="inline-flex items-center w-3/4 space-x-2">
                                 <img
                                 className="w-7 h-7 rounded-full"
-                                src={getProfilePicture(channel, 'avatar')}
+                                src={getProfilePicture(profile, 'avatar')}
                                 draggable={false}
                                 alt="pfp"
                                 />
                                 <div className="flex items-center space-x-1">
                                 <p className="text-base truncate line-clamp-1">
-                                    <span>{channel?.handle}</span>
+                                    <span>{profile?.handle}</span>
                                 </p>
-                                <IsVerified id={channel?.id} size="xs" />
+                                <IsVerified id={profile?.id} size="xs" />
                                 </div>
                             </div>
                             <span className="inline-flex items-center space-x-1 text-xs whitespace-nowrap opacity-60">
                                 <BiUser />
-                                <span>{formatNumber(channel.stats.totalFollowers)}</span>
+                                <span>{formatNumber(profile.stats.totalFollowers)}</span>
                             </span>
                         </span>
                     </Link>
