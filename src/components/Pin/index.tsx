@@ -18,12 +18,15 @@ import InterweaveContent from '@components/Common/InterweaveContent'
 import UserCard from './UserCard'
 import ShareCard from './ShareCard'
 import MetaCard from './Meta'
+import { Loader } from './../Shared/Loader';
+import Comments from './Comments'
 
 const Pin: NextPage = () => {
     const router = useRouter()
     const { id } = router.query
     const rootRef = useRef();
     const [readMore, setReadMore] = useState(false)
+    const [isLoading, setLoading] = useState(true)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
 
@@ -70,13 +73,23 @@ const Pin: NextPage = () => {
                 <div className='mt-20 sm:mt-0 flex-none'>
                     <div className='w-full max-w-[1024px] shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-3xl mx-auto'>
                         <div className='flex flex-col lg:flex-row overflow-visible'>
-                            <div className='relative top-0 left-0 z-10 flex-none w-full lg:w-2/4'>
-                                <div className={`image w-full border border-white/50 h-full rounded-3xl sm:rounded-bl-3xl sm:rounded-tl-3xl flex flex-col items-center justify-start p-4`}>
-                                    {/* <div style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')})`, filter: 'blur(3px)', opacity: '.2'}} className='w-full h-full backdrop-xl backdrop-blur-md p-4 absolute top-0 left-0 rounded-bl-3xl rounded-tl-3xl'/>     */}
-                                    <img className='rounded-xl shadow-[rgba(13,_38,_76,_0.19)_0px_0px_20px] object-cover' alt={`Pin by @${pin.profile.handle}`} src={imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} />
+                            <div className='relative flex-none w-full lg:w-2/4'>
+                                <div className='w-full border border-white/50 h-full min-h-[500px] flex flex-col justify-center items-center rounded-3xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4'>
+                                    <img 
+                                        className='rounded-xl object-cover' 
+                                        alt={`Pin by @${pin.profile.handle}`} 
+                                        src={imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} 
+                                        onLoad={() => setLoading(false)}
+                                    />
+                                    {isLoading ?
+                                        <span className='absolute bg-gray-100 dark:bg-gray-700 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center justify-center'>
+                                            <Loader/>
+                                        </span>
+                                        : null
+                                    }
                                 </div>
                             </div>  
-                            <div className='content flex flex-col w-full lg:w-2/4 pt-8 pb-4 px-8'>
+                            <div className='content flex flex-col items-start w-full lg:w-2/4 pt-8 pb-4 px-8'>
                                 <ShareCard pin={pin} />
                                 <UserCard pin={pin} />
                                 <div className='mt-4'>
@@ -89,7 +102,7 @@ const Pin: NextPage = () => {
                                     }
                                 </div>
                                 <MetaCard pin={pin} />
-                                {/* <Comments post={post}/>*/}
+                                <Comments pin={pin}/>
                             </div> 
                         </div>
                     </div>

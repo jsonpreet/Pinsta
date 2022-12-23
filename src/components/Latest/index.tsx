@@ -10,11 +10,11 @@ import type { PinstaPublication } from '@utils/custom-types'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
 import useAppStore from '@lib/store'
 
-const Home: NextPage = () => {
+const Latest: NextPage = () => {
   const activeTagFilter = useAppStore((state) => state.activeTagFilter)
 
   const request = {
-    sortCriteria: PublicationSortCriteria.CuratedProfiles,
+    sortCriteria: PublicationSortCriteria.Latest,
     limit: 50,
     noRandomize: false,
     publicationTypes: [PublicationTypes.Post],
@@ -68,4 +68,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Latest

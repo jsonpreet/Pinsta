@@ -16,11 +16,10 @@ const UserCard: FC<Props> = ({ pin }) => {
         <>
             <div className='flex flex-row justify-between items-center'>
                 <div className='flex flex-row justify-center'>
-                    <div className='image bg-gray-300 shadow rounded-full w-12 h-12'>
-                        {/* <UserImage classes='w-12 shadow h-12' username={profile?.Username} profile={profile} /> */}
+                    <div className='image bg-gray-300 rounded-full w-12 h-12'>
                         <Link href={`/${pin.profile.handle}`}>
                             <Image
-                                className={`rounded-full border border-gray-200 w-12 shadow h-12`}
+                                className={`rounded-full border border-gray-200 w-12 h-12`}
                                 alt={`${pin.profile.handle}'s profile picture`}
                                 width={48}
                                 height={48}

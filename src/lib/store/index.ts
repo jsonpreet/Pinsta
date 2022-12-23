@@ -8,6 +8,8 @@ interface AppState {
     userSigNonce: number
     currentProfile: Profile | null
     activeTagFilter: string
+    activeSortFilter: string
+    setActiveSortFilter: (activeSortFilter: string) => void
     setActiveTagFilter: (activeTagFilter: string) => void
     setCurrentProfile: (channel: Profile | null) => void
     setUserSigNonce: (userSigNonce: number) => void
@@ -21,6 +23,8 @@ export const useAppStore = create<AppState>((set) => ({
     userSigNonce: 0,
     currentProfile: null,
     activeTagFilter: 'all',
+    activeSortFilter: 'commented',
+    setActiveSortFilter: (activeSortFilter) => set(() => ({ activeSortFilter })),
     setActiveTagFilter: (activeTagFilter) => set(() => ({ activeTagFilter })),
     setCurrentProfile: (channel) => set(() => ({ currentProfile: channel })),
     setUserSigNonce: (userSigNonce) => set(() => ({ userSigNonce })),
