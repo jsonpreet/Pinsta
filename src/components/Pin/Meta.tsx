@@ -32,15 +32,13 @@ const MetaCard: FC<Props> = ({ pin }) => {
                     <FiShoppingBag size={17} />
                     <span className="ml-1">{pin.stats.totalAmountOfCollects}</span>
                 </div>
-            </div>
-            <div className="flex flex-row flex-1 items-center justify-end">
-                <span
+                <div
                     className="flex text-gray-700 items-center group duration-75 delay-75 hover:text-black flex-row"
                     title={pin.createdAt}
                 >
                     <FiClock size={18} />
                     <span className="ml-1 text-sm">{dayjs(new Date(pin.createdAt))?.fromNow()}</span>
-                </span>
+                </div>
             </div>
         </div>
 

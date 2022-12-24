@@ -91,9 +91,9 @@ const Comments: FC<Props> = ({ pin }) => {
                         </span>
                     ) : null}
                 </h1>
-                {!currentProfileId && (
+                {/* {!currentProfileId && (
                     <span className="text-xs">(Sign in required to comment)</span>
-                )}
+                )} */}
             </div>
             {data?.publications?.items.length === 0 && (
                 <NoDataFound text="Be the first to comment." />
