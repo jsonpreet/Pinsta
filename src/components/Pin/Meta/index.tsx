@@ -5,6 +5,10 @@ import { HiOutlineChatAlt2, HiOutlineHeart, HiRefresh } from "react-icons/hi"
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { FiShoppingBag, FiClock } from "react-icons/fi";
 import { RiArrowLeftRightFill } from "react-icons/ri";
+import { useAppStore } from '@lib/store';
+import Collect from "./Collect";
+import Mirror from "./Mirror";
+import Like from "./Like";
 
 dayjs.extend(relativeTime)
 
@@ -12,30 +16,27 @@ type Props = {
     pin: PinstaPublication
 }
 
-const MetaCard: FC<Props> = ({ pin }) => {
+const Meta: FC<Props> = ({ pin }) => {
+    const currentProfile = useAppStore((state) => state.currentProfile);
+    const canMirror = currentProfile ? pin?.canMirror?.result : true;
+    const collectModuleType = pin?.collectModule.__typename
     return (
         <div className='flex flex-row justify-between w-full items-center mt-4'>
             <div className="flex flex-row flex-auto text-gray-700 justify-between">
-                <div className="flex flex-row justify-center items-center">
-                    <HiOutlineHeart size={19} />
-                    <span className="ml-1">{pin.stats.totalUpvotes}</span>
-                </div>
-                <div className="flex flex-row justify-center items-center">
-                    <RiArrowLeftRightFill size={18} />
-                    <span className="ml-1">{pin.stats.totalAmountOfMirrors}</span>
-                </div>
+                <Like pin={pin}/>
+                {canMirror ?
+                    <Mirror pin={pin}/>
+                    : null
+                }
                 <div className="flex flex-row justify-center items-center">
                     <HiOutlineChatAlt2 size={18} />
                     <span className="ml-1">{pin.stats.totalAmountOfComments}</span>
                 </div>
-                <div className="flex flex-row justify-center items-center">
-                    <FiShoppingBag size={17} />
-                    <span className="ml-1">{pin.stats.totalAmountOfCollects}</span>
-                </div>
-                <div
-                    className="flex text-gray-700 items-center group duration-75 delay-75 hover:text-black flex-row"
-                    title={pin.createdAt}
-                >
+                {collectModuleType !== 'RevertCollectModuleSettings' ?
+                    <Collect pin={pin} />
+                    : null
+                }
+                <div className="flex text-gray-700 items-center" title={pin.createdAt}>
                     <FiClock size={18} />
                     <span className="ml-1 text-sm">{dayjs(new Date(pin.createdAt))?.fromNow()}</span>
                 </div>
@@ -45,4 +46,4 @@ const MetaCard: FC<Props> = ({ pin }) => {
     )
 }
 
-export default MetaCard
+export default Meta

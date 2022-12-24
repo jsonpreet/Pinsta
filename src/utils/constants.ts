@@ -59,9 +59,13 @@ export const SCROLL_ROOT_MARGIN = '1000px 0px'
 export const IPFS_FREE_UPLOAD_LIMIT = IS_MAINNET ? 1000 : 100
 export const IPFS_GATEWAY = 'https://lens.infura-ipfs.io/ipfs/'
 
-// error messages
+// Messages
 export const ERROR_MESSAGE = 'Oops, something went wrong!'
 export const SIGN_IN_REQUIRED_MESSAGE = 'Sign in required'
+export const WRONG_NETWORK = IS_MAINNET
+  ? 'Please change network to Polygon mainnet.'
+  : 'Please change network to Polygon Mumbai testnet.'
+export const SIGN_ERROR = 'Failed to sign data'
 
 // lens
 export const LENS_CUSTOM_FILTERS = [CustomFiltersTypes.Gardeners]

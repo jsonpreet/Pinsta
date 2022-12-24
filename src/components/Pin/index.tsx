@@ -15,10 +15,10 @@ import imageCdn from '@utils/functions/imageCdn'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import { useEffect, useRef, useState } from 'react'
 import InterweaveContent from '@components/Common/InterweaveContent'
-import UserCard from './UserCard'
-import ShareCard from './ShareCard'
-import MetaCard from './Meta'
-import { Loader } from './../Shared/Loader';
+import User from './User'
+import Share from './Share'
+import Meta from './Meta'
+import { Loader } from '@components/Shared/Loader';
 import Comments from './Comments'
 
 const Pin: NextPage = () => {
@@ -65,7 +65,7 @@ const Pin: NextPage = () => {
     const checkLength = () => {
         (pin.metadata.content.length > 300 ) ? setReadMore(true) : setReadMore(false)
     }
-
+    
     return (
         <>
             <MetaTags title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}/>
@@ -90,8 +90,8 @@ const Pin: NextPage = () => {
                                 </div>
                             </div>  
                             <div className='content flex flex-col items-start w-full lg:w-2/4 pt-8 pb-4 px-8'>
-                                <ShareCard pin={pin} />
-                                <UserCard pin={pin} />
+                                <Share pin={pin} />
+                                <User pin={pin} />
                                 <div className='mt-4'>
                                     <InterweaveContent content={!readMore ? pin.metadata.content : `${pin.metadata.content.substring(0, 300)}...`}/>
                                         
@@ -101,7 +101,7 @@ const Pin: NextPage = () => {
                                         </button>
                                     }
                                 </div>
-                                <MetaCard pin={pin} />
+                                <Meta pin={pin} />
                                 <Comments pin={pin}/>
                             </div> 
                         </div>
