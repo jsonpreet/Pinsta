@@ -10,8 +10,7 @@ type Props = {
   pin: PinstaPublication
 }
 
-const UserCard: FC<Props> = ({ pin }) => {
-    console.log('pin', pin)
+const User: FC<Props> = ({ pin }) => {
     return (
         <>
             <div className='flex flex-row justify-between items-center'>
@@ -47,4 +46,4 @@ const UserCard: FC<Props> = ({ pin }) => {
     )
 }
 
-export default UserCard
+export default User

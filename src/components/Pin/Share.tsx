@@ -22,8 +22,7 @@ type Props = {
     pin: PinstaPublication
 }
 
-const ShareCard: FC<Props> = ({ pin }) => {
-    console.log('pin', pin)
+const Share: FC<Props> = ({ pin }) => {
     const router = useRouter()
     const [isSaved, setIsSaved] = useState(false)
     const [isCopied, setIsCopied] = useState(false)
@@ -156,4 +155,4 @@ const ShareCard: FC<Props> = ({ pin }) => {
     )
 }
 
-export default ShareCard
+export default Share

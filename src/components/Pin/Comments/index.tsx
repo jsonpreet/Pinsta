@@ -29,11 +29,10 @@ const Comments: FC<Props> = ({ pin }) => {
     const queuedComments = usePersistStore((state) => state.queuedComments)
     const currentProfile = useAppStore((state) => state.currentProfile)
 
-    const isFollowerOnlyReferenceModule =
-    pin?.referenceModule?.__typename === 'FollowOnlyReferenceModuleSettings'
+    const isFollowerOnlyReferenceModule = pin?.referenceModule?.__typename === 'FollowOnlyReferenceModuleSettings'
 
     const request = {
-        limit: 30,
+        limit: 5,
         customFilters: LENS_CUSTOM_FILTERS,
         commentsOf: id,
         metadata: {
@@ -87,13 +86,13 @@ const Comments: FC<Props> = ({ pin }) => {
                     <span className="font-semibold">Comments</span>
                     {data?.publications?.pageInfo.totalCount ? (
                         <span className="text-sm">
-                        ( {data?.publications?.pageInfo.totalCount} )
+                        ({data?.publications?.pageInfo.totalCount})
                         </span>
                     ) : null}
                 </h1>
-                {!currentProfileId && (
+                {/* {!currentProfileId && (
                     <span className="text-xs">(Sign in required to comment)</span>
-                )}
+                )} */}
             </div>
             {data?.publications?.items.length === 0 && (
                 <NoDataFound text="Be the first to comment." />
@@ -104,8 +103,8 @@ const Comments: FC<Props> = ({ pin }) => {
                 <Alert variant="warning">
                     <span className="text-sm">
                         {isFollowerOnlyReferenceModule
-                        ? 'Only subscribers can comment on this publication'
-                        : `Only subscribers within ${pin.profile.handle}'s preferred network can comment`}
+                        ? 'Only followers can comment on this publication'
+                        : `Only followers within ${pin.profile.handle}'s preferred network can comment`}
                     </span>
                 </Alert>
             ) : null}
