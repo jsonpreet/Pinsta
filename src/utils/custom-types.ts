@@ -7,7 +7,10 @@ import type {
   LimitedTimedFeeCollectModuleSettings,
   Mirror,
   Post,
+  ProfileFollowModuleSettings,
   RevertCollectModuleSettings,
+  RevertFollowModuleSettings,
+  FeeFollowModuleSettings,
   TimedFeeCollectModuleSettings
 } from '@utils/lens'
 
@@ -74,7 +77,7 @@ export type ProfileMetadata = {
   attributes: Attribute[]
 }
 
-export type LenstubeCollectModule = FreeCollectModuleSettings &
+export type PinstaCollectModule = FreeCollectModuleSettings &
   FeeCollectModuleSettings &
   RevertCollectModuleSettings &
   TimedFeeCollectModuleSettings &
@@ -98,3 +101,7 @@ export type QueuedCommentType = {
   txnId?: string
   txnHash?: string
 }
+
+export type PinstaFollowModule = FeeFollowModuleSettings &
+  ProfileFollowModuleSettings &
+  RevertFollowModuleSettings;
