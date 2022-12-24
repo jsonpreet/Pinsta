@@ -1,4 +1,4 @@
-import InterweaveContent from '@components/Common/InterweaveContent'
+import InterweaveContent from '@components/Shared/InterweaveContent'
 import IsVerified from '@components/Common/IsVerified'
 import clsx from 'clsx'
 import dayjs from 'dayjs'

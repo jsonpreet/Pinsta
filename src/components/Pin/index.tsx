@@ -9,12 +9,12 @@ import { PinstaPublication } from '@utils/custom-types'
 import { usePublicationDetailsQuery } from '@utils/lens'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { BsArrowLeft, BsArrowLeftCircle, BsArrowLeftCircleFill } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowLeftCircle, BsArrowLeftCircleFill, BsArrowLeftShort } from 'react-icons/bs';
 import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import imageCdn from '@utils/functions/imageCdn'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import { useEffect, useRef, useState } from 'react'
-import InterweaveContent from '@components/Common/InterweaveContent'
+import InterweaveContent from '@components/Shared/InterweaveContent'
 import User from './User'
 import Share from './Share'
 import Meta from './Meta'
@@ -71,18 +71,18 @@ const Pin: NextPage = () => {
                     <BrowserView>
                         <div className='flex flex-col items-center relative justify-center'>
                             <button
-                                className='absolute top-0 left-0 z-10 hover:text-red-600 bg-gray-800 rounded-full w-12 h-12 text-center items-center flex text-gray-400'
+                                className='absolute top-0 left-0 z-10 hover:text-white hover:bg-red-600 dark:hover:bg-red-700 dark:bg-gray-800 dark:text-white bg-gray-100 text-gray-800  duration-75 delay-75 rounded-full w-12 h-12 text-center items-center justify-center flex'
                                 onClick={() => router.back()}
                             >
-                                <BsArrowLeft size={20} />
+                                <BsArrowLeftShort size={26} />
                             </button>
                         </div>
                     </BrowserView>
-                    <div className='w-full max-w-[1024px] shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-3xl mx-auto'>
+                    <div className='w-full max-w-[1024px] shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] dark:bg-gray-800 bg-white rounded-3xl mx-auto'>
                         <div className='flex flex-col lg:flex-row overflow-visible'>
                             <div className='relative flex-none w-full lg:w-2/4'>
                                 <div className={clsx(
-                                    'w-full border border-white/50 h-full min-h-[500px] flex flex-col items-center rounded-3xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
+                                    'w-full border border-white/50 dark:border-gray-800 h-full min-h-[500px] flex flex-col items-center rounded-3xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
                                         // pin.stats.totalAmountOfComments > 3 ? 'justify-center' : 'justify-start'
                                     )}
                                 >
@@ -100,10 +100,10 @@ const Pin: NextPage = () => {
                                     }
                                 </div>
                             </div>  
-                            <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l border-gray-50'>
+                            <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l dark:border-gray-900 border-gray-50'>
                                 <Share pin={pin} />
                                 <User pin={pin} />
-                                <div className='mt-4'>
+                                <div className='mt-4 whitespace-pre-wrap break-words leading-md linkify text-md'>
                                     <InterweaveContent content={!readMore ? pin.metadata.content : `${pin.metadata.content.substring(0, 300)}...`}/>
                                         
                                     {readMore &&

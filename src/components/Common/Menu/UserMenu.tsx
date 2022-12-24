@@ -15,6 +15,7 @@ import clearLocalStorage from '@utils/functions/clearLocalStorage'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import { useAccount, useDisconnect } from 'wagmi'
 import { BsChevronLeft, BsBell, BsGear, BsMoon, BsPersonCircle, BsPlusCircle, BsShuffle, BsSun, BsPower } from "react-icons/bs";
+import { BiExit } from 'react-icons/bi'
 
 const UserMenu = () => {
   //const setChannels = useAppStore((state) => state.setChannels)
@@ -83,7 +84,7 @@ const UserMenu = () => {
           </Button>
         }
       >
-        <div className="mt-1.5 w-48 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 shadow max-h-96 divide-gray-200 dark:divide-gray-800 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-800 dark:bg-gray-800 bg-white">
+        <div className="mt-1.5 w-56 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-200 dark:divide-gray-800 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-800 dark:bg-gray-800 bg-white">
           {showAccountSwitcher ? (
             <>
               <button
@@ -146,50 +147,40 @@ const UserMenu = () => {
                   <>
                     <Menu.Item
                       as={NextLink}
-                      href={`/channel/${currentProfile?.handle}`}
-                      className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black"
+                      href={`/${currentProfile?.handle}`}
+                      className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
                     >
                       <BsPersonCircle className="w-4 h-4" />
                       <span className="truncate whitespace-nowrap">
-                        Your Channel
+                        My Profile
                       </span>
                     </Menu.Item>
-                    <button
-                      type="button"
-                      className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black"
-                      onClick={() => onSelectSwitchChannel()}
-                    >
-                      <BsShuffle className="w-4 h-4" />
-                      <span className="truncate whitespace-nowrap">
-                        Switch channel
-                      </span>
-                    </button>
                   </>
                 )}
                 {!IS_MAINNET && (
                   <button
                     type="button"
-                    className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black"
+                    className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
                     onClick={() => setShowCreateChannel(true)}
                   >
                     <BsPlusCircle className="w-4 h-4" />
                     <span className="truncate whitespace-nowrap">
-                      Create Channel
+                      Create Profile
                     </span>
                   </button>
                 )}
                 <Link
                   href="/settings"
-                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black"
+                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
                 >
                   <BsGear className="w-4 h-4" />
                   <span className="truncate whitespace-nowrap">
-                    Channel Settings
+                    Account Settings
                   </span>
                 </Link>
                 <button
                   type="button"
-                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black"
+                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 >
                   {theme === 'dark' ? (
@@ -203,11 +194,11 @@ const UserMenu = () => {
                 </button>
                 <button
                   type="button"
-                  className="flex items-center w-full px-3 py-2 space-x-2 hover:bg-gray-100 dark:hover:bg-black"
+                  className="flex items-center w-full px-3 py-2 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
                   onClick={() => logout()}
                 >
-                  <BsPower className="w-4 h-4" />
-                  <span className="truncate whitespace-nowrap">Disconnect</span>
+                  <BiExit className="w-4 h-4" />
+                  <span className="truncate whitespace-nowrap">Sign Out</span>
                 </button>
               </div>
             </>

@@ -33,7 +33,7 @@ const HeaderMenu = () => {
             <Link
                 href={route}
                 className={clsx(
-                    'flex items-center px-5 py-1.5 focus-visible:outline-none focus:outline-none rounded-full group',
+                    'flex items-center px-5 py-1.5 focus-visible:outline-none focus:outline-none rounded-full group duration-75 delay-75',
                     isActive ?
                         'bg-gray-900 hover:bg-gray-900 dark:bg-white dark:hover:bg-white' :
                         'dark:hover:bg-white hover:bg-gray-900'
@@ -43,7 +43,7 @@ const HeaderMenu = () => {
                     className={clsx(
                         isActive ?
                             'dark:text-gray-900 text-white ' :
-                            'dark:group-hover:text-gray-900 group-hover:text-white text-gray-900 dark:text-white font-semibold'
+                            'dark:group-hover:text-gray-900 group-hover:text-white text-gray-900 dark:text-white font-semibold duration-75 delay-75'
                     )}
                 >
                     {children}

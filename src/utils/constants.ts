@@ -83,3 +83,9 @@ export const ALLOWED_PLAYBACK_VIDEO_TYPES = [
   'video/mov',
   'video/webm'
 ]
+
+// External Apps
+export const LENSTER_URL = 'https://lenster.xyz'
+
+export const LENSPROTOCOL_HANDLE = 'lensprotocol';
+export const HANDLE_SUFFIX = IS_MAINNET ? '.lens' : '.test';

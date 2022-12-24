@@ -94,10 +94,7 @@ const Like: FC<Props> = ({ pin }) => {
             <motion.button whileTap={{ scale: 0.9 }} onClick={createLike} aria-label="Like">
                 <div className="flex flex-row justify-center items-center">
                     {liked ? <HiHeart size={19} /> : <HiOutlineHeart size={19} />}
-                    {count > 0 ? 
-                        <span className="ml-1">{count}</span>
-                        : null
-                    }
+                    <span className="ml-1">{count}</span>
                 </div>                
             </motion.button>
         </>

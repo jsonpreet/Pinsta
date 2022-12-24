@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 
 import { Loader } from './Loader'
 
-export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material' | 'dark'
+export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material' | 'dark' | 'success'
 
 interface Props
     extends DetailedHTMLProps<
@@ -17,6 +17,7 @@ interface Props
     children?: ReactNode
     icon?: ReactNode
     className?: string
+    outline?: boolean
 }
 
 export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
@@ -26,6 +27,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
     variant = 'primary',
     loading,
     children,
+    outline = 'false',
     icon,
     ...rest
   },
@@ -35,7 +37,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
         <button
             ref={ref}
             className={clsx(
-                'relative inline-block disabled:opacity-50 rounded-lg md:rounded-xl group',
+                'relative inline-block  duration-75 delay-75 disabled:opacity-50 rounded-lg md:rounded-xl group',
                 {
                 'px-4 py-1.5 text-xs': size === 'sm',
                 'px-5 py-1.5': size === 'md',
@@ -54,7 +56,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
         >
             <span
                 className={clsx('relative flex items-center justify-center space-x-2', {
-                'text-white': variant !== 'secondary' && variant !== 'material'
+                    'text-white': variant !== 'secondary' && variant !== 'material'
                 })}
             >
                 {icon}
