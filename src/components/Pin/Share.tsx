@@ -57,7 +57,7 @@ const Share: FC<Props> = ({ pin }) => {
     
     return (
         <>
-            <div className='w-full z-20 backdrop-blur-3xl bg-opacity-50 top-0 flex flex-row justify-between items-center border-b border-gray-50 pb-4 mb-4 relative'>
+            <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-row justify-between items-center border-b border-gray-50 pb-4 mb-4 relative'>
                 <div className='flex flex-row items-center justify-center'>
                     <div className='flex back mr-4 lg:hidden'>
                         <button className='duration-75 delay-75 hover:text-[#ec05ad] text-gray-400' onClick={() => router.back()}> <BsArrowLeftCircleFill size={48}/> </button>

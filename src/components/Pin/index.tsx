@@ -9,7 +9,7 @@ import { PinstaPublication } from '@utils/custom-types'
 import { usePublicationDetailsQuery } from '@utils/lens'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { BsArrowLeftCircle, BsArrowLeftCircleFill } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowLeftCircle, BsArrowLeftCircleFill } from 'react-icons/bs';
 import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import imageCdn from '@utils/functions/imageCdn'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
@@ -20,6 +20,7 @@ import Share from './Share'
 import Meta from './Meta'
 import { Loader } from '@components/Shared/Loader';
 import Comments from './Comments'
+import clsx from 'clsx'
 
 const Pin: NextPage = () => {
     const router = useRouter()
@@ -48,7 +49,7 @@ const Pin: NextPage = () => {
 
     useEffect(() => {
         if (pin) {
-            checkLength();
+            (pin.metadata.content.length > 300 ) ? setReadMore(true) : setReadMore(false)
         }
     }, [pin])
 
@@ -61,20 +62,30 @@ const Pin: NextPage = () => {
     if (error) return <Custom500 />
     if (loading || !data) return <PinShimmer />
     if (!canGet) return <Custom404 />
-
-    const checkLength = () => {
-        (pin.metadata.content.length > 300 ) ? setReadMore(true) : setReadMore(false)
-    }
     
     return (
         <>
             <MetaTags title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}/>
             {!loading && !error && pin ? (
-                <div className='mt-20 sm:mt-0 flex-none'>
+                <div className='md:mt-10 mt-0 flex-none'>
+                    <BrowserView>
+                        <div className='flex flex-col items-center relative justify-center'>
+                            <button
+                                className='absolute top-0 left-0 z-10 hover:text-red-600 bg-gray-800 rounded-full w-12 h-12 text-center items-center flex text-gray-400'
+                                onClick={() => router.back()}
+                            >
+                                <BsArrowLeft size={20} />
+                            </button>
+                        </div>
+                    </BrowserView>
                     <div className='w-full max-w-[1024px] shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-3xl mx-auto'>
                         <div className='flex flex-col lg:flex-row overflow-visible'>
                             <div className='relative flex-none w-full lg:w-2/4'>
-                                <div className='w-full border border-white/50 h-full min-h-[500px] flex flex-col justify-center items-center rounded-3xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4'>
+                                <div className={clsx(
+                                    'w-full border border-white/50 h-full min-h-[500px] flex flex-col items-center rounded-3xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
+                                        // pin.stats.totalAmountOfComments > 3 ? 'justify-center' : 'justify-start'
+                                    )}
+                                >
                                     <img 
                                         className='rounded-xl object-cover' 
                                         alt={`Pin by @${pin.profile.handle}`} 
@@ -89,7 +100,7 @@ const Pin: NextPage = () => {
                                     }
                                 </div>
                             </div>  
-                            <div className='content flex flex-col items-start w-full lg:w-2/4 pt-8 pb-4 px-8'>
+                            <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l border-gray-50'>
                                 <Share pin={pin} />
                                 <User pin={pin} />
                                 <div className='mt-4'>
@@ -101,7 +112,7 @@ const Pin: NextPage = () => {
                                         </button>
                                     }
                                 </div>
-                                <Meta pin={pin} />
+                                <Meta isComment={false} pin={pin} />
                                 <Comments pin={pin}/>
                             </div> 
                         </div>

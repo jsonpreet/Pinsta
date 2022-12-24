@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 
 import { Loader } from './Loader'
 
-export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material'
+export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material' | 'dark'
 
 interface Props
     extends DetailedHTMLProps<
@@ -42,11 +42,10 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                 'px-6 py-3 text-base': size === 'lg',
                 'px-8 py-4 text-lg': size === 'xl',
                 'md:rounded-full': size === 'sm',
-                'primary-button md:rounded-full':
-                    variant === 'primary',
+                'primary-button md:rounded-full': variant === 'primary',
                 'bg-transparent md:rounded-full': variant === 'secondary',
-                'bg-red-500 border border-red-500 md:rounded-full':
-                    variant === 'danger',
+                'bg-gray-800 hover:bg-gray-900': variant === 'dark',
+                'bg-red-500 border border-red-500 md:rounded-full': variant === 'danger',
                 },
                 className
             )}

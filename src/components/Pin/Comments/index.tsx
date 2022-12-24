@@ -1,13 +1,11 @@
 import Alert from '@components/Shared/Alert'
 import CommentsShimmer from '@components/Shimmers/CommentsShimmer'
-import { Loader } from '@components/Shared/Loader'
 import { NoDataFound } from '@components/Shared/NoDataFound'
 import { PublicationMainFocus, useProfileCommentsQuery } from '@utils/lens'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import type { FC } from 'react'
-import React from 'react'
-import { useInView } from 'react-cool-inview'
+import React, {useState} from 'react'
 import type { PinstaPublication } from '@utils/custom-types'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
 
@@ -18,6 +16,7 @@ import useAppStore from '@lib/store'
 
 const Comment = dynamic(() => import('./Comment'))
 import { HiOutlineChatAlt2 } from 'react-icons/hi';
+import { Button } from '@components/Shared/Button'
 
 type Props = {
     pin: PinstaPublication
@@ -28,21 +27,22 @@ const Comments: FC<Props> = ({ pin }) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const queuedComments = usePersistStore((state) => state.queuedComments)
     const currentProfile = useAppStore((state) => state.currentProfile)
+    const [isLoading, setLoading] = useState(false)
 
     const isFollowerOnlyReferenceModule = pin?.referenceModule?.__typename === 'FollowOnlyReferenceModuleSettings'
 
     const request = {
-        limit: 5,
+        limit: 3,
         customFilters: LENS_CUSTOM_FILTERS,
         commentsOf: id,
         metadata: {
-        mainContentFocus: [
-            PublicationMainFocus.Video,
-            PublicationMainFocus.Article,
-            PublicationMainFocus.Embed,
-            PublicationMainFocus.Link,
-            PublicationMainFocus.TextOnly
-        ]
+            mainContentFocus: [
+                PublicationMainFocus.Video,
+                PublicationMainFocus.Article,
+                PublicationMainFocus.Embed,
+                PublicationMainFocus.Link,
+                PublicationMainFocus.TextOnly
+            ]
         }
     }
     const variables = {
@@ -61,25 +61,25 @@ const Comments: FC<Props> = ({ pin }) => {
     const comments = data?.publications?.items as PinstaPublication[]
     const pageInfo = data?.publications?.pageInfo
 
-    const { observe } = useInView({
-        rootMargin: SCROLL_ROOT_MARGIN,
-        onEnter: async () => {
-            await fetchMore({
-                variables: {
-                    ...variables,
-                    request: {
-                        ...request,
-                        cursor: pageInfo?.next
-                    }
+    const loadMoreComments = async () => {
+        setLoading(true)
+        await fetchMore({
+            variables: {
+                ...variables,
+                request: {
+                    ...request,
+                    limit: 3,
+                    cursor: pageInfo?.next
                 }
-            })
-        }
-    })
+            }
+        })
+        setLoading(false)
+    }
 
     if (loading) return <CommentsShimmer />
 
     return (
-        <div className="pb-4">
+        <div className="w-full">
             <div className="flex items-center justify-between">
                 <h1 className="flex items-center my-4 space-x-2 text-lg">
                     <HiOutlineChatAlt2 className="w-4 h-4" />
@@ -110,7 +110,7 @@ const Comments: FC<Props> = ({ pin }) => {
             ) : null}
             {!error && !loading && (
                 <>
-                    <div className="pt-5 space-y-4">
+                    <div className="space-y-4">
                         {queuedComments?.map(
                             (queuedComment) =>
                             queuedComment?.pubId === pin?.id && (
@@ -128,9 +128,16 @@ const Comments: FC<Props> = ({ pin }) => {
                         ))}
                     </div>
                     {pageInfo?.next && comments.length !== pageInfo?.totalCount && (
-                        <span ref={observe} className="flex justify-center p-10">
-                            <Loader />
-                        </span>
+                        <div className='mt-6'>
+                            <Button 
+                                loading={isLoading}
+                                variant="dark"
+                                className="w-full"
+                                onClick={() => loadMoreComments()}
+                            >
+                                Show more comments
+                            </Button>
+                        </div>
                     )}
                 </>
             )}

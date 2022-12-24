@@ -13,6 +13,7 @@ import { AiFillHeart, AiOutlinePlayCircle } from 'react-icons/ai'
 import type { PinstaPublication } from '@utils/custom-types'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
+import Meta from '../Meta'
 
 dayjs.extend(relativeTime)
 
@@ -116,8 +117,8 @@ const Comment: FC<Props> = ({ comment }) => {
             </div>
           )}
           {!comment.hidden && (
-            <div className="mt-2">
-              {/* <PublicationReaction publication={comment} /> */}
+            <div className="w-full">
+              <Meta isComment={true} pin={comment}/>
             </div>
           )}
         </div>
