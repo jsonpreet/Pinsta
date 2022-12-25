@@ -26,6 +26,7 @@
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "eslint": "8.29.0",
+    "eslint-config-next": "^13.1.1",
     "ethers": "^5.7.2",
     "framer-motion": "^8.0.2",
     "graphql": "^16.6.0",
