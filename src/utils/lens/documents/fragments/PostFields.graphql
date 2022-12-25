@@ -13,10 +13,10 @@ fragment PostFields on Post {
   referenceModule {
     __typename
   }
-  canComment(profileId: $channelId) {
+  canComment(profileId: $profileId) {
     result
   }
-  canMirror(profileId: $channelId) {
+  canMirror(profileId: $profileId) {
     result
   }
   collectModule {

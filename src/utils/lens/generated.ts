@@ -5419,7 +5419,7 @@ export type EnabledModuleCurrrenciesQuery = {
 export type ExploreQueryVariables = Exact<{
   request: ExplorePublicationRequest;
   reactionRequest?: InputMaybe<ReactionFieldResolverRequest>;
-  channelId?: InputMaybe<Scalars["ProfileId"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
 export type ExploreQuery = {
@@ -5858,7 +5858,7 @@ export type ExploreQuery = {
 export type FeedQueryVariables = Exact<{
   request: FeedRequest;
   reactionRequest?: InputMaybe<ReactionFieldResolverRequest>;
-  channelId?: InputMaybe<Scalars["ProfileId"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
 export type FeedQuery = {
@@ -6837,9 +6837,11 @@ export type ProfileQuery = {
     stats: {
       __typename?: "ProfileStats";
       totalFollowers: number;
+      totalFollowing: number;
       totalPosts: number;
       totalComments: number;
       totalMirrors: number;
+      totalPublications: number;
       totalCollects: number;
     };
     picture?:
@@ -6868,7 +6870,7 @@ export type ProfileQuery = {
 export type ProfileCommentsQueryVariables = Exact<{
   request: PublicationsQueryRequest;
   reactionRequest?: InputMaybe<ReactionFieldResolverRequest>;
-  channelId?: InputMaybe<Scalars["ProfileId"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
 export type ProfileCommentsQuery = {
@@ -7475,7 +7477,7 @@ export type ProfileNfTsQuery = {
 export type ProfilePostsQueryVariables = Exact<{
   request: PublicationsQueryRequest;
   reactionRequest?: InputMaybe<ReactionFieldResolverRequest>;
-  channelId?: InputMaybe<Scalars["ProfileId"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
 export type ProfilePostsQuery = {
@@ -7793,7 +7795,7 @@ export type PublicationCollectModuleQuery = {
 export type PublicationDetailsQueryVariables = Exact<{
   request: PublicationQueryRequest;
   reactionRequest?: InputMaybe<ReactionFieldResolverRequest>;
-  channelId?: InputMaybe<Scalars["ProfileId"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
 export type PublicationDetailsQuery = {
@@ -8282,7 +8284,7 @@ export type SearchProfilesQuery = {
 export type SearchPublicationsQueryVariables = Exact<{
   request: SearchQueryRequest;
   reactionRequest?: InputMaybe<ReactionFieldResolverRequest>;
-  channelId?: InputMaybe<Scalars["ProfileId"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
 export type SearchPublicationsQuery = {
@@ -9054,10 +9056,10 @@ export const CommentFieldsFragmentDoc = gql`
     referenceModule {
       __typename
     }
-    canComment(profileId: $channelId) {
+    canComment(profileId: $profileId) {
       result
     }
-    canMirror(profileId: $channelId) {
+    canMirror(profileId: $profileId) {
       result
     }
     collectNftAddress
@@ -9218,10 +9220,10 @@ export const PostFieldsFragmentDoc = gql`
     referenceModule {
       __typename
     }
-    canComment(profileId: $channelId) {
+    canComment(profileId: $profileId) {
       result
     }
-    canMirror(profileId: $channelId) {
+    canMirror(profileId: $profileId) {
       result
     }
     collectModule {
@@ -11292,7 +11294,7 @@ export const ExploreDocument = gql`
   query Explore(
     $request: ExplorePublicationRequest!
     $reactionRequest: ReactionFieldResolverRequest
-    $channelId: ProfileId
+    $profileId: ProfileId
   ) {
     explorePublications(request: $request) {
       items {
@@ -11327,7 +11329,7 @@ export const ExploreDocument = gql`
  *   variables: {
  *      request: // value for 'request'
  *      reactionRequest: // value for 'reactionRequest'
- *      channelId: // value for 'channelId'
+ *      profileId: // value for 'profileId'
  *   },
  * });
  */
@@ -11359,7 +11361,7 @@ export const FeedDocument = gql`
   query Feed(
     $request: FeedRequest!
     $reactionRequest: ReactionFieldResolverRequest
-    $channelId: ProfileId
+    $profileId: ProfileId
   ) {
     feed(request: $request) {
       items {
@@ -11396,7 +11398,7 @@ export const FeedDocument = gql`
  *   variables: {
  *      request: // value for 'request'
  *      reactionRequest: // value for 'reactionRequest'
- *      channelId: // value for 'channelId'
+ *      profileId: // value for 'profileId'
  *   },
  * });
  */
@@ -12014,9 +12016,11 @@ export const ProfileDocument = gql`
       bio
       stats {
         totalFollowers
+        totalFollowing
         totalPosts
         totalComments
         totalMirrors
+        totalPublications
         totalCollects
       }
       picture {
@@ -12088,7 +12092,7 @@ export const ProfileCommentsDocument = gql`
   query ProfileComments(
     $request: PublicationsQueryRequest!
     $reactionRequest: ReactionFieldResolverRequest
-    $channelId: ProfileId
+    $profileId: ProfileId
   ) {
     publications(request: $request) {
       items {
@@ -12119,7 +12123,7 @@ export const ProfileCommentsDocument = gql`
  *   variables: {
  *      request: // value for 'request'
  *      reactionRequest: // value for 'reactionRequest'
- *      channelId: // value for 'channelId'
+ *      profileId: // value for 'profileId'
  *   },
  * });
  */
@@ -12430,7 +12434,7 @@ export const ProfilePostsDocument = gql`
   query ProfilePosts(
     $request: PublicationsQueryRequest!
     $reactionRequest: ReactionFieldResolverRequest
-    $channelId: ProfileId
+    $profileId: ProfileId
   ) {
     publications(request: $request) {
       items {
@@ -12461,7 +12465,7 @@ export const ProfilePostsDocument = gql`
  *   variables: {
  *      request: // value for 'request'
  *      reactionRequest: // value for 'reactionRequest'
- *      channelId: // value for 'channelId'
+ *      profileId: // value for 'profileId'
  *   },
  * });
  */
@@ -12631,7 +12635,7 @@ export const PublicationDetailsDocument = gql`
   query PublicationDetails(
     $request: PublicationQueryRequest!
     $reactionRequest: ReactionFieldResolverRequest
-    $channelId: ProfileId
+    $profileId: ProfileId
   ) {
     publication(request: $request) {
       ... on Post {
@@ -12660,7 +12664,7 @@ export const PublicationDetailsDocument = gql`
  *   variables: {
  *      request: // value for 'request'
  *      reactionRequest: // value for 'reactionRequest'
- *      channelId: // value for 'channelId'
+ *      profileId: // value for 'profileId'
  *   },
  * });
  */
@@ -12827,7 +12831,7 @@ export const SearchPublicationsDocument = gql`
   query SearchPublications(
     $request: SearchQueryRequest!
     $reactionRequest: ReactionFieldResolverRequest
-    $channelId: ProfileId
+    $profileId: ProfileId
   ) {
     search(request: $request) {
       ... on PublicationSearchResult {
@@ -12864,7 +12868,7 @@ export const SearchPublicationsDocument = gql`
  *   variables: {
  *      request: // value for 'request'
  *      reactionRequest: // value for 'reactionRequest'
- *      channelId: // value for 'channelId'
+ *      profileId: // value for 'profileId'
  *   },
  * });
  */

@@ -34,9 +34,11 @@ query Profile($request: SingleProfileQueryRequest!, $who: ProfileId) {
     bio
     stats {
       totalFollowers
+      totalFollowing
       totalPosts
       totalComments
       totalMirrors
+      totalPublications
       totalCollects
     }
     picture {

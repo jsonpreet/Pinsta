@@ -11,11 +11,12 @@ const Info = ({ profile }: { profile: Profile }) => {
                         cover={
                         profile?.coverPicture?.__typename === 'MediaSet'
                             ? profile?.coverPicture?.original?.url
-                            : `/patterns/9.png`
+                            : null
                         }
+                        profile={profile as Profile}
                     />
                 </div>    
-                <div className="flex flex-col flex-none max-w-7xl mx-auto w-full px-4 justify-start">
+                <div className="flex flex-col flex-none max-w-7xl mx-auto w-full">
                     <Details profile={profile as any} />
                 </div>
             </div>

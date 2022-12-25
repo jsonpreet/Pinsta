@@ -21,17 +21,18 @@ export const Mention = ({ ...props }: any) => {
                 event.stopPropagation();
             }}
         >
-            {profile?.handle ? (
+            <Slug isMention={true} slug={formatHandle(props.display)} />
+            {/* {profile?.handle ? (
                 <UserPreview
-                isBig={props?.isBig}
-                profile={profile as Profile}
-                followStatusLoading={props?.followStatusLoading}
+                    isBig={props?.isBig}
+                    profile={profile as Profile}
+                    followStatusLoading={props?.followStatusLoading}
                 >
                     <Slug isMention={true} slug={formatHandle(props.display)} />
                 </UserPreview>
             ) : (
                 <Slug isMention={true} slug={formatHandle(props.display)} />
-            )}
+            )} */}
         </Link>
     );
 };

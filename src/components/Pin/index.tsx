@@ -38,15 +38,13 @@ const Pin: NextPage = () => {
             reactionRequest: currentProfile
                 ? { profileId: currentProfile?.id }
                 : null,
-            channelId: currentProfile?.id ?? null
+            profileId: currentProfile?.id ?? null
         },
         skip: !id
     })
 
     const pin = data?.publication as PinstaPublication
     const publicationType = pin?.__typename
-
-    
 
     useEffect(() => {
         if (pin) {

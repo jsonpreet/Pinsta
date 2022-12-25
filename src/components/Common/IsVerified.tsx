@@ -15,14 +15,14 @@ const IsVerified: FC<Props> = ({ id, size = 'sm', color }) => {
         <div>
             <BsFillPatchCheckFill
                 className={clsx(
-                'ml-0.5',
-                {
-                    'w-2.5 h-2.5': size === 'xs',
-                    'w-3 h-3': size === 'sm',
-                    'w-4 h-4': size === 'lg'
-                },
-                color
-                )}
+                    'ml-0.5',
+                    {
+                        'w-3 h-3': size === 'xs',
+                        'w-4 h-4': size === 'sm',
+                        'w-5 h-5': size === 'lg'
+                    },
+                    color
+                    )}
             />
         </div>
     )

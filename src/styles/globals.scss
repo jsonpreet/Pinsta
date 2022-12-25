@@ -101,7 +101,7 @@ input[type='number'] {
 }
 
 .header-glassy {
-  @apply dark:bg-[#0f0f0f] bg-white bg-opacity-70 bg-clip-padding backdrop-blur-xl backdrop-filter;
+  @apply dark:bg-gray-900/70 bg-white/70 bg-clip-padding backdrop-blur-xl backdrop-filter;
 }
 
 .brandGradientText {

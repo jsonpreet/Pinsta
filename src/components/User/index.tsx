@@ -10,6 +10,7 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import Info from './Info'
+import Pins from './Pins'
 
 const User: NextPage = () => {
     const { query } = useRouter()
@@ -41,6 +42,7 @@ const User: NextPage = () => {
             {!loading && !error && userProfile ? (
                 <>
                     <Info profile={userProfile} />
+                    <Pins profile={userProfile} />
                 </>
             ) : null}
         </>

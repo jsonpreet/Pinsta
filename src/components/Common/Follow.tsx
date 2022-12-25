@@ -18,9 +18,10 @@ interface Props {
     profile: Profile;
     setFollowing: Dispatch<boolean>;
     showText?: boolean;
+    type?: string;
 }
 
-const Follow: FC<Props> = ({ profile, showText = false, setFollowing }) => {
+const Follow: FC<Props> = ({ profile, showText = false, setFollowing, type = "light" }) => {
     const userSigNonce = useAppStore((state) => state.userSigNonce);
     const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
     const currentProfile = useAppStore((state) => state.currentProfile);
@@ -139,7 +140,7 @@ const Follow: FC<Props> = ({ profile, showText = false, setFollowing }) => {
     return (
         <Button
             onClick={createFollow}
-            variant="light"
+            variant={type === "primary" ? "primary" : "light"} 
             aria-label="Follow"
             loading={isLoading}
         >

@@ -22,13 +22,7 @@ type Props = {
   showUserPreview?: boolean;
 };
 
-const UserPreview: FC<Props> = ({
-  profile,
-  isBig,
-  followStatusLoading,
-  children,
-  showUserPreview = true
-}) => {
+const UserPreview: FC<Props> = ({ profile, isBig, followStatusLoading, children, showUserPreview = true }) => {
     const [lazyProfile, setLazyProfile] = useState(profile);
     const [following, setFollowing] = useState(profile?.isFollowedByMe);
 
@@ -69,11 +63,11 @@ const UserPreview: FC<Props> = ({
             <div onClick={(e) => e.preventDefault()}>
             {!lazyProfile.isFollowedByMe &&
                 (followStatusLoading ? (
-                <div className="w-10 h-8 rounded-lg shimmer" />
+                    <div className="w-10 h-8 rounded-lg shimmer" />
                 ) : following ? null : lazyProfile?.followModule?.__typename === 'FeeFollowModuleSettings' ? (
-                <SuperFollow profile={lazyProfile} setFollowing={setFollowing} />
+                    <SuperFollow profile={lazyProfile} setFollowing={setFollowing} />
                 ) : (
-                <Follow profile={lazyProfile} setFollowing={setFollowing} />
+                    <Follow profile={lazyProfile} setFollowing={setFollowing} />
                 ))}
             </div>
         </div>

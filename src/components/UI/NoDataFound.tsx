@@ -16,7 +16,7 @@ export const NoDataFound = ({
             {withImage && (
                 <img
                     src={`${APP.URL}/logo.png`}
-                    className="w-28 my-4 md:w-28"
+                    className="w-10 my-4 md:w-20"
                     alt="no results"
                     draggable={false}
                 />

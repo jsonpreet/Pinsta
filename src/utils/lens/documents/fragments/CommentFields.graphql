@@ -16,10 +16,10 @@ fragment CommentFields on Comment {
   referenceModule {
     __typename
   }
-  canComment(profileId: $channelId) {
+  canComment(profileId: $profileId) {
     result
   }
-  canMirror(profileId: $channelId) {
+  canMirror(profileId: $profileId) {
     result
   }
   collectNftAddress

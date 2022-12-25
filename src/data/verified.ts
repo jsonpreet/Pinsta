@@ -37,6 +37,7 @@ export const VERIFIED_CHANNELS = IS_MAINNET
       '0x24', // bradorbradley.lens
       '0x03', // aavegrants.lens
       '0x01', // lensprotocol
+      '0x57a4', // jsonpreet.lens
       '0x2d' // sasicodes.lens
     ]
-  : ['0x2f']
+  : ['0x57a4']

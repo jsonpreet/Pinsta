@@ -2,25 +2,35 @@ import { COVER } from '@utils/constants';
 import type { FC } from 'react';
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl';
 import imageCdn from '@utils/functions/imageCdn';
+import { Profile } from '@utils/lens/generated';
+import MetaDetails from './MetaDetails';
 
 interface Props {
-  cover: string;
+    cover: string;
+    profile: Profile;
 }
 
-const Cover: FC<Props> = ({ cover }) => {
+const Cover: FC<Props> = ({ cover, profile }) => {
     return (
-        <div
-            className="h-52 flex max-w-7xl w-full rounded-xl sm:h-80"
-            style={{
-                backgroundImage: `url(${
-                    cover ? imageCdn(sanitizeIpfsUrl(cover), COVER) : `/patterns/9.png`
-                })`,
-                backgroundColor: '#8b5cf6',
-                backgroundSize: cover ? 'cover' : '30%',
-                backgroundPosition: 'center center',
-                backgroundRepeat: cover ? 'no-repeat' : 'repeat'
-            }}
-        />
+        <>
+            <div className='relative flex flex-col max-w-7xl w-full rounded-xl h-52 sm:h-80'>
+                <div
+                    className="h-52 w-full rounded-xl sm:h-80"
+                    style={{
+                        backgroundImage: `url(${
+                            cover ? imageCdn(sanitizeIpfsUrl(cover), COVER) : `/patterns/9.png`
+                        })`,
+                        backgroundColor: '#8b5cf6',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center center',
+                        backgroundRepeat: cover ? 'no-repeat' : 'repeat'
+                    }}
+                />
+                <div className='absolute bottom-0 right-0'>
+                    <MetaDetails profile={profile} />
+                </div>
+            </div>
+        </>
     );
 };
 

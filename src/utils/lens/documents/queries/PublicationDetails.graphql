@@ -1,7 +1,7 @@
 query PublicationDetails(
   $request: PublicationQueryRequest!
   $reactionRequest: ReactionFieldResolverRequest
-  $channelId: ProfileId
+  $profileId: ProfileId
 ) {
   publication(request: $request) {
     ... on Post {

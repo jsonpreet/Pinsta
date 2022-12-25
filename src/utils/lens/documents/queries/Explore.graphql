@@ -1,7 +1,7 @@
 query Explore(
   $request: ExplorePublicationRequest!
   $reactionRequest: ReactionFieldResolverRequest
-  $channelId: ProfileId
+  $profileId: ProfileId
 ) {
   explorePublications(request: $request) {
     items {
