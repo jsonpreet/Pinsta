@@ -1,4 +1,4 @@
-import { Button } from '@components/Shared/Button'
+import { Button } from '@components/UI/Button'
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import { useConnectModal } from '@rainbow-me/rainbowkit'

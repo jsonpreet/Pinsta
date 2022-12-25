@@ -14,7 +14,7 @@ import { HiOutlineDownload, HiOutlineLink } from 'react-icons/hi'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FacebookShareButton, FacebookIcon, RedditShareButton, RedditIcon, TelegramShareButton, TelegramIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, LinkedinShareButton, LinkedinIcon, EmailShareButton, EmailIcon } from 'next-share';
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
-import { Button } from '@components/Shared/Button'
+import { Button } from '@components/UI/Button'
 import { FiShare2 } from "react-icons/fi";
 
 
@@ -57,7 +57,7 @@ const Share: FC<Props> = ({ pin }) => {
     
     return (
         <>
-            <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-row justify-between items-center border-b border-gray-50 dark:border-gray-900 pb-4 mb-4 relative'>
+            <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-row justify-between items-center mb-6 relative'>
                 <div className='flex flex-row items-center justify-center'>
                     <div className='flex back mr-4 lg:hidden'>
                         <button className='duration-75 delay-75 hover:text-[#ec05ad] text-gray-400' onClick={() => router.back()}> <BsArrowLeftCircleFill size={48}/> </button>
@@ -65,17 +65,17 @@ const Share: FC<Props> = ({ pin }) => {
                     <div className='options mr-4'>
                         <button
                             onClick={() => exportPNG({ url: getThumbnailUrl(pin) })}
-                            className='hover:bg-black hover:text-white bg-gray-100 dark:bg-gray-900 dark:hover:bg-red-700 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'
+                            className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'
                         >
                             <HiOutlineDownload size={30} />
                         </button>
                     </div>
-                    <div className='relative mr-4'>
-                        <button ref={shareRef} onClick={() => setSharePopUpOpen(!sharePopUpOpen)} className='hover:bg-black hover:text-white bg-gray-100 dark:bg-gray-900 dark:hover:bg-red-700 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
+                    <div className='relative z-10 mr-4'>
+                        <button ref={shareRef} onClick={() => setSharePopUpOpen(!sharePopUpOpen)} className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
                             <FiShare2 size={24} />
                         </button>
                         {sharePopUpOpen && (
-                            <div className='absolute z-50 top-16 w-20 -left-4 bg-white dark:bg-gray-900 dark:border-black rounded-full dropdown-shadow border border-gray-100 px-4 py-4'>
+                            <div className='absolute z-50 top-16 w-20 -left-4 bg-white dark:bg-gray-700 dark:border-black rounded-full dropdown-shadow border border-gray-100 px-4 py-4'>
                                 <div className='flex flex-col'>
                                     <div className='flex flex-col justify-between items-center'>
                                         <div>
@@ -109,13 +109,13 @@ const Share: FC<Props> = ({ pin }) => {
                                                 <EmailIcon size={50} round />
                                             </EmailShareButton>
                                         </div>
-                                        <div className='flex flex-col items-center'>
+                                        {/* <div className='flex flex-col items-center'>
                                             <CopyToClipboard text={`${APP.URL}/pin/${pin.id}`} onCopy={() => copied()}>
-                                                <button className='hover:bg-black hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-red-700 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
+                                                <button className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
                                                     <HiOutlineLink size={24} />
                                                 </button>
                                             </CopyToClipboard>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@ const Share: FC<Props> = ({ pin }) => {
                     </div>
                     <div className='link'>
                         <CopyToClipboard text={`${APP.URL}/pin/${pin.id}`} onCopy={() => copied()}>
-                            <button className='hover:bg-black hover:text-white bg-gray-100 dark:bg-gray-900 dark:hover:bg-red-700 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
+                            <button className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
                                 <HiOutlineLink size={24} />
                             </button>
                         </CopyToClipboard>

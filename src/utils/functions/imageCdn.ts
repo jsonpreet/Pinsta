@@ -3,7 +3,7 @@ import sanitizeIpfsUrl from './sanitizeIpfsUrl'
 
 const imageCdn = (
   url: string,
-  type?: 'thumbnail_sm' | 'thumbnail' | 'thumbnail_lg' | 'avatar' | 'avatar_lg' | 'square' | 'thumbnail_v'
+  type?: 'thumbnail_sm' | 'thumbnail' | 'thumbnail_lg' | 'avatar' | 'avatar_lg' | 'square' | 'thumbnail_v' | 'cover'
 ): string => {
   if (!url || !IMAGE_CDN_URL) return url
   return type

@@ -2,8 +2,8 @@ import MetaTags from '@components/Common/MetaTags'
 import type { NextPage } from 'next'
 import Timeline from '@components/Common/Timeline'
 import TimelineShimmer from '@components/Shimmers/TimelineShimmer'
-import { Loader } from '@components/Shared/Loader'
-import { NoDataFound } from '@components/Shared/NoDataFound'
+import { Loader } from '@components/UI/Loader'
+import { NoDataFound } from '@components/UI/NoDataFound'
 import { PublicationMainFocus, PublicationSortCriteria, PublicationTypes, useExploreQuery } from '@utils/lens'
 import { useInView } from 'react-cool-inview'
 import type { PinstaPublication } from '@utils/custom-types'
@@ -67,13 +67,13 @@ const Explore: NextPage = () => {
         <>
             <MetaTags />
             
-            <div className="flex justify-start pb-4">
-                <div className="flex items-center space-x-2">
+            <div className="flex justify-center pb-4">
+                <div className="flex bg-white dark:bg-gray-900 bg-gradient-to-r from-[#df3f95] to-[#ec1e25] rounded-full py-2 px-2 items-center space-x-2">
                     <button
                         onClick={() => setActiveSortFilter('collected')}
                         className={clsx(
-                            'text-sm border-b-2 pb-1.5', 
-                            activeSortFilter === 'collected' ? 'text-gray-900 border-gray-900' : 'text-gray-600 border-transparent'
+                            'text-sm p-2 rounded-full', 
+                            activeSortFilter === 'collected' ? 'bg-white text-gray-800' : 'text-white'
                         )}
                     >
                         Top Collected
@@ -81,8 +81,8 @@ const Explore: NextPage = () => {
                     <button
                         onClick={() => setActiveSortFilter('commented')}
                         className={clsx(
-                            'text-sm border-b-2 pb-1.5', 
-                            activeSortFilter === 'commented' ? 'text-gray-900 border-gray-900' : 'text-gray-600 border-transparent'
+                            'text-sm p-2 rounded-full', 
+                            activeSortFilter === 'commented' ? 'bg-white text-gray-800' : 'text-white'
                         )}
                     >
                         Top Commented
@@ -90,8 +90,8 @@ const Explore: NextPage = () => {
                     <button
                         onClick={() => setActiveSortFilter('mirrored')}
                         className={clsx(
-                            'text-sm border-b-2 pb-1.5', 
-                            activeSortFilter === 'mirrored' ? 'text-gray-900 border-gray-900' : 'text-gray-600 border-transparent'
+                            'text-sm p-2 rounded-full', 
+                            activeSortFilter === 'mirrored' ? 'bg-white text-gray-800' : 'text-white'
                         )}
                     >
                         Top Mirrored

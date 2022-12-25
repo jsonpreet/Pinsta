@@ -1,6 +1,6 @@
-import Alert from '@components/Shared/Alert'
+import Alert from '@components/UI/Alert'
 import CommentsShimmer from '@components/Shimmers/CommentsShimmer'
-import { NoDataFound } from '@components/Shared/NoDataFound'
+import { NoDataFound } from '@components/UI/NoDataFound'
 import { PublicationMainFocus, useProfileCommentsQuery } from '@utils/lens'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -16,7 +16,7 @@ import useAppStore from '@lib/store'
 
 const Comment = dynamic(() => import('./Comment'))
 import { HiOutlineChatAlt2 } from 'react-icons/hi';
-import { Button } from '@components/Shared/Button'
+import { Button } from '@components/UI/Button'
 
 type Props = {
     pin: PinstaPublication

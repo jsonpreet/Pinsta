@@ -1,4 +1,4 @@
-import { Button } from '@components/Shared/Button'
+import { Button } from '@components/UI/Button'
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'

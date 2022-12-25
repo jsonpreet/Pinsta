@@ -22,6 +22,11 @@ body{
   color: #0f0f0f;
 }
 
+.middot:after {
+  content: '•';
+  @apply flex mx-1 text-[10px] opacity-50;
+}
+
 .dark {
   body {
     background-color: rgb(15 15 15);
@@ -85,21 +90,31 @@ input[type='number'] {
   background: linear-gradient(to right,#fff 10%,rgba(249,249,249,0) 90%)
 }
 
+.dark {
+  .bg-faded-right {
+    background: linear-gradient(to left,#111 10%,rgba(0,0,0,0) 90%)
+  }
+
+  .bg-faded-left {
+    background: linear-gradient(to right,#111 10%,rgba(0,0,0,0) 90%)
+  }
+}
+
 .header-glassy {
   @apply dark:bg-[#0f0f0f] bg-white bg-opacity-70 bg-clip-padding backdrop-blur-xl backdrop-filter;
 }
 
 .brandGradientText {
-  @apply text-transparent bg-clip-text bg-gradient-to-r from-[#df3f95] to-[#ec1e25]  transition;
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[#df3f95] to-[#ec1e25] transition;
+}
+
+.primary-button {
+  @apply bg-gradient-to-r from-[#df3f95] to-[#ec1e25] hover:from-[#ec1e25] hover:to-[#ec1e25] text-white;
 }
 
 // .primary-button {
-//   @apply bg-gradient-to-r from-[#df3f95] to-[#ec1e25] hover:from-[#ec1e25] hover:to-[#ec1e25] text-white;
+//   @apply bg-red-600 hover:bg-gray-900 text-white;
 // }
-
-.primary-button {
-  @apply bg-red-600 hover:bg-gray-900 text-white;
-}
 
 .divider {
   @apply border-b dark:border-gray-700;

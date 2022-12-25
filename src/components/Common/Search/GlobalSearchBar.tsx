@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
-import { Loader } from '@components/Shared/Loader'
+import { Loader } from '@components/UI/Loader'
 import clsx from 'clsx'
 import type { Profile } from '@utils/lens'
 import { SearchProfilesDocument, SearchPublicationsDocument, SearchRequestTypes } from '@utils/lens'

@@ -6,15 +6,18 @@ import Masonry from '@mui/lab/Masonry';
 type Props = {
     pins: PinstaPublication[]
     pinType?: 'Post'
+    currentPinId?: string
 }
 
-const Timeline: FC<Props> = ({ pins, pinType = 'Post' }) => {
+const Timeline: FC<Props> = ({ pins, pinType = 'Post' , currentPinId}) => {
     return (
         <>
             <div className='-mx-2'>
                 <Masonry sx={{ margin: 0 }} columns={{ xs: 1, sm: 2, lg: 4, xl: 6, xxl: 8 }} spacing={2}>
                     {pins?.map((pin: PinstaPublication) => {
+                        const isCurrentPin = pin.id === currentPinId
                         const isPub = pin.__typename === pinType
+                        if (isCurrentPin || !isPub) return null
                         return <PinCard key={`${pin?.id}_${pin.createdAt}_${pin.__typename}`} pin={pin} />
                     })} 
                 </Masonry>

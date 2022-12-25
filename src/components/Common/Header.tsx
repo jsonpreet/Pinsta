@@ -1,4 +1,4 @@
-import { Button } from '@components/Shared/Button'
+import { Button } from '@components/UI/Button'
 import clsx from 'clsx'
 import type { FC } from 'react'
 import { useState } from 'react'
@@ -9,6 +9,9 @@ import { APP } from '@utils/constants';
 import { HOME } from '@utils/paths';
 import Link from 'next/link';
 import { Menu } from '@components/Common/Menu'
+import useAppStore from '@lib/store'
+import usePersistStore from '@lib/store/persist'
+import ThemeSwitch from '@components/Common/ThemeSwitch'
 
 type Props = {
   className?: string
@@ -16,6 +19,8 @@ type Props = {
 
 const Header: FC<Props> = ({ className }) => {
   const [showShowModal, setSearchModal] = useState(false)
+  const currentProfileId = usePersistStore((state) => state.currentProfileId)
+  const currentProfile = useAppStore((state) => state.currentProfile)
 
 
   return (
@@ -40,7 +45,7 @@ const Header: FC<Props> = ({ className }) => {
                     className="w-8 h-8"
                     alt={APP.Name}
                   />
-                  <span className='font-bold text-3xl tracking-wider text-gray-800 dark:text-white uppercase hidden md:inline-flex'>Pinsta</span>
+                  <span className='font-black text-3xl tracking-wider text-gray-800 dark:text-white uppercase hidden md:inline-flex'>Pinsta</span>
                 </Link>
               </div>
               <Menu/>
@@ -56,6 +61,9 @@ const Header: FC<Props> = ({ className }) => {
               >
                 <BsSearch className="w-4 h-4" aria-hidden="true" />
               </Button>
+              {!currentProfileId && !currentProfile ? 
+                <ThemeSwitch/>
+              : null}
               <Login />
             </div>
           </div>

@@ -54,7 +54,7 @@ const CategoriesList = () => {
                 {scrollX !== 0 && (
                     <button
                         type="button"
-                        className="bg-white dark:bg-gray-700 z-20 dark:hover:text-gray-900 hover:bg-gray-200 rounded-full p-2 hidden md:block text-gray-800 focus:outline-none left-0 absolute top-0"
+                        className="bg-white dark:bg-gray-700 z-20 dark:hover:text-gray-900 dark:text-white hover:bg-gray-200 rounded-full p-2 hidden md:block text-gray-800 focus:outline-none left-0 absolute top-0"
                         onClick={() => slide(-scrollOffset)}
                     >
                         <BiChevronLeft size={24} />
@@ -64,7 +64,7 @@ const CategoriesList = () => {
                 {!scrollEnd && (
                     <button
                         type="button"
-                        className="bg-white dark:bg-gray-700 z-20 dark:hover:text-gray-900 hover:bg-gray-200 rounded-full p-2 hidden md:block text-gray-800 focus:outline-none right-0 absolute top-0"
+                        className="bg-white dark:bg-gray-700 z-20 dark:hover:text-gray-900 dark:text-white hover:bg-gray-200 rounded-full p-2 hidden md:block text-gray-800 focus:outline-none right-0 absolute top-0"
                         onClick={() => slide(scrollOffset)}
                     >
                         <BiChevronRight size={24} />
@@ -82,10 +82,10 @@ const CategoriesList = () => {
                 type="button"
                 onClick={() => onFilter('all')}
                 className={clsx(
-                'px-3.5 capitalize py-1 text-xs border border-gray-900 dark:hover:bg-gray-900 hover:bg-gray-900 hover:text-white dark:border-gray-700 rounded-full whitespace-nowrap focus:outline-none focus:ring-0',
+                'px-3.5 capitalize py-1 text-xs border dark:hover:bg-gray-700 hover:bg-gray-700 hover:border-gray-800 hover:text-white dark:border-gray-700 rounded-full whitespace-nowrap focus:outline-none focus:ring-0',
                 activeTagFilter === 'all'
                     ? 'bg-gray-800 dark:border-gray-600 text-white border-gray-900'
-                    : 'dark:bg-black dark:text-white bg-white'
+                    : 'dark:bg-black dark:text-white text-gray-500 bg-white border-gray-300'  
                 )}
             >
                 All
@@ -96,10 +96,10 @@ const CategoriesList = () => {
                     onClick={() => onFilter(category.tag)}
                     key={category.tag}
                     className={clsx(
-                        'px-3.5 capitalize py-1 text-xs border border-gray-600 dark:hover:bg-gray-700 hover:bg-gray-700 hover:text-white dark:border-gray-700 rounded-full whitespace-nowrap focus:outline-none focus:ring-0',
+                        'px-3.5 capitalize py-1 text-xs border dark:hover:bg-gray-700 hover:bg-gray-700 hover:border-gray-800 hover:text-white dark:border-gray-700 rounded-full whitespace-nowrap focus:outline-none focus:ring-0',
                         activeTagFilter === category.tag
                         ? 'bg-gray-800 dark:border-gray-600 text-white border-gray-900'
-                        : 'dark:bg-black dark:text-white text-gray-700 bg-white'  
+                        : 'dark:bg-black dark:text-white text-gray-500 bg-white border-gray-300'  
                     )}
                 >
                     {category.name}

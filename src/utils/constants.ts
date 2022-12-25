@@ -27,8 +27,7 @@ export const STAGING_API_URL = IS_MAINNET
   ? STAGING_MAINNET_API_URL
   : STAGING_TESTNET_API_URL
 
-//export const API_URL = IS_MAINNET ? MAINNET_API_URL : TESTNET_API_URL
-export const API_URL = MAINNET_API_URL
+export const API_URL = IS_MAINNET ? MAINNET_API_URL : TESTNET_API_URL
 export const LENSHUB_PROXY_ADDRESS = IS_MAINNET
   ? '0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d'
   : '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'
@@ -83,6 +82,11 @@ export const ALLOWED_PLAYBACK_VIDEO_TYPES = [
   'video/mov',
   'video/webm'
 ]
+
+// Named transforms
+export const AVATAR = 'avatar';
+export const COVER = 'cover';
+export const ATTACHMENT = 'attachment';
 
 // External Apps
 export const LENSTER_URL = 'https://lenster.xyz'

@@ -1,5 +1,5 @@
-import { Button } from '@components/Shared/Button'
-import DropMenu, { NextLink } from '@components/Shared/DropMenu'
+import { Button } from '@components/UI/Button'
+import DropMenu, { NextLink } from '@components/UI/DropMenu'
 import { Menu } from '@headlessui/react'
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
@@ -16,6 +16,7 @@ import getProfilePicture from '@utils/functions/getProfilePicture'
 import { useAccount, useDisconnect } from 'wagmi'
 import { BsChevronLeft, BsBell, BsGear, BsMoon, BsPersonCircle, BsPlusCircle, BsShuffle, BsSun, BsPower } from "react-icons/bs";
 import { BiExit } from 'react-icons/bi'
+import formatHandle from '@utils/functions/formatHandle'
 
 const UserMenu = () => {
   //const setChannels = useAppStore((state) => state.setChannels)
@@ -84,7 +85,7 @@ const UserMenu = () => {
           </Button>
         }
       >
-        <div className="mt-1.5 w-56 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-200 dark:divide-gray-800 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-800 dark:bg-gray-800 bg-white">
+        <div className="mt-1.5 w-56 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-200 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white">
           {showAccountSwitcher ? (
             <>
               <button
@@ -128,16 +129,16 @@ const UserMenu = () => {
                   <img
                     className="object-cover rounded-full w-9 h-9"
                     src={getProfilePicture(currentProfile, 'avatar')}
-                    alt={currentProfile.handle}
+                    alt={`${formatHandle(currentProfile?.handle)}'s profile picture`}
                     draggable={false}
                   />
                   <div className="grid">
                     <span className="text-xs opacity-70">Connected as</span>
                     <h6
-                      title={currentProfile?.handle}
+                      title={currentProfile?.name ?? formatHandle(currentProfile?.handle)}
                       className="text-base truncate leading-4"
                     >
-                      {currentProfile?.handle}
+                      {currentProfile?.name ?? formatHandle(currentProfile?.handle)}
                     </h6>
                   </div>
                 </div>
@@ -147,8 +148,8 @@ const UserMenu = () => {
                   <>
                     <Menu.Item
                       as={NextLink}
-                      href={`/${currentProfile?.handle}`}
-                      className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
+                      href={`/${formatHandle(currentProfile?.handle)}`}
+                      className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
                     >
                       <BsPersonCircle className="w-4 h-4" />
                       <span className="truncate whitespace-nowrap">
@@ -160,7 +161,7 @@ const UserMenu = () => {
                 {!IS_MAINNET && (
                   <button
                     type="button"
-                    className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
+                    className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
                     onClick={() => setShowCreateChannel(true)}
                   >
                     <BsPlusCircle className="w-4 h-4" />
@@ -171,7 +172,7 @@ const UserMenu = () => {
                 )}
                 <Link
                   href="/settings"
-                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
+                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
                 >
                   <BsGear className="w-4 h-4" />
                   <span className="truncate whitespace-nowrap">
@@ -180,7 +181,7 @@ const UserMenu = () => {
                 </Link>
                 <button
                   type="button"
-                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
+                  className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 >
                   {theme === 'dark' ? (
@@ -194,7 +195,7 @@ const UserMenu = () => {
                 </button>
                 <button
                   type="button"
-                  className="flex items-center w-full px-3 py-2 space-x-2 hover:bg-gray-100 dark:hover:bg-black duration-75 delay-75"
+                  className="flex items-center w-full px-3 py-2 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
                   onClick={() => logout()}
                 >
                   <BiExit className="w-4 h-4" />

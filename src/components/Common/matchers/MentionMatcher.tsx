@@ -1,5 +1,5 @@
-import Slug from '@components/Shared/Slug';
-import UserPreview from '@components/Shared/UserPreview';
+import Slug from '@components/Common/Slug';
+import UserPreview from '@components/Common/UserPreview';
 import formatHandle from '@utils/functions/formatHandle';
 import { Matcher } from 'interweave';
 import type { Profile } from '@utils/lens';
@@ -27,10 +27,10 @@ export const Mention = ({ ...props }: any) => {
                 profile={profile as Profile}
                 followStatusLoading={props?.followStatusLoading}
                 >
-                    <Slug slug={formatHandle(props.display)} />
+                    <Slug isMention={true} slug={formatHandle(props.display)} />
                 </UserPreview>
             ) : (
-                <Slug slug={formatHandle(props.display)} />
+                <Slug isMention={true} slug={formatHandle(props.display)} />
             )}
         </Link>
     );

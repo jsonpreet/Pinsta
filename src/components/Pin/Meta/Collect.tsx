@@ -6,12 +6,12 @@ import { FiShoppingBag } from "react-icons/fi";
 import { useAppStore } from '@lib/store';
 import { motion } from 'framer-motion';
 import dynamic from "next/dynamic";
-import { Loader } from "@components/Shared/Loader";
+import { Loader } from "@components/UI/Loader";
 import { ElectedMirror } from "@utils/lens/generated";
 import { getModule } from "@utils/functions/getModule";
 import { CollectModules } from '@utils/lens';
-import Modal from "@components/Shared/Modal";
-import GetModuleIcon from "@components/Shared/GetModuleIcon";
+import Modal from "@components/UI/Modal";
+import GetModuleIcon from "@components/UI/GetModuleIcon";
 import { toast } from "react-hot-toast";
 import { SIGN_IN_REQUIRED_MESSAGE } from "@utils/constants";
 
