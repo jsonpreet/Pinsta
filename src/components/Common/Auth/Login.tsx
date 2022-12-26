@@ -18,10 +18,10 @@ const Login = () => {
   const router = useRouter()
   const { address } = useAccount()
   const [loading, setLoading] = useState(false)
-  const setShowCreateChannel = useAppStore(
-    (state) => state.setShowCreateChannel
+  const setShowCreateAccount = useAppStore(
+    (state) => state.setShowCreateAccount
   )
-  //const setChannels = useAppStore((state) => state.setChannels)
+  const setProfiles = useAppStore((state) => state.setProfiles)
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile)
   const setCurrentProfileId = usePersistStore(
     (state) => state.setCurrentProfileId
@@ -40,7 +40,7 @@ const Login = () => {
     onError
   })
   const [authenticate, { error: errorAuthenticate }] = useAuthenticateMutation()
-  const [getChannels, { error: errorProfiles }] = useAllProfilesLazyQuery({
+  const [getProfiles, { error: errorProfiles }] = useAllProfilesLazyQuery({
     fetchPolicy: 'no-cache'
   })
 
@@ -75,24 +75,24 @@ const Login = () => {
       const refreshToken = result.data?.authenticate.refreshToken
       localStorage.setItem('accessToken', accessToken)
       localStorage.setItem('refreshToken', refreshToken)
-      const { data: channelsData } = await getChannels({
+      const { data: profilesData } = await getProfiles({
         variables: {
           request: { ownedBy: [address] }
         }
       })
       if (
-        !channelsData?.profiles ||
-        channelsData?.profiles?.items.length === 0
+        !profilesData?.profiles ||
+        profilesData?.profiles?.items.length === 0
       ) {
         setCurrentProfile(null)
         setCurrentProfileId(null)
-        setShowCreateChannel(true)
+        setShowCreateAccount(true)
       } else {
-        const channels = channelsData?.profiles?.items as Profile[]
-        const defaultChannel = channels.find((channel) => channel.isDefault)
-        //setChannels(channels)
-        setCurrentProfile(defaultChannel ?? channels[0])
-        setCurrentProfileId(defaultChannel?.id ?? channels[0].id)
+        const profiles = profilesData?.profiles?.items as Profile[]
+        const defaultProfile = profiles.find((profile) => profile.isDefault)
+        setProfiles(profiles)
+        setCurrentProfile(defaultProfile ?? profiles[0])
+        setCurrentProfileId(defaultProfile?.id ?? profiles[0].id)
         if (router.query?.next) router.push(router.query?.next as string)
       }
       setLoading(false)
