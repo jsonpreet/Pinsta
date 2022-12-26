@@ -27,10 +27,10 @@ export const NotificationProfileName: FC<Props> = ({ profile }) => {
   return (
     <Link
       href={`/${formatHandle(profile?.handle)}`}
-      className="inline-flex items-center space-x-1 font-bold"
+      className="inline-flex items-center space-x-1 font-semibold"
     >
       <div>{profile?.name ?? formatHandle(profile?.handle)}</div>
-      <IsVerified id={profile?.id}/>
+      <IsVerified id={profile?.id} size='xs'/>
     </Link>
   );
 };

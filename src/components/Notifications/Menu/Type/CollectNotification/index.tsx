@@ -1,9 +1,8 @@
-import { NotificationProfileAvatar, NotificationProfileName } from '@components/Notifications/Profile';
+import { NotificationProfileAvatar, NotificationProfileName } from '../../Profile';
 import {
   NotificationWalletProfileAvatar,
   NotificationWalletProfileName
 } from '@components/Notifications/WalletProfile';
-import UserPreview from '@components/Common/UserPreview';
 import formatTime from '@utils/functions/formatTime';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -23,29 +22,27 @@ interface Props {
 const CollectNotification: FC<Props> = ({ notification }) => {
     return (
         <div className="flex justify-between items-start">
-            <div className="space-y-2 w-4/5">
-                <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
+                <div className='flex items-center space-x-1'>
                     <FiShoppingBag className="h-6 w-6 text-pink-500" />
                     {notification?.wallet?.defaultProfile ? (
-                        <UserPreview isBig={false} profile={notification?.wallet?.defaultProfile}>
                         <NotificationProfileAvatar profile={notification?.wallet?.defaultProfile} />
-                        </UserPreview>
                     ) : (
                         <NotificationWalletProfileAvatar wallet={notification?.wallet} />
                     )}
-                </div>
-                <div className="ml-9">
                     {notification?.wallet?.defaultProfile ? (
                         <NotificationProfileName profile={notification?.wallet?.defaultProfile} />
                     ) : (
                         <NotificationWalletProfileName wallet={notification?.wallet} />
-                    )}{' '}
-                    <span className="text-gray-600 dark:text-gray-400">collected your </span>
-                    <Link href={`/pin/${notification?.collectedPublication?.id}`} className="font-bold">
-                        {notification?.collectedPublication.__typename?.toLowerCase()}
-                    </Link>
-                    <CollectedContent notification={notification} />
-                    <CollectedAmount notification={notification} />
+                    )}
+                    <div>
+                        <span className="text-gray-600 dark:text-gray-400">collected your </span>
+                        <Link href={`/pin/${notification?.collectedPublication?.id}`} className="brandGradientText">
+                            {notification?.collectedPublication.__typename?.toLowerCase()}
+                        </Link>
+                        <CollectedContent notification={notification} />
+                        <CollectedAmount notification={notification} />
+                    </div>
                 </div>
             </div>
             <div className="text-gray-400 text-[12px]" title={formatTime(notification?.createdAt)}>

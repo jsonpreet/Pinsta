@@ -112,6 +112,12 @@ input[type='number'] {
   @apply bg-gradient-to-r from-[#df3f95] to-[#ec1e25] hover:from-[#ec1e25] hover:to-[#ec1e25] text-white;
 }
 
+.border-gradient {
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(to right, #df3f95, #ec1e25) border-box;
+  border: 2px solid transparent;
+}
+
 // .primary-button {
 //   @apply bg-red-600 hover:bg-gray-900 text-white;
 // }

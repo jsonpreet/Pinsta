@@ -67,7 +67,7 @@ const Explore: NextPage = () => {
         <>
             <MetaTags />
             
-            <div className="flex justify-center pb-4">
+            <div className="flex justify-center py-4">
                 <div className="flex bg-white dark:bg-gray-900 bg-gradient-to-r from-[#df3f95] to-[#ec1e25] rounded-full py-2 px-2 items-center space-x-2">
                     <button
                         onClick={() => setActiveSortFilter('collected')}

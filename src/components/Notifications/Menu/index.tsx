@@ -15,17 +15,19 @@ import { CustomFiltersTypes, NotificationTypes, useNotificationsQuery } from '@u
 import { FC, useEffect, useState } from 'react';
 
 import NotificationShimmer from '@components/Shimmers/NotificationShimmer';
-import CollectNotification from '../Type/CollectNotification';
-import CommentNotification from '../Type/CommentNotification';
-import FollowerNotification from '../Type/FollowerNotification';
-import LikeNotification from '../Type/LikeNotification';
-import MentionNotification from '../Type/MentionNotification';
-import MirrorNotification from '../Type/MirrorNotification';
+import CollectNotification from './Type/CollectNotification';
+import CommentNotification from './Type/CommentNotification';
+import FollowerNotification from './Type/FollowerNotification';
+import LikeNotification from './Type/LikeNotification';
+import MentionNotification from './Type/MentionNotification';
+import MirrorNotification from './Type/MirrorNotification';
 import useAppStore from '@lib/store';
 import usePersistStore from '@lib/store/persist';
 import { BsBell } from 'react-icons/bs';
 import DropMenu from '@components/UI/DropMenu';
 import { Button } from '@components/UI/Button';
+import { Loader } from '@components/UI/Loader';
+import Link from 'next/link';
 
 const Notifications: FC = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
@@ -37,7 +39,7 @@ const Notifications: FC = () => {
     const request = {
         profileId: currentProfile?.id,
         customFilters: [CustomFiltersTypes.Gardeners],
-        limit: 10
+        limit: 5
     };
 
     const { data, loading, error, fetchMore } = useNotificationsQuery({
@@ -64,12 +66,7 @@ const Notifications: FC = () => {
 
     if (loading) {
         return (
-        <Card className="divide-y dark:divide-gray-700">
-            <NotificationShimmer />
-            <NotificationShimmer />
-            <NotificationShimmer />
-            <NotificationShimmer />
-        </Card>
+            <Loader size='sm' />
         );
     }
 
@@ -77,33 +74,46 @@ const Notifications: FC = () => {
         return <ErrorMessage className="m-3" title="Failed to load notifications" error={error} />;
     }
 
-    // if (notifications?.length === 0) {
-    //     return (
-    //         <EmptyState
-    //             message={
-    //                 <div>
-    //                     <span>Inbox zero!</span>
-    //                 </div>
-    //             }
-    //             icon={<BsBell className="w-8 h-8 text-brand" />}
-    //             hideCard
-    //         />
-    //     );
-    // }
-
     return (
         <>
             <DropMenu
                 trigger={
                     <Button
                         variant='secondary'
+                        onClick={() => {
+                            setNotificationCount(data?.notifications?.pageInfo?.totalCount || 0);
+                            setShowBadge(false);
+                        }}
                     >
-                        <BsBell size={24} />
+                        <span className='flex space-x-1 relative'>
+                            <span>
+                                <BsBell size={24} />
+                            </span>
+                            {showBadge && <span className="w-2 h-2 absolute top-0 -right-2 bg-red-500 rounded-full" />}
+                        </span>
                     </Button>
                 }
             >
-                <div className="mt-1.5 w-96 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-200 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white">
-                    <div className='flex flex-col divide-y'>
+                <div className="mt-1.5 w-96 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 max-h-96 dropdown-shadow divide-gray-100 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white">
+                    <div className="flex flex-col">
+                        <div className="p-3 flex justify-between">
+                            <div className='flex space-x-2'>
+                                <span className='font-semibold'>Notifications</span>
+                                <span className='text-red-500 font-bold'>
+                                    ({totalNotifications?.notifications?.pageInfo?.totalCount})
+                                </span>
+                            </div>
+                            <div>
+                                <Link
+                                    href='/notifications'
+                                    className='text-red-500 font-semibold'
+                                >
+                                    View All
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='flex flex-col divide-y divide-gray-100'>
                         {error ?
                             <ErrorMessage className="m-3" title="Failed to load notifications" error={error} />
                             :
@@ -113,7 +123,7 @@ const Notifications: FC = () => {
                                 </div>
                             ) : (
                                 notifications?.map((notification, index) => (
-                                    <div key={`${notification?.notificationId}_${index}`} className="p-5">
+                                    <div key={`${notification?.notificationId}_${index}`} className='p-3'>
                                         {notification.__typename === 'NewFollowerNotification' && (
                                             <FollowerNotification notification={notification as NewFollowerNotification} />
                                         )}

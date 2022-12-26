@@ -21,7 +21,7 @@ const LikeNotification: FC<Props> = ({ notification }) => {
         <div className="flex justify-between items-start">
             <div className="space-y-2 w-4/5">
                 <div className="flex items-center space-x-3">
-                    <HiHeart className="h-6 w-6 text-pink-500/70" />
+                    <HiHeart className="h-6 w-6 text-red-500" />
                     <UserPreview profile={notification?.profile}>
                         <NotificationProfileAvatar profile={notification?.profile} />
                     </UserPreview>
