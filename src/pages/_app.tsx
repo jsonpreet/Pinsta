@@ -1,6 +1,6 @@
 import usePersistStore from '@lib/store/persist'
 import '../styles/globals.scss'
-import FullPageLoader from '@components/Common/FullPageLoader'
+import FullPageLoader from '@components/UI/FullPageLoader'
 import { AUTH_ROUTES } from '@utils/data/auth-routes'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'

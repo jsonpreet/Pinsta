@@ -1,4 +1,4 @@
-import IsVerified from '@components/Common/IsVerified'
+import IsVerified from '@components/UI/IsVerified'
 import Follow from '@components/Common/Follow'
 import SuperFollow from '@components/Common/SuperFollow'
 import Unfollow from '@components/Common/Unfollow'

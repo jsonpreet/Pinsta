@@ -3,7 +3,8 @@ import type { Profile } from '@utils/lens'
 import create from 'zustand'
 
 interface AppState {
-    showCreateChannel: boolean
+    showCreateAccount: boolean
+    profiles: Profile[] | []
     hasNewNotification: boolean
     userSigNonce: number
     currentProfile: Profile | null
@@ -11,14 +12,16 @@ interface AppState {
     activeSortFilter: string
     setActiveSortFilter: (activeSortFilter: string) => void
     setActiveTagFilter: (activeTagFilter: string) => void
-    setCurrentProfile: (channel: Profile | null) => void
+    setCurrentProfile: (profile: Profile | null) => void
     setUserSigNonce: (userSigNonce: number) => void
-    setShowCreateChannel: (showCreateChannel: boolean) => void
+    setProfiles: (profiles: Profile[]) => void
+    setShowCreateAccount: (showCreateAccount: boolean) => void
     setHasNewNotification: (value: boolean) => void
 }
 
 export const useAppStore = create<AppState>((set) => ({
-    showCreateChannel: false,
+    profiles: [],
+    showCreateAccount: false,
     hasNewNotification: false,
     userSigNonce: 0,
     currentProfile: null,
@@ -26,11 +29,11 @@ export const useAppStore = create<AppState>((set) => ({
     activeSortFilter: 'commented',
     setActiveSortFilter: (activeSortFilter) => set(() => ({ activeSortFilter })),
     setActiveTagFilter: (activeTagFilter) => set(() => ({ activeTagFilter })),
-    setCurrentProfile: (channel) => set(() => ({ currentProfile: channel })),
+    setCurrentProfile: (profile) => set(() => ({ currentProfile: profile })),
     setUserSigNonce: (userSigNonce) => set(() => ({ userSigNonce })),
     setHasNewNotification: (b) => set(() => ({ hasNewNotification: b })),
-    setShowCreateChannel: (showCreateChannel) =>
-        set(() => ({ showCreateChannel })),
+    setShowCreateAccount: (showCreateAccount) => set(() => ({ showCreateAccount })),
+    setProfiles: (profiles) => set(() => ({ profiles })),
 }))
 
 export default useAppStore

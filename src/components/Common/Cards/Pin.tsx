@@ -21,6 +21,8 @@ const PinCard: FC<Props> = ({ pin }) => {
   const thumbnailUrl = imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
   const [loading, setLoading] = useState(true)
   const [show, setShow] = useState(false)
+
+  console.log(pin.__typename)
   
   return (
     <motion.div

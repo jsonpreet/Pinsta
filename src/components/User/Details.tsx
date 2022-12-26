@@ -10,7 +10,7 @@ import Follow from '@components/Common/Follow';
 import SuperFollow from '@components/Common/SuperFollow';
 import Unfollow from '@components/Common/Unfollow';
 import InterweaveContent from '@components/Common/InterweaveContent';
-import IsVerified from '@components/Common/IsVerified';
+import IsVerified from '@components/UI/IsVerified';
 import getProfilePicture from '@utils/functions/getProfilePicture';
 import Followerings from './Followerings';
 

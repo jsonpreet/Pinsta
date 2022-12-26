@@ -1,5 +1,5 @@
 import InterweaveContent from '@components/Common/InterweaveContent'
-import IsVerified from '@components/Common/IsVerified'
+import IsVerified from '@components/UI/IsVerified'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'

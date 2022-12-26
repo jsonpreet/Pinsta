@@ -17,10 +17,12 @@ import { getToastOptions } from '@utils/functions/getToastOptions'
 import useIsMounted from '@hooks/useIsMounted'
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 
-import FullPageLoader from './FullPageLoader'
+import FullPageLoader from '../UI/FullPageLoader'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import CategoriesList from './CategoriesList'
+import dynamic from 'next/dynamic'
+const CreateProfile = dynamic(() => import('./CreateProfile'))
 
 interface Props {
   children: ReactNode
@@ -31,6 +33,7 @@ const Layout: FC<Props> = ({ children }) => {
     const setCurrentProfile = useAppStore((state) => state.setCurrentProfile)
     const currentProfile = useAppStore((state) => state.currentProfile)
     const sidebarCollapsed = usePersistStore((state) => state.sidebarCollapsed)
+    const setProfiles = useAppStore((state) => state.setProfiles)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const setCurrentProfileId = usePersistStore(
         (state) => state.setCurrentProfileId
@@ -40,7 +43,7 @@ const Layout: FC<Props> = ({ children }) => {
     const { resolvedTheme } = useTheme()
     const { disconnect } = useDisconnect({
         onError(error: CustomErrorWithData) {
-        toast.error(error?.data?.message ?? error?.message)
+            toast.error(error?.data?.message ?? error?.message)
         }
     })
     const { mounted } = useIsMounted()
@@ -53,28 +56,28 @@ const Layout: FC<Props> = ({ children }) => {
         setCurrentProfileId(null)
     }
 
-    const setUserChannels = (channels: Profile[]) => {
-        //setChannels(channels)
-        const currentProfile = channels.find(
-        (channel) => channel.id === currentProfileId
+    const setUserProfiles = (profiles: Profile[]) => {
+        setProfiles(profiles)
+        const currentProfile = profiles.find(
+            (profile) => profile.id === currentProfileId
         )
-        setCurrentProfile(currentProfile ?? channels[0])
+        setCurrentProfile(currentProfile ?? profiles[0])
         setCurrentProfileId(currentProfile?.id)
     }
 
     const { loading } = useUserProfilesQuery({
         variables: {
-        request: { ownedBy: [address] }
+            request: { ownedBy: [address] }
         },
         skip: !currentProfileId,
         onCompleted: (data) => {
-        const channels = data?.profiles?.items as Profile[]
-        if (!channels.length) return resetAuthState()
-        setUserChannels(channels)
-        setUserSigNonce(data?.userSigNonces?.lensHubOnChainSigNonce)
+            const profiles = data?.profiles?.items as Profile[]
+            if (!profiles.length) return resetAuthState()
+            setUserProfiles(profiles)
+            setUserSigNonce(data?.userSigNonces?.lensHubOnChainSigNonce)
         },
         onError: () => {
-        setCurrentProfileId(null)
+            setCurrentProfileId(null)
         }
     })
 
@@ -130,6 +133,7 @@ const Layout: FC<Props> = ({ children }) => {
                             <CategoriesList />
                         </div>
                     }
+                    <CreateProfile />
                     <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
                         {children}
                     </div>

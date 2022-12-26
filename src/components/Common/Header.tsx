@@ -12,6 +12,7 @@ import { Menu } from '@components/Common/Menu'
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import ThemeSwitch from '@components/Common/ThemeSwitch'
+import Notifications from '@components/Notifications/Menu'
 
 type Props = {
   className?: string
@@ -27,7 +28,7 @@ const Header: FC<Props> = ({ className }) => {
     <>
       <div
         className={clsx(
-          'fixed py-3 z-10 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
+          'fixed py-3 z-30 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
           className
         )}
       >
@@ -61,9 +62,12 @@ const Header: FC<Props> = ({ className }) => {
               >
                 <BsSearch className="w-4 h-4" aria-hidden="true" />
               </Button>
-              {!currentProfileId && !currentProfile ? 
-                <ThemeSwitch/>
-              : null}
+              {!currentProfileId && !currentProfile ?
+                <ThemeSwitch />
+                :
+                <Notifications/>
+              }   
+              
               <Login />
             </div>
           </div>

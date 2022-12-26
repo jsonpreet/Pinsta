@@ -1,6 +1,7 @@
 import { CustomFiltersTypes } from '@utils/lens'
 
 export const APP = {
+  ID: 'pinsta',
   Name: 'Pinsta',
   URL: 'https://testnet.pinsta.xyz',
   Description: 'Pinsta is a decentralized Image & Video Sharing service, designed to save and collect discovery information using Images, Videos, and Animated Gifs in the form of Pin Boards.',

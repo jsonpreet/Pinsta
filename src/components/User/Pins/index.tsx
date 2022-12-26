@@ -33,7 +33,7 @@ const Pins: FC<Props> = ({profile}) => {
                         Saved
                     </button>
                 </div>
-                <div className='flex-1 w-full mt-10'>
+                <div className='flex-1 w-full mt-10 md:min-h-[500px]'>
                     {activeTab === 'created' && (
                         <Created profile={profile} />
                     )}

@@ -1,5 +1,5 @@
 import React from 'react'
-import MetaTags from './MetaTags'
+import MetaTags from '../Common/MetaTags'
 
 const FullPageLoader = () => {
   return (

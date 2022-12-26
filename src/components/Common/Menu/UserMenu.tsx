@@ -14,14 +14,16 @@ import { IS_MAINNET } from '@utils/constants'
 import clearLocalStorage from '@utils/functions/clearLocalStorage'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import { useAccount, useDisconnect } from 'wagmi'
-import { BsChevronLeft, BsBell, BsGear, BsMoon, BsPersonCircle, BsPlusCircle, BsShuffle, BsSun, BsPower } from "react-icons/bs";
+import { BsChevronLeft, BsBell, BsGear, BsMoon, BsPersonCircle, BsPlusCircle, BsShuffle, BsSun, BsPower, BsCheck } from "react-icons/bs";
 import { BiExit } from 'react-icons/bi'
 import formatHandle from '@utils/functions/formatHandle'
+import { MdSwitchAccount } from 'react-icons/md'
+import IsVerified from '../../UI/IsVerified'
 
 const UserMenu = () => {
-  //const setChannels = useAppStore((state) => state.setChannels)
-  const setShowCreateChannel = useAppStore((state) => state.setShowCreateChannel)
-  //const channels = useAppStore((state) => state.channels)
+  const setProfiles = useAppStore((state) => state.setProfiles)
+  const setShowCreateAccount = useAppStore((state) => state.setShowCreateAccount)
+  const profiles = useAppStore((state) => state.profiles)
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile)
   const currentProfile = useAppStore((state) => state.currentProfile as Profile)
   const setCurrentProfileId = usePersistStore((state) => state.setCurrentProfileId)
@@ -34,7 +36,7 @@ const UserMenu = () => {
       toast.error(error?.data?.message || error?.message)
     }
   })
-  const [getChannels] = useAllProfilesLazyQuery()
+  const [getProfiles] = useAllProfilesLazyQuery()
   const { address } = useAccount()
 
   const logout = () => {
@@ -53,24 +55,19 @@ const UserMenu = () => {
   const onSelectSwitchChannel = async () => {
     try {
       setShowAccountSwitcher(true)
-      const { data } = await getChannels({
+      const { data } = await getProfiles({
         variables: {
           request: { ownedBy: [address] }
         },
         fetchPolicy: 'no-cache'
       })
-      const allChannels = data?.profiles?.items as Profile[]
-      //setChannels(allChannels)
+      const allProfiles = data?.profiles?.items as Profile[]
+      setProfiles(allProfiles)
     } catch {}
   }
 
   return (
     <>
-      <Button
-        variant='secondary'
-      >
-        <BsBell size={24} />
-      </Button>
       <DropMenu
         trigger={
           <Button
@@ -85,7 +82,7 @@ const UserMenu = () => {
           </Button>
         }
       >
-        <div className="mt-1.5 w-56 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-200 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white">
+        <div className="mt-1.5 w-64 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-200 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white">
           {showAccountSwitcher ? (
             <>
               <button
@@ -94,33 +91,33 @@ const UserMenu = () => {
                 onClick={() => setShowAccountSwitcher(false)}
               >
                 <BsChevronLeft className="w-3 h-3" />
-                <span className="py-2 text-sm">Channels</span>
+                <span className="py-2 text-sm">Profiles</span>
               </button>
-              {/* <div className="py-1 text-sm">
-                {channels?.map((channel) => (
+              <div className="py-1 text-sm">
+                {profiles?.map((profile) => (
                   <button
                     type="button"
-                    className="flex w-full justify-between items-center px-2 py-1.5 space-x-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-                    key={channel.id}
-                    onClick={() => onSelectChannel(channel)}
+                    className="flex w-full justify-between items-center p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    key={profile.id}
+                    onClick={() => onSelectChannel(profile)}
                   >
                     <span className="inline-flex items-center space-x-1.5">
                       <img
                         className="w-6 h-6 rounded-lg"
-                        src={getProfilePicture(channel)}
-                        alt={channel.handle}
+                        src={getProfilePicture(profile)}
+                        alt={profile.handle}
                         draggable={false}
                       />
                       <span className="truncate whitespace-nowrap">
-                        {channel.handle}
+                        {profile.handle}
                       </span>
                     </span>
-                    {selectedChannel?.id === channel.id && (
-                      <CheckOutline className="w-3 h-3" />
+                    {currentProfile?.id === profile.id && (
+                      <BsCheck className="w-5 h-5" />
                     )}
                   </button>
                 ))}
-              </div> */}
+              </div>
             </>
           ) : (
             <>
@@ -136,9 +133,10 @@ const UserMenu = () => {
                     <span className="text-xs opacity-70">Connected as</span>
                     <h6
                       title={currentProfile?.name ?? formatHandle(currentProfile?.handle)}
-                      className="text-base truncate leading-4"
+                      className="text-base flex space-x-1 items-center truncate leading-4"
                     >
-                      {currentProfile?.name ?? formatHandle(currentProfile?.handle)}
+                        <span>{currentProfile?.name ?? formatHandle(currentProfile?.handle)}</span>
+                        <IsVerified id={currentProfile?.id} size='xs'/>
                     </h6>
                   </div>
                 </div>
@@ -155,14 +153,24 @@ const UserMenu = () => {
                       <span className="truncate whitespace-nowrap">
                         My Profile
                       </span>
-                    </Menu.Item>
+                      </Menu.Item>
+                      <button
+                        type="button"
+                        className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        onClick={() => onSelectSwitchChannel()}
+                      >
+                        <MdSwitchAccount className="w-4 h-4" />
+                        <span className="truncate whitespace-nowrap">
+                          Switch channel
+                        </span>
+                      </button>
                   </>
                 )}
                 {!IS_MAINNET && (
                   <button
                     type="button"
                     className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
-                    onClick={() => setShowCreateChannel(true)}
+                    onClick={() => setShowCreateAccount(true)}
                   >
                     <BsPlusCircle className="w-4 h-4" />
                     <span className="truncate whitespace-nowrap">

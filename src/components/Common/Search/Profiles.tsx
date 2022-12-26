@@ -6,7 +6,8 @@ import { BiUser } from 'react-icons/bi'
 import { formatNumber } from '@utils/functions/formatNumber'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 
-import IsVerified from '../IsVerified'
+import IsVerified from '../../UI/IsVerified'
+import formatHandle from '@utils/functions/formatHandle'
 
 interface Props {
   results: Profile[]
@@ -25,7 +26,7 @@ const Profiles: FC<Props> = ({ results, loading, clearSearch }) => {
                     role="button"
                 >
                     <Link
-                        href={`/${profile?.handle}`}
+                        href={`/${formatHandle(profile?.handle)}`}
                         key={profile?.handle}
                         className="flex flex-col justify-center py-2 space-y-1 rounded-xl"
                     >
@@ -39,9 +40,9 @@ const Profiles: FC<Props> = ({ results, loading, clearSearch }) => {
                                 />
                                 <div className="flex items-center space-x-1">
                                 <p className="text-base truncate line-clamp-1">
-                                    <span>{profile?.handle}</span>
+                                    <span>{profile?.name ?? formatHandle(profile?.handle)}</span>
                                 </p>
-                                <IsVerified id={profile?.id} size="xs" />
+                                    <IsVerified id={profile?.id} size="sm" />
                                 </div>
                             </div>
                             <span className="inline-flex items-center space-x-1 text-xs whitespace-nowrap opacity-60">

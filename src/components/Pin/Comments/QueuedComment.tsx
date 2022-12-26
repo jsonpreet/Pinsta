@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import InterweaveContent from '@components/Common/InterweaveContent'
-import IsVerified from '@components/Common/IsVerified'
+import IsVerified from '@components/UI/IsVerified'
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import {

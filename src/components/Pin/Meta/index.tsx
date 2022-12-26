@@ -49,7 +49,7 @@ const Meta: FC<Props> = ({ pin, isComment = false }) => {
                     title={pin.createdAt}
                     target="_blank"
                     onClick={(event) => event.stopPropagation()}
-                    rel="noopener"
+                    rel="noopener noreferrer"
                 >
                     <BiLinkExternal size={18} />
                     <span className="ml-1 text-sm">{dayjs(new Date(pin.createdAt))?.fromNow()}</span>

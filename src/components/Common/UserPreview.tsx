@@ -1,5 +1,5 @@
 import formatHandle from '@utils/functions/formatHandle';
-import IsVerified from '@components/Common/IsVerified';
+import IsVerified from '@components/UI/IsVerified';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import type { Profile } from '@utils/lens';
