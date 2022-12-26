@@ -49,7 +49,8 @@ const Layout: FC<Props> = ({ children }) => {
     const { mounted } = useIsMounted()
     const { address } = useAccount()
     const { pathname, replace, asPath } = useRouter()
-    const showFilter = pathname === '/' || pathname === '/explore' || pathname === '/latest'
+    //const showFilter = pathname === '/' || pathname === '/explore' || pathname === '/latest'
+    const showFilter = false
 
     const resetAuthState = () => {
         setCurrentProfile(null)
