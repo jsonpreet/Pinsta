@@ -115,8 +115,8 @@ const Notifications: FC = () => {
                         </button>
                     </div>
                 </div>
-                <div className='flex flex-col relative w-full border bg-gray-50 border-gray-200 rounded-lg'>
-                    <div className='flex flex-col divide-y divide-gray-200 py-3'>
+                <div className='flex flex-col relative w-full border bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg'>
+                    <div className='flex flex-col divide-y divide-gray-200 dark:divide-gray-600/50 py-3'>
                         {loading && (
                             <>
                                 <NotificationShimmer />

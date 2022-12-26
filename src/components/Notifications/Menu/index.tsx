@@ -39,7 +39,7 @@ const Notifications: FC = () => {
     const request = {
         profileId: currentProfile?.id,
         customFilters: [CustomFiltersTypes.Gardeners],
-        limit: 5
+        limit: 10
     };
 
     const { data, loading, error, fetchMore } = useNotificationsQuery({
@@ -94,26 +94,23 @@ const Notifications: FC = () => {
                     </Button>
                 }
             >
-                <div className="mt-1.5 w-96 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 max-h-96 dropdown-shadow divide-gray-100 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white">
+                <div className="mt-1.5 w-96 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow divide-gray-100 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white">
                     <div className="flex flex-col">
                         <div className="p-3 flex justify-between">
                             <div className='flex space-x-2'>
                                 <span className='font-semibold'>Notifications</span>
-                                <span className='text-red-500 font-bold'>
-                                    ({totalNotifications?.notifications?.pageInfo?.totalCount})
-                                </span>
                             </div>
                             <div>
                                 <Link
                                     href='/notifications'
-                                    className='text-red-500 font-semibold'
+                                    className='text-red-500 dark:text-red-200 font-semibold'
                                 >
                                     View All
                                 </Link>
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col divide-y divide-gray-100'>
+                    <div className='flex flex-col divide-y divide-gray-100 dark:divide-gray-600/50'>
                         {error ?
                             <ErrorMessage className="m-3" title="Failed to load notifications" error={error} />
                             :
@@ -122,7 +119,7 @@ const Notifications: FC = () => {
                                     No Notifications
                                 </div>
                             ) : (
-                                notifications?.map((notification, index) => (
+                                notifications?.slice(0, 10).map((notification, index) => (
                                     <div key={`${notification?.notificationId}_${index}`} className='p-3'>
                                         {notification.__typename === 'NewFollowerNotification' && (
                                             <FollowerNotification notification={notification as NewFollowerNotification} />

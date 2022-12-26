@@ -82,7 +82,7 @@ const Pin: NextPage = () => {
                             <div className='flex flex-col lg:flex-row overflow-visible'>
                                 <div className='relative flex-none w-full lg:w-2/4'>
                                     <div className={clsx(
-                                        'w-full h-full min-h-[500px] flex flex-col items-center rounded-3xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
+                                        'w-full h-full min-h-[500px] flex flex-col items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
                                             // pin.stats.totalAmountOfComments > 3 ? 'justify-center' : 'justify-start'
                                         )}
                                     >
@@ -93,7 +93,7 @@ const Pin: NextPage = () => {
                                             onLoad={() => setLoading(false)}
                                         />
                                         {isLoading ?
-                                            <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center justify-center'>
+                                            <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-bl-3xl rounded-tl-3xl justify-center'>
                                                 <Loader/>
                                             </span>
                                             : null

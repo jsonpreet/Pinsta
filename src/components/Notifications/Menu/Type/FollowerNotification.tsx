@@ -1,10 +1,7 @@
-import UserPreview from '@components/Common/UserPreview';
-import formatTime from '@utils/functions/formatTime';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { NewFollowerNotification } from '@utils/lens';
 import type { FC } from 'react';
-
 import { NotificationProfileAvatar, NotificationProfileName } from '../Profile';
 import { NotificationWalletProfileAvatar, NotificationWalletProfileName } from '@components/Notifications/WalletProfile';
 import useAppStore from '@lib/store';

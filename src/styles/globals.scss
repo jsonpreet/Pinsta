@@ -105,7 +105,7 @@ input[type='number'] {
 }
 
 .brandGradientText {
-  @apply text-transparent bg-clip-text bg-gradient-to-r from-[#df3f95] to-[#ec1e25] transition;
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[#df3f95] to-[#ec1e25] dark:from-[#ee71b3] dark:to-[#ff7075] transition;
 }
 
 .primary-button {

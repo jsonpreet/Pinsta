@@ -14,7 +14,7 @@ export const Loader: FC<Props> = ({ size = 'md', className }) => {
                 <svg
                     role="status"
                     className={clsx(
-                        'text-gray-400 animate-spin dark:fill-white fill-black',
+                        'text-gray-400 dark:text-gray-50 animate-spin dark:fill-white fill-black',
                         className,
                         {
                         'w-5 h-5': size === 'md',

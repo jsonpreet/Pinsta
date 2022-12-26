@@ -1,6 +1,3 @@
-import InterweaveContent from '@components/Common/InterweaveContent';
-import UserPreview from '@components/Common/UserPreview';
-import formatTime from '@utils/functions/formatTime';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { NewCommentNotification } from '@utils/lens';
