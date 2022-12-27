@@ -22,6 +22,7 @@ import Header from './Header'
 import Sidebar from './Sidebar'
 import CategoriesList from './CategoriesList'
 import dynamic from 'next/dynamic'
+import BetaNotification from './BetaNotification'
 const CreateProfile = dynamic(() => import('./CreateProfile'))
 
 interface Props {
@@ -134,6 +135,9 @@ const Layout: FC<Props> = ({ children }) => {
                             <CategoriesList />
                         </div>
                     }
+                    <div className='overflow-hidden md:px-6'>
+                        <BetaNotification/>
+                    </div>
                     <CreateProfile />
                     <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
                         {children}

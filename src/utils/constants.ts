@@ -17,6 +17,8 @@ export const LENS_ENV = process.env.NEXT_PUBLIC_ENVIRONMENT
 export const IS_MAINNET = LENS_ENV === 'mainnet'
 export const RELAYER_ENABLED = true
 
+export const MIXPANEL_TOKEN = process.env.NEXT_PUBLIC_MIX_PANEL_ID
+
 // lens
 export const MAINNET_API_URL = 'https://api.lens.dev'
 export const TESTNET_API_URL = 'https://api-mumbai.lens.dev'
@@ -103,3 +105,8 @@ export const ADDRESS_REGEX = /^(0x)?[\da-f]{40}$/i;
 export const HANDLE_REGEX = /^[\da-z]+$/;
 export const ALL_HANDLES_REGEX = /([\s+])@(\S+)/g;
 export const HANDLE_SANITIZE_REGEX = /[^\d .A-Za-z]/g;
+
+export const DB = {
+  BOARD_COLLECTION : '63aa9efbdebabbcf53e3',
+  PINS_COLLECTION : '63aaa199b151054e5bab',
+}
