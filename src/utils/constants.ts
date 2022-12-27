@@ -6,7 +6,6 @@ export const APP = {
   URL: 'https://testnet.pinsta.xyz',
   Description: 'Pinsta is a decentralized Image & Video Sharing service, designed to save and collect discovery information using Images, Videos, and Animated Gifs in the form of Pin Boards.',
   Twitter: 'PinstaApp',
-  PublicKeyBase58Check: 'BC1YLiHYuaqQc1r5UFvJ3G8eMYawk693wVGiTHmBQtr9DK8NQXt14oJ',
   Meta: {
     image: `/meta.png`,
     type: 'website',
@@ -105,8 +104,3 @@ export const ADDRESS_REGEX = /^(0x)?[\da-f]{40}$/i;
 export const HANDLE_REGEX = /^[\da-z]+$/;
 export const ALL_HANDLES_REGEX = /([\s+])@(\S+)/g;
 export const HANDLE_SANITIZE_REGEX = /[^\d .A-Za-z]/g;
-
-export const DB = {
-  BOARD_COLLECTION : '63aa9efbdebabbcf53e3',
-  PINS_COLLECTION : '63aaa199b151054e5bab',
-}

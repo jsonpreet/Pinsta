@@ -105,3 +105,18 @@ export type QueuedCommentType = {
 export type PinstaFollowModule = FeeFollowModuleSettings &
   ProfileFollowModuleSettings &
   RevertFollowModuleSettings;
+
+export type Board = {
+  name: string;
+  description: string;
+  user: string;
+  pfp: string;
+  cover: string;
+  isPublic: boolean;
+};
+
+export type BoardPins = {
+  user: string;
+  pin: string;
+  board: string;
+};
