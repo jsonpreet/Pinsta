@@ -140,7 +140,7 @@ const Follow: FC<Props> = ({ profile, showText = false, setFollowing, type = "li
     return (
         <Button
             onClick={createFollow}
-            variant={type === "primary" ? "primary" : "light"} 
+            variant={type === "primary" ? "primary" : "dark"} 
             aria-label="Follow"
             loading={isLoading}
         >

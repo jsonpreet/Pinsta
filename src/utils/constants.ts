@@ -18,6 +18,8 @@ export const RELAYER_ENABLED = true
 
 export const MIXPANEL_TOKEN = process.env.NEXT_PUBLIC_MIX_PANEL_ID
 
+export const PINSTA_API_URL = process.env.NEXT_PUBLIC_PINSTA_API_URL
+
 // lens
 export const MAINNET_API_URL = 'https://api.lens.dev'
 export const TESTNET_API_URL = 'https://api-mumbai.lens.dev'

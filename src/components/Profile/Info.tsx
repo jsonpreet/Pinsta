@@ -16,7 +16,7 @@ const Info = ({ profile }: { profile: Profile }) => {
                         profile={profile as Profile}
                     />
                 </div>    
-                <div className="flex flex-col flex-none max-w-7xl mx-auto w-full">
+                <div className="flex flex-col flex-none justify-center mx-auto w-full">
                     <Details profile={profile as any} />
                 </div>
             </div>

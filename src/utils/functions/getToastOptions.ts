@@ -1,25 +1,37 @@
 export const getToastOptions = (theme: string | undefined) => ({
   style: {
-    background: theme === 'dark' ? '#393a3e' : '',
-    color: theme === 'dark' ? '#fff' : ''
+    padding: '16px',
+    background: theme === 'dark' ? '#ec1e25' : '',
+    borderRadius: '100px',
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 6px 45px',
+    backdropFilter: 'blur(3px)',
+    color: theme === 'dark' ? '#fff' : '',
+    whiteSpace: 'nowrap',
+    textShadow: 'rgba(17, 17, 17, 0.21) 0px 1px 12px',
   },
-  className: '!border-l-2 !rounded !px-3 !border-indigo-500 overflow-hidden',
+  className: '!px-3 overflow-hidden',
   success: {
-    className: '!border-l-2 !rounded !px-3 !border-green-500 overflow-hidden',
+    className: '!px-3 !bg-green-500 !text-white overflow-hidden',
     iconTheme: {
-      primary: '#10B981',
-      secondary: 'white'
+      primary: '#fff',
+      secondary: '#10B981'
     }
   },
   error: {
-    className: '!border-l-2 !rounded !px-3 !border-red-500 overflow-hidden',
+    className: '!px-3 !bg-red-500 !text-white overflow-hidden',
     iconTheme: {
-      primary: '#EF4444',
-      secondary: 'white'
+      primary: '#fff',
+      secondary: '#ec1e25'
     }
   },
   loading: {
-    className: '!border-l-2 !rounded !px-3 !border-yellow-500 overflow-hidden'
+    className: '!px-3 !bg-yellow-500 !text-white overflow-hidden',
+    iconTheme: {
+      primary: '#fff',
+      secondary: 'rgba(230, 125, 0, 1)',
+    },
   },
+  position:"top-center",
+  reverseOrder: false,
   duration: 4000
 })

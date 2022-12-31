@@ -16,6 +16,7 @@ import trimify from '@utils/functions/trimify'
 import useIsMounted from '@utils/hooks/useIsMounted'
 import z from 'zod'
 import formatHandle from '@utils/functions/formatHandle'
+import { Form, useZodForm } from '@components/UI/Form'
 
 const formSchema = z.object({
   profileName: z
@@ -57,6 +58,7 @@ const CreateProfile = () => {
   const [buttonText, setButtonText] = useState('Create')
   const { mounted } = useIsMounted()
   const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -65,6 +67,13 @@ const CreateProfile = () => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema)
   })
+
+  const form = useZodForm({
+    schema: formSchema,
+    defaultValues: {
+      profileName: ''
+    }
+  });
 
   const onError = () => {
     setLoading(false)
@@ -127,7 +136,13 @@ const CreateProfile = () => {
       {IS_MAINNET ? (
         <ClaimHandle />
       ) : (
-        <form onSubmit={handleSubmit(onCreate)} className="space-y-4 p-4">
+        <Form
+          form={form}
+          className="space-y-4 p-4"
+          onSubmit={({ profileName }) => {
+            onCreate({ profileName });
+          }}
+        >
           <div className="mt-2">
             <Input
               {...register('profileName')}
@@ -135,10 +150,8 @@ const CreateProfile = () => {
               type="text"
               placeholder="John Deo"
               autoComplete="off"
-              validationError={errors.profileName?.message}
             />
           </div>
-
           <div className="flex items-center justify-between">
             <span className="flex-wrap w-2/3">
               {data?.createProfile?.__typename === 'RelayError' && (
@@ -165,7 +178,7 @@ const CreateProfile = () => {
               </Button>
             </span>
           </div>
-        </form>
+        </Form>
       )}
     </Modal>
   )

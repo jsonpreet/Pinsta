@@ -1,3 +1,3 @@
-import User from '@components/User'
+import Profile from '@components/Profile'
 
-export default User
+export default Profile

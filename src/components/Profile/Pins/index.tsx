@@ -12,7 +12,7 @@ const Pins: FC<Props> = ({profile}) => {
     const [activeTab, setActiveTab] = useState('created')
     return (
         <>
-            <div className="flex flex-col items-center w-full h-full">
+            <div className="flex flex-col mt-5 items-center w-full h-full">
                 <div className="flex dropdown-shadow bg-white dark:bg-gray-900 bg-gradient-to-r from-[#df3f95] to-[#ec1e25] rounded-full py-2 px-2 space-x-4 items-center">
                     <button
                         onClick={() => setActiveTab('created')}
@@ -33,7 +33,7 @@ const Pins: FC<Props> = ({profile}) => {
                         Saved
                     </button>
                 </div>
-                <div className='flex-1 w-full mt-10 md:min-h-[500px]'>
+                <div className='flex-1 w-full mt-5 md:min-h-[500px]'>
                     {activeTab === 'created' && (
                         <Created profile={profile} />
                     )}

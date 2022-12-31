@@ -1,70 +1,77 @@
-import clsx from 'clsx'
-import type { InputHTMLAttributes } from 'react'
-import React, { forwardRef, useId } from 'react'
+import clsx from 'clsx';
+import dynamic from 'next/dynamic';
+import type { ComponentProps, ReactNode } from 'react';
+import { forwardRef, useId } from 'react';
+import { FieldError } from './Form';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  type?: string
-  className?: string
-  validationError?: string
-  prefix?: string
-  suffix?: string
+interface Props extends Omit<ComponentProps<'input'>, 'prefix'> {
+  label?: string;
+  prefix?: string | ReactNode;
+  iconLeft?: ReactNode;
+  iconRight?: ReactNode;
+  className?: string;
+  helper?: ReactNode;
+  error?: boolean;
 }
+
 export const Input = forwardRef<HTMLInputElement, Props>(function Input(
-  {
-    label,
-    type = 'text',
-    validationError,
-    className = '',
-    prefix,
-    suffix,
-    ...props
-  },
+  { label, prefix, type = 'text', iconLeft, iconRight, error, className = '', helper, ...props },
   ref
 ) {
-    const id = useId()
+    const id = useId();
+
+    const iconStyles = [
+        'text-zinc-500 [&>*]:peer-focus:text-brand-500 [&>*]:h-5',
+        { '!text-red-500 [&>*]:peer-focus:!text-red-500': error }
+    ];
+
     return (
         <label className="w-full" htmlFor={id}>
-            {label && (
-                <div className="flex items-center mb-3 space-x-1.5">
-                    <div className="text-xs font-semibold uppercase opacity-70">
-                        {label}
-                    </div>
-                </div>
+        {label && (
+            <div className="flex items-center mb-1 space-x-1.5">
+                <div className="font-medium text-gray-800 dark:text-gray-200">{label}</div>
+            </div>
+        )}
+        <div className="flex">
+            {prefix && (
+                <span className="inline-flex items-center px-3 lt-text-gray-500 bg-gray-100 rounded-l-xl border border-r-0 border-gray-300 dark:bg-gray-900 dark:border-gray-700">
+                    {prefix}
+                </span>
             )}
-            <div className="flex">
-                {prefix && (
-                    <span className="inline-flex items-center px-4 text-sm bg-gray-100 border border-r-0 border-gray-300 opacity-80 rounded-l-xl dark:bg-gray-900 dark:border-gray-700">
-                        {prefix}
-                    </span>
+            <div
+                className={clsx(
+                    { '!border-red-500': error },
+                    { 'focus-within:ring-1': !error },
+                    { 'rounded-r-lg': prefix },
+                    { 'rounded-lg': !prefix },
+                    {
+                    'opacity-60 bg-gray-500 bg-opacity-20': props.disabled
+                    },
+                    'flex items-center border bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 w-full  ring-0 focus-within:ring-0 focus-visible:ring-0'
                 )}
+            >
                 <input
                     id={id}
                     className={clsx(
-                        {
-                        '!border-red-500': validationError?.length,
-                        'rounded-r-xl': prefix,
-                        'rounded-full': !prefix && !suffix,
-                        'rounded-l-xl': suffix
-                        },
-                        'bg-white text-sm px-4 py-2 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 outline-none disabled:opacity-60 disabled:bg-gray-500 disabled:bg-opacity-20 w-full',
+                        { 'placeholder-red-500': error },
+                        { 'rounded-r-lg': prefix },
+                        { 'rounded-lg': !prefix },
+                        'peer border-none focus:ring-0 outline-none px-4 ring-0 focus-within:ring-0 focus-visible:ring-0 py-2 bg-transparent w-full',
                         className
                     )}
-                    ref={ref}
                     type={type}
+                    ref={ref}
                     {...props}
                 />
-                {suffix && (
-                    <span className="inline-flex items-center px-4 text-sm bg-gray-100 border border-l-0 border-gray-300 whitespace-nowrap opacity-80 rounded-r-xl dark:bg-gray-900 dark:border-gray-700">
-                        {suffix}
-                    </span>
-                )}
+                <span tabIndex={-1} className={clsx({ 'order-first pl-3': iconLeft }, iconStyles)}>
+                    {iconLeft}
+                </span>
+                <span tabIndex={-1} className={clsx({ 'order-last pr-3': iconRight }, iconStyles)}>
+                    {iconRight}
+                </span>
             </div>
-            {validationError && (
-                <div className="mx-1 mt-1 text-xs font-medium text-red-500">
-                    {validationError}
-                </div>
-            )}
+        </div>
+            {props.name && <FieldError name={props.name} />}
         </label>
-    )
-})
+    );
+});

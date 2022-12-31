@@ -80,6 +80,7 @@ const Notifications: FC = () => {
                 trigger={
                     <Button
                         variant='secondary'
+                        className='!px-2'
                         onClick={() => {
                             setNotificationCount(data?.notifications?.pageInfo?.totalCount || 0);
                             setShowBadge(false);

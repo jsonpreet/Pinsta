@@ -10,6 +10,10 @@ interface AppState {
     currentProfile: Profile | null
     activeTagFilter: string
     activeSortFilter: string
+    showCreateBoard: boolean
+    showLoginModal: boolean
+    setShowLoginModal: (showLoginModal: boolean) => void
+    setShowCreateBoard: (showCreateBoard: boolean) => void
     setActiveSortFilter: (activeSortFilter: string) => void
     setActiveTagFilter: (activeTagFilter: string) => void
     setCurrentProfile: (profile: Profile | null) => void
@@ -23,10 +27,14 @@ export const useAppStore = create<AppState>((set) => ({
     profiles: [],
     showCreateAccount: false,
     hasNewNotification: false,
+    showCreateBoard: false,
+    showLoginModal: false,
     userSigNonce: 0,
     currentProfile: null,
     activeTagFilter: 'all',
     activeSortFilter: 'commented',
+    setShowLoginModal: (showLoginModal) => set(() => ({ showLoginModal })),
+    setShowCreateBoard: (showCreateBoard) => set(() => ({ showCreateBoard })),
     setActiveSortFilter: (activeSortFilter) => set(() => ({ activeSortFilter })),
     setActiveTagFilter: (activeTagFilter) => set(() => ({ activeTagFilter })),
     setCurrentProfile: (profile) => set(() => ({ currentProfile: profile })),

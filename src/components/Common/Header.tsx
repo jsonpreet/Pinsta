@@ -13,6 +13,7 @@ import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import ThemeSwitch from '@components/Common/ThemeSwitch'
 import Notifications from '@components/Notifications/Menu'
+import CreateMenu from '@components/Common/Menu/CreateMenu'
 
 type Props = {
   className?: string
@@ -35,7 +36,7 @@ const Header: FC<Props> = ({ className }) => {
         <div className="w-full">
           <div className="flex px-8 items-center justify-between w-full">
             <div className='flex items-center'>
-              <div className="mr-8">
+              <div className="mr-1">
                 <Link
                   href={HOME}
                   className="flex space-x-2 items-center"
@@ -65,9 +66,11 @@ const Header: FC<Props> = ({ className }) => {
               {!currentProfileId && !currentProfile ?
                 <ThemeSwitch />
                 :
-                <Notifications/>
+                <>
+                  <CreateMenu/>
+                  <Notifications/>
+                </>
               }   
-              
               <Login />
             </div>
           </div>

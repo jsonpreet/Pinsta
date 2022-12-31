@@ -1,52 +1,38 @@
-import { Board, BoardPins } from '@utils/custom-types';
-import { database, Server } from './config';
-import { ID } from "appwrite";
+import { useQuery } from "@tanstack/react-query";
+import * as api from './api';
 
-const createBoardDocument = async (data: Board) => {
-    try {
-        return database.createDocument(
-            Server.DATABASE_ID,
-            Server.BOARD_COLLECTION_ID,
-            ID.unique(),
-            data,
-        );
-    } catch (e: any) {
-        console.error(e.message);
-    }
-};
+export const FetchProfileBoards = (user : any) => {
+    return useQuery([['profile_boards', user], { user }], api.getUserBoards,
+        {
+            enabled: !!user,
+            keepPreviousData: true,
+        }
+    )
+}
 
-const getBoardsDocument = async () => {
-    try {
-        return database.listDocuments(Server.DATABASE_ID, Server.BOARD_COLLECTION_ID);
-    } catch (e: any) {
-        console.error(e.message);
-    }
-};
+export const FetchBoardPins = (boardId : string) => {
+    return useQuery([['board_pins', boardId], { boardId }], api.getBoardPins,
+        {
+            enabled: !!boardId,
+            keepPreviousData: true,
+        }
+    )
+}
 
-const updateBoardDocument = async (data: Board, documentID: string) => {
-    try {
-        return database.updateDocument(
-            Server.DATABASE_ID,
-            Server.BOARD_COLLECTION_ID,
-            documentID,
-            data,
-        );
-    } catch (e: any) {
-        console.error(e.message);
-    }
-};
+export const FetchProfileBoardPins = (boardId : string, profileId : string) => {
+    return useQuery([['profile_board_pins', `${boardId}_${profileId}`], { boardId, profileId }], api.getProfileBoardPins,
+        {
+            enabled: !!boardId,
+            keepPreviousData: true,
+        }
+    )
+}
 
-const deleteBoardDocument = async (documentID: string) => {
-    try {
-        return database.deleteDocument(Server.DATABASE_ID, Server.BOARD_COLLECTION_ID, documentID);
-    } catch (e: any) {
-        console.error(e.message);
-    }
-};
-
-export {
-    createBoardDocument,
-    getBoardsDocument,
-    updateBoardDocument,
-    deleteBoardDocument
-};
+export const FetchProfilePins = (user : any) => {
+    return useQuery([['profile_pins', user], { user }], api.getProfilePins,
+        {
+            enabled: !!user,
+            keepPreviousData: true,
+        }
+    )
+}

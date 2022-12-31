@@ -153,17 +153,17 @@ const UserMenu = () => {
                       <span className="truncate whitespace-nowrap">
                         My Profile
                       </span>
-                      </Menu.Item>
-                      <button
-                        type="button"
-                        className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-                        onClick={() => onSelectSwitchChannel()}
-                      >
-                        <MdSwitchAccount className="w-4 h-4" />
-                        <span className="truncate whitespace-nowrap">
-                          Switch channel
-                        </span>
-                      </button>
+                    </Menu.Item>
+                    <button
+                      type="button"
+                      className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      onClick={() => onSelectSwitchChannel()}
+                    >
+                      <MdSwitchAccount className="w-4 h-4" />
+                      <span className="truncate whitespace-nowrap">
+                        Switch channel
+                      </span>
+                    </button>
                   </>
                 )}
                 {!IS_MAINNET && (

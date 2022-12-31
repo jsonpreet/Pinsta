@@ -12,7 +12,7 @@ import React from 'react'
 import Info from './Info'
 import Pins from './Pins'
 
-const User: NextPage = () => {
+const Profile: NextPage = () => {
     const { query } = useRouter()
     const username = query.username ?? ''
     const handle = formatHandle(username as string, true);
@@ -49,5 +49,5 @@ const User: NextPage = () => {
     )
 }
 
-export default User
+export default Profile
 

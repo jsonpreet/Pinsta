@@ -46,7 +46,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                     'primary-button ': variant === 'primary',
                     'bg-transparent': variant === 'secondary',
                     'bg-gray-100 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-white': variant === 'light',
-                    'bg-gray-800 hover:bg-gray-900': variant === 'dark',
+                    'bg-gray-800 dark:bg-gray-700 hover:bg-red-600': variant === 'dark',
                     'bg-red-600 hover:bg-gray-900': variant === 'danger',
                 },
                 className

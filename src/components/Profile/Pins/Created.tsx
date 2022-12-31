@@ -33,7 +33,6 @@ const Created: FC<Props> = ({ profile }) => {
     const pageInfo = data?.publications?.pageInfo
     
     const pins = data?.publications?.items as PinstaPublication[]
-    console.log(data)
 
     const { observe } = useInView({
         rootMargin: SCROLL_ROOT_MARGIN,

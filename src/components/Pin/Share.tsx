@@ -6,7 +6,7 @@ import React, { FC, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { BsArrowLeftCircleFill } from 'react-icons/bs'
 import { useDetectClickOutside } from 'react-detect-click-outside';
-import { APP } from '@utils/constants'
+import { APP, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
 import { PinstaPublication } from '@utils/custom-types'
 import { exportPNG } from '@utils/functions/getExport'
 import { HiOutlinePaperAirplane } from 'react-icons/hi2'
@@ -29,6 +29,7 @@ const Share: FC<Props> = ({ pin }) => {
     const [sharePopUpOpen, setSharePopUpOpen] = useState(false)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
+    const setShowCreateBoard = useAppStore((state) => state.setShowCreateBoard)
 
     const copied = () => {
         setIsCopied(true);
@@ -39,14 +40,18 @@ const Share: FC<Props> = ({ pin }) => {
         setSharePopUpOpen(false)
     }
 
-    const dontSave = () => {
-        toast.error('Oops! Sorry, This NFT is on Sale');
+    const saveIt = async () => {
+        if (!currentProfileId) {
+            toast.error(SIGN_IN_REQUIRED_MESSAGE);
+            return
+        }
+        setShowCreateBoard(true)
     }
 
-    const saveIt = async () => {
-        console.log('save it')
-        toast.error('Save is not enabled!');
-        //const response = await savePost(post, user);
+    const unSaveIt = async () => {
+        console.log('unsave it')
+        toast.error('Unsave is not enabled!');
+        //const response = await unSavePost(post, user);
     }
 
     const shareRef = useDetectClickOutside({ onTriggered: closeSharePopUp, triggerKeys: ['Escape', 'x'], });
@@ -133,7 +138,7 @@ const Share: FC<Props> = ({ pin }) => {
                     {currentProfileId ?
                         (isSaved) ?
                             <Button
-                                onClick={() => saveIt()}
+                                onClick={() => unSaveIt()}
                             >
                                 Saved
                             </Button> :

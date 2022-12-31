@@ -15,7 +15,7 @@ import {
   walletConnectWallet
 } from '@rainbow-me/rainbowkit/wallets'
 import { ThemeProvider, useTheme } from 'next-themes'
-import type { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import React from 'react'
 import { IS_MAINNET, APP, POLYGON_RPC_URL } from '@utils/constants'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
@@ -84,7 +84,9 @@ const Providers = ({ children }: { children: ReactNode }) => {
             <WagmiConfig client={wagmiClient}>
                 <ThemeProvider defaultTheme="light" attribute="class">
                     <RainbowKitProviderWrapper>
-                        <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
+                        <ApolloProvider client={apolloClient}>
+                            {children}
+                        </ApolloProvider>
                     </RainbowKitProviderWrapper>
                 </ThemeProvider>
             </WagmiConfig>

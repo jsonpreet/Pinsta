@@ -19,11 +19,10 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 
 import FullPageLoader from '../UI/FullPageLoader'
 import Header from './Header'
-import Sidebar from './Sidebar'
 import CategoriesList from './CategoriesList'
-import dynamic from 'next/dynamic'
 import BetaNotification from './BetaNotification'
-const CreateProfile = dynamic(() => import('./CreateProfile'))
+import CreateBoardModal from './Modals/CreateBoard'
+import CreateProfile from './Modals/CreateProfile'
 
 interface Props {
   children: ReactNode
@@ -139,6 +138,7 @@ const Layout: FC<Props> = ({ children }) => {
                         <BetaNotification/>
                     </div>
                     <CreateProfile />
+                    <CreateBoardModal />
                     <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
                         {children}
                     </div>

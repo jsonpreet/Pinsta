@@ -26,39 +26,40 @@ const Details: FC<Props> = ({ profile }) => {
     
     return (
         <>
-            <div className="px-5 mb-10 flex items-center sm:px-0">
-                <div className="px-5 flex-1 space-y-3 flex flex-col items-start justify-end">
-                    <div className="relative -mt-10 w-32 h-32 sm:-mt-24 sm:w-44 sm:h-44">
-                        <img
-                            src={getProfilePicture(profile, 'avatar_lg')}
-                            className="w-32 h-32 dark:bg-gray-700/40 dark:ring-gray-700/60 bg-gray-100/70 ring-2 ring-white/70 bg-clip-padding backdrop-blur-xl backdrop-filter p-3 rounded-full sm:w-44 sm:h-44"
-                            height={128}
-                            width={128}
-                            alt={formatHandle(profile?.handle)}
-                        />
-                    </div>
-                    <div className="space-y-1">
-                        <div className="flex gap-1.5 items-center">
-                            <span className="text-3xl font-bold capitalize">{profile?.name ?? formatHandle(profile?.handle)}</span>
-                            <IsVerified id={profile?.id} size='lg' color='text-red-600' />
-                        </div>
-                        <div className="flex space-x-3">
-                            {profile?.name ? (
-                                <Slug className="text-sm sm:text-base" slug={formatHandle(profile?.handle)} prefix="@" />
-                            ) : (
-                                <Slug className="text-sm sm:text-base" slug={formatAddress(profile?.ownedBy)} />
-                            )}
-                        </div>
-                    </div>
-                    {profile?.bio && (
-                        <div className="linkify text-md break-words">
-                            <InterweaveContent content={profile?.bio}/>
-                        </div>
-                    )}
-                    {<Followerings profile={profile} />}
+            <div className="mb-10 flex-1 space-y-3 flex flex-col w-full items-center justify-center">
+                <div className="relative -mt-10 w-32 h-32 sm:-mt-24 sm:w-44 sm:h-44">
+                    <img
+                        src={getProfilePicture(profile, 'avatar_lg')}
+                        className="w-32 h-32 dark:bg-gray-700/40 dark:ring-gray-700/60 bg-gray-100/70 ring-2 ring-white/70 bg-clip-padding backdrop-blur-xl backdrop-filter p-3 rounded-full sm:w-44 sm:h-44"
+                        height={128}
+                        width={128}
+                        alt={formatHandle(profile?.handle)}
+                    />
                 </div>
-                <div className="space-y-5 flex space-x-5">
-                    <div>
+                <div className="space-y-1 flex flex-col items-center justify-center">
+                    <div className="flex items-center">
+                        <span className="text-3xl font-bold capitalize">{profile?.name ?? formatHandle(profile?.handle)}</span>
+                        <IsVerified id={profile?.id} size='lg' />
+                    </div>
+                    <div className="flex flex-col justify-center items-center space-y-2">
+                        {profile?.name ? (
+                            <Slug className="text-sm sm:text-base" slug={formatHandle(profile?.handle)} prefix="@" />
+                        ) : (
+                            <Slug className="text-sm sm:text-base" slug={formatAddress(profile?.ownedBy)} />
+                        )}
+                    
+                        {currentProfile && currentProfile?.id !== profile?.id && profile?.isFollowing && (
+                            <div className="px-3 py-1 text-sm bg-gray-100 rounded-full dark:bg-gray-700">Follows you</div>
+                        )}
+                    </div>
+                </div>
+                {profile?.bio && (
+                    <div className="linkify max-w-2xl mx-auto text-center text-md break-words">
+                        <InterweaveContent content={profile?.bio}/>
+                    </div>
+                )}
+                {<Followerings profile={profile} />}
+                <div className="pt-2 flex items-center justify-center">
                     { currentProfile && currentProfile?.id !== profile?.id && followType !== 'RevertFollowModuleSettings' ? (
                         following ? (
                             <div className="flex justify-center space-x-2">
@@ -77,10 +78,6 @@ const Details: FC<Props> = ({ profile }) => {
                             </div>
                         )
                     ) : null}
-                    </div>
-                    {currentProfile && currentProfile?.id !== profile?.id && profile?.isFollowing && (
-                        <div className="py-0.5 px-2 text-xs bg-gray-200 rounded-full dark:bg-gray-700">Follows you</div>
-                    )}
                 </div>
             </div>
         </>

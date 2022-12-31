@@ -22,7 +22,7 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
     );
     return (
         <>
-            <div className="flex items-center justify-center space-x-5 dark:bg-gray-700/60 dark:ring-gray-600/80 bg-gray-50/70 ring-2 ring-white/90 bg-clip-padding backdrop-blur-xl backdrop-filter shadow-md px-2 py-1 mr-3 rounded-full mb-3">
+            <div className="flex items-center justify-center space-x-5 dark:bg-gray-700/60 dark:ring-gray-600/80 bg-white/80 ring-2 ring-white/90 bg-clip-padding backdrop-blur-xl backdrop-filter shadow-md px-3 py-1 mr-3 rounded-full mb-3">
                 <Meta icon={<HiHashtag className="w-4 h-4" />}>
                     <Tooltip placement='top' content={`#${parseInt(profile?.id)}`}>{profile?.id}</Tooltip>
                 </Meta>

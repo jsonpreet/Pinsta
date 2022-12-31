@@ -82,7 +82,7 @@ const Unfollow: FC<Props> = ({ profile, showText = false, setFollowing }) => {
         <Button
             onClick={createUnfollow}
             loading={typedDataLoading || signLoading || writeLoading}
-            variant="light"
+            variant="dark"
             aria-label="Unfollow"
         >
             {showText && 'Unfollow'}

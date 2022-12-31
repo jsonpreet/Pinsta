@@ -10,6 +10,8 @@ import { motion } from "framer-motion"
 import getProfilePicture from '@utils/functions/getProfilePicture';
 import { Loader } from '@components/UI/Loader'
 import formatHandle from '@utils/functions/formatHandle'
+import IsVerified from '@components/UI/IsVerified'
+import { useRouter } from 'next/router'
 
 dayjs.extend(relativeTime)
 
@@ -18,6 +20,8 @@ type Props = {
 }
 
 const PinCard: FC<Props> = ({ pin }) => {
+  const router = useRouter()
+  const isProfile = router.pathname === '/[username]'
   const thumbnailUrl = imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
   const [loading, setLoading] = useState(true)
   const [show, setShow] = useState(false)
@@ -51,17 +55,23 @@ const PinCard: FC<Props> = ({ pin }) => {
                 : null
               }
             </Link>
-            <div className='flex flex-col items-start w-full justify-start px-1 pt-2'>
-              <Link href={`/${formatHandle(pin.profile?.handle)}`} className="flex space-x-2 items-center">
-                <img
-                  className="w-7 h-7 rounded-full"
-                  src={getProfilePicture(pin.profile)}
-                  alt={pin.profile?.handle}
-                  draggable={false}
-                />
-                <span className='text-sm text-light text-gray-500 dark:text-gray-200 hover:text-gray-800'>{pin.profile?.name ?? formatHandle(pin.profile?.handle)}</span>
-              </Link>
-            </div>
+            {!isProfile ?
+              <>
+                <div className='flex flex-col items-start w-full justify-start px-1 pt-2'>
+                  <Link href={`/${formatHandle(pin.profile?.handle)}`} className="flex space-x-2 items-center">
+                    <img
+                      className="w-7 h-7 rounded-full"
+                      src={getProfilePicture(pin.profile)}
+                      alt={pin.profile?.handle}
+                      draggable={false}
+                    />
+                    <div className='flex items-center'>
+                      <span className='text-sm text-light text-gray-500 dark:text-gray-200 hover:text-gray-800'>{pin.profile?.name ?? formatHandle(pin.profile?.handle)}</span>
+                      <IsVerified id={pin.profile?.id} size='xs' />
+                    </div>
+                  </Link>
+                </div>
+              </> : null}
           </div>
         </>
       ) : (
