@@ -12,16 +12,15 @@ import { TextArea } from '@components/UI/TextArea'
 import { Form, useZodForm } from '@components/UI/Form'
 import { toast } from 'react-hot-toast'
 import axios from '@utils/axios'
-import { BoardType, PinstaPublication } from '@utils/custom-types'
+import { BoardType } from '@utils/custom-types'
 import { Loader } from '@components/UI/Loader'
-import clsx from 'clsx'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import imageCdn from '@utils/functions/imageCdn'
 
 type Props = {
-    pin?: PinstaPublication,
-    setIsSaved?: any
-    savePinToBoard?: any
+    board?: BoardType,
+    show?: boolean
+    setShow?: any
 }
 
 const formSchema = z.object({
@@ -36,19 +35,17 @@ const formSchema = z.object({
 })
 type FormData = z.infer<typeof formSchema>
 
-const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
+const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
-    const setShowCreateBoard = useAppStore((state) => state.setShowCreateBoard)
-    const showCreateBoard = useAppStore((state) => state.showCreateBoard)
     const [isPrivate, setIsPrivate] = useState(false)
-    const setCurrentBoard = usePersistStore((state) => state.setCurrentBoard)
     const [loading, setLoading] = useState(false)
     const [isImgLoading, setImgLoading] = useState(true)
+    const [newImage, setNewImage] = useState<any>(null)
 
     const onCancel = () => {
         reset()
         setLoading(false)
-        setShowCreateBoard(false)
+        setShow(false)
     }
 
     const reset = () => {
@@ -57,10 +54,11 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
 
     const onCreate = async ({ boardName, boardDescription }: FormData) => {
         const request = {
+            id: board?.id,
             name: boardName.trim(),
             slug: boardName.trim().toLowerCase().replace(/ /g, '-'),
             description: boardDescription,
-            pfp: pin ? getThumbnailUrl(pin) : '',
+            pfp: newImage ? newImage : board?.pfp,
             is_private: isPrivate,
             user: currentProfileId
         } as any
@@ -75,59 +73,59 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
         }
 
         const response = await axios.post(`/api/boards`, 
-            {type: 'create', data: request}
+            {type: 'update', data: request}
         )
         if (response && response.status === 200) {
-            console.log('Board created!')
-            toast.success('Board created successfully!')
-            setCurrentBoard(response.data)
-            savePinToBoard(response.data)
+            setLoading(false)
+            console.log('Board updated!')
+            toast.success('Board updated successfully!')
         } else {
             setLoading(false)
-            console.log('Error creating board', response)
-            toast.error('Error on creating board!')
+            console.log('Error updating board', response)
+            toast.error('Error on updating board!')
         }
     }
 
     const form = useZodForm({
         schema: formSchema,
         defaultValues: {
-            boardName: '',
-            boardDescription: ''
+            boardName: board?.name ?? '',
+            boardDescription: board?.description ?? ''
         }
     });
 
-    const buttonText = loading ? 'Creating...' : 'Create Board'
+    const buttonText = loading ? 'Updating...' : 'Update Board'
 
     return (
         <>
-            {showCreateBoard && (
+            {show && (
                 <Modal
-                    title='Create Board'
-                    show={showCreateBoard}
+                    title='Edit Board'
+                    show={show}
                     icon={<MdOutlineSpaceDashboard size={24} />}
                     onClose={() => onCancel()}
                     size='md'
                 >
                     <div className='grid grid-cols-2 gap-6 p-4'>
-                        {pin ?
-                            <div className='sm:rounded-tl-3xl relative w-full h-full flex flex-col items-center rounded-xl sm:rounded-bl-3xl '
-                            >
-                                <img
-                                    className='rounded-xl object-cover'
-                                    alt={`Pin by @${pin?.profile?.handle}`}
-                                    src={imageCdn(getThumbnailUrl(pin), 'thumbnail')}
-                                    onLoad={() => setImgLoading(false)}
-                                />
-                                {isImgLoading ?
-                                    <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-bl-3xl rounded-tl-3xl justify-center'>
-                                        <Loader />
-                                    </span>
-                                    : null
-                                }
-                            </div>
-                            : null
-                        }
+                        <div className='sm:rounded-tl-3xl relative w-full h-full flex flex-col items-center rounded-xl sm:rounded-bl-3xl '
+                        >
+                            {board?.pfp ?
+                                <>
+                                    <img 
+                                        className='rounded-xl object-cover' 
+                                        alt={board?.name}
+                                        src={imageCdn(board?.pfp, 'thumbnail')} 
+                                        onLoad={() => setImgLoading(false)}
+                                    />
+                                    {isImgLoading ?
+                                        <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-bl-3xl rounded-tl-3xl justify-center'>
+                                            <Loader/>
+                                        </span>
+                                        : null
+                                    }
+                                </>
+                            : null }
+                        </div>
                         <div className="flex flex-col space-y-4 w-full">
                             <Form
                                 form={form}
@@ -185,4 +183,4 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
     )
 }
 
-export default CreateBoardModal
+export default EditBoardModal

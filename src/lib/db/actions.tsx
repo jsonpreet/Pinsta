@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import * as api from './api';
 
-export const FetchProfileBoards = (user : any) => {
+export const FetchProfileBoards = (user : string | null) => {
     return useQuery([['profile_boards', user], { user }], api.getUserBoards,
         {
             enabled: !!user,
@@ -28,8 +28,17 @@ export const FetchProfileBoardPins = (boardId : string, profileId : string) => {
     )
 }
 
-export const FetchProfilePins = (user : any) => {
+export const FetchProfilePins = (user : string) => {
     return useQuery([['profile_pins', user], { user }], api.getProfilePins,
+        {
+            enabled: !!user,
+            keepPreviousData: true,
+        }
+    )
+}
+
+export const CheckSavedPin = (user : string | null, pinId: string) => {
+    return useQuery([['saved_pin', `${user}_${pinId}`], { user, pinId }], api.checkSavedPin,
         {
             enabled: !!user,
             keepPreviousData: true,

@@ -13,7 +13,7 @@ interface Props {
 const Cover: FC<Props> = ({ cover, profile }) => {
     return (
         <>
-            <div className='relative flex flex-col w-full rounded-xl h-52 sm:h-80'>
+            <div className='relative flex flex-col max-w-7xl w-full rounded-xl h-52 sm:h-80'>
                 <div
                     className="h-52 w-full rounded-xl sm:h-80"
                     style={{

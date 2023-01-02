@@ -5,7 +5,7 @@ import usePersistStore from '@lib/store/persist'
 import Custom404 from '@pages/404'
 import Custom500 from '@pages/500'
 import { APP } from '@utils/constants'
-import { PinstaPublication } from '@utils/custom-types'
+import { BoardPinsType, BoardType, PinstaPublication } from '@utils/custom-types'
 import { usePublicationDetailsQuery } from '@utils/lens'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
@@ -22,6 +22,7 @@ import { Loader } from '@components/UI/Loader';
 import Comments from './Comments'
 import clsx from 'clsx'
 import RelatedPins from './Related'
+import { directCheckSavedPin, getBoard } from '@lib/db/api'
 
 const Pin: NextPage = () => {
     const router = useRouter()
@@ -31,6 +32,9 @@ const Pin: NextPage = () => {
     const [isLoading, setLoading] = useState(true)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
+    const [pinSaved, setPinSaved] = useState(false)
+    const [savedTo, setSavedTo] = useState<BoardPinsType[]>([])
+    const [savedToBoards, setSavedToBoards] = useState<BoardType[]>([])
 
     const { data, error, loading } = usePublicationDetailsQuery({
         variables: {
@@ -51,6 +55,32 @@ const Pin: NextPage = () => {
             (pin?.metadata?.content?.length > 300 ) ? setReadMore(true) : setReadMore(false)
         }
     }, [pin])
+
+    useEffect(() => {
+        if (pin) {
+            checkSaved()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pin])
+
+    const checkSaved = async () => {
+        const savedPin = await directCheckSavedPin({ pinId: pin.id, user: currentProfileId })
+        console.log('savedPin', savedPin)
+        if (savedPin?.length > 0) {
+            const boards:BoardType[] = []
+            savedPin.forEach(async (pin: any) => {
+                if (!pin.board) {
+                    boards.push(pin)
+                    return
+                }
+                const boardData = await getBoard(pin.board)
+                boards.push(boardData)
+            })
+            setSavedToBoards(boards)
+            setSavedTo(savedPin)
+        }
+        setPinSaved(savedPin.length > 0 ? true : false)
+    }
 
     const canGet =
         pin &&
@@ -101,7 +131,7 @@ const Pin: NextPage = () => {
                                     </div>
                                 </div>  
                                 <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l dark:border-gray-900/30 border-gray-50'>
-                                    <Share pin={pin} />
+                                    <Share pin={pin} pinSaved={pinSaved} savedToBoards={savedToBoards}  savedTo={savedTo} />
                                     <User pin={pin} />
                                     <div className='mt-4 whitespace-pre-wrap break-words leading-md linkify text-md'>
                                         <InterweaveContent content={!readMore ? pin?.metadata?.content : `${pin?.metadata?.content?.substring(0, 300)}...`}/>

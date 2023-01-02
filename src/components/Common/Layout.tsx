@@ -21,7 +21,6 @@ import FullPageLoader from '../UI/FullPageLoader'
 import Header from './Header'
 import CategoriesList from './CategoriesList'
 import BetaNotification from './BetaNotification'
-import CreateBoardModal from './Modals/CreateBoard'
 import CreateProfile from './Modals/CreateProfile'
 
 interface Props {
@@ -123,7 +122,7 @@ const Layout: FC<Props> = ({ children }) => {
                 />
             </Head>
             <Toaster
-                position="bottom-right"
+                position="top-center"
                 toastOptions={getToastOptions(resolvedTheme)}
             />
             <div className='relative'>
@@ -138,7 +137,6 @@ const Layout: FC<Props> = ({ children }) => {
                         <BetaNotification/>
                     </div>
                     <CreateProfile />
-                    <CreateBoardModal />
                     <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
                         {children}
                     </div>

@@ -1,15 +1,17 @@
-import { QueuedCommentType } from '@utils/custom-types'
+import { BoardType, QueuedCommentType } from '@utils/custom-types'
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface AppPerisistState {
-  currentProfileId: string | null
-  sidebarCollapsed: boolean
-  notificationCount: number
-  queuedComments: QueuedCommentType[]
-  setQueuedComments: (queuedComments: QueuedCommentType[]) => void
-  setNotificationCount: (count: number) => void
-  setCurrentProfileId: (currentProfileId: string | null) => void
+    currentProfileId: string | null
+    sidebarCollapsed: boolean
+    notificationCount: number
+    queuedComments: QueuedCommentType[]
+    currentBoard: BoardType[] | string
+    setCurrentBoard: (currentBoard: BoardType[] | string) => void
+    setQueuedComments: (queuedComments: QueuedCommentType[]) => void
+    setNotificationCount: (count: number) => void
+    setCurrentProfileId: (currentProfileId: string | null) => void
 }
 
 export const usePersistStore = create(
@@ -19,6 +21,8 @@ export const usePersistStore = create(
       sidebarCollapsed: true,
       notificationCount: 0,
       queuedComments: [],
+      currentBoard: [],
+      setCurrentBoard: (currentBoard) => set(() => ({ currentBoard })),
       setQueuedComments: (queuedComments) => set(() => ({ queuedComments })),
       setNotificationCount: (notificationCount) =>
         set(() => ({ notificationCount })),

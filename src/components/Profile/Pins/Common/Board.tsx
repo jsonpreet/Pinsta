@@ -1,10 +1,22 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button } from '@components/UI/Button'
 import { FetchProfileBoardPins } from '@lib/db/actions'
-import { PINSTA_API_URL } from '@utils/constants'
 import { Profile } from '@utils/lens/generated'
 import axios from '@utils/axios'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { toast } from 'react-hot-toast'
+import imageCdn from '@utils/functions/imageCdn'
+import { BsPencilSquare, BsTrash } from 'react-icons/bs'
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import formatTime from '@utils/functions/formatTime'
+// @ts-ignore
+import dayjsTwitter from 'dayjs-twitter';
+import EditBoardModal from '@components/Common/Modals/EditBoard'
+import Link from 'next/link'
+import formatHandle from '@utils/functions/formatHandle'
+
+dayjs.extend(dayjsTwitter);
 
 interface Props {
     board: any
@@ -13,6 +25,7 @@ interface Props {
 
 const Board: FC<Props> = ({ board, profile }) => {
     const { isLoading, isFetched, isError, data } = FetchProfileBoardPins(board.id, profile?.id)
+    const [showEditBoard, setShowEditBoard] = useState(false)
 
     if (isFetched && isError) {
         toast.error('Something went wrong')
@@ -32,18 +45,29 @@ const Board: FC<Props> = ({ board, profile }) => {
 
     return (
         <>
-            <div className="relative">
-                <div className="relative">
-                    <h3>{board.name}</h3>
-                    <div className='pin-meta'>
-                        <div className='pin-meta-item'>
-                            <span className='totalPins'>{totalPins} Pins</span>
-                        </div>
-                        <div className='pin-meta-item'>
-                            <span className='delete'>
+            <EditBoardModal board={board} show={showEditBoard} setShow={setShowEditBoard} />
+            <div className="relative group">
+                <Link
+                    href={`/${formatHandle(profile?.handle)}/${board.slug}`}
+                >
+                    <div className='mb-4 relative'>
+                        <img
+                        alt={board.name}
+                        src={board?.pfp ? imageCdn(board?.pfp, 'thumbnail') : '/patterns/2.png'}
+                            className='w-full rounded-lg' />  
+                        <div className='absolute group-hover:flex space-x-3 hidden top-2 right-4'>
+                            <div>
+                                <button
+                                    className='!p-0 !w-8 !h-8 !rounded-full bg-white/70 hover:bg-gray-800 text-gray-800 hover:text-white flex items-center justify-center'
+                                    onClick={() => setShowEditBoard(true)}
+                                >
+                                    <BsPencilSquare size={17} />
+                                </button>
+                            </div>
+                            <div>
                                 <Button
                                     variant='danger'
-                                    size='sm'
+                                    className='!p-0 !w-8 !h-8 !rounded-full'
                                     onClick={() => {
                                         toast.promise(
                                             deleteBoard(board.id),
@@ -59,12 +83,23 @@ const Board: FC<Props> = ({ board, profile }) => {
                                         )
                                     }}
                                 >
-                                    Delete
+                                    <BsTrash size={17} />
                                 </Button>
+                            </div>
+                        </div>
+                    </div>  
+                    <div className='flex flex-col space-y-1'>
+                        <h3 className='font-semibold text-base'>{board.name}</h3>
+                        <div className='flex text-sm'>
+                            <span>{totalPins} Pins</span>
+                            <span className='middot'></span>
+                            <span title={formatTime(board.created_at)}>
+                                {/* @ts-ignore */}
+                                {dayjs(new Date(board.created_at)).twitter()}
                             </span>
                         </div>
                     </div>
-                </div>
+                </Link>
             </div>
         </>
     )

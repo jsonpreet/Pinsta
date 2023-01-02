@@ -6,7 +6,7 @@ const FullPageLoader = () => {
     <>
       <div className="grid h-screen place-items-center">
         <MetaTags />
-        <div className="animate-pulse">
+        <div className="animate-bounce">
           <img
             src='/logo.png'
             draggable={false}

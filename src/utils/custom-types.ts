@@ -106,25 +106,27 @@ export type PinstaFollowModule = FeeFollowModuleSettings &
   ProfileFollowModuleSettings &
   RevertFollowModuleSettings;
 
-export type Board = {
-  name: string | null;
-  description?: string | null;
-  user: string | null;
-  pfp?: string | null;
-  cover?: string | null;
-  is_private: boolean | null;
-  category?: string | null;
+export type BoardType = {
+  id?: string;
+  name: string;
+  description?: string;
+  slug: string;
+  user: string;
+  pfp?: string;
+  cover?: string;
+  is_private: boolean;
+  category?: string;
   tags?: any;
-  created_at?: Date | null;
-  updated_at?: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
-export type Boards = Board[];
+export type BoardsType = BoardType[];
 
-export type BoardPins = {
-  user: string | null;
-  pin: string | null;
-  board: string | null;
-  created_at?: Date | null;
-  updated_at?: Date | null;
+export type BoardPinsType = {
+  user: string;
+  pin: string;
+  board?: string;
+  created_at?: Date;
+  updated_at?: Date;
 };
