@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import { useRouter } from 'next/router'
@@ -22,6 +23,7 @@ import CreateBoardModal from '@components/Common/Modals/CreateBoard'
 import Link from 'next/link'
 import formatHandle from '@utils/functions/formatHandle'
 import imageCdn from '@utils/functions/imageCdn'
+import { Analytics } from '@utils/analytics';
 
 
 type Props = {
@@ -145,7 +147,14 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                         </button>
                     </div>
                     <div className='relative z-10 mr-4'>
-                        <button ref={shareRef} onClick={() => setSharePopUpOpen(!sharePopUpOpen)} className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
+                        <button 
+                        ref={shareRef} 
+                        onClick={() => {
+                            setSharePopUpOpen(!sharePopUpOpen)
+                            Analytics.track(`share_pin_button_clicked_${pin.id}`)
+                        }}
+                        className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'
+                        >
                             <FiShare2 size={24} />
                         </button>
                         {sharePopUpOpen && (
@@ -204,7 +213,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                     </div>
                 </div>
                 <div className='space-x-5 items-center flex flex-row'>
-                    {currentProfileId &&
+                    {currentProfileId ?
                         !isSaved ?
                             <div className='flex-1'>
                                 <DropMenu
@@ -242,7 +251,11 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                                         <div className='flex flex-row items-center space-x-3 justify-start text-left'>
                                                             <div>
                                                                 {board.pfp ?
-                                                                    <img src={imageCdn(board.pfp, 'thumbnail')} className='w-10 h-10 rounded-lg' />
+                                                                    <img 
+                                                                        src={imageCdn(board.pfp, 'thumbnail')} 
+                                                                        className='w-10 h-10 rounded-lg' 
+                                                                        alt='board pfp'
+                                                                    />
                                                                     :
                                                                     <span 
                                                                         className='w-10 h-10 rounded-lg flex justify-center items-center text-center text-gray-500 font-semibold bg-gray-200 dark:bg-gray-400'>
@@ -310,25 +323,45 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                         <span className='text-base font-semibold'>{boardName}</span>
                                     </Link>
                                 </div>
+                            : null
                     }
                     {currentProfileId ?
                         (isSaved) ?
                             <Button
                                 variant='dark'
                                 loading={loading}
-                                onClick={() => unSaveIt()}
+                                onClick={() => {
+                                    unSaveIt()
+                                    Analytics.track('Unsaved Pin', {
+                                        pinId: pin?.id,
+                                        boardId: currentBoard?.id,
+                                        boardName: currentBoard?.name
+                                    })
+                                }}
                             >
                                 Saved
                             </Button> :
                             <Button
                                 loading={loading}
-                                onClick={() => savePinToBoard()}
+                                onClick={() => {
+                                    savePinToBoard()
+                                    Analytics.track('Save Pin', {
+                                        pinId: pin?.id,
+                                        boardId: currentBoard?.id,
+                                        boardName: currentBoard?.name
+                                    })
+                                }}
                             >
                                 Save
                             </Button>
                         :
                         <Button
-                            onClick={() => savePinToBoard()}
+                            onClick={() => {
+                                savePinToBoard()
+                                Analytics.track('Save Pin', {
+                                    pinId: pin?.id
+                                })
+                            }}
                         >
                             Save
                         </Button>

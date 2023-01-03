@@ -17,9 +17,10 @@ dayjs.extend(relativeTime)
 
 type Props = {
     pin: PinstaPublication
+    isComment?: boolean
 }
 
-const Like: FC<Props> = ({ pin }) => {
+const Like: FC<Props> = ({ pin, isComment = false }) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const { pathname } = useRouter();
     const [liked, setLiked] = useState(pin?.reaction === 'UPVOTE');
@@ -93,8 +94,8 @@ const Like: FC<Props> = ({ pin }) => {
         <>
             <motion.button whileTap={{ scale: 0.9 }} onClick={createLike} aria-label="Like">
                 <div className="flex flex-row justify-center items-center">
-                    {liked ? <HiHeart size={19} /> : <HiOutlineHeart size={19} />}
-                    <span className="ml-1">{count}</span>
+                    {liked ? <HiHeart size={isComment ? 15 : 19} /> : <HiOutlineHeart size={isComment ? 15 : 19} />}
+                    <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{count}</span>
                 </div>                
             </motion.button>
         </>

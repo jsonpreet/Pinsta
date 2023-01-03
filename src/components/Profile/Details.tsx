@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { FC, useState } from 'react';
 import { Profile } from '@utils/lens/generated';
 import useAppStore from '@lib/store';

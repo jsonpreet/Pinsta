@@ -23,10 +23,11 @@ const CollectModule = dynamic(() => import('./CollectModule'), {
 
 type Props = {
     pin: PinstaPublication
-    electedMirror?: ElectedMirror;
+    electedMirror?: ElectedMirror
+    isComment?: boolean
 }
 
-const Collect: FC<Props> = ({ pin, electedMirror }) => {
+const Collect: FC<Props> = ({ pin, electedMirror, isComment = false }) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [count, setCount] = useState(0);
     const [showCollectModal, setShowCollectModal] = useState(false);
@@ -55,8 +56,8 @@ const Collect: FC<Props> = ({ pin, electedMirror }) => {
                 aria-label="Collect"
             >
                 <div className="flex flex-row justify-center items-center">
-                    <FiShoppingBag size={17} />
-                    <span className="ml-1">{count}</span>
+                    <FiShoppingBag size={isComment ? 13 : 17} />
+                    <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{count}</span>
                 </div>   
             </motion.button>   
              <Modal

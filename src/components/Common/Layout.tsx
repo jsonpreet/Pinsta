@@ -22,6 +22,7 @@ import Header from './Header'
 import CategoriesList from './CategoriesList'
 import BetaNotification from './BetaNotification'
 import CreateProfile from './Modals/CreateProfile'
+import TrendingTags from './TrendingTags';
 
 interface Props {
   children: ReactNode
@@ -48,8 +49,8 @@ const Layout: FC<Props> = ({ children }) => {
     const { mounted } = useIsMounted()
     const { address } = useAccount()
     const { pathname, replace, asPath } = useRouter()
-    //const showFilter = pathname === '/' || pathname === '/explore' || pathname === '/latest'
-    const showFilter = false
+    const showFilter = pathname === '/' || pathname === '/explore' || pathname === '/latest'
+    //const showFilter = false
 
     const resetAuthState = () => {
         setCurrentProfile(null)
@@ -127,10 +128,10 @@ const Layout: FC<Props> = ({ children }) => {
             />
             <div className='relative'>
                 <Header />
-                <div className='pb-8 mt-[64px]'>
+                <div className='pb-8'>
                     {showFilter && 
-                        <div className='overflow-hidden md:px-6'>
-                            <CategoriesList />
+                        <div className='pt-3 md:px-6'>
+                            <TrendingTags />
                         </div>
                     }
                     <div className='overflow-hidden md:px-6'>

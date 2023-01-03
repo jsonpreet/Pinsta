@@ -11,15 +11,16 @@ dayjs.extend(relativeTime)
 
 type Props = {
     pin: PinstaPublication
+    isComment?: boolean
 }
 
-const Mirror: FC<Props> = ({ pin }) => {
+const Mirror: FC<Props> = ({ pin, isComment = false }) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     return (
         <>            
             <div className="flex flex-row justify-center items-center">
-                <RiArrowLeftRightFill size={18} />
-                <span className="ml-1">{pin.stats.totalAmountOfMirrors}</span>
+                <RiArrowLeftRightFill size={isComment ? 14 : 18} />
+                <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{pin.stats.totalAmountOfMirrors}</span>
             </div>                  
         </>
 

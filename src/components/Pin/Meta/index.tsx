@@ -29,17 +29,17 @@ const Meta: FC<Props> = ({ pin, isComment = false }) => {
                 isComment ? 'space-x-4' : 'justify-between'
             )}
         >
-            <Like pin={pin}/>
+            <Like isComment={isComment} pin={pin}/>
             {canMirror ?
-                <Mirror pin={pin}/>
+                <Mirror isComment={isComment} pin={pin}/>
                 : null
             }
             <div className="flex flex-row justify-center items-center">
-                <HiOutlineChatAlt2 size={18} />
-                <span className="ml-1">{pin.stats.totalAmountOfComments}</span>
+                <HiOutlineChatAlt2 size={isComment ? 14 : 18} />
+                <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{pin.stats.totalAmountOfComments}</span>
             </div>
             {collectModuleType !== 'RevertCollectModuleSettings' ?
-                <Collect pin={pin} />
+                <Collect isComment={isComment} pin={pin} />
                 : null
             }
             {!isComment ?
@@ -51,8 +51,8 @@ const Meta: FC<Props> = ({ pin, isComment = false }) => {
                     onClick={(event) => event.stopPropagation()}
                     rel="noopener noreferrer"
                 >
-                    <BiLinkExternal size={18} />
-                    <span className="ml-1 text-sm">{dayjs(new Date(pin.createdAt))?.fromNow()}</span>
+                    <BiLinkExternal size={isComment ? 14 : 18} />
+                    <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{dayjs(new Date(pin.createdAt))?.fromNow()}</span>
                 </a>
                 : null
             }

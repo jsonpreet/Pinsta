@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -12,6 +13,7 @@ import { Loader } from '@components/UI/Loader'
 import formatHandle from '@utils/functions/formatHandle'
 import IsVerified from '@components/UI/IsVerified'
 import { useRouter } from 'next/router'
+import { Analytics } from '@utils/analytics'
 
 dayjs.extend(relativeTime)
 
@@ -38,7 +40,17 @@ const PinCard: FC<Props> = ({ pin }) => {
       {!pin.hidden ? (
         <>
           <div className="overflow-hidden relative flex flex-col items-center">
-            <Link href={`/pin/${pin.id}`} className='cursor-zoom group w-full flex bg-gray-100 dark:bg-gray-700 rounded-lg relative flex-col' onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+            <Link 
+              onClick={() => {
+                Analytics.track('clicked_from_pin_card_pin_link', {
+                  pin_id: pin.id
+                })
+              }}
+              href={`/pin/${pin.id}`} 
+              className='cursor-zoom group w-full flex bg-gray-100 dark:bg-gray-700 rounded-lg relative flex-col' 
+              onMouseEnter={() => setShow(true)} 
+              onMouseLeave={() => setShow(false)}
+            >
               <img
                 alt={`Pin by ${formatHandle(pin.profile?.handle)}`}
                 src={thumbnailUrl}
@@ -58,14 +70,23 @@ const PinCard: FC<Props> = ({ pin }) => {
             {!isProfile ?
               <>
                 <div className='flex flex-col items-start w-full justify-start px-1 pt-2'>
-                  <Link href={`/${formatHandle(pin.profile?.handle)}`} className="flex space-x-2 items-center">
+                  <Link 
+                    onClick={() => {
+                      Analytics.track('clicked_from_pin_card_profile_link', {
+                        pin_id: pin.id,
+                        profile_id: pin.profile?.id
+                      })
+                    }}
+                    href={`/${formatHandle(pin.profile?.handle)}`} 
+                    className="flex space-x-2 items-center"
+                  >
                     <img
                       className="w-7 h-7 rounded-full"
                       src={getProfilePicture(pin.profile)}
                       alt={pin.profile?.handle}
                       draggable={false}
                     />
-                    <div className='flex items-center'>
+                    <div className='flex space-x-0.5 items-center'>
                       <span className='text-sm text-light text-gray-500 dark:text-gray-200 hover:text-gray-800'>{pin.profile?.name ?? formatHandle(pin.profile?.handle)}</span>
                       <IsVerified id={pin.profile?.id} size='xs' />
                     </div>

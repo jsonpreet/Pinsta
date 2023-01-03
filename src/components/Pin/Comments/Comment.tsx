@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import InterweaveContent from '@components/Common/InterweaveContent'
 import IsVerified from '@components/UI/IsVerified'
 import clsx from 'clsx'
@@ -52,7 +53,7 @@ const Comment: FC<Props> = ({ comment }) => {
           <span className="flex items-center mb-1 space-x-1">
             <Link
               href={`/${formatHandle(comment?.profile?.handle)}`}
-              className="flex items-center space-x-1 text-sm font-medium"
+              className="flex items-center hover:text-red-500 space-x-1 text-sm font-medium"
             >
               <span>{comment?.profile?.name ?? formatHandle(comment?.profile?.handle)}</span>
               <IsVerified id={comment?.profile.id} />

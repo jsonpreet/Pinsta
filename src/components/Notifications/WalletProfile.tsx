@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import formatAddress from '@utils/functions/formatAddress';
 import getStampFyiURL from '@utils/functions/getStampFyiURL';
 import { AVATAR, POLYGONSCAN_URL } from '@utils/constants';
