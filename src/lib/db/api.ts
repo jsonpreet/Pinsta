@@ -39,3 +39,14 @@ export const checkSavedPin = async ({ queryKey } : any) => {
     const { data } = await axios.get(`/pins?type=checkSaved&pin=${pinId}&id=${user}`);
     return data;
 }
+
+export const getBoardBySlug = async (slug: string) => {
+    const { data } = await axios.get(`/boards?type=boardBySlug&slug=${slug}`);
+    return data;
+}
+
+// export const getBoardBySlug = async ({ queryKey } : any) => {
+//     const [_key, { slug }] = queryKey
+//     const { data } = await axios.get(`/boards?type=boardBySlug&slug=${slug}`);
+//     return data;
+// }

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import formatHandle from '@utils/functions/formatHandle';
 import IsVerified from '@components/UI/IsVerified';
 import getProfilePicture from '@utils/functions/getProfilePicture';
@@ -27,7 +28,7 @@ export const NotificationProfileName: FC<Props> = ({ profile }) => {
   return (
     <Link
       href={`/${formatHandle(profile?.handle)}`}
-      className="inline-flex items-center space-x-1 truncate text-sm font-semibold"
+      className="inline-flex items-center truncate text-sm font-semibold"
     >
       <div>{profile?.name ?? formatHandle(profile?.handle)}</div>
       <IsVerified id={profile?.id} size='xs'/>

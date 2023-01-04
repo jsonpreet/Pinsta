@@ -8,7 +8,6 @@ import { toast } from 'react-hot-toast'
 import imageCdn from '@utils/functions/imageCdn'
 import { BsPencilSquare, BsTrash } from 'react-icons/bs'
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import formatTime from '@utils/functions/formatTime'
 // @ts-ignore
 import dayjsTwitter from 'dayjs-twitter';
@@ -32,13 +31,12 @@ const Board: FC<Props> = ({ board, profile }) => {
     }
 
     const deleteBoard = async (id: string) => {
-        const res = await axios.post(`/boards`, {
+        return await axios.post(`/boards`, {
             type: 'delete',
             data: {
                 id: `${id}`,
             }
         })
-        return res
     }
 
     const totalPins = isFetched ? data?.length : 0
@@ -91,7 +89,7 @@ const Board: FC<Props> = ({ board, profile }) => {
                     <div className='flex flex-col space-y-1'>
                         <h3 className='font-semibold text-base'>{board.name}</h3>
                         <div className='flex text-sm'>
-                            <span>{totalPins} Pins</span>
+                            <span>{`${totalPins} ${totalPins > 1 ? `Pins` : `Pin`}`}</span>
                             <span className='middot'></span>
                             <span title={formatTime(board.created_at)}>
                                 {/* @ts-ignore */}

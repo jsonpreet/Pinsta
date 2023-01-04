@@ -37,6 +37,15 @@ export const FetchProfilePins = (user : string) => {
     )
 }
 
+// export const FetchBoardBySlug = (slug : string) => {
+//     return useQuery([['board', slug], { slug }], api.getBoardBySlug,
+//         {
+//             enabled: !!slug,
+//             keepPreviousData: true,
+//         }
+//     )
+// }
+
 export const CheckSavedPin = (user : string | null, pinId: string) => {
     return useQuery([['saved_pin', `${user}_${pinId}`], { user, pinId }], api.checkSavedPin,
         {

@@ -64,25 +64,26 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
         } as any
         
         setLoading(true)
-
-        const checkName = await axios.get(`/api/boards?type=checkName&name=${boardName}&profile=${currentProfileId}`)
-        if (!checkName.data.success) {
-            setLoading(false)
-            toast.error('Board name already exists!')
-            return
-        }
-
-        const response = await axios.post(`/api/boards`, 
-            {type: 'update', data: request}
-        )
-        if (response && response.status === 200) {
-            setLoading(false)
-            console.log('Board updated!')
-            toast.success('Board updated successfully!')
+        if (boardName.trim().toLowerCase() === board?.name.trim().toLowerCase()) {
+            const response = await axios.post(`/api/boards`,
+                { type: 'update', data: request }
+            )
+            if (response && response.status === 200) {
+                setLoading(false)
+                console.log('Board updated!')
+                toast.success('Board updated successfully!')
+            } else {
+                setLoading(false)
+                console.log('Error updating board', response)
+                toast.error('Error on updating board!')
+            }
         } else {
-            setLoading(false)
-            console.log('Error updating board', response)
-            toast.error('Error on updating board!')
+            const checkName = await axios.get(`/api/boards?type=checkName&name=${boardName}&profile=${currentProfileId}`)
+            if (!checkName.data.success) {
+                setLoading(false)
+                toast.error('Board name already exists!')
+                return
+            }
         }
     }
 

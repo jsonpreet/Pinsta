@@ -14,7 +14,7 @@ import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, Wha
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import { Button } from '@components/UI/Button'
 import { FiShare2 } from "react-icons/fi";
-import { CheckSavedPin, FetchProfileBoards } from '@lib/db/actions'
+import { FetchProfileBoards } from '@lib/db/actions'
 import DropMenu from '@components/UI/DropMenu'
 import { Input } from '@components/UI/Input'
 import axios from '@utils/axios'
@@ -94,6 +94,10 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
     }
 
     const savePinToBoard = async (board?: any) => {
+        if (!currentProfileId) {
+            toast.error(SIGN_IN_REQUIRED_MESSAGE);
+            return
+        }
         setLoading(true)
         const request = {
             board: board ? `${board.id}` : '',
@@ -204,8 +208,8 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                     </div>
                 </div>
                 <div className='space-x-5 items-center flex flex-row'>
-                    {currentProfileId &&
-                        !isSaved ?
+                    {currentProfileId ?
+                        (!isSaved) ?
                             <div className='flex-1'>
                                 <DropMenu
                                     trigger={
@@ -310,6 +314,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                         <span className='text-base font-semibold'>{boardName}</span>
                                     </Link>
                                 </div>
+                        : null
                     }
                     {currentProfileId ?
                         (isSaved) ?
