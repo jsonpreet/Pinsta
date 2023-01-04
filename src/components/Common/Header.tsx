@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button } from '@components/UI/Button'
 import clsx from 'clsx'
 import type { FC } from 'react'
@@ -14,6 +15,7 @@ import usePersistStore from '@lib/store/persist'
 import ThemeSwitch from '@components/Common/ThemeSwitch'
 import Notifications from '@components/Notifications/Menu'
 import CreateMenu from '@components/Common/Menu/CreateMenu'
+import { Analytics } from '@utils/analytics'
 
 type Props = {
   className?: string
@@ -29,7 +31,7 @@ const Header: FC<Props> = ({ className }) => {
     <>
       <div
         className={clsx(
-          'fixed py-3 z-30 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
+          'relative py-3 z-30 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
           className
         )}
       >
@@ -38,6 +40,9 @@ const Header: FC<Props> = ({ className }) => {
             <div className='flex items-center'>
               <div className="mr-1">
                 <Link
+                  onClick={() => {
+                    Analytics.track('clicked_on_header_logo')
+                  }}
                   href={HOME}
                   className="flex space-x-2 items-center"
                 >
@@ -47,12 +52,12 @@ const Header: FC<Props> = ({ className }) => {
                     className="w-8 h-8"
                     alt={APP.Name}
                   />
-                  <span className='font-black text-3xl tracking-wider text-gray-800 dark:text-white uppercase hidden md:inline-flex'>Pinsta</span>
+                  <span className='font-black text-xl lg:text-3xl tracking-wider text-gray-800 dark:text-white uppercase hidden md:inline-flex'>Pinsta</span>
                 </Link>
               </div>
               <Menu/>
             </div>
-            <div className="hidden md:block w-[calc(100%-600px)]">
+            <div className="hidden md:block flex-1">
               <GlobalSearchBar />
             </div>
             <div className="flex flex-row items-center justify-end space-x-2 md:space-x-3">

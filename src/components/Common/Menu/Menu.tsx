@@ -1,5 +1,6 @@
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
+import { Analytics } from '@utils/analytics'
 import { EXPLORE, HOME, LATEST } from '@utils/paths'
 import clsx from 'clsx'
 import Link from 'next/link'
@@ -31,9 +32,12 @@ const HeaderMenu = () => {
     const MenuLink = ({ isActive, route, children }: { isActive: boolean, route: string, children: React.ReactNode }) => {
         return (
             <Link
+                onClick={() => {
+                    Analytics.track(`clicked_on_menu_link_${route}`)
+                }}
                 href={route}
                 className={clsx(
-                    'flex items-center px-5 py-1.5 focus-visible:outline-none focus:outline-none rounded-full group duration-75 delay-75',
+                    'flex items-center px-4 py-1.5 focus-visible:outline-none focus:outline-none rounded-full group duration-75 delay-75',
                     isActive ?
                         'bg-gray-900 hover:bg-gray-900 dark:bg-white dark:hover:bg-white' :
                         'dark:hover:bg-white hover:bg-gray-900'

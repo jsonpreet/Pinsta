@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button } from '@components/UI/Button'
 import DropMenu, { NextLink } from '@components/UI/DropMenu'
 import { Menu } from '@headlessui/react'
@@ -19,6 +20,7 @@ import { BiExit } from 'react-icons/bi'
 import formatHandle from '@utils/functions/formatHandle'
 import { MdSwitchAccount } from 'react-icons/md'
 import IsVerified from '../../UI/IsVerified'
+import { Analytics } from '@utils/analytics'
 
 const UserMenu = () => {
   const setProfiles = useAppStore((state) => state.setProfiles)
@@ -72,6 +74,9 @@ const UserMenu = () => {
         trigger={
           <Button
             className="!p-0 flex-none"
+            onClick={() => {
+              Analytics.track(`clicked_on_profile_menu`, { profile: currentProfile?.handle})
+            }}
           >
             <img
               className="object-cover focus:ring-0 focus-visible:outline-none focus:outline-none bg-white rounded-full dark:bg-theme w-8 h-8 md:w-9 md:h-9"

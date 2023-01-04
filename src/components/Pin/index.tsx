@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import MetaTags from '@components/Common/MetaTags'
 import PinShimmer from '@components/Shimmers/PinShimmer'
 import useAppStore from '@lib/store'
@@ -23,6 +24,8 @@ import Comments from './Comments'
 import clsx from 'clsx'
 import RelatedPins from './Related'
 import { directCheckSavedPin, getBoard } from '@lib/db/api'
+import Link from 'next/link'
+import { Analytics } from '@utils/analytics'
 
 const Pin: NextPage = () => {
     const router = useRouter()
@@ -112,16 +115,32 @@ const Pin: NextPage = () => {
                             <div className='flex flex-col lg:flex-row overflow-visible'>
                                 <div className='relative flex-none w-full lg:w-2/4'>
                                     <div className={clsx(
-                                        'w-full h-full min-h-[500px] flex flex-col items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
+                                        'w-full h-full relative md:min-h-[500px] flex flex-col items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
                                             // pin.stats.totalAmountOfComments > 3 ? 'justify-center' : 'justify-start'
                                         )}
                                     >
-                                        <img 
-                                            className='rounded-xl object-cover' 
-                                            alt={`Pin by @${pin.profile.handle}`} 
-                                            src={imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} 
-                                            onLoad={() => setLoading(false)}
-                                        />
+                                        <div className='sticky top-2'>
+                                            <img 
+                                                className='rounded-xl object-cover' 
+                                                alt={`Pin by @${pin.profile.handle}`} 
+                                                src={imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} 
+                                                onLoad={() => setLoading(false)}
+                                            />
+                                            {!isLoading ?
+                                                <Link 
+                                                    href={getThumbnailUrl(pin)}
+                                                    target='_blank'
+                                                    onClick={() => {
+                                                        Analytics.track(`clicked_on_view_original_from_pin_${pin.id}`);
+                                                    }}
+                                                    rel='noopener noreferrer'
+                                                    className='absolute bottom-2 z-30 left-2 bg-black/60 py-1 px-2 rounded-md text-white shadow font-semibold text-sm'
+                                                >
+                                                    View Original
+                                                </Link>
+                                            : null
+                                            }
+                                        </div>
                                         {isLoading ?
                                             <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-bl-3xl rounded-tl-3xl justify-center'>
                                                 <Loader/>
@@ -137,7 +156,13 @@ const Pin: NextPage = () => {
                                         <InterweaveContent content={!readMore ? pin?.metadata?.content : `${pin?.metadata?.content?.substring(0, 300)}...`}/>
                                             
                                         {readMore &&
-                                            <button className='ml-1 font-semibold hover:underline' onClick={() => setReadMore(false)}>
+                                            <button 
+                                                className='ml-1 font-semibold hover:underline' 
+                                                onClick={() => {
+                                                    setReadMore(false)
+                                                    Analytics.track(`clicked_on_read_less_from_pin_${pin.id}`);
+                                                }}
+                                            >
                                                 Read More
                                             </button>
                                         }

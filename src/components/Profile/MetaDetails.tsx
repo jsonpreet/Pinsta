@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 
 import getAttribute from '@utils/functions/getAttribute';
 import clsx from 'clsx';
@@ -9,6 +10,7 @@ import { HiHashtag } from 'react-icons/hi2';
 import { Tooltip } from '@components/UI/Tooltip';
 import { useTheme } from 'next-themes';
 import { Profile } from '@utils/lens/generated';
+import { BsGlobe } from 'react-icons/bs';
 
 const MetaDetails = ({ profile }: { profile: Profile }) => {
     const { resolvedTheme } = useTheme();
@@ -49,18 +51,19 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
                 {getAttribute(profile?.attributes, 'website') && (
                     <Meta
                         icon={
-                            <img
-                                src={`https://www.google.com/s2/favicons?domain=${getAttribute(
-                                    profile?.attributes,
-                                    'website'
-                                )
-                                    ?.replace('https://', '')
-                                    .replace('http://', '')}`}
-                                className="w-4 h-4 rounded-full"
-                                height={16}
-                                width={16}
-                                alt="Website"
-                            />
+                            <BsGlobe size={14} />
+                            // <img
+                            //     src={`https://www.google.com/s2/favicons?domain=${getAttribute(
+                            //         profile?.attributes,
+                            //         'website'
+                            //     )
+                            //         ?.replace('https://', '')
+                            //         .replace('http://', '')}`}
+                            //     className="w-4 h-4 rounded-full"
+                            //     height={16}
+                            //     width={16}
+                            //     alt="Website"
+                            // />
                         }
                     >
                         <a
@@ -70,7 +73,8 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
                             target="_blank"
                             rel="noreferrer noopener me"
                         >
-                            {getAttribute(profile?.attributes, 'website')?.replace('https://', '').replace('http://', '')}
+                            {/* {getAttribute(profile?.attributes, 'website')?.replace('https://', '').replace('http://', '')} */}
+                            Website
                         </a>
                     </Meta>
                 )}

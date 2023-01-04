@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import formatHandle from '@utils/functions/formatHandle';
 import IsVerified from '@components/UI/IsVerified';
 import getProfilePicture from '@utils/functions/getProfilePicture';

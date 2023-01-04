@@ -1,6 +1,7 @@
 import { Button } from '@components/UI/Button'
 import DropMenu from '@components/UI/DropMenu'
 import useAppStore from '@lib/store'
+import { Analytics } from '@utils/analytics'
 import { FC } from 'react'
 import { BsPinAngle } from 'react-icons/bs'
 import { HiPlus } from 'react-icons/hi'
@@ -15,6 +16,9 @@ const CreateMenu: FC = () => {
             <DropMenu
                 trigger={
                     <Button
+                        onClick={() => {
+                            Analytics.track(`clicked_on_create_menu_link`)
+                        }}
                         variant='light'
                         className='flex items-center justify-center w-10 h-10 rounded-full'
                     >

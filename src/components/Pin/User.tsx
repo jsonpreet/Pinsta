@@ -10,6 +10,7 @@ import getProfilePicture from '@utils/functions/getProfilePicture'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { FC, useState } from 'react'
+import { Analytics } from '@utils/analytics'
 
 type Props = {
   pin: PinstaPublication
@@ -24,7 +25,15 @@ const User: FC<Props> = ({ pin }) => {
             <div className='flex justify-between w-full items-center'>
                 <div className='flex justify-center'>
                     <div className='image bg-gray-300 dark:bg-gray-900 rounded-full w-12 h-12'>
-                        <Link href={`/${formatHandle(pin?.profile?.handle)}`}>
+                        <Link 
+                            onClick={() => {
+                                Analytics.track('clicked_from_pin_profile_image_link', {
+                                    profileId: pin?.profile?.id,
+                                    profileHandle: pin?.profile?.handle,
+                                });
+                            }}
+                            href={`/${formatHandle(pin?.profile?.handle)}`}
+                        >
                             <Image
                                 className={`rounded-full w-12 h-12`}
                                 alt={`${formatHandle(pin?.profile?.handle)}'s profile picture`}
@@ -36,7 +45,16 @@ const User: FC<Props> = ({ pin }) => {
                     </div>
                     <div className='flex flex-col ml-2 items-start justify-center'>
                         <div>
-                            <Link href={`/${formatHandle(pin?.profile?.handle)}`} className='flex justify-center items-center'>
+                            <Link 
+                                onClick={() => {
+                                    Analytics.track('clicked_from_pin_profile_link', {
+                                        profileId: pin?.profile?.id,
+                                        profileHandle: pin?.profile?.handle,
+                                    });
+                                }}
+                                href={`/${formatHandle(pin?.profile?.handle)}`} 
+                                className='flex justify-center items-center'
+                            >
                                 <span className="mr-1 dark:text-white text-black hover:text-red-500 font-semibold leading-none">{pin?.profile?.name ?? formatHandle(pin?.profile?.handle)}</span>
                                 <IsVerified id={pin?.profile?.id} size='sm' color='text-red-600' />
                             </Link>
@@ -54,21 +72,21 @@ const User: FC<Props> = ({ pin }) => {
                         currentProfile && currentProfile?.id !== pin?.profile?.id &&
                         followType !== 'RevertFollowModuleSettings' ? (
                         following ? (
-                        <div className="flex space-x-2">
-                            <Unfollow profile={pin?.profile} setFollowing={setFollowing} showText />
-                            {followType === 'FeeFollowModuleSettings' && (
-                                <SuperFollow profile={pin?.profile} setFollowing={setFollowing} again />
-                            )}
-                        </div>
+                            <div className="flex space-x-2">
+                                <Unfollow profile={pin?.profile} setFollowing={setFollowing} showText />
+                                {followType === 'FeeFollowModuleSettings' && (
+                                    <SuperFollow profile={pin?.profile} setFollowing={setFollowing} again />
+                                )}
+                            </div>
                         ) : followType === 'FeeFollowModuleSettings' ? (
-                        <div className="flex space-x-2">
-                            <SuperFollow profile={pin?.profile} setFollowing={setFollowing} showText />
-                        </div>
+                            <div className="flex space-x-2">
+                                <SuperFollow profile={pin?.profile} setFollowing={setFollowing} showText />
+                            </div>
                         ) : (
-                        <div className="flex space-x-2">
-                            <Follow profile={pin?.profile} setFollowing={setFollowing} showText />
-                        </div>
-                            )
+                            <div className="flex space-x-2">
+                                <Follow profile={pin?.profile} setFollowing={setFollowing} showText />
+                            </div>
+                        )
                         ): null
                     }
                 </div>
