@@ -10,12 +10,10 @@ import { FC } from 'react'
 import { useInView } from 'react-cool-inview'
 
 type Props = {
-    pins: BoardPinsType[],
     postIds: string[],
-    profile: Profile
 }
 
-const BoardPins: FC<Props> = ({ postIds, profile }) => {
+const BoardPins: FC<Props> = ({ postIds }) => {
 
     const currentProfile = useAppStore((state) => state.currentProfile);
 

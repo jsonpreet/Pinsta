@@ -47,7 +47,7 @@ const Board: NextPage<Props> = ({ board }) => {
                 {isFetched && userProfile ?
                     <>
                         <BoardInfo pins={pins} profile={userProfile} board={board} />
-                        <BoardPins pins={pins} profile={userProfile} postIds={postIds} />
+                        <BoardPins postIds={postIds} />
                     </>
                     : <TimelineShimmer/>
                 }

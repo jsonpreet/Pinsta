@@ -80,7 +80,7 @@ const UserMenu = () => {
           >
             <img
               className="object-cover focus:ring-0 focus-visible:outline-none focus:outline-none bg-white rounded-full dark:bg-theme w-8 h-8 md:w-9 md:h-9"
-              src={getProfilePicture(currentProfile)}
+              src={getProfilePicture(currentProfile, 'avatar')}
               alt={currentProfile.handle}
               draggable={false}
             />

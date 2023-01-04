@@ -17,6 +17,7 @@ export const IS_MAINNET = LENS_ENV === 'mainnet'
 export const RELAYER_ENABLED = true
 
 export const MIXPANEL_TOKEN = process.env.NEXT_PUBLIC_MIX_PANEL_ID
+export const MIXPANEL_API_HOST = '/collect'
 
 export const PINSTA_API_URL = process.env.NEXT_PUBLIC_PINSTA_API_URL
 

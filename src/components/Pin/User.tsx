@@ -39,7 +39,7 @@ const User: FC<Props> = ({ pin }) => {
                                 alt={`${formatHandle(pin?.profile?.handle)}'s profile picture`}
                                 width={48}
                                 height={48}
-                                src={getProfilePicture(pin?.profile)}
+                                src={getProfilePicture(pin?.profile, 'avatar')}
                             />
                         </Link>
                     </div>

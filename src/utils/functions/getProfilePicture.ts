@@ -6,7 +6,7 @@ import sanitizeIpfsUrl from './sanitizeIpfsUrl'
 
 const getProfilePicture = (
   channel: Profile,
-  type: 'avatar' | 'avatar_lg' | 'thumbnail' = 'avatar'
+  type: 'avatar_sm' | 'avatar' | 'avatar_lg' | 'thumbnail' = 'avatar_sm'
 ): string => {
   const url =
     channel.picture && channel.picture.__typename === 'MediaSet'

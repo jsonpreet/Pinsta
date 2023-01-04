@@ -9,7 +9,7 @@ import { useTheme } from 'next-themes'
 import type { FC, ReactNode } from 'react'
 import React, { useEffect } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
-import { POLYGON_CHAIN_ID } from '@utils/constants'
+import { MIXPANEL_API_HOST, MIXPANEL_TOKEN, POLYGON_CHAIN_ID } from '@utils/constants'
 import { CustomErrorWithData } from '@utils/custom-types'
 import clearLocalStorage from '@utils/functions/clearLocalStorage'
 import { getIsAuthTokensAvailable } from '@utils/functions/getIsAuthTokensAvailable'
@@ -23,6 +23,11 @@ import CategoriesList from './CategoriesList'
 import BetaNotification from './BetaNotification'
 import CreateProfile from './Modals/CreateProfile'
 import TrendingTags from './TrendingTags';
+import mixpanel from 'mixpanel-browser'
+
+if (MIXPANEL_TOKEN) {
+    mixpanel.init(MIXPANEL_TOKEN)
+}
 
 interface Props {
   children: ReactNode

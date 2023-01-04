@@ -94,7 +94,11 @@ const Like: FC<Props> = ({ pin, isComment = false }) => {
         <>
             <motion.button whileTap={{ scale: 0.9 }} onClick={createLike} aria-label="Like">
                 <div className="flex flex-row justify-center items-center">
-                    {liked ? <HiHeart size={isComment ? 15 : 19} /> : <HiOutlineHeart size={isComment ? 15 : 19} />}
+                    {liked ?
+                        <HiHeart className='text-red-500' size={isComment ? 15 : 20} />
+                        :
+                        <HiOutlineHeart size={isComment ? 15 : 20} />
+                    }
                     <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{count}</span>
                 </div>                
             </motion.button>

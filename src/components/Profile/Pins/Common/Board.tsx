@@ -48,11 +48,15 @@ const Board: FC<Props> = ({ board, profile }) => {
                 <Link
                     href={`/${formatHandle(profile?.handle)}/${board.slug}`}
                 >
-                    <div className='mb-4 relative'>
+                    <div
+                        className='mb-4 relative h-56 overflow-hidden rounded-lg'
+                        style={{ backgroundImage: `url(${board?.pfp ? imageCdn(board?.pfp, 'thumbnail') : '/patterns/2.png'})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                    >
                         <img
-                        alt={board.name}
-                        src={board?.pfp ? imageCdn(board?.pfp, 'thumbnail') : '/patterns/2.png'}
-                            className='w-full rounded-lg' />  
+                            alt={board.name}
+                            src={board?.pfp ? imageCdn(board?.pfp, 'thumbnail') : '/patterns/2.png'}
+                            className='w-full hidden rounded-lg'
+                        />  
                         <div className='absolute group-hover:flex space-x-3 hidden top-2 right-4'>
                             <div>
                                 <button
@@ -87,7 +91,7 @@ const Board: FC<Props> = ({ board, profile }) => {
                         </div>
                     </div>  
                     <div className='flex flex-col space-y-1'>
-                        <h3 className='font-semibold text-base'>{board.name}</h3>
+                        <h3 className='font-semibold text-base group-hover:text-red-500'>{board.name}</h3>
                         <div className='flex text-sm'>
                             <span>{`${totalPins} ${totalPins > 1 ? `Pins` : `Pin`}`}</span>
                             <span className='middot'></span>
