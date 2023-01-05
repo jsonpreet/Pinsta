@@ -70,13 +70,11 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
         
         setLoading(true)
         const request = {
-            board: currentBoard ?? null,
-            user: currentProfileId,
-            post: pin.id
+            board_id: currentBoard ?? null,
+            user_id: currentProfileId,
+            post_id: pin.id
         }
-        return axios.post(`/api/pins`, 
-            {type: 'unsave', data: request}
-        ).then((res) => {
+        return axios.post(`/unsave-pin`,request).then((res) => {
             if (res.status === 200) {
                 console.log('Pin removed!')
                 toast.success('Pin removed!')
@@ -102,15 +100,12 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
         }
         setLoading(true)
         const request = {
-            board: board ? `${board.id}` : '',
-            user: currentProfileId,
-            post: pin?.id
+            board_id: board ? `${board.id}` : null,
+            user_id: currentProfileId,
+            post_id: pin.id
         }
-        const response = await axios.post(`/api/pins`, 
-            {type: 'save', data: request}
-        )
-        
-        if (response && response.status === 200) {
+        return await axios.post(`/save-pin`, request).then((res) => {
+        if (res.status === 200) {
             setLoading(false)
             onCancel()
             setIsSaved(true)
@@ -118,10 +113,15 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             setBoardURL(`${formatHandle(currentProfile?.handle)}${board ? `/${board?.slug}` : ''}`)
             toast.success(`Pin saved to ${board?.name ?? 'your profile'}`)
         } else {
-            console.log('Error creating board', response)
+                console.log('Error creating board', res)
+                setLoading(false)
+                toast.error('Error on saving pin!')
+            }
+        }).catch((err) => {
+            console.log('Error creating board', err)
             setLoading(false)
             toast.error('Error on saving pin!')
-        }
+        })
     }
 
     const shareRef = useDetectClickOutside({ onTriggered: closeSharePopUp, triggerKeys: ['Escape', 'x'], });

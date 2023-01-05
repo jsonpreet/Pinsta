@@ -14,11 +14,10 @@ import Custom404 from '@pages/404'
 import TimelineShimmer from '@components/Shimmers/TimelineShimmer'
 
 interface Props {
-    board: BoardType
+    board: any
 }
 
 const Board: NextPage<Props> = ({ board }) => {
-
     const { query } = useRouter()
     const username = query.username ?? ''
     const handle = formatHandle(username as string, true);
@@ -31,10 +30,8 @@ const Board: NextPage<Props> = ({ board }) => {
         },
         skip: !handle
     })
-    // @ts-ignore
-    const { isLoading, isFetched, isError, data : pins } = FetchBoardPins(board.id)
 
-    const postIds = isFetched && pins?.map((pin: { postId: string }) => pin.postId)
+    const postIds = board?.pins?.map((pin: { post_id: string }) => pin.post_id)
 
     //if (!data?.profile) return <Custom404 />
     
@@ -44,9 +41,9 @@ const Board: NextPage<Props> = ({ board }) => {
         <>
             <MetaTags title={`${board?.name} :: Pinsta`} />
             <div className='flex flex-col'>
-                {isFetched && userProfile ?
+                {userProfile ?
                     <>
-                        <BoardInfo pins={pins} profile={userProfile} board={board} />
+                        <BoardInfo profile={userProfile} board={board} />
                         <BoardPins postIds={postIds} />
                     </>
                     : <TimelineShimmer/>

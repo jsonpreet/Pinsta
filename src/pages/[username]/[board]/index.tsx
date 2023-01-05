@@ -11,7 +11,7 @@ export const getServerSideProps = async (ctx : any) => {
 
     return {
         props: {
-            board: response ? response[0] : null
+            board: response ? response.data[0] : null
         },
     }
 }

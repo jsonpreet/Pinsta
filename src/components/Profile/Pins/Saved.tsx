@@ -29,8 +29,7 @@ const Saved: FC<Props> = ({ profile }) => {
         )
     } 
 
-    const boards = data as BoardType[]
-    console.log(boards)
+    const boards = data.data as BoardType[]
     return (
         <>
             <div className='flex flex-col space-y-6'>

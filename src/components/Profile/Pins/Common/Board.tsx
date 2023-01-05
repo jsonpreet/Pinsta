@@ -14,6 +14,7 @@ import dayjsTwitter from 'dayjs-twitter';
 import EditBoardModal from '@components/Common/Modals/EditBoard'
 import Link from 'next/link'
 import formatHandle from '@utils/functions/formatHandle'
+import usePersistStore from '@lib/store/persist'
 
 dayjs.extend(dayjsTwitter);
 
@@ -23,23 +24,12 @@ interface Props {
 }
 
 const Board: FC<Props> = ({ board, profile }) => {
-    const { isLoading, isFetched, isError, data } = FetchProfileBoardPins(board.id, profile?.id)
+    const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const [showEditBoard, setShowEditBoard] = useState(false)
 
-    if (isFetched && isError) {
-        toast.error('Something went wrong')
-    }
-
     const deleteBoard = async (id: string) => {
-        return await axios.post(`/boards`, {
-            type: 'delete',
-            data: {
-                id: `${id}`,
-            }
-        })
+        return await axios.post(`/delete-board`, { user_id: currentProfileId, board_id: id})
     }
-
-    const totalPins = isFetched ? data?.length : 0
 
     return (
         <>
@@ -93,7 +83,7 @@ const Board: FC<Props> = ({ board, profile }) => {
                     <div className='flex flex-col space-y-1'>
                         <h3 className='font-semibold text-base group-hover:text-red-500'>{board.name}</h3>
                         <div className='flex text-sm'>
-                            <span>{`${totalPins} ${totalPins > 1 ? `Pins` : `Pin`}`}</span>
+                            <span>{`${board?.pins?.length} ${board?.pins?.length > 1 ? `Pins` : `Pin`}`}</span>
                             <span className='middot'></span>
                             <span title={formatTime(board.created_at)}>
                                 {/* @ts-ignore */}

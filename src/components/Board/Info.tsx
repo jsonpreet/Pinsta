@@ -28,12 +28,11 @@ import { FiShare2 } from 'react-icons/fi';
 dayjs.extend(dayjsTwitter);
 
 type Props = {
-    board: BoardType,
-    pins: BoardPinsType[],
+    board: any,
     profile: Profile
 }
 
-const BoardInfo: FC<Props> = ({ board, pins, profile }) => {
+const BoardInfo: FC<Props> = ({ board, profile }) => {
     const currentProfile = useAppStore((state) => state.currentProfile)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const [showEditBoard, setShowEditBoard] = useState(false)
@@ -50,12 +49,7 @@ const BoardInfo: FC<Props> = ({ board, pins, profile }) => {
     }
 
     const deleteBoard = async (id: string) => {
-        return await axios.post(`/boards`, {
-            type: 'delete',
-            data: {
-                id: `${id}`,
-            }
-        })
+        return await axios.post(`/delete-board`, {user_id: currentProfileId, board_id: id})
     }
 
     const shareRef = useDetectClickOutside({ onTriggered: closeSharePopUp, triggerKeys: ['Escape', 'x'], });
@@ -117,7 +111,7 @@ const BoardInfo: FC<Props> = ({ board, pins, profile }) => {
                 </div>
                 <span className='text-gray-500 text-base ml-2'>{board?.description}</span>
                 <div className='flex items-center text-sm'>
-                    <span>{`${pins ? pins?.length : 0} ${pins?.length > 1 ? `Pins` : `Pin`}`}</span>
+                    <span>{`${board?.pins?.length} ${board?.pins?.length > 1 ? `Pins` : `Pin`}`}</span>
                     <span className='middot'></span>
                     <span title={formatTime(board.created_at)}>
                         {/* @ts-ignore */}

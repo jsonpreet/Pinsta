@@ -62,31 +62,48 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
             description: boardDescription,
             pfp: pin ? getThumbnailUrl(pin) : '',
             is_private: isPrivate,
-            user: currentProfileId
+            user_id: currentProfileId
         } as any
         
         setLoading(true)
 
-        const checkName = await axios.get(`/api/boards?type=checkName&name=${boardName}&profile=${currentProfileId}`)
-        if (!checkName.data.success) {
+        return await axios.post(`/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
+            if (res.data.data !== null) {
+                setLoading(false)
+                toast.error('Board name already exists!')
+                return
+            } else {
+                createBoard(request)
+                return 
+            }
+        }).catch((err) => {
             setLoading(false)
-            toast.error('Board name already exists!')
-            return
-        }
-
-        const response = await axios.post(`/api/boards`, 
-            {type: 'create', data: request}
-        )
-        if (response && response.status === 200) {
-            console.log('Board created!')
-            toast.success('Board created successfully!')
-            setCurrentBoard(response.data)
-            savePinToBoard(response.data)
-        } else {
-            setLoading(false)
-            console.log('Error creating board', response)
+            console.log(err)
             toast.error('Error on creating board!')
-        }
+            return
+        })
+    }
+
+    const createBoard = async (request: BoardType) => {
+        return await axios.post(`/create-board`, request).then((res) => {
+            if (res.status === 200) {
+                console.log('Board created!')
+                toast.success('Board created successfully!')
+                setCurrentBoard(res.data.data)
+                savePinToBoard(res.data.data)
+                return 
+            } else {
+                setLoading(false)
+                console.log('Error creating board', res)
+                toast.error('Error on creating board!')
+                return 
+            }
+        }).catch((err) => {
+            setLoading(false)
+            console.log(err)
+            toast.error('Error on creating board!')
+            return
+        })
     }
 
     const form = useZodForm({

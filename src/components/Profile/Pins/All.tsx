@@ -14,7 +14,8 @@ const AllPins: FC<Props> = ({profile}) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const { isFetched, isLoading, data: pins } = FetchProfilePins(profile?.id)
 
-    const postIds = isFetched && pins?.map((pin: { postId: string }) => pin.postId)
+
+    const postIds = pins?.length > 0 ? pins?.map((pin: { postId: string }) => pin.postId) : []
 
     if (isLoading) {
         return <TimelineShimmer />
@@ -29,7 +30,7 @@ const AllPins: FC<Props> = ({profile}) => {
                         <BoardPins postIds={postIds} />
                     </div> 
                 </>
-                : <NoDataFound isCenter withImage text="No pins found" />
+                : null
             }
         </>
     )
