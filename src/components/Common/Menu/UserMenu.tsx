@@ -192,7 +192,7 @@ const UserMenu = () => {
                     Account Settings
                   </span>
                 </Link>
-                <button
+                {/* <button
                   type="button"
                   className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -205,7 +205,7 @@ const UserMenu = () => {
                   <span className="truncate whitespace-nowrap">
                     {theme === 'light' ? 'Switch to Dark' : 'Switch to Light'}
                   </span>
-                </button>
+                </button> */}
                 <button
                   type="button"
                   className="flex items-center w-full px-3 py-2 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"

@@ -8,7 +8,6 @@ export const getServerSideProps = async (ctx : any) => {
     
     const response = await getBoardBySlug(board);
 
-
     return {
         props: {
             board: response ? response.data[0] : null

@@ -111,7 +111,7 @@ export type BoardType = {
   name: string;
   description?: string;
   slug: string;
-  user: string;
+  user_id: string;
   pfp?: string;
   cover?: string;
   is_private: boolean;
@@ -124,9 +124,9 @@ export type BoardType = {
 export type BoardsType = BoardType[];
 
 export type BoardPinsType = {
-  user: string;
-  pin: string;
-  board?: string;
+  user_id: string;
+  post_id: string;
+  board_id?: string;
   created_at?: Date;
   updated_at?: Date;
 };

@@ -47,7 +47,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
     const [boardURL, setBoardURL] = useState(`${formatHandle(currentProfile?.handle)}${currentBoard ? `/${currentBoard?.slug}` : ''}`)
     const [boardName, setBoardName] = useState(currentBoard ? currentBoard?.name : 'Profile')
 
-    const { data, isError, isFetched, isLoading } = FetchProfileBoards(currentProfileId)
+    const { data:boards, isError, isFetched, isLoading } = FetchProfileBoards(currentProfileId)
 
     const onCancel = () => {
         setShowCreateBoard(false)
@@ -229,9 +229,9 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                     }
                                 >
                                     <div className='mt-1.5 w-72 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-100 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white'>
-                                        {isFetched && data?.length > 0 ?
+                                        {isFetched && boards.data?.length > 0 ?
                                         <>
-                                            {data.length > 5 && (
+                                            {boards.data.length > 5 && (
                                                 <div className='flex flex-col p-5'>
                                                     <div>
                                                         <Input
@@ -242,11 +242,11 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                                     </div>
                                                 </div>
                                             )}
-                                            <div className='flex flex-col pt-3 divide-y divide-gray-100'>
-                                                {data.map((board : BoardType, index : number) => (
+                                            <div className='flex flex-col divide-y divide-gray-100 dark:divide-gray-700'>
+                                                {boards.data.map((board : BoardType, index : number) => (
                                                     <button
                                                         key={index}
-                                                        className='flex flex-row items-center justify-between px-5 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 text-gray-700 dark:hover:text-white duration-75 delay-75 focus-visible:outline-none focus:outline-none focus:ring-0'
+                                                        className='flex flex-row items-center justify-between px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 text-gray-700 dark:hover:text-white duration-75 delay-75 focus-visible:outline-none focus:outline-none focus:ring-0'
                                                         onClick={() => {
                                                             savePinToBoard(board)
                                                             setCurrentBoard(board)
@@ -254,21 +254,13 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                                     >
                                                         <div className='flex flex-row items-center space-x-3 justify-start text-left'>
                                                             <div>
-                                                                {board.pfp ?
-                                                                    <img 
-                                                                        src={imageCdn(board.pfp, 'thumbnail')} 
-                                                                        className='w-10 h-10 rounded-lg' 
-                                                                        alt='board pfp'
-                                                                    />
-                                                                    :
-                                                                    <span 
-                                                                        className='w-10 h-10 rounded-lg flex justify-center items-center text-center text-gray-500 font-semibold bg-gray-200 dark:bg-gray-400'>
-                                                                        <HiPlus size={18} />
-                                                                    </span>
-                                                                }
+                                                                <span 
+                                                                    className='w-8 h-8 rounded-md flex justify-center items-center text-center text-gray-500 font-semibold bg-gray-200 dark:bg-gray-400'>
+                                                                    <HiPlus size={18} />
+                                                                </span>
                                                             </div>
                                                             <div className='flex flex-col'>
-                                                                <span className='font-semibold text-base'>
+                                                                <span className='font-semibold text-sm'>
                                                                     {board.name}
                                                                 </span>
                                                                 {savedTo?.find(item => item?.boardId === `${board?.id}`) && (
@@ -289,7 +281,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                         }
                                         <div>
                                             <button 
-                                                className='flex items-center justify-between w-full px-5 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 text-gray-700 dark:hover:text-white duration-75 delay-75 focus-visible:outline-none focus:outline-none focus:ring-0'
+                                                className='flex items-center justify-between w-full px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 text-gray-700 dark:hover:text-white duration-75 delay-75 focus-visible:outline-none focus:outline-none focus:ring-0'
                                                 onClick={() => savePinToBoard()}
                                             >
                                                 <span className='flex text-left items-center space-x-3'>
@@ -305,7 +297,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                                 </span>
                                             </button>
                                         </div>
-                                        <div className='py-3 px-5 items-center justify-center flex'>
+                                        <div className='py-4 px-5 items-center justify-center flex'>
                                             <Button
                                                 variant='dark'
                                                 onClick={() => {

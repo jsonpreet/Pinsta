@@ -13,10 +13,10 @@ const cache = new InMemoryCache({
           'request',
           ['sortCriteria', 'noRandomize', 'profileId', 'sources', 'metadata']
         ]),
-        publications: cursorBasedPagination([
-          'request',
-          ['profileId', 'commentsOf', 'publicationTypes', 'sources']
-        ]),
+        // publications: cursorBasedPagination([
+        //   'request',
+        //   ['profileId', 'commentsOf', 'publicationTypes', 'sources']
+        // ]),
         nfts: cursorBasedPagination(['request', ['ownerAddress']]),
         notifications: cursorBasedPagination([
           'request',

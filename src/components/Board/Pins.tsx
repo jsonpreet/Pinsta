@@ -5,7 +5,7 @@ import { NoDataFound } from '@components/UI/NoDataFound'
 import useAppStore from '@lib/store'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
 import { BoardPinsType, PinstaPublication } from '@utils/custom-types'
-import { Profile, PublicationMainFocus, PublicationTypes, useProfilePostsQuery } from '@utils/lens/generated'
+import { Profile, PublicationMainFocus, PublicationTypes, useProfilePostsQuery, usePublicationsByIdsQuery } from '@utils/lens/generated'
 import { FC } from 'react'
 import { useInView } from 'react-cool-inview'
 
@@ -24,7 +24,7 @@ const BoardPins: FC<Props> = ({ postIds }) => {
         metadata: { mainContentFocus: [PublicationMainFocus.Image] },
     }
 
-    const { data, loading, error, fetchMore } = useProfilePostsQuery({
+    const { data, loading, error, fetchMore } = usePublicationsByIdsQuery({
         variables: { request },
         skip: !postIds
     });
@@ -36,16 +36,18 @@ const BoardPins: FC<Props> = ({ postIds }) => {
     const { observe } = useInView({
         rootMargin: SCROLL_ROOT_MARGIN,
         onEnter: async () => {
-        await fetchMore({
-            variables: {
-            request: {
-                ...request,
-                cursor: pageInfo?.next
-            }
-            }
-        })
+            await fetchMore({
+                variables: {
+                    request: {
+                        ...request,
+                        cursor: pageInfo?.next
+                    }
+                }
+            })
         }
     })
+
+    console.log('board publications', pins);
 
     // if (pins?.length === 0) {
     //     return <NoDataFound isCenter withImage text="No pins found" />

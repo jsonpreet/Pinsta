@@ -16,9 +16,8 @@ interface Props {
 const Saved: FC<Props> = ({ profile }) => {
     const { isFetched, isLoading, isError, data } = FetchProfileBoards(profile?.id)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
+    const { isFetched:profilePinsFetched, isLoading:profilePinsLoading, data: pins } = FetchProfilePins(profile?.id)
     
-    //if(isFetched && data.length === 0) return <NoDataFound isCenter withImage text="No pins found" />
-
     if (isLoading) {
         return (
             <>
@@ -29,6 +28,8 @@ const Saved: FC<Props> = ({ profile }) => {
         )
     } 
 
+    if(profilePinsFetched && isFetched && pins?.data?.length === 0 && data?.data?.length === 0) return <NoDataFound isCenter withImage text="No pins found" />
+
     const boards = data.data as BoardType[]
     return (
         <>
@@ -36,10 +37,8 @@ const Saved: FC<Props> = ({ profile }) => {
                 {isFetched ?
                     <div className="grid grid-cols-6 gap-4">
                         {boards.map((board, index) => {
-                            {
-                                const showPrivateBoard = currentProfileId === profile?.id && board.is_private === true ? true : false
-                                if (showPrivateBoard) return null
-                            }
+                            const showPrivateBoard = currentProfileId === board?.user_id ? true : board.is_private
+                            if (!showPrivateBoard) return null
                             return (
                                 <Board key={index} profile={profile} board={board} />
                             )
@@ -47,7 +46,7 @@ const Saved: FC<Props> = ({ profile }) => {
                     </div>
                     : null
                 }
-                <AllPins profile={profile} />
+                {profilePinsFetched && pins?.data.length > 0 && <AllPins profile={profile} pins={pins?.data} />}
             </div>
         </>
     )

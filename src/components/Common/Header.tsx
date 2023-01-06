@@ -16,6 +16,7 @@ import ThemeSwitch from '@components/Common/ThemeSwitch'
 import Notifications from '@components/Notifications/Menu'
 import CreateMenu from '@components/Common/Menu/CreateMenu'
 import { Analytics } from '@utils/analytics'
+import HelpMenu from './Menu/Help'
 
 type Props = {
   className?: string
@@ -77,6 +78,7 @@ const Header: FC<Props> = ({ className }) => {
                 </>
               }   
               <Login />
+              <HelpMenu/>
             </div>
           </div>
         </div>

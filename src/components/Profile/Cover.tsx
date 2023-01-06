@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl';
 import imageCdn from '@utils/functions/imageCdn';
 import { Profile } from '@utils/lens/generated';
-import MetaDetails from './MetaDetails';
+import {LeftMetaDetails, RightMetaDetails} from './MetaDetails';
 
 interface Props {
     cover: string;
@@ -26,8 +26,11 @@ const Cover: FC<Props> = ({ cover, profile }) => {
                         backgroundRepeat: cover ? 'no-repeat' : 'repeat'
                     }}
                 />
+                <div className='absolute bottom-0 left-0'>
+                    <LeftMetaDetails profile={profile} />
+                </div>
                 <div className='absolute bottom-0 right-0'>
-                    <MetaDetails profile={profile} />
+                    <RightMetaDetails profile={profile} />
                 </div>
             </div>
         </>

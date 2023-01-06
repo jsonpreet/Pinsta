@@ -1,0 +1,17 @@
+query PublicationsByIds(
+    $request: PublicationsQueryRequest!
+    $reactionRequest: ReactionFieldResolverRequest
+    $profileId: ProfileId
+) {
+  publications(request: $request) {
+    items {
+      ... on Post {
+        ...PostFields
+      }
+    }
+    pageInfo {
+      next
+      totalCount
+    }
+  }
+}

@@ -12,7 +12,7 @@ import { useTheme } from 'next-themes';
 import { Profile } from '@utils/lens/generated';
 import { BsGlobe } from 'react-icons/bs';
 
-const MetaDetails = ({ profile }: { profile: Profile }) => {
+export const LeftMetaDetails = ({ profile }: { profile: Profile }) => {
     const { resolvedTheme } = useTheme();
     const router = useRouter();
 
@@ -24,7 +24,7 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
     );
     return (
         <>
-            <div className="flex items-center justify-center space-x-5 dark:bg-gray-700/60 dark:ring-gray-600/80 bg-white/80 ring-2 ring-white/90 bg-clip-padding backdrop-blur-xl backdrop-filter shadow-md px-3 py-1 mr-3 rounded-full mb-3">
+            <div className="flex items-center justify-center space-x-5 dark:bg-gray-700/70 dark:ring-gray-600/80 bg-white/80 ring-2 ring-white/90 bg-clip-padding backdrop-blur-xl backdrop-filter shadow-md px-3 py-1 ml-3 rounded-full mb-3">
                 <Meta icon={<HiHashtag className="w-4 h-4" />}>
                     <Tooltip placement='top' content={`#${parseInt(profile?.id)}`}>{profile?.id}</Tooltip>
                 </Meta>
@@ -33,6 +33,24 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
                     {getAttribute(profile?.attributes, 'location') as any}
                     </Meta>
                 )}
+            </div>
+        </>
+    )
+}
+export const RightMetaDetails = ({ profile }: { profile: Profile }) => {
+    const { resolvedTheme } = useTheme();
+    const router = useRouter();
+
+    const Meta = ({ children, icon }: { children: ReactElement; icon: ReactElement }) => (
+        <div className="flex gap-2 items-center">
+            {icon}
+            <div className="truncate text-md">{children}</div>
+        </div>
+    );
+    return (
+        <>
+            {profile?.onChainIdentity?.ens?.name || getAttribute(profile?.attributes, 'website') || getAttribute(profile?.attributes, 'twitter') ? 
+            <div className="flex items-center justify-center space-x-5 dark:bg-gray-700/70 dark:ring-gray-600/80 bg-white/80 ring-2 ring-white/90 bg-clip-padding backdrop-blur-xl backdrop-filter shadow-md px-3 py-1 mr-3 rounded-full mb-3">
                 {profile?.onChainIdentity?.ens?.name && (
                     <Meta
                         icon={
@@ -52,18 +70,6 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
                     <Meta
                         icon={
                             <BsGlobe size={14} />
-                            // <img
-                            //     src={`https://www.google.com/s2/favicons?domain=${getAttribute(
-                            //         profile?.attributes,
-                            //         'website'
-                            //     )
-                            //         ?.replace('https://', '')
-                            //         .replace('http://', '')}`}
-                            //     className="w-4 h-4 rounded-full"
-                            //     height={16}
-                            //     width={16}
-                            //     alt="Website"
-                            // />
                         }
                     >
                         <a
@@ -73,8 +79,7 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
                             target="_blank"
                             rel="noreferrer noopener me"
                         >
-                            {/* {getAttribute(profile?.attributes, 'website')?.replace('https://', '').replace('http://', '')} */}
-                            Website
+                            {getAttribute(profile?.attributes, 'website')?.replace('https://', '').replace('http://', '')}
                         </a>
                     </Meta>
                 )}
@@ -95,8 +100,7 @@ const MetaDetails = ({ profile }: { profile: Profile }) => {
                     </Meta>
                 )}
             </div>
+            : null }
         </>
     )
 }
-
-export default MetaDetails

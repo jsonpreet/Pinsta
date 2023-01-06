@@ -111,7 +111,7 @@ const Pin: NextPage = () => {
                                 </button>
                             </div>
                         </BrowserView>
-                        <div className='w-full max-w-[1024px] shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] dark:bg-gray-800 bg-white rounded-3xl mx-auto'>
+                        <div className='w-full max-w-[1024px] shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] dark:bg-gray-800 bg-white rounded-3xl mx-auto'>
                             <div className='flex flex-col lg:flex-row overflow-visible'>
                                 <div className='relative flex-none w-full lg:w-2/4'>
                                     <div className={clsx(

@@ -13,7 +13,7 @@ import IsVerified from '@components/UI/IsVerified';
 import useAppStore from '@lib/store';
 import usePersistStore from '@lib/store/persist';
 import DropMenu from '@components/UI/DropMenu';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
+import { BiDotsHorizontalRounded, BiDotsVerticalRounded } from 'react-icons/bi';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import EditBoardModal from '@components/Common/Modals/EditBoard';
 import axios from '@utils/axios';
@@ -63,13 +63,13 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
             <EditBoardModal board={board} show={showEditBoard} setShow={setShowEditBoard} />
             <div className='flex flex-col w-full max-w-7xl space-y-2 mx-auto justify-center items-center py-8'>
                 <div className='flex items-center space-x-2'>
-                    <h2 className='text-3xl font-bold'>{board?.name}</h2>
+                    <h2 className='text-4xl font-bold'>{board?.name}</h2>
                     {currentProfile?.id === profile?.id && (
                         <>
                             <DropMenu
                                 trigger={
-                                    <button className='flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200'>
-                                        <BiDotsHorizontalRounded size={24} />
+                                    <button className='flex items-center justify-center'>
+                                        <BiDotsVerticalRounded size={21} />
                                     </button>
                                 }
                             >
