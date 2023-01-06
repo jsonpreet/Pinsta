@@ -5,5 +5,6 @@ export const NOTIFICATIONS = '/notifications'
 export const MESSAGES = '/messages'
 export const SETTINGS = 'settings'
 export const PRIVACY = '/privacy'
+export const SEARCH = '/search'
 
 export const DISCORD = '/discord'

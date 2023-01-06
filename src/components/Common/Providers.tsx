@@ -63,7 +63,7 @@ const RainbowKitProviderWrapper = ({ children }: { children: ReactNode }) => {
     const themeOptions: ThemeOptions = {
         fontStack: 'system',
         overlayBlur: 'small',
-        accentColor: '#6366f1'
+        accentColor: '#ec1e25'
     }
     return (
         <RainbowKitProvider

@@ -22,7 +22,7 @@ const Profiles: FC<Props> = ({ results, loading, clearSearch }) => {
                 <div
                     onClick={() => clearSearch()}
                     key={profile.id}
-                    className="relative pl-3 pr-4 cursor-default select-none hover:bg-gray-100 dark:hover:bg-gray-900"
+                    className="relative px-4 md:rounded-none rounded-lg cursor-default select-none hover:bg-gray-100 dark:hover:bg-gray-900"
                     role="button"
                 >
                     <Link

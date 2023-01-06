@@ -14,6 +14,7 @@ import InterweaveContent from '@components/Common/InterweaveContent';
 import IsVerified from '@components/UI/IsVerified';
 import getProfilePicture from '@utils/functions/getProfilePicture';
 import Followerings from './Followerings';
+import { LeftMetaDetails, RightMetaDetails } from './MetaDetails';
 
 interface Props {
   profile: Profile;
@@ -27,7 +28,7 @@ const Details: FC<Props> = ({ profile }) => {
     
     return (
         <>
-            <div className="mb-10 flex-1 space-y-3 flex flex-col w-full items-center justify-center">
+            <div className="md:mb-10 flex-1 space-y-3 flex flex-col w-full items-center justify-center">
                 <div className="relative -mt-10 w-32 h-32 sm:-mt-24 sm:w-44 sm:h-44">
                     <img
                         src={getProfilePicture(profile, 'avatar_lg')}
@@ -59,6 +60,10 @@ const Details: FC<Props> = ({ profile }) => {
                         <InterweaveContent content={profile?.bio}/>
                     </div>
                 )}
+                {/* <div className='md:hidden flex flex-col space-y-2 px-4'>
+                    <LeftMetaDetails profile={profile} />
+                    <RightMetaDetails profile={profile} />
+                </div> */}
                 {<Followerings profile={profile} />}
                 <div className="pt-2 flex items-center justify-center">
                     { currentProfile && currentProfile?.id !== profile?.id && followType !== 'RevertFollowModuleSettings' ? (

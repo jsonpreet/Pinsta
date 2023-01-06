@@ -12,7 +12,7 @@ type Props = {
 const Timeline: FC<Props> = ({ pins, pinType = 'Post' , currentPinId}) => {
     return (
         <>
-            <div className='-mx-2'>
+            <div className='md:-mx-2 md:px-0 px-2'>
                 <Masonry sx={{ margin: 0 }} columns={{ xs: 2, sm: 2, lg: 4, xl: 6, xxl: 8 }} spacing={2}>
                     {pins?.map((pin: PinstaPublication) => {
                         const isCurrentPin = pin.id === currentPinId

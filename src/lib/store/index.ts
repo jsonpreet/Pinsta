@@ -12,6 +12,8 @@ interface AppState {
     activeSortFilter: string
     showCreateBoard: boolean
     showLoginModal: boolean
+    showSearchModal: boolean
+    setShowSearchModal: (showSearchModal: boolean) => void
     setShowLoginModal: (showLoginModal: boolean) => void
     setShowCreateBoard: (showCreateBoard: boolean) => void
     setActiveSortFilter: (activeSortFilter: string) => void
@@ -29,10 +31,12 @@ export const useAppStore = create<AppState>((set) => ({
     hasNewNotification: false,
     showCreateBoard: false,
     showLoginModal: false,
+    showSearchModal: false,
     userSigNonce: 0,
     currentProfile: null,
     activeTagFilter: 'all',
     activeSortFilter: 'commented',
+    setShowSearchModal: (showSearchModal) => set(() => ({ showSearchModal })),
     setShowLoginModal: (showLoginModal) => set(() => ({ showLoginModal })),
     setShowCreateBoard: (showCreateBoard) => set(() => ({ showCreateBoard })),
     setActiveSortFilter: (activeSortFilter) => set(() => ({ activeSortFilter })),

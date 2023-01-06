@@ -58,7 +58,7 @@ const HeaderMenu = () => {
 
     return (
         <>
-            <div className="flex space-x-1 mx-4">
+            <div className="hidden md:flex space-x-1 mx-4">
                 {MenuItems && MenuItems.map((item) => (
                     <div key={item.route}>
                         <MenuLink isActive={isActivePath(item.route)} route={item.route}>{item.label}</MenuLink>

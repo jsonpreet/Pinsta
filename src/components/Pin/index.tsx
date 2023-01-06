@@ -101,17 +101,15 @@ const Pin: NextPage = () => {
             {!loading && !error && pin ? (
                 <>
                     <div className='md:mt-10 mt-0 flex-none'>
-                        <BrowserView>
-                            <div className='flex flex-col items-center relative justify-center'>
-                                <button
-                                    className='absolute top-0 left-0 z-10 hover:text-white hover:bg-red-600 dark:hover:bg-red-700 dark:bg-gray-800 dark:text-white bg-gray-100 text-gray-800  duration-75 delay-75 rounded-full w-12 h-12 text-center items-center justify-center flex'
-                                    onClick={() => router.back()}
-                                >
-                                    <BsArrowLeftShort size={26} />
-                                </button>
-                            </div>
-                        </BrowserView>
-                        <div className='w-full max-w-[1024px] shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] dark:bg-gray-800 bg-white rounded-3xl mx-auto'>
+                        <div className='hidden md:flex flex-col items-center relative justify-center'>
+                            <button
+                                className='absolute top-0 left-0 z-10 hover:text-white hover:bg-red-600 dark:hover:bg-red-700 dark:bg-gray-800 dark:text-white bg-gray-100 text-gray-800  duration-75 delay-75 rounded-full w-12 h-12 text-center items-center justify-center flex'
+                                onClick={() => router.back()}
+                            >
+                                <BsArrowLeftShort size={26} />
+                            </button>
+                        </div>
+                        <div className='w-full max-w-[1024px] md:shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] dark:bg-gray-800 bg-white md:rounded-3xl mx-auto md:mb-0 mb-4'>
                             <div className='flex flex-col lg:flex-row overflow-visible'>
                                 <div className='relative flex-none w-full lg:w-2/4'>
                                     <div className={clsx(

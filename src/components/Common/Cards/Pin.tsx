@@ -69,7 +69,7 @@ const PinCard: FC<Props> = ({ pin }) => {
             </Link>
             {!isProfile ?
               <>
-                <div className='flex flex-col items-start w-full justify-start px-1 pt-2'>
+                <div className='hidden md:flex flex-col items-start w-full justify-start px-1 pt-2'>
                   <Link 
                     onClick={() => {
                       Analytics.track('clicked_from_pin_card_profile_link', {

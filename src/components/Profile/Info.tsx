@@ -6,7 +6,7 @@ const Info = ({ profile }: { profile: Profile }) => {
     return (
         <>
             <div className="flex flex-col">
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center px-4 md:px-0">
                     <Cover
                         cover={
                         profile?.coverPicture?.__typename === 'MediaSet'

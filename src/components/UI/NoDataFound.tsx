@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import clsx from 'clsx'
 import React from 'react'
 import { APP } from '@utils/constants'
@@ -10,7 +11,7 @@ export const NoDataFound = ({
     return (
         <div
         className={clsx('flex flex-col p-1 space-y-1', {
-            'items-center justify-center': isCenter
+            'items-center': isCenter
         })}
         >
             {withImage && (

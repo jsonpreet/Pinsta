@@ -8,7 +8,7 @@ const TimelineShimmer = () => {
   const heights = [200, 400, 300, 200, 300, 400, 100, 200, 400, 200, 100, 300, 400, 100, 400, 100, 200, 150, 300, 200, 300, 400, 100, 200, 400, 220, 100, 300, 400, 100, 400, 300]
   return (
     <div>
-      <Masonry sx={{ margin: 0 }} columns={{ xs: 1, sm: 2, lg: 4, xl: 6, xxl: 8 }} spacing={2}>
+      <Masonry sx={{ margin: 0 }} columns={{ xs: 2, sm: 2, lg: 4, xl: 6, xxl: 8 }} spacing={2}>
         {cards.map((i, idx) => (
           <PinCardShimmer height={heights[idx]} key={`${i}_${idx}`} />
         ))}

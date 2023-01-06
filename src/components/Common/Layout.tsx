@@ -24,6 +24,9 @@ import BetaNotification from './BetaNotification'
 import CreateProfile from './Modals/CreateProfile'
 import TrendingTags from './TrendingTags';
 import mixpanel from 'mixpanel-browser'
+import MobileMenu from './Menu/MobileMenu'
+import GlobalSearchBar from './Search/GlobalSearchBar'
+import Modal from '@components/UI/Modal'
 
 if (MIXPANEL_TOKEN) {
     mixpanel.init(MIXPANEL_TOKEN)
@@ -40,9 +43,9 @@ const Layout: FC<Props> = ({ children }) => {
     const sidebarCollapsed = usePersistStore((state) => state.sidebarCollapsed)
     const setProfiles = useAppStore((state) => state.setProfiles)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
-    const setCurrentProfileId = usePersistStore(
-        (state) => state.setCurrentProfileId
-    )
+    const setCurrentProfileId = usePersistStore((state) => state.setCurrentProfileId)
+    const setShowSearchModal = useAppStore((state) => state.setShowSearchModal)
+    const showSearchModal = useAppStore((state) => state.showSearchModal)
 
     const { chain } = useNetwork()
     const { resolvedTheme } = useTheme()
@@ -135,11 +138,11 @@ const Layout: FC<Props> = ({ children }) => {
                 <Header />
                 <div className='pb-8'>
                     {showFilter && 
-                        <div className='pt-3 md:px-6'>
+                        <div className='md:pt-3 px-4 md:px-6'>
                             <TrendingTags />
                         </div>
                     }
-                    <div className='overflow-hidden md:px-6'>
+                    <div className='overflow-hidden px-4 md:px-6'>
                         <BetaNotification/>
                     </div>
                     <CreateProfile />
@@ -147,6 +150,16 @@ const Layout: FC<Props> = ({ children }) => {
                         {children}
                     </div>
                 </div>
+                <MobileMenu />
+                <Modal
+                    title="Search"
+                    onClose={() => setShowSearchModal(false)}
+                    show={showSearchModal}
+                >
+                    <div className="max-h-[80vh] p-4 overflow-y-auto no-scrollbar">
+                        <GlobalSearchBar onSearchResults={() => setShowSearchModal(false)} />
+                    </div>
+                </Modal>
             </div>
         </>
     )

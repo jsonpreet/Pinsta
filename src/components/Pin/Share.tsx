@@ -137,10 +137,10 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
     return (
         <>
             <CreateBoardModal pin={pin} savePinToBoard={savePinToBoard} setIsSaved={setIsSaved} />
-            <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-row justify-between items-center mb-6 relative z-10'>
+            <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-col md:flex-row justify-between items-center mb-6 relative z-10'>
                 <div className='flex flex-row items-center justify-center'>
                     <div className='flex back mr-4 lg:hidden'>
-                        <button className='duration-75 delay-75 hover:text-[#ec05ad] text-gray-400' onClick={() => router.back()}> <BsArrowLeftCircleFill size={48}/> </button>
+                        <button className='duration-75 delay-75 hover:text-red-500 text-gray-400' onClick={() => router.back()}> <BsArrowLeftCircleFill size={46}/> </button>
                     </div>
                     <div className='options mr-4'>
                         <button
@@ -216,7 +216,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                         </CopyToClipboard>
                     </div>
                 </div>
-                <div className='space-x-5 items-center flex flex-row'>
+                <div className='space-x-5 items-center flex justify-between flex-1 w-full mt-4 flex-row'>
                     {currentProfileId ?
                         !isSaved ?
                             <div className='flex-1'>

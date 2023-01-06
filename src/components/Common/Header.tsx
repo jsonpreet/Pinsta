@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import type { FC } from 'react'
 import { useState } from 'react'
 import Login from '@components/Common/Auth/Login'
-import { BsSearch } from "react-icons/bs";
+import { BsBell, BsSearch } from "react-icons/bs";
 import GlobalSearchBar from '@components/Common/Search/GlobalSearchBar'
 import { APP } from '@utils/constants';
 import { HOME } from '@utils/paths';
@@ -37,7 +37,7 @@ const Header: FC<Props> = ({ className }) => {
         )}
       >
         <div className="w-full">
-          <div className="flex px-8 items-center justify-between w-full">
+          <div className="flex px-4 md:px-8 items-center justify-between w-full">
             <div className='flex items-center'>
               <div className="mr-1">
                 <Link
@@ -53,7 +53,7 @@ const Header: FC<Props> = ({ className }) => {
                     className="w-8 h-8"
                     alt={APP.Name}
                   />
-                  <span className='font-black text-xl lg:text-3xl tracking-wider text-gray-800 dark:text-white uppercase hidden md:inline-flex'>Pinsta</span>
+                  <span className='font-black text-xl lg:text-3xl tracking-wider text-gray-800 dark:text-white uppercase inline-flex'>Pinsta</span>
                 </Link>
               </div>
               <Menu/>
@@ -62,20 +62,32 @@ const Header: FC<Props> = ({ className }) => {
               <GlobalSearchBar />
             </div>
             <div className="flex flex-row items-center justify-end space-x-2 md:space-x-3">
-              <Button
+              {/* <Button
                 variant="material"
                 onClick={() => setSearchModal(true)}
                 className="!p-[10px] md:hidden"
               >
                 <BsSearch className="w-4 h-4" aria-hidden="true" />
-              </Button>
-              {!currentProfileId && !currentProfile ?
-                <ThemeSwitch />
-                :
+              </Button> */}
+              {currentProfileId && currentProfile ?
                 <>
-                  <CreateMenu/>
-                  <Notifications/>
+                  {/* <CreateMenu/> */}
+                  <div className='md:block hidden'>
+                    <Notifications />
+                  </div>
+                  <div className='md:hidden block'>
+                    <Link
+                      href="/notifications"
+                      className="mr-2 flex space-x-1 relative"
+                    >
+                      <span>
+                        <BsBell size={24} />
+                      </span>
+                    </Link>
+                  </div>
                 </>
+              
+              :  null //<ThemeSwitch />
               }   
               <Login />
               <HelpMenu/>

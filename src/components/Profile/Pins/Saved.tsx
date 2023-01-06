@@ -16,7 +16,7 @@ interface Props {
 const Saved: FC<Props> = ({ profile }) => {
     const { isFetched, isLoading, isError, data } = FetchProfileBoards(profile?.id)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
-    const { isFetched:profilePinsFetched, isLoading:profilePinsLoading, data: pins } = FetchProfilePins(profile?.id)
+    const { isFetched:profilePinsFetched, isLoading:profilePinsLoading, isError: profilePinsError, data: pins } = FetchProfilePins(profile?.id)
     
     if (isLoading) {
         return (
@@ -28,15 +28,20 @@ const Saved: FC<Props> = ({ profile }) => {
         )
     } 
 
-    if(profilePinsFetched && isFetched && pins?.data?.length === 0 && data?.data?.length === 0) return <NoDataFound isCenter withImage text="No pins found" />
+    if (
+        (profilePinsFetched && isFetched && pins?.data?.length === 0 && data?.data?.length === 0)
+        ||
+        (isError && profilePinsError)
+    )
+        return <NoDataFound isCenter withImage text="No pins found" />
 
-    const boards = data.data as BoardType[]
+    const boards = data?.data as BoardType[]
     return (
         <>
             <div className='flex flex-col space-y-6'>
                 {isFetched ?
                     <div className="grid grid-cols-6 gap-4">
-                        {boards.map((board, index) => {
+                        {boards?.map((board, index) => {
                             const showPrivateBoard = currentProfileId === board?.user_id ? true : board.is_private
                             if (!showPrivateBoard) return null
                             return (
