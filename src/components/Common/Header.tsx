@@ -17,6 +17,7 @@ import Notifications from '@components/Notifications/Menu'
 import CreateMenu from '@components/Common/Menu/CreateMenu'
 import { Analytics } from '@utils/analytics'
 import HelpMenu from './Menu/Help'
+import { isBrowser } from 'react-device-detect';
 
 type Props = {
   className?: string
@@ -32,7 +33,7 @@ const Header: FC<Props> = ({ className }) => {
     <>
       <div
         className={clsx(
-          'relative py-3 z-30 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
+          'relative py-3 z-50 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
           className
         )}
       >
@@ -58,33 +59,27 @@ const Header: FC<Props> = ({ className }) => {
               </div>
               <Menu/>
             </div>
-            <div className="hidden md:block flex-1">
+            <div className="hidden md:block mr-5 flex-1">
               <GlobalSearchBar />
             </div>
             <div className="flex flex-row items-center justify-end space-x-2 md:space-x-3">
-              {/* <Button
-                variant="material"
-                onClick={() => setSearchModal(true)}
-                className="!p-[10px] md:hidden"
-              >
-                <BsSearch className="w-4 h-4" aria-hidden="true" />
-              </Button> */}
               {currentProfileId && currentProfile ?
                 <>
                   {/* <CreateMenu/> */}
-                  <div className='md:block hidden'>
+                  { isBrowser ? 
                     <Notifications />
-                  </div>
-                  <div className='md:hidden block'>
-                    <Link
-                      href="/notifications"
-                      className="mr-2 flex space-x-1 relative"
-                    >
-                      <span>
-                        <BsBell size={24} />
-                      </span>
-                    </Link>
-                  </div>
+                  : 
+                    <div>
+                      <Link
+                        href="/notifications"
+                        className="mr-2 flex space-x-1 relative"
+                      >
+                        <span>
+                          <BsBell size={24} />
+                        </span>
+                      </Link>
+                    </div>
+                  }
                 </>
               
               :  null //<ThemeSwitch />
@@ -94,17 +89,6 @@ const Header: FC<Props> = ({ className }) => {
             </div>
           </div>
         </div>
-
-        {/* <Modal
-          title="Search"
-          onClose={() => setSearchModal(false)}
-          show={showShowModal}
-          panelClassName="max-w-md h-full"
-        >
-          <div className="max-h-[80vh] overflow-y-auto no-scrollbar">
-            <GlobalSearchBar onSearchResults={() => setSearchModal(false)} />
-          </div>
-        </Modal> */}
       </div>
     </>
   )
