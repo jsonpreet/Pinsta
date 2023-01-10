@@ -17,6 +17,7 @@ import Notifications from '@components/Notifications/Menu'
 import CreateMenu from '@components/Common/Menu/CreateMenu'
 import { Analytics } from '@utils/analytics'
 import HelpMenu from './Menu/Help'
+import { isBrowser } from 'react-device-detect';
 
 type Props = {
   className?: string
@@ -32,7 +33,7 @@ const Header: FC<Props> = ({ className }) => {
     <>
       <div
         className={clsx(
-          'relative py-3 z-30 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
+          'relative py-3 z-50 top-0 left-0 right-0 flex-shrink-0 flex w-full items-center header-glassy bg-white',
           className
         )}
       >
@@ -65,19 +66,20 @@ const Header: FC<Props> = ({ className }) => {
               {currentProfileId && currentProfile ?
                 <>
                   {/* <CreateMenu/> */}
-                  <div className='md:block hidden'>
+                  { isBrowser ? 
                     <Notifications />
-                  </div>
-                  <div className='md:hidden block'>
-                    <Link
-                      href="/notifications"
-                      className="mr-2 flex space-x-1 relative"
-                    >
-                      <span>
-                        <BsBell size={24} />
-                      </span>
-                    </Link>
-                  </div>
+                  : 
+                    <div>
+                      <Link
+                        href="/notifications"
+                        className="mr-2 flex space-x-1 relative"
+                      >
+                        <span>
+                          <BsBell size={24} />
+                        </span>
+                      </Link>
+                    </div>
+                  }
                 </>
               
               :  null //<ThemeSwitch />
