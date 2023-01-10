@@ -4,10 +4,6 @@ import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import imageCdn from '@utils/functions/imageCdn'
 import { usePublicationsByIdsQuery } from '@utils/lens/generated'
 import React, { FC } from 'react'
-import { toast } from 'react-hot-toast'
-import { Button } from '@components/UI/Button'
-import axios from '@utils/axios'
-import { BsPencilSquare, BsTrash } from 'react-icons/bs'
 import usePersistStore from '@lib/store/persist'
 
 interface Props {
