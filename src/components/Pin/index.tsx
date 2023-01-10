@@ -60,7 +60,7 @@ const Pin: NextPage = () => {
     }, [pin])
 
     useEffect(() => {
-        if (pin) {
+        if (pin && currentProfile) {
             checkSaved()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

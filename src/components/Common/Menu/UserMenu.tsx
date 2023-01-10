@@ -129,7 +129,7 @@ const UserMenu = () => {
               <div className="flex flex-col bg-white focus:ring-0 focus:outline-none dark:bg-gray-800 space-y-1 text-sm transition duration-150 ease-in-out rounded-lg">
                 <div className="inline-flex items-center p-3 py-3 space-x-2">
                   <img
-                    className="object-cover rounded-full w-9 h-9"
+                    className="object-cover bg-white rounded-full w-9 h-9"
                     src={getProfilePicture(currentProfile, 'avatar')}
                     alt={`${formatHandle(currentProfile?.handle)}'s profile picture`}
                     draggable={false}

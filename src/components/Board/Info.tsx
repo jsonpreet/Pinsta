@@ -24,6 +24,7 @@ import { HiOutlineLink } from 'react-icons/hi';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon } from 'next-share';
 import { FiShare2 } from 'react-icons/fi';
+import { useRouter } from 'next/router';
 
 dayjs.extend(dayjsTwitter);
 
@@ -33,6 +34,7 @@ type Props = {
 }
 
 const BoardInfo: FC<Props> = ({ board, profile }) => {
+    const router = useRouter()
     const currentProfile = useAppStore((state) => state.currentProfile)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const [showEditBoard, setShowEditBoard] = useState(false)
@@ -49,7 +51,16 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
     }
 
     const deleteBoard = async (id: string) => {
-        return await axios.post(`/delete-board`, {user_id: currentProfileId, board_id: id})
+        const toastId = toast.loading('Deleting board...')
+        
+        await axios.post(`/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
+            if (res.data.status === 204) {
+                toast.success('Board deleted successfully', { id: toastId })
+                router.push('/')
+            } else {
+                toast.error('Something went wrong', {id: toastId})
+            }
+        })
     }
 
     const shareRef = useDetectClickOutside({ onTriggered: closeSharePopUp, triggerKeys: ['Escape', 'x'], });
@@ -84,21 +95,7 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
                                         </button>
                                         <button 
                                             className='flex items-center space-x-2 px-5 py-3 w-full hover:bg-gray-100'
-                                            onClick={() => {
-                                                toast.promise(
-                                                    // @ts-ignore
-                                                    deleteBoard(board?.id),
-                                                    {
-                                                        loading: 'Deleting board...',
-                                                        success: () => {
-                                                            return 'Board deleted successfully'
-                                                        },
-                                                        error: () => {
-                                                            return 'Something went wrong'
-                                                        },
-                                                    }
-                                                )
-                                            }}
+                                            onClick={() => deleteBoard(board?.id)}
                                         >
                                             <BsTrash size={18} />
                                             <span>Delete</span>

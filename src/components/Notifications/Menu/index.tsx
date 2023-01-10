@@ -96,7 +96,7 @@ const Notifications: FC = () => {
                 }
             >
                 <div
-                    className="mt-1.5 w-80 -mr-20 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow divide-gray-100 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white"
+                    className="mt-1.5 w-96 -mr-20 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow divide-gray-100 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white"
                 >
                     <div className="flex flex-col">
                         <div className="p-3 flex justify-between">

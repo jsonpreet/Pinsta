@@ -87,7 +87,11 @@ const PinCard: FC<Props> = ({ pin }) => {
                       draggable={false}
                     />
                     <div className='flex space-x-0.5 items-center'>
-                      <span className='text-sm text-light text-gray-500 dark:text-gray-200 hover:text-gray-800'>{pin.profile?.name ?? formatHandle(pin.profile?.handle)}</span>
+                      <span
+                        className='text-sm text-light text-gray-500 dark:text-gray-200 hover:text-gray-800'>
+                        {/* {pin.profile?.name ?? formatHandle(pin.profile?.handle)} */}
+                        {formatHandle(pin.profile?.handle)}
+                      </span>
                       <IsVerified id={pin.profile?.id} size='xs' />
                     </div>
                   </Link>

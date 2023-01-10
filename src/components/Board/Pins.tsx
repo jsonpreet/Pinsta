@@ -47,8 +47,6 @@ const BoardPins: FC<Props> = ({ postIds }) => {
         }
     })
 
-    console.log('board publications', pins);
-
     // if (pins?.length === 0) {
     //     return <NoDataFound isCenter withImage text="No pins found" />
     // }

@@ -16,6 +16,7 @@ import { BoardType } from '@utils/custom-types'
 import { Loader } from '@components/UI/Loader'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import imageCdn from '@utils/functions/imageCdn'
+import formatHandle from '@utils/functions/formatHandle'
 
 type Props = {
     board?: BoardType,
@@ -36,6 +37,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
+    const currentProfile = useAppStore((state) => state.currentProfile)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const [isPrivate, setIsPrivate] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -60,14 +62,13 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
             description: boardDescription,
             pfp: newImage ? newImage : board?.pfp,
             is_private: isPrivate,
-            user: currentProfileId
+            user_id: currentProfileId,
+            handle: formatHandle(currentProfile?.handle)
         } as any
         
         setLoading(true)
         if (boardName.trim().toLowerCase() === board?.name.trim().toLowerCase()) {
-            const response = await axios.post(`/api/boards`,
-                { type: 'update', data: request }
-            )
+            const response = await axios.post(`/update-board`, request)
             if (response && response.status === 200) {
                 setLoading(false)
                 console.log('Board updated!')
@@ -78,12 +79,18 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                 toast.error('Error on updating board!')
             }
         } else {
-            const checkName = await axios.get(`/api/boards?type=checkName&name=${boardName}&profile=${currentProfileId}`)
-            if (!checkName.data.success) {
+            return await axios.post(`/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
+                if (res.data.data && res.data.data[0] !== undefined) {
+                    setLoading(false)
+                    toast.error('Board name already exists!')
+                    return
+                }
+            }).catch((err) => {
                 setLoading(false)
-                toast.error('Board name already exists!')
+                console.log(err)
+                toast.error('Error on creating board!')
                 return
-            }
+            })
         }
     }
 

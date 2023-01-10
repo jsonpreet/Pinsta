@@ -58,17 +58,10 @@ const Header: FC<Props> = ({ className }) => {
               </div>
               <Menu/>
             </div>
-            <div className="hidden md:block flex-1">
+            <div className="hidden md:block flex-1 mr-6">
               <GlobalSearchBar />
             </div>
             <div className="flex flex-row items-center justify-end space-x-2 md:space-x-3">
-              {/* <Button
-                variant="material"
-                onClick={() => setSearchModal(true)}
-                className="!p-[10px] md:hidden"
-              >
-                <BsSearch className="w-4 h-4" aria-hidden="true" />
-              </Button> */}
               {currentProfileId && currentProfile ?
                 <>
                   {/* <CreateMenu/> */}
@@ -94,17 +87,6 @@ const Header: FC<Props> = ({ className }) => {
             </div>
           </div>
         </div>
-
-        {/* <Modal
-          title="Search"
-          onClose={() => setSearchModal(false)}
-          show={showShowModal}
-          panelClassName="max-w-md h-full"
-        >
-          <div className="max-h-[80vh] overflow-y-auto no-scrollbar">
-            <GlobalSearchBar onSearchResults={() => setSearchModal(false)} />
-          </div>
-        </Modal> */}
       </div>
     </>
   )

@@ -17,6 +17,7 @@ import { Loader } from '@components/UI/Loader'
 import clsx from 'clsx'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import imageCdn from '@utils/functions/imageCdn'
+import formatHandle from '@utils/functions/formatHandle'
 
 type Props = {
     pin?: PinstaPublication,
@@ -38,6 +39,7 @@ type FormData = z.infer<typeof formSchema>
 
 const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
+    const currentProfile = useAppStore((state) => state.currentProfile)
     const setShowCreateBoard = useAppStore((state) => state.setShowCreateBoard)
     const showCreateBoard = useAppStore((state) => state.showCreateBoard)
     const [isPrivate, setIsPrivate] = useState(false)
@@ -62,13 +64,14 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
             description: boardDescription,
             pfp: pin ? getThumbnailUrl(pin) : '',
             is_private: isPrivate,
+            handle: formatHandle(currentProfile?.handle),
             user_id: currentProfileId
         } as any
         
         setLoading(true)
 
         return await axios.post(`/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
-            if (res.data.data !== null) {
+            if (res.data.data && res.data.data[0] !== undefined) {
                 setLoading(false)
                 toast.error('Board name already exists!')
                 return

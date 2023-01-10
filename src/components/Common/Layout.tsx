@@ -27,6 +27,7 @@ import mixpanel from 'mixpanel-browser'
 import MobileMenu from './Menu/MobileMenu'
 import GlobalSearchBar from './Search/GlobalSearchBar'
 import Modal from '@components/UI/Modal'
+import { isMobile } from 'react-device-detect'
 
 if (MIXPANEL_TOKEN) {
     mixpanel.init(MIXPANEL_TOKEN)
@@ -150,16 +151,20 @@ const Layout: FC<Props> = ({ children }) => {
                         {children}
                     </div>
                 </div>
-                <MobileMenu />
-                <Modal
-                    title="Search"
-                    onClose={() => setShowSearchModal(false)}
-                    show={showSearchModal}
-                >
-                    <div className="max-h-[80vh] p-4 overflow-y-auto no-scrollbar">
-                        <GlobalSearchBar onSearchResults={() => setShowSearchModal(false)} />
-                    </div>
-                </Modal>
+                {isMobile &&
+                    <>
+                        <MobileMenu />
+                        <Modal
+                            title="Search"
+                            onClose={() => setShowSearchModal(false)}
+                            show={showSearchModal}
+                        >
+                            <div className="max-h-[80vh] p-4 overflow-y-auto no-scrollbar">
+                                <GlobalSearchBar onSearchResults={() => setShowSearchModal(false)} />
+                            </div>
+                        </Modal>
+                    </>
+                }
             </div>
         </>
     )

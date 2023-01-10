@@ -216,7 +216,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                         </CopyToClipboard>
                     </div>
                 </div>
-                <div className='space-x-5 items-center flex justify-between flex-1 w-full mt-4 flex-row'>
+                <div className='space-x-5 items-center flex justify-between md:w-auto md:flex-none flex-1 w-full md:mt-0 mt-4 flex-row'>
                     {currentProfileId ?
                         !isSaved ?
                             <div className='flex-1'>

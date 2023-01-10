@@ -18,7 +18,6 @@ interface Props {
 }
 
 const Board: NextPage<Props> = ({ board }) => {
-    console.log('board pins', board?.pins)
     const { query } = useRouter()
     const username = query.username ?? ''
     const handle = formatHandle(username as string, true);
@@ -38,7 +37,6 @@ const Board: NextPage<Props> = ({ board }) => {
     
     const userProfile = data?.profile as Profile
 
-    console.log('board postids', postIds)
     return (
         <>
             <MetaTags title={`${board?.name} :: Pinsta`} />

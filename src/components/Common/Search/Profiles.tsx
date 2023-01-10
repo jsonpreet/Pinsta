@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { Profile } from '@utils/lens'
 import Link from 'next/link'
 import type { FC } from 'react'

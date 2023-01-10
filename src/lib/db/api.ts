@@ -65,8 +65,9 @@ export const checkSavedPin = async ({ queryKey } : any) => {
     return data;
 }
 
-export const getBoardBySlug = async (slug: string) => {
+export const getBoardBySlug = async (username: string, slug: string) => {
     const request = {
+        username: username,
         slug: slug
     }
     const { data } = await axios.post(`/board-by-slug`, request);
