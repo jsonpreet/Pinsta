@@ -20,6 +20,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const { pathname, replace, asPath } = useRouter()
 
   useEffect(() => {
+    localStorage.setItem('theme', 'light');
+  }, []);
+
+  useEffect(() => {
     if (!currentProfileId && AUTH_ROUTES.includes(pathname)) {
       replace(`/auth?next=${asPath}`)
     }
