@@ -1,4 +1,6 @@
-import Axios from '@utils/axios';
+
+import { PINSTA_API_URL } from '@utils/constants';
+import axios from 'axios';
 
 export const getUserBoards = async ({ queryKey }: any) => {
     const [_key, { user }] = queryKey
@@ -6,7 +8,7 @@ export const getUserBoards = async ({ queryKey }: any) => {
     const request = {
         user_id: user
     }
-    const { data } = await Axios.post(`/profile-boards`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/profile-boards`, request);
     return data;
 }
 
@@ -15,7 +17,7 @@ export const getBoardPins = async ({ queryKey }: any) => {
     const request = {
         board_id: boardId
     }
-    const { data } = await Axios.post(`/pins/board`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/pins/board`, request);
     return data;
 }
 
@@ -25,7 +27,7 @@ export const getProfileBoardPins = async ({ queryKey }: any) => {
         board_id: boardId,
         user_id: profileId
     }
-    const { data } = await Axios.post(`/profile-board-pins`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/profile-board-pins`, request);
     return data.data;
 }
 
@@ -34,7 +36,7 @@ export const getProfilePins = async ({ queryKey }: any) => {
     const request = {
         user_id: user
     }
-    const { data } = await Axios.post(`/profile-pins`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/profile-pins`, request);
     return data;
 }
 
@@ -42,7 +44,7 @@ export const getBoard = async (getBoardId: string) => {
     const request = {
         board_id: getBoardId
     }
-    const { data } = await Axios.post(`/board`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/board`, request);
     return data;
 }
 
@@ -51,7 +53,7 @@ export const directCheckSavedPin = async ({ user, pinId }: any) => {
         post_id: pinId,
         user_id: user
     }
-    const { data } = await Axios.post(`/check-saved-pin`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/check-saved-pin`, request);
     return data;
 }
 
@@ -61,7 +63,7 @@ export const checkSavedPin = async ({ queryKey } : any) => {
         post_id: pinId,
         user_id: user
     }
-    const { data } = await Axios.post(`/check-saved-pin`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/check-saved-pin`, request);
     return data;
 }
 
@@ -70,12 +72,12 @@ export const getBoardBySlug = async (username: string, slug: string) => {
         username: username,
         slug: slug
     }
-    const { data } = await Axios.post(`/board-by-slug`, request);
+    const { data } = await axios.post(`${PINSTA_API_URL}/board-by-slug`, request);
     return data;
 }
 
 // export const getBoardBySlug = async ({ queryKey } : any) => {
 //     const [_key, { slug }] = queryKey
-//     const { data } = await Axios.get(`/boards?type=boardBySlug&slug=${slug}`);
+//     const { data } = await axios.get(`${PINSTA_API_URL}/boards?type=boardBySlug&slug=${slug}`);
 //     return data;
 // }

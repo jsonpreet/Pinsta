@@ -6,7 +6,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { BsArrowLeftCircleFill, BsClipboardPlus } from 'react-icons/bs'
 import { useDetectClickOutside } from 'react-detect-click-outside';
-import { APP, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
+import { APP, PINSTA_API_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
 import { BoardPinsType, BoardType, PinstaPublication } from '@utils/custom-types'
 import { exportPNG } from '@utils/functions/getExport'
 import { HiChevronDown, HiOutlineBookmark, HiOutlineDownload, HiOutlineLink, HiPlus } from 'react-icons/hi'
@@ -18,13 +18,13 @@ import { FiShare2 } from "react-icons/fi";
 import { FetchProfileBoards } from '@lib/db/actions'
 import DropMenu from '@components/UI/DropMenu'
 import { Input } from '@components/UI/Input'
-import Axios from '@utils/axios'
 import CreateBoardModal from '@components/Common/Modals/CreateBoard'
 import Link from 'next/link'
 import formatHandle from '@utils/functions/formatHandle'
 import { Analytics } from '@utils/analytics';
 import { Loader } from '@components/UI/Loader'
 import { isMobile } from 'react-device-detect'
+import axios from 'axios'
 
 
 type Props = {
@@ -76,7 +76,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             user_id: currentProfileId,
             post_id: pin.id
         }
-        return Axios.post(`/unsave-pin`,request).then((res) => {
+        return axios.post(`${PINSTA_API_URL}/unsave-pin`,request).then((res) => {
             if (res.status === 200) {
                 console.log('Pin removed!')
                 toast.success('Pin removed!')
@@ -106,7 +106,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             user_id: currentProfileId,
             post_id: pin.id
         }
-        return await Axios.post(`/save-pin`, request).then((res) => {
+        return await axios.post(`${PINSTA_API_URL}/save-pin`, request).then((res) => {
         if (res.status === 200) {
             setLoading(false)
             onCancel()

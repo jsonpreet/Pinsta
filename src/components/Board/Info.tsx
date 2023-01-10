@@ -15,15 +15,15 @@ import DropMenu from '@components/UI/DropMenu';
 import { BiDotsHorizontalRounded, BiDotsVerticalRounded } from 'react-icons/bi';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import EditBoardModal from '@components/Common/Modals/EditBoard';
-import Axios from '@utils/axios';
 import { toast } from 'react-hot-toast';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { APP } from '@utils/constants';
+import { APP, PINSTA_API_URL } from '@utils/constants';
 import { HiOutlineLink } from 'react-icons/hi';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon } from 'next-share';
 import { FiShare2 } from 'react-icons/fi';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 dayjs.extend(dayjsTwitter);
 
@@ -52,7 +52,7 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
     const deleteBoard = async (id: string) => {
         const toastId = toast.loading('Deleting board...')
         
-        await Axios.post(`/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
+        await axios.post(`${PINSTA_API_URL}/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
             if (res.data.status === 204) {
                 toast.success('Board deleted successfully', { id: toastId })
                 router.push('/')
