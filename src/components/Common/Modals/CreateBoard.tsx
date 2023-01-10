@@ -133,7 +133,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-6 p-4'>
                         {pin ?
                             <div
-                                className='sm:rounded-tl-3xl relative w-full h-full flex flex-col items-center rounded-xl sm:rounded-bl-3xl max-h-96 overflow-hidden'
+                                className='relative w-full h-full flex flex-col items-center rounded-xl max-h-96 overflow-hidden'
                             >
                                 <img
                                     className='rounded-xl object-cover'
@@ -142,7 +142,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
                                     onLoad={() => setImgLoading(false)}
                                 />
                                 {isImgLoading ?
-                                    <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-bl-3xl rounded-tl-3xl justify-center'>
+                                    <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-xl justify-center'>
                                         <Loader />
                                     </span>
                                     : null
