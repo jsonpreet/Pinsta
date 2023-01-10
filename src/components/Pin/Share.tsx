@@ -102,7 +102,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
         }
         setLoading(true)
         const request = {
-            board_id: board ? `${board.id}` : null,
+            board_id: board ? `${board.id}` : 0,
             user_id: currentProfileId,
             post_id: pin.id
         }
