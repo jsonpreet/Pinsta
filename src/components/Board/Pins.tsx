@@ -11,7 +11,7 @@ import { useInView } from 'react-cool-inview'
 
 type Props = {
     postIds: string[],
-    board: BoardType
+    board?: BoardType
 }
 
 const BoardPins: FC<Props> = ({ postIds, board }) => {
