@@ -17,6 +17,11 @@ const nextConfig = {
         source: '/twitter',
         destination: 'https://twitter.com/PinstaApp',
         permanent: true
+      },
+      {
+        source: '/lenster',
+        destination: 'https://lenster.xyz/u/pinsta',
+        permanent: true
       }
     ];
   },

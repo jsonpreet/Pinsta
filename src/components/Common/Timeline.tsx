@@ -1,15 +1,17 @@
 import PinCard from '@components/Common/Cards/Pin'
 import type { FC } from 'react'
-import type { PinstaPublication } from '@utils/custom-types'
+import type { BoardType, PinstaPublication } from '@utils/custom-types'
 import Masonry from '@mui/lab/Masonry';
 
 type Props = {
     pins: PinstaPublication[]
     pinType?: 'Post'
+    isBoard?: boolean
     currentPinId?: string
+    board?: BoardType
 }
 
-const Timeline: FC<Props> = ({ pins, pinType = 'Post' , currentPinId}) => {
+const Timeline: FC<Props> = ({ pins, pinType = 'Post', board, currentPinId, isBoard = false}) => {
     return (
         <>
             <div className='md:-mx-2 md:px-0 px-2'>
@@ -18,7 +20,7 @@ const Timeline: FC<Props> = ({ pins, pinType = 'Post' , currentPinId}) => {
                         const isCurrentPin = pin.id === currentPinId
                         const isPub = pin.__typename === pinType
                         if (isCurrentPin || !isPub) return null
-                        return <PinCard key={`${pin?.id}_${pin.createdAt}_${pin.__typename}`} pin={pin} />
+                        return <PinCard board={board} isBoard={isBoard} key={`${pin?.id}_${pin.createdAt}_${pin.__typename}`} pin={pin} />
                     })} 
                 </Masonry>
             </div>

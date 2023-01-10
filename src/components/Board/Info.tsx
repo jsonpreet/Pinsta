@@ -143,8 +143,8 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
                             <span>Share</span>
                         </button>
                         {sharePopUpOpen && (
-                            <div className='absolute z-50 top-12 -left-[120px] bg-white dark:bg-gray-700 dark:border-black rounded-full dropdown-shadow border border-gray-100 px-4 py-4'>
-                                <div className='flex justify-between space-x-6 items-center'>
+                            <div className='absolute z-50 top-12 left-0 md:-left-[120px] bg-white dark:bg-gray-700 dark:border-black rounded-full dropdown-shadow border border-gray-100 px-4 py-4'>
+                                <div className='flex justify-between md:flex-row flex-col space-x-0 space-y-4 md:space-y-0 md:space-x-6 items-center'>
                                     <div>
                                         <FacebookShareButton
                                             url={shareLink}

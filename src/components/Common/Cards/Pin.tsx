@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Link from 'next/link'
 import { FC, useState } from 'react'
-import type { PinstaPublication } from '@utils/custom-types'
+import type { BoardType, PinstaPublication } from '@utils/custom-types'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import imageCdn from '@utils/functions/imageCdn'
 import { motion } from "framer-motion"
@@ -12,21 +12,59 @@ import getProfilePicture from '@utils/functions/getProfilePicture';
 import { Loader } from '@components/UI/Loader'
 import formatHandle from '@utils/functions/formatHandle'
 import IsVerified from '@components/UI/IsVerified'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import { Analytics } from '@utils/analytics'
+import { BsTrash } from 'react-icons/bs'
+import usePersistStore from '@lib/store/persist'
+import useAppStore from '@lib/store'
+import { toast } from 'react-hot-toast'
+import { SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
+import axios from '@utils/axios'
 
 dayjs.extend(relativeTime)
 
 type Props = {
   pin: PinstaPublication
+  isBoard?: boolean
+  board?: BoardType
 }
 
-const PinCard: FC<Props> = ({ pin }) => {
+const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
   const router = useRouter()
   const isProfile = router.pathname === '/[username]'
-  const thumbnailUrl = imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
+  const thumbnailUrl = pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
   const [loading, setLoading] = useState(true)
   const [show, setShow] = useState(false)
+  const currentProfileId = usePersistStore((state) => state.currentProfileId)
+  const currentProfile = useAppStore((state) => state.currentProfile)
+
+  const unsavePin = async (pinId: string) => {
+    if (!currentProfileId) {
+      toast.error(SIGN_IN_REQUIRED_MESSAGE);
+      return
+    }
+        
+    setLoading(true)
+    const request = {
+      board_id: board?.id,
+      user_id: currentProfileId,
+      post_id: pin.id
+    }
+    return axios.post(`/unsave-pin`,request).then((res) => {
+      if (res.status === 200) {
+        router.replace(window.location.pathname)
+        console.log('Pin removed!')
+        toast.success('Pin removed!')
+        setLoading(false)
+      } else {
+        setLoading(false)
+        toast.error('Error on removing pin!')
+      }
+    }).catch((err) => {
+      setLoading(false)
+      toast.error('Error on removing pin!')
+    })
+  }
   
   return (
     <motion.div
@@ -39,7 +77,7 @@ const PinCard: FC<Props> = ({ pin }) => {
     >
       {!pin.hidden ? (
         <>
-          <div className="overflow-hidden relative flex flex-col items-center">
+          <div className="overflow-hidden group relative flex flex-col items-center">
             <Link 
               onClick={() => {
                 Analytics.track('clicked_from_pin_card_pin_link', {
@@ -47,7 +85,7 @@ const PinCard: FC<Props> = ({ pin }) => {
                 })
               }}
               href={`/pin/${pin.id}`} 
-              className='cursor-zoom group w-full flex bg-gray-100 dark:bg-gray-700 rounded-lg relative flex-col' 
+              className='cursor-zoom group w-full flex z-0 bg-gray-100 dark:bg-gray-700 rounded-lg relative flex-col' 
               onMouseEnter={() => setShow(true)} 
               onMouseLeave={() => setShow(false)}
             >
@@ -67,6 +105,23 @@ const PinCard: FC<Props> = ({ pin }) => {
                 : null
               }
             </Link>
+            {isBoard && currentProfileId === board?.user_id ? 
+              //delete button
+              <>
+                <div 
+                  className='absolute top-2 right-2 group-hover:opacity-100 opacity-0 flex items-center z-30 justify-center w-8 h-8 rounded-full bg-red-500 cursor-pointer'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    Analytics.track('clicked_from_pin_card_delete_button', {
+                      pin_id: pin.id
+                    })
+                    unsavePin(pin.id)
+                  }}
+                >
+                  <BsTrash className='text-white' />
+                </div>
+              </>
+            : null}
             {!isProfile ?
               <>
                 <div className='hidden md:flex flex-col items-start w-full justify-start px-1 pt-2'>
@@ -95,6 +150,7 @@ const PinCard: FC<Props> = ({ pin }) => {
                       <IsVerified id={pin.profile?.id} size='xs' />
                     </div>
                   </Link>
+                  
                 </div>
               </> : null}
           </div>

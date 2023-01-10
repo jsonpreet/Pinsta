@@ -4,16 +4,17 @@ import { Loader } from '@components/UI/Loader'
 import { NoDataFound } from '@components/UI/NoDataFound'
 import useAppStore from '@lib/store'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
-import { BoardPinsType, PinstaPublication } from '@utils/custom-types'
+import { BoardPinsType, BoardType, PinstaPublication } from '@utils/custom-types'
 import { Profile, PublicationMainFocus, PublicationTypes, useProfilePostsQuery, usePublicationsByIdsQuery } from '@utils/lens/generated'
 import { FC } from 'react'
 import { useInView } from 'react-cool-inview'
 
 type Props = {
     postIds: string[],
+    board: BoardType
 }
 
-const BoardPins: FC<Props> = ({ postIds }) => {
+const BoardPins: FC<Props> = ({ postIds, board }) => {
 
     const currentProfile = useAppStore((state) => state.currentProfile);
 
@@ -56,7 +57,7 @@ const BoardPins: FC<Props> = ({ postIds }) => {
             {loading && <TimelineShimmer />}
             {!error && !loading && (
                 <>
-                    <Timeline pins={pins} />
+                    <Timeline pins={pins} isBoard={true} board={board} />
                     {pageInfo?.next && pins.length !== pageInfo?.totalCount && (
                         <span ref={observe} className="flex justify-center p-10">
                             <Loader />

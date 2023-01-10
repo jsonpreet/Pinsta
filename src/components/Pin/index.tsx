@@ -55,7 +55,8 @@ const Pin: NextPage = () => {
 
     useEffect(() => {
         if (pin) {
-            (pin?.metadata?.content?.length > 300 ) ? setReadMore(true) : setReadMore(false)
+            (pin?.metadata?.content?.length > 300) ? setReadMore(true) : setReadMore(false)
+            setLoading(true)
         }
     }, [pin])
 
@@ -68,7 +69,6 @@ const Pin: NextPage = () => {
 
     const checkSaved = async () => {
         const savedPin = await directCheckSavedPin({ pinId: pin.id, user: currentProfileId })
-        console.log('savedPin', savedPin)
         if (savedPin?.length > 0) {
             const boards:BoardType[] = []
             savedPin.forEach(async (pin: any) => {
@@ -94,13 +94,12 @@ const Pin: NextPage = () => {
     if (error) return <Custom500 />
     if (loading || !data) return <PinShimmer />
     if (!canGet) return <Custom404 />
-    
     return (
         <>
             <MetaTags title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}/>
             {!loading && !error && pin ? (
                 <>
-                    <div className='md:mt-10 mt-0 flex-none'>
+                    <div className='mt-0 flex-none'>
                         <div className='hidden md:flex flex-col items-center relative justify-center'>
                             <button
                                 className='absolute top-0 left-0 z-10 hover:text-white hover:bg-red-600 dark:hover:bg-red-700 dark:bg-gray-800 dark:text-white bg-gray-100 text-gray-800  duration-75 delay-75 rounded-full w-12 h-12 text-center items-center justify-center flex'
@@ -117,14 +116,14 @@ const Pin: NextPage = () => {
                                             // pin.stats.totalAmountOfComments > 3 ? 'justify-center' : 'justify-start'
                                         )}
                                     >
-                                        <div className='sticky top-2'>
+                                        <div className='sticky top-2 w-full'>
                                             <img 
                                                 className='rounded-xl object-cover' 
                                                 alt={`Pin by @${pin.profile.handle}`} 
-                                                src={imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} 
+                                                src={pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} 
                                                 onLoad={() => setLoading(false)}
                                             />
-                                            {!isLoading ?
+                                            {!isLoading && (
                                                 <Link 
                                                     href={getThumbnailUrl(pin)}
                                                     target='_blank'
@@ -136,15 +135,13 @@ const Pin: NextPage = () => {
                                                 >
                                                     View Original
                                                 </Link>
-                                            : null
-                                            }
+                                            )}
                                         </div>
-                                        {isLoading ?
-                                            <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-bl-3xl rounded-tl-3xl justify-center'>
+                                        {isLoading && (
+                                            <span className='relative bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-3xl justify-center'>
                                                 <Loader/>
                                             </span>
-                                            : null
-                                        }
+                                        )}
                                     </div>
                                 </div>  
                                 <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l dark:border-gray-900/30 border-gray-50'>
@@ -175,7 +172,7 @@ const Pin: NextPage = () => {
                         <RelatedPins pin={pin} />
                     </div>
                 </>
-            ) : null}
+            ) : <PinShimmer />}
         </>
     )
 }

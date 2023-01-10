@@ -12,9 +12,10 @@ interface Props {
   show: boolean;
   children: ReactNode[] | ReactNode;
   onClose?: () => void;
+  className?: string;
 }
 
-const Modal: FC<Props> = ({ icon, title, size = 'sm', show, children, onClose }) => {
+const Modal: FC<Props> = ({ icon, title, size = 'sm', show, className, children, onClose }) => {
   return (
     <Transition.Root show={show} as={Fragment}>
       <Dialog as="div" className="overflow-y-auto fixed inset-0 z-10" onClose={() => onClose?.()}>
@@ -45,7 +46,8 @@ const Modal: FC<Props> = ({ icon, title, size = 'sm', show, children, onClose })
                 { 'sm:max-w-5xl': size === 'lg' },
                 { 'sm:max-w-3xl': size === 'md' },
                 { 'sm:max-w-lg': size === 'sm' },
-                'inline-block align-bottom bg-white dark:bg-gray-800 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle w-full rounded-xl'
+                'inline-block align-bottom bg-white dark:bg-gray-800 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle w-full rounded-xl',
+                className
               )}
             >
               <div className="flex justify-between items-center py-3.5 px-5 divider">

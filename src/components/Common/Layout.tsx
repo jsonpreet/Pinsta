@@ -139,13 +139,15 @@ const Layout: FC<Props> = ({ children }) => {
                 <Header />
                 <div className='pb-8'>
                     {showFilter && 
-                        <div className='md:pt-3 px-4 md:px-6'>
-                            <TrendingTags />
-                        </div>
+                        <>
+                            <div className='md:pt-3 px-4 md:px-6'>
+                                <TrendingTags />
+                            </div>
+                            <div className='overflow-hidden px-4 md:px-6'>
+                                <BetaNotification/>
+                            </div>
+                        </>
                     }
-                    <div className='overflow-hidden px-4 md:px-6'>
-                        <BetaNotification/>
-                    </div>
                     <CreateProfile />
                     <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
                         {children}

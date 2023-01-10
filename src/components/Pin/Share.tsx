@@ -22,8 +22,9 @@ import axios from '@utils/axios'
 import CreateBoardModal from '@components/Common/Modals/CreateBoard'
 import Link from 'next/link'
 import formatHandle from '@utils/functions/formatHandle'
-import imageCdn from '@utils/functions/imageCdn'
 import { Analytics } from '@utils/analytics';
+import { Loader } from '@components/UI/Loader'
+import { isMobile } from 'react-device-detect'
 
 
 type Props = {
@@ -43,6 +44,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
     const [currentBoard, setCurrentBoard] = useState<BoardType>()
     const [search, setSearch] = useState('')
     const [loading, setLoading] = useState(false)
+    const [isSaving, setSaving] = useState(false)
     const [isSaved, setIsSaved] = useState(false)
     const [boardURL, setBoardURL] = useState(`${formatHandle(currentProfile?.handle)}${currentBoard ? `/${currentBoard?.slug}` : ''}`)
     const [boardName, setBoardName] = useState(currentBoard ? currentBoard?.name : 'Profile')
@@ -144,10 +146,15 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                     </div>
                     <div className='options mr-4'>
                         <button
-                            onClick={() => exportPNG({ url: getThumbnailUrl(pin) })}
+                            onClick={() => {
+                                Analytics.track(`download_pin_button_clicked_${pin.id}`)
+                                    setSaving(true)
+                                    exportPNG({ url: getThumbnailUrl(pin) }, setSaving)
+                                }
+                            }
                             className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'
                         >
-                            <HiOutlineDownload size={30} />
+                            {isSaving ? <Loader size='md' /> : <HiOutlineDownload size={30} />}
                         </button>
                     </div>
                     <div className='relative z-10 mr-4'>
@@ -227,6 +234,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                             <HiChevronDown size={24} />
                                         </button>
                                     }
+                                    position={isMobile ? 'left': 'right'}
                                 >
                                     <div className='mt-1.5 w-72 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow max-h-96 divide-gray-100 dark:divide-gray-700 overflow-hidden border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white'>
                                         {isFetched && boards.data?.length > 0 ?

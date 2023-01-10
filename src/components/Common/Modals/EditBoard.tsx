@@ -113,8 +113,9 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                     icon={<MdOutlineSpaceDashboard size={24} />}
                     onClose={() => onCancel()}
                     size='md'
+                    className='md:mb-0 mb-20'
                 >
-                    <div className='grid grid-cols-2 gap-6 p-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6 p-4'>
                         <div className='sm:rounded-tl-3xl relative w-full h-full flex flex-col items-center rounded-xl sm:rounded-bl-3xl '
                         >
                             {board?.pfp ?
@@ -175,7 +176,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                                     </div>
                                     <label htmlFor="boardVisibility" className="text-sm font-medium text-gray-700 dark:text-gray-200">Keep this board secret</label>
                                 </div>
-                                <div className="flex items-center justify-center mt-10">
+                                <div className="flex items-center justify-center mt-5 md:mt-10">
                                     <Button 
                                         loading={loading}
                                     >

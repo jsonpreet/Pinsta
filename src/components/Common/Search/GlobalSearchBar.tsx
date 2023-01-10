@@ -123,13 +123,13 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                             </div>
                         </div>
                         <div
-                            className="absolute top-[60px] w-full bg-white rounded-br-xl py-2 rounded-bl-xl shadow-2xl"
+                            className="relative md:absolute top-0 md:top-[60px] w-full bg-white rounded-br-xl rounded-bl-xl md:shadow-2xl"
                         >
                             {loading && <div className="flex flex-row items-center py-8 justify-center">
-                                <Loader className={`h-7 w-7 text-[#ec05ad]`} /></div>
+                                <Loader size='sm' /></div>
                             }
                             {showResults &&
-                                <div className="flex flex-col max-h-96 overflow-x-hidden overflow-y-scroll" >
+                                <div className="flex flex-col max-h-96 py-2 overflow-x-hidden overflow-y-scroll" >
                                     {data?.search?.__typename === 'ProfileSearchResult' && (
                                         <Profiles
                                             results={channels as Profile[]}

@@ -38,9 +38,9 @@ const Saved: FC<Props> = ({ profile }) => {
     const boards = data?.data as BoardType[]
     return (
         <>
-            <div className='flex flex-col space-y-6'>
+            <div className='flex flex-col space-y-6 px-4 md:px-0 pb-20 md:pb-0'>
                 {isFetched ?
-                    <div className="grid grid-cols-6 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
                         {boards?.map((board, index) => {
                             const showPrivateBoard = currentProfileId === board?.user_id ? true : board.is_private
                             if (!showPrivateBoard) return null

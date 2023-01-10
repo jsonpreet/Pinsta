@@ -44,7 +44,7 @@ const Board: NextPage<Props> = ({ board }) => {
                 {userProfile ?
                     <>
                         <BoardInfo profile={userProfile} board={board} />
-                        <BoardPins postIds={postIds} />
+                        <BoardPins postIds={postIds} board={board} />
                     </>
                     : <TimelineShimmer/>
                 }
