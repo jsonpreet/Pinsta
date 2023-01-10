@@ -18,7 +18,7 @@ const MirrorNotification: FC<Props> = ({ notification }) => {
         <div className="flex justify-between items-start">
             <div className="flex items-center space-x-2">
                 <div className='flex items-center space-x-1'>
-                    <RiArrowLeftRightFill className="h-6 w-6 text-brand-500" />
+                    {/* <RiArrowLeftRightFill className="h-6 w-6 text-brand-500" /> */}
                     <NotificationProfileAvatar profile={notification?.profile} />
                     <NotificationProfileName profile={notification?.profile} />
                     <div>

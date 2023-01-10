@@ -21,11 +21,11 @@ const FollowerNotification: FC<Props> = ({ notification }) => {
         <div className="flex justify-between items-start">
             <div className="flex items-center space-x-2">
                 <div className='flex items-center space-x-1'>
-                    {isSuperFollow ? (
+                    {/* {isSuperFollow ? (
                         <HiOutlineUserAdd className="h-6 w-6 text-pink-500" />
                     ) : (
                         <HiOutlineUserAdd className="h-6 w-6 text-green-500" />
-                    )}
+                    )} */}
                     {notification?.wallet?.defaultProfile ? (
                         <NotificationProfileAvatar profile={notification?.wallet?.defaultProfile} />
                     ) : (

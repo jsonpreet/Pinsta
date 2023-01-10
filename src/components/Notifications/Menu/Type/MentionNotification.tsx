@@ -20,7 +20,7 @@ const MentionNotification: FC<Props> = ({ notification }) => {
         <div className="flex justify-between items-start">
             <div className="flex items-center space-x-2">
                 <div className='flex items-center space-x-1'>
-                    <HiOutlineAtSymbol className="h-6 w-6 text-orange-500/70" />
+                    {/* <HiOutlineAtSymbol className="h-6 w-6 text-orange-500/70" /> */}
                     <NotificationProfileAvatar profile={profile} />
                     <NotificationProfileName profile={profile} />
                 <div>
