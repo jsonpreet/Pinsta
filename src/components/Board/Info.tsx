@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { BoardPinsType, BoardType } from '@utils/custom-types'
 import { Profile } from '@utils/lens/generated'
 import { FC, useState } from 'react'
 import dayjs from 'dayjs';
@@ -16,7 +15,7 @@ import DropMenu from '@components/UI/DropMenu';
 import { BiDotsHorizontalRounded, BiDotsVerticalRounded } from 'react-icons/bi';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import EditBoardModal from '@components/Common/Modals/EditBoard';
-import axios from '@utils/axios';
+import Axios from '@utils/axios';
 import { toast } from 'react-hot-toast';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { APP } from '@utils/constants';
@@ -53,7 +52,7 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
     const deleteBoard = async (id: string) => {
         const toastId = toast.loading('Deleting board...')
         
-        await axios.post(`/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
+        await Axios.post(`/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
             if (res.data.status === 204) {
                 toast.success('Board deleted successfully', { id: toastId })
                 router.push('/')

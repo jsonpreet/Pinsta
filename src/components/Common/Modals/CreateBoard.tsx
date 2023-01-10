@@ -11,7 +11,7 @@ import z from 'zod'
 import { TextArea } from '@components/UI/TextArea'
 import { Form, useZodForm } from '@components/UI/Form'
 import { toast } from 'react-hot-toast'
-import axios from '@utils/axios'
+import Axios from '@utils/axios'
 import { BoardType, PinstaPublication } from '@utils/custom-types'
 import { Loader } from '@components/UI/Loader'
 import clsx from 'clsx'
@@ -70,7 +70,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
         
         setLoading(true)
 
-        return await axios.post(`/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
+        return await Axios.post(`/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
             if (res.data.data && res.data.data[0] !== undefined) {
                 setLoading(false)
                 toast.error('Board name already exists!')
@@ -88,7 +88,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
     }
 
     const createBoard = async (request: BoardType) => {
-        return await axios.post(`/create-board`, request).then((res) => {
+        return await Axios.post(`/create-board`, request).then((res) => {
             if (res.status === 200) {
                 console.log('Board created!')
                 toast.success('Board created successfully!')

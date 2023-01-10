@@ -1,7 +1,4 @@
 import MetaTags from '@components/Common/MetaTags'
-import { NoDataFound } from '@components/UI/NoDataFound'
-import { FetchBoardPins } from '@lib/db/actions'
-import { BoardType } from '@utils/custom-types'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -10,7 +7,6 @@ import BoardPins from './Pins'
 import formatHandle from '@utils/functions/formatHandle'
 import useAppStore from '@lib/store'
 import { Profile, useProfileQuery } from '@utils/lens/generated'
-import Custom404 from '@pages/404'
 import TimelineShimmer from '@components/Shimmers/TimelineShimmer'
 
 interface Props {

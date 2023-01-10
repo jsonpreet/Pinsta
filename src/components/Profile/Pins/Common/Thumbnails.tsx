@@ -30,11 +30,6 @@ const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
     });
     
     const pins = data?.publications?.items as PinstaPublication[]
-    
-
-    const deleteBoard = async (id: string) => {
-        return await axios.post(`/delete-board`, { user_id: currentProfileId, board_id: id})
-    }
 
     return (
         <>

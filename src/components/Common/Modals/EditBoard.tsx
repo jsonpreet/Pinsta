@@ -11,7 +11,7 @@ import z from 'zod'
 import { TextArea } from '@components/UI/TextArea'
 import { Form, useZodForm } from '@components/UI/Form'
 import { toast } from 'react-hot-toast'
-import axios from '@utils/axios'
+import Axios from '@utils/axios'
 import { BoardType } from '@utils/custom-types'
 import { Loader } from '@components/UI/Loader'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
@@ -68,7 +68,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
         
         setLoading(true)
         if (boardName.trim().toLowerCase() === board?.name.trim().toLowerCase()) {
-            const response = await axios.post(`/update-board`, request)
+            const response = await Axios.post(`/update-board`, request)
             if (response && response.status === 200) {
                 setLoading(false)
                 console.log('Board updated!')
@@ -79,7 +79,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                 toast.error('Error on updating board!')
             }
         } else {
-            return await axios.post(`/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
+            return await Axios.post(`/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
                 if (res.data.data && res.data.data[0] !== undefined) {
                     setLoading(false)
                     toast.error('Board name already exists!')

@@ -18,7 +18,7 @@ import { FiShare2 } from "react-icons/fi";
 import { FetchProfileBoards } from '@lib/db/actions'
 import DropMenu from '@components/UI/DropMenu'
 import { Input } from '@components/UI/Input'
-import axios from '@utils/axios'
+import Axios from '@utils/axios'
 import CreateBoardModal from '@components/Common/Modals/CreateBoard'
 import Link from 'next/link'
 import formatHandle from '@utils/functions/formatHandle'
@@ -76,7 +76,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             user_id: currentProfileId,
             post_id: pin.id
         }
-        return axios.post(`/unsave-pin`,request).then((res) => {
+        return Axios.post(`/unsave-pin`,request).then((res) => {
             if (res.status === 200) {
                 console.log('Pin removed!')
                 toast.success('Pin removed!')
@@ -106,7 +106,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             user_id: currentProfileId,
             post_id: pin.id
         }
-        return await axios.post(`/save-pin`, request).then((res) => {
+        return await Axios.post(`/save-pin`, request).then((res) => {
         if (res.status === 200) {
             setLoading(false)
             onCancel()
