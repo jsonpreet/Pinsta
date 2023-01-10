@@ -12,63 +12,64 @@ import { useInView } from 'react-cool-inview';
 import Timeline from '@components/Common/Timeline';
 
 const Hashtag: NextPage = () => {
-    const router = useRouter()
-    const { tag } = router.query
+  const router = useRouter()
+  const { tag } = router.query
 
-    const request = {
-        sortCriteria: PublicationSortCriteria.Latest,
-        limit: 50,
-        noRandomize: false,
-        publicationTypes: [PublicationTypes.Post],
-        customFilters: LENS_CUSTOM_FILTERS,
-        metadata: {
-            tags: tag ? { oneOf: [tag] } : undefined,
-            mainContentFocus: [PublicationMainFocus.Image]
-        }
+  const request = {
+    sortCriteria: PublicationSortCriteria.Latest,
+    limit: 50,
+    noRandomize: false,
+    publicationTypes: [PublicationTypes.Post],
+    customFilters: LENS_CUSTOM_FILTERS,
+    metadata: {
+      tags: tag ? { oneOf: [tag] } : undefined,
+      mainContentFocus: [PublicationMainFocus.Image]
     }
+  }
 
     
-    const { data, loading, error, fetchMore } = useExploreQuery({
-        variables: { request }
-    })
+  const { data, loading, error, fetchMore } = useExploreQuery({
+    // @ts-ignore
+    variables: { request }
+  })
 
-    const pageInfo = data?.explorePublications?.pageInfo
-    
-    const pins = data?.explorePublications?.items as PinstaPublication[]
+const pageInfo = data?.explorePublications?.pageInfo
 
-    const { observe } = useInView({
-        rootMargin: SCROLL_ROOT_MARGIN,
-        onEnter: async () => {
-          await fetchMore({
-            variables: {
-              request: {
-                ...request,
-                cursor: pageInfo?.next
-              }
-            }
-          })
+const pins = data?.explorePublications?.items as PinstaPublication[]
+
+const { observe } = useInView({
+  rootMargin: SCROLL_ROOT_MARGIN,
+  onEnter: async () => {
+    await fetchMore({
+      variables: {
+        request: {
+          ...request,
+          cursor: pageInfo?.next
         }
-      })
-    
-      if (pins?.length === 0) {
-        return <NoDataFound isCenter withImage text="No pins found" />
       }
-      return (
-        <>
-          <MetaTags />
-          {loading && <TimelineShimmer />}
-          {!error && !loading && pins && (
-            <>  
-              <Timeline pins={pins} />
-              {pageInfo?.next && pins.length !== pageInfo?.totalCount && (
-                <span ref={observe} className="flex justify-center p-10">
-                  <Loader />
-                </span>
-              )}
-            </>
+    })
+  }
+  })
+
+  if (pins?.length === 0) {
+    return <NoDataFound isCenter withImage text="No pins found" />
+  }
+  return (
+    <>
+      <MetaTags />
+      {loading && <TimelineShimmer />}
+      {!error && !loading && pins && (
+        <>  
+          <Timeline pins={pins} />
+          {pageInfo?.next && pins.length !== pageInfo?.totalCount && (
+            <span ref={observe} className="flex justify-center p-10">
+              <Loader />
+            </span>
           )}
         </>
-      )
+      )}
+    </>
+  )
 }
 
 export default Hashtag
