@@ -35,8 +35,6 @@ const Saved: FC<Props> = ({ profile }) => {
     ) {
         return <NoDataFound isCenter withImage text="No pins found" />
     }
-    
-    console.log('boards', data?.data)
 
     const boards = data?.data as BoardType[]
     return (
@@ -45,8 +43,8 @@ const Saved: FC<Props> = ({ profile }) => {
                 {isFetched ?
                     <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
                         {boards?.map((board, index) => {
-                            const showPrivateBoard = currentProfileId === board?.user_id ? true : board.is_private
-                            if (!showPrivateBoard) return null
+                            const showPrivateBoard = currentProfileId === board?.user_id ? false : board.is_private
+                            if (showPrivateBoard) return null
                             return (
                                 <Board key={index} profile={profile} board={board} />
                             )
