@@ -34,16 +34,16 @@ const Profiles: FC<Props> = ({ results, loading, clearSearch }) => {
                         <span className="flex items-center justify-between">
                             <div className="inline-flex items-center w-3/4 space-x-2">
                                 <img
-                                className="w-7 h-7 rounded-full"
-                                src={getProfilePicture(profile, 'avatar')}
-                                draggable={false}
-                                alt="pfp"
+                                    className="w-7 h-7 rounded-full"
+                                    src={getProfilePicture(profile, 'avatar')}
+                                    draggable={false}
+                                    alt="pfp"
                                 />
-                                <div className="flex items-center space-x-1">
-                                <p className="text-base truncate line-clamp-1">
-                                    <span>{profile?.name ?? formatHandle(profile?.handle)}</span>
-                                </p>
-                                    <IsVerified id={profile?.id} size="sm" />
+                                <div className="flex items-center">
+                                    <p className="text-sm truncate line-clamp-1">
+                                        <span>{formatHandle(profile?.handle)}</span>
+                                    </p>
+                                    <IsVerified id={profile?.id} size="xs" />
                                 </div>
                             </div>
                             <span className="inline-flex items-center space-x-1 text-xs whitespace-nowrap opacity-60">

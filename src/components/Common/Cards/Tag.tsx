@@ -34,12 +34,14 @@ const Tag: FC<Props> = ({ tag }) => {
             {/* {!error && !loading && pins.length > 0 && ( */}
                 <Link
                     href={`/hashtag/${tag.toLowerCase()}`} 
-                    className='flex flex-col w-full h-20 items-center justify-center relative'
+                    className='flex flex-col w-full lg:h-24 h-20 items-center justify-center relative'
                 >
+                {!error && !loading && pins.length > 0 &&
                     <div
                         className='w-full h-full bg-cover bg-center rounded-lg'
                         style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[0]), 'thumbnail_sm')})` }}
                     ></div>
+                }
                     <div className='absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 rounded-lg'></div>
                     <div className='absolute top-0 left-0 w-full h-full flex items-center justify-center'>
                         <div className='text-white text-md font-bold lowercase'>#{tag}</div>

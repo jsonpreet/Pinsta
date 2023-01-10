@@ -123,9 +123,9 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                             </div>
                         </div>
                         <div
-                            className="absolute top-[60px] w-full bg-white rounded-br-xl rounded-bl-xl shadow-2xl"
+                            className="absolute top-[60px] w-full bg-white rounded-br-xl py-2 rounded-bl-xl shadow-2xl"
                         >
-                            {showLoader && <div className="flex flex-row items-center py-8 justify-center">
+                            {loading && <div className="flex flex-row items-center py-8 justify-center">
                                 <Loader className={`h-7 w-7 text-[#ec05ad]`} /></div>
                             }
                             {showResults &&
@@ -139,7 +139,7 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                                     )}
                                 </div>
                             }
-                            {showSuggestions &&
+                            {/* {showSuggestions &&
                                 <div className="flex flex-col">
                                     <div className="flex flex-col">
                                         <div className="flex flex-row justify-between items-center px-4 pt-4">
@@ -154,7 +154,7 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                                         </div>
                                     </div>
                                 </div>
-                            }
+                            } */}
                         </div>
                     </div>
                 </div>
