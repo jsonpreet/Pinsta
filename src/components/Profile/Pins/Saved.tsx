@@ -32,8 +32,11 @@ const Saved: FC<Props> = ({ profile }) => {
         (profilePinsFetched && isFetched && pins?.data?.length === 0 && data?.data?.length === 0)
         ||
         (isError && profilePinsError)
-    )
+    ) {
         return <NoDataFound isCenter withImage text="No pins found" />
+    }
+    
+    console.log('boards', data?.data)
 
     const boards = data?.data as BoardType[]
     return (
