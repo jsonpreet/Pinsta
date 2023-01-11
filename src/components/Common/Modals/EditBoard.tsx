@@ -16,7 +16,7 @@ import { Loader } from '@components/UI/Loader'
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import imageCdn from '@utils/functions/imageCdn'
 import formatHandle from '@utils/functions/formatHandle'
-import { PINSTA_API_URL } from '@utils/constants'
+import { PINSTA_SERVER_URL } from '@utils/constants'
 import axios from 'axios'
 
 type Props = {
@@ -69,7 +69,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
         
         setLoading(true)
         if (boardName.trim().toLowerCase() === board?.name.trim().toLowerCase()) {
-            const response = await axios.post(`${PINSTA_API_URL}/update-board`, request)
+            const response = await axios.post(`${PINSTA_SERVER_URL}/update-board`, request)
             if (response && response.status === 200) {
                 setLoading(false)
                 console.log('Board updated!')
@@ -80,7 +80,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                 toast.error('Error on updating board!')
             }
         } else {
-            return await axios.post(`${PINSTA_API_URL}/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
+            return await axios.post(`${PINSTA_SERVER_URL}/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
                 if (res.data.data && res.data.data[0] !== undefined) {
                     setLoading(false)
                     toast.error('Board name already exists!')

@@ -22,6 +22,8 @@ export const MIXPANEL_API_HOST = '/collect'
 
 export const PINSTA_API_URL = 'https://api.pinsta.xyz'
 
+export const PINSTA_SERVER_URL = 'https://server.pinsta.xyz'
+
 // lens
 export const MAINNET_API_URL = 'https://api.lens.dev'
 export const TESTNET_API_URL = 'https://api-mumbai.lens.dev'

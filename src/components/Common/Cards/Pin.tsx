@@ -18,7 +18,7 @@ import { BsTrash } from 'react-icons/bs'
 import usePersistStore from '@lib/store/persist'
 import useAppStore from '@lib/store'
 import { toast } from 'react-hot-toast'
-import { PINSTA_API_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
+import { PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
 import axios from 'axios'
 
 dayjs.extend(relativeTime)
@@ -50,7 +50,7 @@ const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
       user_id: currentProfileId,
       post_id: pin.id
     }
-    return axios.post(`${PINSTA_API_URL}/unsave-pin`,request).then((res) => {
+    return axios.post(`${PINSTA_SERVER_URL}/unsave-pin`,request).then((res) => {
       if (res.status === 200) {
         router.replace(window.location.pathname)
         console.log('Pin removed!')
