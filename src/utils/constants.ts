@@ -25,10 +25,8 @@ export const PINSTA_API_URL = 'https://api.pinsta.xyz'
 export const PINSTA_SERVER_URL = 'https://server.pinsta.xyz'
 
 export const NEXT_PUBLIC_EVER_BUCKET_NAME = 'pinsta'
-
 export const EVER_ENDPOINT = 'https://endpoint.4everland.co'
-
-export const EVER_REGION = 'us-west-1'
+export const EVER_REGION = 'us-west-2'
 
 // lens
 export const MAINNET_API_URL = 'https://api.lens.dev'
