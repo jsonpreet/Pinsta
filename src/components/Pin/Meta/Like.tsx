@@ -12,6 +12,7 @@ import onError from "@utils/functions/onError";
 import { SIGN_IN_REQUIRED_MESSAGE } from "@utils/constants";
 import { publicationKeyFields } from "@utils/functions/publicationKeyFields";
 import { motion } from 'framer-motion';
+import { Analytics } from "@utils/analytics";
 
 dayjs.extend(relativeTime)
 
@@ -28,15 +29,15 @@ const Like: FC<Props> = ({ pin, isComment = false }) => {
 
     const updateCache = (cache: ApolloCache<any>, type: ReactionTypes.Upvote | ReactionTypes.Downvote) => {
         if (pathname === '/pin/[id]') {
-        cache.modify({
-            id: publicationKeyFields(pin),
-            fields: {
-            stats: (stats) => ({
-                ...stats,
-                totalUpvotes: type === ReactionTypes.Upvote ? stats.totalUpvotes + 1 : stats.totalUpvotes - 1
-            })
-            }
-        });
+            cache.modify({
+                id: publicationKeyFields(pin),
+                fields: {
+                stats: (stats) => ({
+                    ...stats,
+                    totalUpvotes: type === ReactionTypes.Upvote ? stats.totalUpvotes + 1 : stats.totalUpvotes - 1
+                })
+                }
+            });
         }
     };
 
@@ -83,10 +84,16 @@ const Like: FC<Props> = ({ pin, isComment = false }) => {
             setLiked(false);
             setCount(count - 1);
             removeReaction(variable);
+            Analytics.track('Pin liked!', {
+                pin: pin.id
+            })
         } else {
             setLiked(true);
             setCount(count + 1);
             addReaction(variable);
+            Analytics.track('Pin unliked!', {
+                pin: pin.id
+            })
         }
     };
 

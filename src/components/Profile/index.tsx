@@ -8,15 +8,20 @@ import formatHandle from '@utils/functions/formatHandle'
 import { Profile, useProfileQuery } from '@utils/lens/generated'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Info from './Info'
 import Pins from './Pins'
+import { Analytics, TRACK } from '@utils/analytics'
 
 const Profile: NextPage = () => {
     const { query } = useRouter()
     const username = query.username ?? ''
     const handle = formatHandle(username as string, true);
     const currentProfile = useAppStore((state) => state.currentProfile)
+
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.PROFILE)
+    }, [])
 
     const { data, loading, error } = useProfileQuery({
         variables: {

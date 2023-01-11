@@ -14,6 +14,7 @@ import Profiles from './Profiles'
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { TAGS } from '@utils/data/tags'
 import Tag from '../Cards/Tag'
+import { Analytics, TRACK } from '@utils/analytics'
 
 interface Props {
   onSearchResults?: () => void
@@ -77,6 +78,9 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
 
     const onSearch = ((e: any) => {
         if (e.target.value.length > 0) {
+            Analytics.track(TRACK.SEARCH_PROFILES, {
+                search: e.target.value
+            })
             setLoader(true)
             setShowResults(true);
             setKeyword(e.target.value);

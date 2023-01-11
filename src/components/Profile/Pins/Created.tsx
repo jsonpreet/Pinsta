@@ -3,10 +3,11 @@ import TimelineShimmer from '@components/Shimmers/TimelineShimmer';
 import { Loader } from '@components/UI/Loader';
 import { NoDataFound } from '@components/UI/NoDataFound';
 import useAppStore from '@lib/store';
+import { Analytics, TRACK } from '@utils/analytics';
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants';
 import { PinstaPublication } from '@utils/custom-types';
 import { Profile, PublicationMainFocus, PublicationTypes, useProfilePostsQuery } from '@utils/lens/generated'
-import {FC} from 'react'
+import {FC, useEffect} from 'react'
 import { useInView } from 'react-cool-inview';
 
 interface Props {
@@ -24,6 +25,10 @@ const Created: FC<Props> = ({ profile }) => {
         profileId: profile?.id,
         metadata: { mainContentFocus: [PublicationMainFocus.Image] },
     }
+    
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.ALLPIN)
+    }, [])
 
     const { data, loading, error, fetchMore } = useProfilePostsQuery({
         variables: { request },

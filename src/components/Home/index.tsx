@@ -9,9 +9,15 @@ import { useInView } from 'react-cool-inview'
 import type { PinstaPublication } from '@utils/custom-types'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
 import useAppStore from '@lib/store'
+import { Analytics, TRACK } from '@utils/analytics'
+import { useEffect } from 'react'
 
 const Home: NextPage = () => {
   const activeTagFilter = useAppStore((state) => state.activeTagFilter)
+
+  useEffect(() => {
+    Analytics.track(TRACK.PAGE_VIEW.HOME)
+  }, [])
 
   const request = {
     sortCriteria: PublicationSortCriteria.CuratedProfiles,

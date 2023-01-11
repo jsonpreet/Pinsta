@@ -27,10 +27,15 @@ import clsx from 'clsx';
 import { BsBell } from 'react-icons/bs';
 import { useInView } from 'react-cool-inview';
 import { Loader } from '@components/UI/Loader';
+import { Analytics, TRACK } from '@utils/analytics';
 
 const Notifications: FC = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [feedType, setFeedType] = useState<'ALL' | 'MENTIONS' | 'COMMENTS'>('ALL');
+
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.NOTIFICATIONS)
+    }, [])
 
     const getNotificationType = () => {
         switch (feedType) {

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Modal from '@components/UI/Modal'
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
 import { Switch } from '@headlessui/react'
@@ -18,6 +18,7 @@ import imageCdn from '@utils/functions/imageCdn'
 import formatHandle from '@utils/functions/formatHandle'
 import axios from 'axios'
 import { PINSTA_SERVER_URL } from '@utils/constants'
+import { Analytics, TRACK } from '@utils/analytics'
 
 type Props = {
     pin?: PinstaPublication,
@@ -57,6 +58,10 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
         form.reset()
     }
 
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.CREATE_BOARD)
+    }, [])
+
     const onCreate = async ({ boardName, boardDescription }: FormData) => {
         const request = {
             name: boardName.trim(),
@@ -73,6 +78,9 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
         return await axios.post(`${PINSTA_SERVER_URL}/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
             if (res.data.data && res.data.data[0] !== undefined) {
                 setLoading(false)
+                Analytics.track('Board name already exists!', {
+                    board_name: boardName,
+                })
                 toast.error('Board name already exists!')
                 return
             } else {
@@ -94,9 +102,14 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
                 toast.success('Board created successfully!')
                 setCurrentBoard(res.data.data)
                 savePinToBoard(res.data.data)
+                Analytics.track('Board Created', {
+                    board_id: res.data.data.id,
+                    board_name: res.data.data.name,
+                })
                 return 
             } else {
                 setLoading(false)
+                Analytics.track('Board Creation Failed')
                 console.log('Error creating board', res)
                 toast.error('Error on creating board!')
                 return 
@@ -104,6 +117,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
         }).catch((err) => {
             setLoading(false)
             console.log(err)
+            Analytics.track('Board Creation Failed')
             toast.error('Error on creating board!')
             return
         })

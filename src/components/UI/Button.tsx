@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 
 import { Loader } from './Loader'
 
-export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material' | 'dark' | 'success' | 'light'
+export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material' | 'dark' | 'success' | 'light' | 'outline'
 
 interface Props
     extends DetailedHTMLProps<
@@ -48,6 +48,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                     'bg-gray-100 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-white': variant === 'light',
                     'bg-gray-800 dark:bg-gray-700 hover:bg-red-600': variant === 'dark',
                     'bg-red-600 hover:bg-gray-900': variant === 'danger',
+                    'bg-transparent hover:border-gray-600 border border-gray-300': variant === 'outline',
                 },
                 className
             )}
@@ -56,7 +57,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
         >
             <span
                 className={clsx('relative flex duration-75 delay-75 items-center justify-center space-x-2', {
-                    'text-white': variant !== 'secondary' && variant !== 'material' && variant !== 'light',
+                    'text-white': variant !== 'secondary' && variant !== 'material' && variant !== 'light' && variant !== 'outline',
                     'group-hover:text-white dark:group-hover:text-gray-800' : variant === 'light',
                 })}
             >

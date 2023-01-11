@@ -8,3 +8,7 @@ export const PRIVACY = '/privacy'
 export const SEARCH = '/search'
 
 export const DISCORD = '/discord'
+
+export const SETTINGS_INTERESTS = '/settings/interests'
+export const SETTINGS_PERMISSIONS = '/settings/permissions'
+export const SETTINGS_DANGER_ZONE = '/settings/danger'

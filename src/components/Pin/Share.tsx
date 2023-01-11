@@ -57,6 +57,9 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
 
     const copied = () => {
         setIsCopied(true);
+        Analytics.track('Pin link copied!', {
+            pin: pin.id
+        })
         toast.success('Copied! link to your clipboard to share');
     }
 
@@ -84,13 +87,22 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                 setBoardName('Profile')
                 setLoading(false)
                 onCancel()
+                Analytics.track('Pin removed', {
+                    pin: pin.id
+                })
                 setIsSaved(false)
             } else {
                 setLoading(false)
+                Analytics.track('Error on removing pin', {
+                    pin: pin.id
+                })
                 toast.error('Error on removing pin!')
             }
         }).catch((err) => {
             setLoading(false)
+            Analytics.track('Error on removing pin', {
+                pin: pin.id
+            })
             toast.error('Error on removing pin!')
         })
     }
@@ -113,15 +125,27 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             setIsSaved(true)
             setBoardName(board?.name ?? 'Profile')
             setBoardURL(`${formatHandle(currentProfile?.handle)}${board ? `/${board?.slug}` : ''}`)
+            Analytics.track('Pin Saved', {
+                board: board?.name ?? 'Profile',
+                pin: pin.id
+            })
             toast.success(`Pin saved to ${board?.name ?? 'your profile'}`)
         } else {
                 console.log('Error creating board', res)
                 setLoading(false)
+                Analytics.track('Error Pin Saved', {
+                    board: board?.name ?? 'Profile',
+                    pin: pin.id
+                })
                 toast.error('Error on saving pin!')
             }
         }).catch((err) => {
             console.log('Error creating board', err)
             setLoading(false)
+            Analytics.track('Error Pin Saved', {
+                board: board?.name ?? 'Profile',
+                pin: pin.id
+            })
             toast.error('Error on saving pin!')
         })
     }

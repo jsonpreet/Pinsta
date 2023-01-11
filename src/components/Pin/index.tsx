@@ -25,7 +25,7 @@ import clsx from 'clsx'
 import RelatedPins from './Related'
 import { directCheckSavedPin, getBoard } from '@lib/db/api'
 import Link from 'next/link'
-import { Analytics } from '@utils/analytics'
+import { Analytics, TRACK } from '@utils/analytics'
 
 const Pin: NextPage = () => {
     const router = useRouter()
@@ -52,6 +52,10 @@ const Pin: NextPage = () => {
 
     const pin = data?.publication as PinstaPublication
     const publicationType = pin?.__typename
+
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.PIN)
+    }, [])
 
     useEffect(() => {
         if (pin) {

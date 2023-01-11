@@ -8,6 +8,7 @@ import { PINSTA_API_URL } from '@utils/constants';
 import { FetchProfileBoards, FetchProfilePins } from '@lib/db/actions';
 import usePersistStore from '@lib/store/persist';
 import AllPins from './All';
+import { Analytics, TRACK } from '@utils/analytics';
 
 interface Props {
     profile: Profile
@@ -16,7 +17,11 @@ interface Props {
 const Saved: FC<Props> = ({ profile }) => {
     const { isFetched, isLoading, isError, data } = FetchProfileBoards(profile?.id)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
-    const { isFetched:profilePinsFetched, isLoading:profilePinsLoading, isError: profilePinsError, data: pins } = FetchProfilePins(profile?.id)
+    const { isFetched: profilePinsFetched, isLoading: profilePinsLoading, isError: profilePinsError, data: pins } = FetchProfilePins(profile?.id)
+    
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.SAVEDPIN)
+    }, [])
     
     if (isLoading) {
         return (

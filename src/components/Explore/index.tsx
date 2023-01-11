@@ -10,6 +10,8 @@ import type { PinstaPublication } from '@utils/custom-types'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
 import useAppStore from '@lib/store'
 import clsx from 'clsx'
+import { useEffect } from 'react'
+import { Analytics, TRACK } from '@utils/analytics'
 
 interface ExploreFilters {
     [key: string]: PublicationSortCriteria
@@ -19,6 +21,11 @@ const Explore: NextPage = () => {
     const activeTagFilter = useAppStore((state) => state.activeTagFilter)
     const setActiveSortFilter = useAppStore((state) => state.setActiveSortFilter)
     const activeSortFilter = useAppStore((state) => state.activeSortFilter)
+
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.EXPLORE)
+    }, [])
+
     const FILTERS : ExploreFilters = {
         'collected': PublicationSortCriteria.TopCollected,
         'commented': PublicationSortCriteria.TopCommented,

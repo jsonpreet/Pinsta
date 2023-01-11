@@ -22,38 +22,14 @@ export const TRACK = {
     UPDATED_CHANNEL_INFO: 'Updated Channel Info',
     DEPOSIT_MATIC: 'Deposit Matic',
     FILTER_CATEGORIES: 'Filter Categories',
-    EMBED_VIDEO: {
-        OPEN: 'Open Embed',
-        COPY: 'Copy Embed',
-        LOADED: 'Embed Video Loaded'
-    },
     PROFILE_INTERESTS: {
         ADD: 'Add Profile Interest',
         REMOVE: 'Remove Profile Interest',
         VIEW: 'View Profile Interests'
     },
     NEW_COMMENT: 'New Comment',
-    CLICK_VIDEO: 'Click Video',
-    DELETE_VIDEO: 'Delete Video',
-    DELETE_COMMENT: 'Delete Video Comment',
-    CLICK_WATCH_LATER: 'Click Watch Later',
     CLICK_VIEW_METADATA: 'Click View Metadata',
     CLICK_VIEW_TOKEN: 'Click View Token',
-    CHANNEL: {
-        CLICK_CHANNEL_VIDEOS: 'Click Channel Videos',
-        CLICK_CHANNEL_BYTES: 'Click Channel Bytes',
-        CLICK_CHANNEL_COMMENTED: 'Click Channel Commented',
-        CLICK_CHANNEL_MIRRORED: 'Click Channel Mirrored',
-        CLICK_CHANNEL_NFTS: 'Click Channel NFTs',
-        CLICK_OTHER_CHANNELS: 'Click Other Channels',
-        CLICK_CHANNEL_STATS: 'Click Channel Stats',
-        CLICK_CHANNEL_ABOUT: 'Click Channel About',
-        CLICK_CHANNEL_COVER_LINKS: 'Click Channel Cover Links'
-    },
-    SUBSCRIBE_CHANNEL: 'Subscribe Channel',
-    UNSUBSCRIBE_CHANNEL: 'Unsubscribe Channel',
-    LIKE_VIDEO: 'Like Video',
-    DISLIKE_VIDEO: 'Dislike Video',
     CLICK_VIDEO_OPTIONS: 'Click Video Options',
     NOTIFICATIONS: {
         CLICK_NOTIFICATIONS: 'Click Notifications',
@@ -64,58 +40,51 @@ export const TRACK = {
         CLICK_SUBSCRIPTIONS: 'Click Subscribe Notifications'
     },
     CLICK_USER_MENU: 'Click User Menu',
-    OPENED_MUTUAL_CHANNELS: 'Opened Mutual Channels',
+    CLICK_HELP_MENU: {
+        OPEN: 'Open Help Menu',
+        TWITTER: 'Click Twitter',
+        LENSTER: 'Click Lenster',
+        DISCORD: 'Click Discord',
+    },
     COLLECT: {
         OPEN: 'Open Collect',
         FREE: 'Collected for Free',
         FEE: 'Collected for Fee'
     },
-    TIP: {
-        OPEN: 'Open Tip Modal',
-        SENT: 'Sent Tip',
-        COMMENT: 'New Tip Comment'
-    },
-    COPY: { VIDEO_URL: 'Copy Video Url' },
-    SHARE_VIDEO: {
-        LENSTER: 'Share to Lenster',
-        TWITTER: 'Share to Twitter',
-        REDDIT: 'Share to Reddit',
-        LINKEDIN: 'Share to LinkedIn'
-    },
-    SEARCH_CHANNELS: 'Search Channels',
-    SEARCH_VIDEOS: 'Search Videos',
+    SEARCH_PROFILES: 'Search Profiles',
     SYSTEM: {
         THEME: {
-        DARK: 'Seleted Dark Theme',
-        LIGHT: 'Seleted Light Theme'
+            DARK: 'Seleted Dark Theme',
+            LIGHT: 'Seleted Light Theme'
         },
         MORE_MENU: {
-        OPEN: 'Open More Menu',
-        GITHUB: 'Click Github',
-        DISCORD: 'Click Discord',
-        ROADMAP: 'Click Roadmap',
-        STATUS: 'Click Status',
-        TWITTER: 'Click Twitter'
+            OPEN: 'Open More Menu',
+            GITHUB: 'Click Github',
+            DISCORD: 'Click Discord',
+            ROADMAP: 'Click Roadmap',
+            STATUS: 'Click Status',
+            TWITTER: 'Click Twitter'
         }
     },
     REPORT: 'Report Publication',
     PAGE_VIEW: {
         HOME: 'Home Page',
+        LATEST: 'Latest Page',
         EXPLORE: 'Explore Page',
-        CHANNEL: 'Channel Page',
+        PROFILE: 'Profile Page',
+        BOARD: 'Board Page',
+        CREATE_BOARD: 'Create Board Modal',
+        EDIT_BOARD: 'Edit Board Modal',
+        SAVEDPIN: 'Profile Saved Pins',
+        ALLPIN: 'Profile All Pins',
         EXPLORE_TRENDING: 'Trending Page',
         EXPLORE_INTERESTING: 'Interesting Page',
         EXPLORE_POPULAR: 'Popular Page',
         EXPLORE_RECENT: 'Recents Page',
         EXPLORE_CURATED: 'Curated Page',
         THANKS: 'Thanks Page',
-        UPLOAD: {
-        DROPZONE: 'DropZone Page',
-        STEPS: 'Upload Steps Page'
-        },
         SETTINGS: 'Settings Page',
-        WATCH: 'Watch Page',
-        BYTES: 'Bytes Page',
+        PIN: 'Pin Page',
         NOTIFICATIONS: 'Notifications Page'
     }
 }

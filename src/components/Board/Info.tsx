@@ -24,6 +24,7 @@ import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, Wha
 import { FiShare2 } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { Analytics } from '@utils/analytics';
 
 dayjs.extend(dayjsTwitter);
 
@@ -42,6 +43,9 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
 
     const copied = () => {
         setIsCopied(true);
+        Analytics.track('Board Url Copied', {
+            board_id: board.id,
+        })
         toast.success('Copied! link to your clipboard to share');
     }
 
@@ -54,6 +58,9 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
         
         await axios.post(`${PINSTA_API_URL}/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
             if (res.data.status === 204) {
+                Analytics.track('Board Deleted', {
+                    board_id: id,
+                })
                 toast.success('Board deleted successfully', { id: toastId })
                 router.push('/')
             } else {

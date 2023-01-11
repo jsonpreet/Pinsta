@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Modal from '@components/UI/Modal'
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
 import { Switch } from '@headlessui/react'
@@ -18,6 +18,7 @@ import imageCdn from '@utils/functions/imageCdn'
 import formatHandle from '@utils/functions/formatHandle'
 import { PINSTA_SERVER_URL } from '@utils/constants'
 import axios from 'axios'
+import { Analytics, TRACK } from '@utils/analytics'
 
 type Props = {
     board?: BoardType,
@@ -55,6 +56,10 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
         form.reset()
     }
 
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.EDIT_BOARD)
+    }, [])
+
     const onCreate = async ({ boardName, boardDescription }: FormData) => {
         const request = {
             id: board?.id,
@@ -72,10 +77,18 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
             const response = await axios.post(`${PINSTA_SERVER_URL}/update-board`, request)
             if (response && response.status === 200) {
                 setLoading(false)
+                Analytics.track('Board updated!', {
+                    board_id: board?.id,
+                    board_name: boardName,
+                })
                 console.log('Board updated!')
                 toast.success('Board updated successfully!')
             } else {
                 setLoading(false)
+                Analytics.track('Error updating board', {
+                    board_id: board?.id,
+                    board_name: boardName,
+                })
                 console.log('Error updating board', response)
                 toast.error('Error on updating board!')
             }
@@ -83,13 +96,20 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
             return await axios.post(`${PINSTA_SERVER_URL}/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
                 if (res.data.data && res.data.data[0] !== undefined) {
                     setLoading(false)
+                    Analytics.track('Error updating board', {
+                        board_name: boardName,
+                    })
                     toast.error('Board name already exists!')
                     return
                 }
             }).catch((err) => {
                 setLoading(false)
                 console.log(err)
-                toast.error('Error on creating board!')
+                Analytics.track('Error updating board', {
+                    board_id: board?.id,
+                    board_name: boardName,
+                })
+                toast.error('Error on updating board!')
                 return
             })
         }

@@ -1,13 +1,14 @@
 import MetaTags from '@components/Common/MetaTags'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import BoardInfo from './Info'
 import BoardPins from './Pins'
 import formatHandle from '@utils/functions/formatHandle'
 import useAppStore from '@lib/store'
 import { Profile, useProfileQuery } from '@utils/lens/generated'
 import TimelineShimmer from '@components/Shimmers/TimelineShimmer'
+import { Analytics, TRACK } from '@utils/analytics'
 
 interface Props {
     board: any
@@ -18,6 +19,10 @@ const Board: NextPage<Props> = ({ board }) => {
     const username = query.username ?? ''
     const handle = formatHandle(username as string, true);
     const currentProfile = useAppStore((state) => state.currentProfile)
+    
+    useEffect(() => {
+        Analytics.track(TRACK.PAGE_VIEW.BOARD)
+    }, [])
 
     const { data, loading, error } = useProfileQuery({
         variables: {
