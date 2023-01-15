@@ -18,8 +18,6 @@ interface Props {
 }
 
 const Created: FC<Props> = ({ profile }) => {
-
-    const currentProfile = useAppStore((state) => state.currentProfile);
     
     const queuedPublications = usePersistStore((state) => state.queuedPublications)
 
@@ -62,6 +60,7 @@ const Created: FC<Props> = ({ profile }) => {
         return <NoDataFound isCenter withImage text="No pins found" />
     }
 
+    console.log(pins)
     return (
         <>
             {queuedPublications.length === 0 && loading && <TimelineShimmer />}

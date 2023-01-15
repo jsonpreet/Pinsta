@@ -6,9 +6,9 @@ import { ALLOWED_IMAGE_TYPES } from '@utils/constants'
 import useDragAndDrop from '@utils/hooks/useDragAndDrop'
 import clsx from 'clsx'
 import { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
-import { BsCloudUpload, BsTrash, BsUpload } from 'react-icons/bs'
+import { BsCloudUpload, BsTrash } from 'react-icons/bs'
 // @ts-ignore
 import fileReaderStream from 'filereader-stream'
 import Details from './Details'
@@ -16,8 +16,6 @@ import Details from './Details'
 const Create: NextPage = () => {
     const setCreatePin = useAppStore((state) => state.setCreatePin)
     const createdPin = useAppStore((state) => state.createdPin)
-    const [showOnFocus, setShowOnFocus] = useState(false)
-    const currentProfile = useAppStore((state) => state.currentProfile)
     const {
         dragOver,
         setDragOver,
@@ -30,8 +28,6 @@ const Create: NextPage = () => {
     useEffect(() => {
         Analytics.track('Pageview', { path: TRACK.PAGE_VIEW.UPLOAD.DROPZONE })
     }, [])
-
-    console.log(createdPin)
 
     const uploadImage = (file: File) => {
         try {
@@ -83,12 +79,12 @@ const Create: NextPage = () => {
             `}
             </style>
             <MetaTags title='Create Pin' />
-            <div className='w-full max-w-[1024px] mt-10 dark:bg-gray-800 md:shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] bg-white md:rounded-3xl mx-auto md:mb-0 mb-4'>
-                <div className='flex flex-col items-center justify-center w-full h-full min-h-[400px] p-10'>
-                    <div className='flex space-x-10 w-full h-full min-h-[400px]'>
-                        <div className='flex flex-col w-full lg:w-1/3 bg-gray-100 p-4 rounded-md h-full min-h-[400px]'>
+            <div className='w-full max-w-[1024px] mt-0 md:mt-10 dark:bg-gray-800 md:shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] bg-white md:rounded-3xl mx-auto mb-0'>
+                <div className='flex flex-col items-center justify-center w-full h-full min-h-auto md:min-h-[400px] p-6 md:p-10'>
+                    <div className='flex md:flex-row flex-col space-x-0 space-y-10 md:space-y-0 md:space-x-10 w-full h-full min-h-auto md:min-h-[400px]'>
+                        <div className='flex flex-col w-full lg:w-1/3 bg-gray-100 p-4 rounded-md h-full min-h-[200px] md:min-h-[400px]'>
                             {createdPin && createdPin?.preview ? (
-                                <div className='relative flex flex-col flex-none w-full h-full min-h-[400px]'>
+                                <div className='relative flex flex-col flex-none w-full h-full min-h-[200px] md:min-h-[400px]'>
                                     <img
                                         src={createdPin?.preview}
                                         className='object-cover rounded-md'
@@ -97,7 +93,7 @@ const Create: NextPage = () => {
                                     <div className='absolute top-2 right-2'>
                                         <button
                                             onClick={() => setCreatePin(UPLOADED_FORM_DEFAULTS)}
-                                            className='w-8 h-8 border border-red-600 flex items-center justify-center text-white bg-clip-padding backdrop-blur-xl backdrop-filter bg-red-500/80 rounded-full hover:bg-gray-900/80'
+                                            className='w-8 h-8 flex items-center justify-center text-red-500 bg-clip-padding backdrop-blur-xl backdrop-filter bg-white rounded-full hover:text-gray-900'
                                         >
                                             <BsTrash size={18} />
                                         </button>
@@ -113,7 +109,7 @@ const Create: NextPage = () => {
                             >
                                 <div
                                     className={clsx(
-                                        'border-dashed border-2 h-full w-full rounded-md flex justify-between p-10 flex-col border-gray-200 min-h-[500px]',
+                                        'border-dashed border-2 h-full w-full rounded-md flex justify-between p-4 md:p-10 flex-col border-gray-200 space-y-6 md:space-y-0 min-h-[200px] md:min-h-[400px]',
                                         { '!border-red-400': dragOver }
                                     )}
                                 >
@@ -160,7 +156,7 @@ const Create: NextPage = () => {
                             )
                         }
                         </div>
-                        <div className='relative flex flex-col w-full lg:w-2/3 space-y-6 min-h-[400px]'>
+                        <div className='relative flex flex-col w-full lg:w-2/3 space-y-6 min-h-[200px] md:min-h-[400px]'>
                             <Details/>
                         </div>
                     </div>

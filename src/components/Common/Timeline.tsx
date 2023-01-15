@@ -19,7 +19,7 @@ const Timeline: FC<Props> = ({ pins, pinType = 'Post', board, currentPinId, isBo
                     {pins?.map((pin: PinstaPublication) => {
                         const isCurrentPin = pin.id === currentPinId
                         const isPub = pin.__typename === pinType
-                        if (isCurrentPin || !isPub) return null
+                        if (isCurrentPin) return null
                         return <PinCard board={board} isBoard={isBoard} key={`${pin?.id}_${pin.createdAt}_${pin.__typename}`} pin={pin} />
                     })} 
                 </Masonry>

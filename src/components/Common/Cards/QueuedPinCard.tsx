@@ -118,8 +118,11 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
                         'h-60': loading
                         })}
                     />
-                    <div className="bg-white rounded-full h-4 w-4 flex items-center absolute top-2 right-2 justify-center">
-                        <div className="animate-pulse bg-blue-500 rounded-full h-2 w-2" />
+                    <div className="p-2 relative">
+                        <span className="flex h-2 w-2 items-center justify-center">
+                            <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75" />
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500" />
+                        </span>
                     </div>
                     <span className={`${show ? `opacity-100` : `opacity-0`} rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1`}></span>
                     {/* {loading ?

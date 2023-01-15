@@ -23,12 +23,20 @@ const MentionNotification: FC<Props> = ({ notification }) => {
                     {/* <HiOutlineAtSymbol className="h-6 w-6 text-orange-500/70" /> */}
                     <NotificationProfileAvatar profile={profile} />
                     <NotificationProfileName profile={profile} />
-                <div>
-                    <span className="text-gray-600 dark:text-gray-400">mentioned you in a </span>
-                    <Link href={`/pin/${notification?.mentionPublication?.id}`} className="brandGradientText">
-                        {notification?.mentionPublication.__typename?.toLowerCase()}
-                    </Link>
-                </div>
+                    <div>
+                        <span className="text-gray-600 dark:text-gray-400">mentioned you in a </span>
+                        {notification?.mentionPublication?.__typename?.toLowerCase() !== 'comment' ? (
+                            <>
+                                <Link href={`/pin/${notification?.mentionPublication?.id}`} className="brandGradientText">
+                                    {notification?.mentionPublication?.__typename?.toLowerCase()}
+                                </Link>
+                            </>
+                        ) : (
+                                <>
+                                    {notification?.mentionPublication?.__typename?.toLowerCase()}   
+                                </>
+                        )}
+                    </div>
                 </div>
             </div>
             {/* <div className="text-gray-400 text-[12px]" title={formatTime(notification?.createdAt)}>

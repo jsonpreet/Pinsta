@@ -23,9 +23,17 @@ const MirrorNotification: FC<Props> = ({ notification }) => {
                     <NotificationProfileName profile={notification?.profile} />
                     <div>
                         <span className="pl-0.5 text-gray-600 dark:text-gray-400">mirrored your </span>
-                        <Link href={`/pin/${notification?.publication?.id}`} className="brandGradientText">
-                            {notification?.publication.__typename?.toLowerCase()}
-                        </Link>
+                        {notification?.publication?.__typename?.toLowerCase() !== 'comment' ? (
+                            <>
+                                <Link href={`/pin/${notification?.publication?.id}`} className="brandGradientText">
+                                    {notification?.publication?.__typename?.toLowerCase()}
+                                </Link>
+                            </>
+                        ) : (
+                                <>
+                                    {notification?.publication?.__typename?.toLowerCase()}   
+                                </>
+                        )}
                     </div>
                 </div>
             </div>

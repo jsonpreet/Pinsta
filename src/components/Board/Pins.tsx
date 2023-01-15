@@ -58,7 +58,7 @@ const BoardPins: FC<Props> = ({ postIds, board }) => {
             {!error && !loading && (
                 <>
                     <Timeline pins={pins} isBoard={true} board={board} />
-                    {pageInfo?.next && pins.length !== pageInfo?.totalCount && (
+                    {pageInfo?.next && pins.length !== pageInfo?.totalCount && pageInfo?.totalCount !== null && (
                         <span ref={observe} className="flex justify-center p-10">
                             <Loader />
                         </span>

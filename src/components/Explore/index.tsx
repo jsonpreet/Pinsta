@@ -83,7 +83,7 @@ const Explore: NextPage = () => {
                             activeSortFilter === 'collected' ? 'bg-white text-gray-800' : 'text-white'
                         )}
                     >
-                        Top Collected
+                        <span className='md:inline-flex hidden'>Top</span> Collected
                     </button>
                     <button
                         onClick={() => setActiveSortFilter('commented')}
@@ -92,7 +92,7 @@ const Explore: NextPage = () => {
                             activeSortFilter === 'commented' ? 'bg-white text-gray-800' : 'text-white'
                         )}
                     >
-                        Top Commented
+                        <span className='md:inline-flex hidden'>Top</span> Commented
                     </button>
                     <button
                         onClick={() => setActiveSortFilter('mirrored')}
@@ -101,7 +101,7 @@ const Explore: NextPage = () => {
                             activeSortFilter === 'mirrored' ? 'bg-white text-gray-800' : 'text-white'
                         )}
                     >
-                        Top Mirrored
+                        <span className='md:inline-flex hidden'>Top</span> Mirrored
                     </button>
                 </div>
             </div>

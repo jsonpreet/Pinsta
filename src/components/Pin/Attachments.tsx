@@ -24,9 +24,9 @@ const Attachments: FC<Props> = ({ pin }) => {
         <>
             
             <div
-                className='w-full h-full relative md:min-h-[500px] flex flex-col justify-center items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4'
+                className='w-full h-full relative md:min-h-[500px] flex flex-col justify-start items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4'
             >
-                <div className='sticky top-2 w-full flex flex-col justify-center items-center'>
+                <div className='sticky top-4 w-full flex flex-col justify-center items-center'>
                     <div className='relative'>
                         <img 
                             className='rounded-xl object-cover' 

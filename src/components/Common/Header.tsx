@@ -72,7 +72,7 @@ const Header: FC<Props> = ({ className }) => {
                     <div>
                       <Link
                         href="/notifications"
-                        className="mr-2 flex space-x-1 relative"
+                        className="mx-2 flex space-x-1 relative"
                       >
                         <span>
                           <BsBell size={24} />

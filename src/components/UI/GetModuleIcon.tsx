@@ -13,49 +13,49 @@ interface Props {
 const GetModuleIcon: FC<Props> = ({ module, size }) => {
     switch (module) {
         case CollectModules.FeeCollectModule:
-        return <HiOutlineCash className={`h-${size}`} />;
+        return <HiOutlineCash size={size} />;
         case CollectModules.LimitedFeeCollectModule:
         return (
             <div className="flex gap-1 items-center">
-            <BiStar className={`h-${size}`} />
-            <HiOutlineCash className={`h-${size}`} />
+            <BiStar size={size} />
+            <HiOutlineCash size={size} />
             </div>
         );
         case CollectModules.LimitedTimedFeeCollectModule:
         return (
             <div className="flex gap-1 items-center">
-            <BiStar className={`h-${size}`} />
-            <BsClock className={`h-${size}`} />
-            <HiOutlineCash className={`h-${size}`} />
+            <BiStar size={size} />
+            <BsClock size={size} />
+            <HiOutlineCash size={size} />
             </div>
         );
         case CollectModules.TimedFeeCollectModule:
         return (
             <div className="flex gap-1 items-center">
-            <BsClock className={`h-${size}`} />
-            <HiOutlineCash className={`h-${size}`} />
+            <BsClock size={size} />
+            <HiOutlineCash size={size} />
             </div>
         );
         case CollectModules.RevertCollectModule:
-        return <HiOutlineReceiptRefund className={`h-${size}`} />;
+        return <HiOutlineReceiptRefund size={size} />;
         case CollectModules.FreeCollectModule:
-        return <HiOutlineDocumentAdd className={`h-${size}`} />;
+        return <HiOutlineDocumentAdd size={size} />;
         case FollowModules.FeeFollowModule:
         return (
             <div className="flex gap-1 items-center">
-            <HiOutlineCash className={`h-${size}`} />
-            <BiPlusCircle className={`h-${size}`} />
+            <HiOutlineCash size={size} />
+            <BiPlusCircle size={size} />
             </div>
         );
         case ReferenceModules.FollowerOnlyReferenceModule:
         return (
             <div className="flex gap-1 items-center">
-            <BiPlusCircle className={`h-${size}`} />
-            <BiShareAlt className={`h-${size}`} />
+            <BiPlusCircle size={size} />
+            <BiShareAlt size={size} />
             </div>
         );
         default:
-        return <HiOutlineCash className={`h-${size}`} />;
+        return <HiOutlineCash size={size} />;
     }
 };
 

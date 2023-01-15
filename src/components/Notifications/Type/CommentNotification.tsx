@@ -29,7 +29,7 @@ const CommentNotification: FC<Props> = ({ notification }) => {
             <div className="ml-9">
             <NotificationProfileName profile={notification?.profile} />{' '}
             <span className="text-gray-600 dark:text-gray-400">commented on your </span>
-            <Link href={`/posts/${notification?.comment?.commentOn?.id}`} className="font-bold">
+            <Link href={`/posts/${notification?.comment?.commentOn?.id}`} className="brandGradientText">
                 {notification?.comment?.commentOn?.__typename?.toLowerCase()}
             </Link>
             <span

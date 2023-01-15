@@ -39,6 +39,7 @@ import InputMentions from '@components/UI/InputMentions'
 import { Button } from '@components/UI/Button'
 import { Analytics, TRACK } from '@utils/analytics'
 import { Form, useZodForm } from '@components/UI/Form'
+import clsx from 'clsx'
 
 type Props = {
     pin: PinstaPublication
@@ -276,10 +277,15 @@ const NewComment: FC<Props> = ({ pin }) => {
                             form.setValue('comment', value)
                             form.clearErrors('comment')
                         }}
-                        mentionsSelector="input-mentions-single"
+                        mentionsSelector="input-mentions-single comment-input"
                     />
                 </div>    
-                <div className='flex justify-end items-center w-full'>
+                <div
+                    className={clsx(
+                        'flex justify-end items-center w-full',
+                        { 'hidden': !form.watch('comment')}
+                    )}
+                >
                     <Button
                         disabled={loading}
                         loading={loading}

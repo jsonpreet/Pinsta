@@ -41,9 +41,17 @@ const CollectNotification: FC<Props> = ({ notification }) => {
                         <NotificationWalletProfileName wallet={notification?.wallet} />
                     )}{' '}
                     <span className="text-gray-600 dark:text-gray-400">collected your </span>
-                    <Link href={`/pin/${notification?.collectedPublication?.id}`} className="font-bold">
-                        {notification?.collectedPublication.__typename?.toLowerCase()}
-                    </Link>
+                    {notification?.collectedPublication?.__typename?.toLowerCase() !== 'comment' ? (
+                        <>
+                            <Link href={`/pin/${notification?.collectedPublication?.id}`} className="brandGradientText">
+                                {notification?.collectedPublication?.__typename?.toLowerCase()}
+                            </Link>
+                        </>
+                    ) : (
+                            <>
+                                {notification?.collectedPublication?.__typename?.toLowerCase()}
+                            </>
+                    )}
                     <CollectedContent notification={notification} />
                     <CollectedAmount notification={notification} />
                 </div>

@@ -143,9 +143,6 @@ const Layout: FC<Props> = ({ children }) => {
                             <div className='md:pt-3 px-4 md:px-6'>
                                 <TrendingTags />
                             </div>
-                            <div className='overflow-hidden px-4 md:px-6'>
-                                <BetaNotification/>
-                            </div>
                         </>
                     }
                     <CreateProfile />

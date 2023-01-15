@@ -69,17 +69,17 @@ const Collect: FC<Props> = ({ pin, electedMirror, isComment = false }) => {
                     : getModule(pin?.collectModule?.type).name
                 }
                 icon={
-                    <div className="text-brand">
+                    <div className="text-red-500">
                         <GetModuleIcon
                             module={isFreeCollect ? CollectModules.FreeCollectModule : pin?.collectModule?.type}
-                            size={5}
+                            size={23}
                         />
                     </div>
                 }
                 show={showCollectModal}
                 onClose={() => setShowCollectModal(false)}
             >
-                <CollectModule/>
+                <CollectModule count={count} setCount={setCount} publication={pin}/>
             </Modal>
         </>
     )

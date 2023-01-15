@@ -65,7 +65,7 @@ export const POLYGON_CHAIN_ID = IS_MAINNET ? 137 : 80001
 // cdn
 export const IMAGE_CDN_URL = 'https://ik.imagekit.io/gzmagoxn0r'
 
-export const SCROLL_ROOT_MARGIN = '1000px 0px'
+export const SCROLL_ROOT_MARGIN = '40% 0px'
 
 // ipfs
 export const IPFS_FREE_UPLOAD_LIMIT = IS_MAINNET ? 1000 : 100

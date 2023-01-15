@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { FC, useState } from 'react'
 import Created from './Created'
 import Saved from './Saved'
+import Mirrored from './Mirrored'
 
 interface Props {
     profile: Profile
@@ -24,6 +25,15 @@ const Pins: FC<Props> = ({profile}) => {
                         Created
                     </button>
                     <button
+                        onClick={() => setActiveTab('mirrored')}
+                        className={clsx(
+                            'text-sm p-2 rounded-full', 
+                            activeTab === 'mirrored' ? 'bg-white text-gray-800' : 'text-white'
+                        )}
+                    >
+                        Mirrored
+                    </button>
+                    <button
                         onClick={() => setActiveTab('saved')}
                         className={clsx(
                             'text-sm p-2 rounded-full', 
@@ -36,6 +46,9 @@ const Pins: FC<Props> = ({profile}) => {
                 <div className='flex-1 w-full mt-5 md:min-h-[500px]'>
                     {activeTab === 'created' && (
                         <Created profile={profile} />
+                    )}
+                    {activeTab === 'mirrored' && (
+                        <Mirrored profile={profile} />
                     )}
                     {activeTab === 'saved' && (
                         <Saved profile={profile} />

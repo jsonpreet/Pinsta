@@ -4,10 +4,21 @@ import { pinstaMembers } from './pinsta-members'
 
 export const VERIFIED_CHANNELS = IS_MAINNET
   ? [
+    '0x0d', // yoginth.lens
+    '0x0c', // lenster.lens
     '0x8d68', // avadi.lens
     '0xadb2', // jameslondon.lens
     '0x1044', // south.lens
     '0xd6', // figue_me.lens
+    '0x01a681', // kanav_kariya.lens
+    '0x01a2d4', // jakeowen.lens
+    '0x013f83', // nickparis.lens
+    '0x9752', // vitto.lens
+    '0x01a011', // dcinvestor.lens
+    '0x3015', // mcsquared.lens
+    '0x2033', // chelsea.lens
+    '0x019c8b', // alexkwon.lens
+    '0x0efa', // ya7ya.lens
     '0x016b0f', // prashantbagga.lens
     '0x018df3', // cryptobec.lens
     '0xe922', // zkfruitrollup.lens
@@ -200,8 +211,7 @@ export const VERIFIED_CHANNELS = IS_MAINNET
     '0x38', // cashmere.lens
     '0x0210', // paris.lens
     '0x0160', // ethglobal.lens
-    '0x0d', // yoginth.lens
-    '0x0c', // lenster.lens
+    
     ...aaveMembers,
     ...pinstaMembers,    
   ]

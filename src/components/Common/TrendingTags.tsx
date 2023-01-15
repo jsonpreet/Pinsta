@@ -63,7 +63,7 @@ const TrendingTags = () => {
                 <div className='relative w-full z-10'>
                     
                     {scrollX !== 0 &&
-                        <span className='absolute z-10 left-0 top-1 w-40 h-12 bg-faded-left pointer-events-none' />
+                        <span className='absolute z-10 md:inline-flex hidden left-0 top-1 w-40 h-12 bg-faded-left pointer-events-none' />
                     }
                 
                     {scrollX !== 0 && (
@@ -86,7 +86,7 @@ const TrendingTags = () => {
                         </button>
                     )}
                     {!scrollEnd && (
-                        <span className='absolute z-10 right-0 top-1 w-40 h-12 bg-faded-right pointer-events-none' />
+                        <span className='absolute z-10 md:inline-flex hidden right-0 top-1 w-40 h-12 bg-faded-right pointer-events-none' />
                     )}
                 </div>
                 <div

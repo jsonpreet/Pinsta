@@ -66,7 +66,7 @@ const RelatedPins: FC<Props> = ({pin}) => {
                             </h1>
                         </div>
                         <Timeline pins={pins} currentPinId={pin?.id} />
-                        {pageInfo?.next && pins.length !== pageInfo?.totalCount && (
+                        {pageInfo?.next && pins.length !== pageInfo?.totalCount && pageInfo?.totalCount !== null && (
                             <span ref={observe} className="flex justify-center p-10">
                                 <Loader />
                             </span>

@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 
 import { Loader } from './Loader'
 
-export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material' | 'dark' | 'success' | 'light' | 'outline'
+export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'material' | 'dark' | 'success' | 'light' | 'outline' | 'warning'
 
 interface Props
     extends DetailedHTMLProps<
@@ -49,6 +49,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                     'bg-gray-800 dark:bg-gray-700 hover:bg-red-600': variant === 'dark',
                     'bg-red-600 hover:bg-gray-900': variant === 'danger',
                     'bg-transparent hover:border-gray-600 border border-gray-300': variant === 'outline',
+                    'bg-yellow-500 hover:bg-yellow-600': variant === 'warning',
                 },
                 className
             )}
@@ -57,8 +58,8 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
         >
             <span
                 className={clsx('relative flex duration-75 delay-75 items-center justify-center space-x-2', {
-                    'text-white': variant !== 'secondary' && variant !== 'material' && variant !== 'light' && variant !== 'outline',
-                    'group-hover:text-white dark:group-hover:text-gray-800' : variant === 'light',
+                    'text-white': variant !== 'secondary' && variant !== 'material' && variant !== 'light' && variant !== 'outline' && variant !== 'warning',
+                    'group-hover:text-white dark:group-hover:text-gray-800': variant === 'light',
                 })}
             >
                 {icon}

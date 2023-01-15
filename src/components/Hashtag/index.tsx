@@ -61,7 +61,7 @@ const { observe } = useInView({
       {!error && !loading && pins && (
         <>  
           <Timeline pins={pins} />
-          {pageInfo?.next && pins.length !== pageInfo?.totalCount && (
+          {pageInfo?.next && pins.length !== pageInfo?.totalCount && pageInfo?.totalCount !== null && (
             <span ref={observe} className="flex justify-center p-10">
               <Loader />
             </span>

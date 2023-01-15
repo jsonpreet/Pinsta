@@ -10,23 +10,25 @@ import ProfileBoards from './ProfileBoards'
 import { Button } from '@components/UI/Button'
 import { toast } from 'react-hot-toast'
 import { APP, ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
-import { CreatePublicPostRequest, MetadataAttributeInput, PublicationMainFocus, PublicationMetadataDisplayTypes, PublicationMetadataV2Input, useBroadcastMutation, useCreatePostTypedDataMutation, useCreatePostViaDispatcherMutation } from '@utils/lens/generated'
+import { MetadataAttributeInput, PublicationMainFocus, PublicationMetadataDisplayTypes, PublicationMetadataV2Input, useBroadcastMutation, useCreatePostTypedDataMutation, useCreatePostViaDispatcherMutation } from '@utils/lens/generated'
 import splitSignature from '@utils/functions/splitSignature'
 import getSignature from '@utils/functions/getSignature'
 import { LensHubProxy } from '@utils/abis'
-import { useContractWrite, useProvider, useSignTypedData, useSigner } from 'wagmi'
+import { useContractWrite, useSignTypedData } from 'wagmi'
 import { Analytics, TRACK } from '@utils/analytics'
 import { v4 as uuid } from 'uuid';
 import { useCollectModuleStore } from '@lib/store/collect-module'
 import usePersistStore from '@lib/store/persist'
 import { CustomErrorWithData, IPFSUploadResult, PinstaAttachment } from '@utils/custom-types'
-import getTextNftUrl from '@utils/functions/getTextNftUrl'
 import getUserLocale from '@utils/functions/getUserLocale'
 import getTags from '@utils/functions/getTags'
 import uploadToAr from '@utils/functions/uploadToAr'
 import uploadToIPFS from '@utils/functions/uploadToIPFS'
+import { useRouter } from 'next/router'
+import InputMentions from '@components/UI/InputMentions'
 
 const Details: FC = () => {
+    const router = useRouter()
     const userSigNonce = useAppStore((state) => state.userSigNonce);
     const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
     const setCreatePin = useAppStore((state) => state.setCreatePin)
@@ -59,6 +61,9 @@ const Details: FC = () => {
     const onCompleted = () => {
         resetCollectSettings();
         toast.success('Pin created successfully');
+        setTimeout(() => {
+            router.push(`/${formatHandle(currentProfile?.handle)}`)
+        }, 1000);
         
         // Track in simple analytics
         Analytics.track(TRACK.POST.NEW);
@@ -264,25 +269,28 @@ const Details: FC = () => {
                 <ProfileBoards/>
             </div>
             <div className='relative'>
-                <input 
-                    type="text"
-                    className='w-full h-12 text-2xl font-bold text-black border-b-2 border-gray-200 focus:outline-none focus:border-red-400'
-                    placeholder='Title'
+                <InputMentions 
+                    placeholder="Title"
+                    autoComplete="off"
                     value={createdPin.title}
-                    onChange={(e) => setCreatePin({ ...createdPin, title: e.target.value })}
-                    onFocus={() => setShowOnFocus(true)}
+                    onContentChange={(value) => {
+                        setCreatePin({ ...createdPin, title: value})
+                    }}
+                    mentionsSelector="input-mentions-single comment-input !text-2xl font-bold text-black"
                 />
                 <div className='text-xs text-gray-400 text-right pt-1'>
                     {createdPin.title.length}/100
                 </div>
             </div>
             <div className='relative'>
-                <textarea 
-                    className='w-full h-20 text-black border-b-2 border-gray-200 focus:outline-none focus:border-red-400 resize-none'
-                    placeholder='Tell everyone about your Pin'
+                <InputMentions 
+                    placeholder="Tell everyone about your Pin"
+                    autoComplete="off"
                     value={createdPin.description}
-                    onChange={(e) => setCreatePin({ ...createdPin, description: e.target.value })}
-                    onFocus={() => setShowOnFocus(true)}
+                    onContentChange={(value) => {
+                        setCreatePin({ ...createdPin, description: value})
+                    }}
+                    mentionsSelector="input-mentions-single comment-input !h-20 text-black"
                 />
                 <div className='text-xs text-gray-400 text-right pt-1'>
                     {createdPin.description.length}/500

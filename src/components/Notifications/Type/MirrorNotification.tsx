@@ -29,15 +29,26 @@ const MirrorNotification: FC<Props> = ({ notification }) => {
                 <div className="ml-9">
                     <NotificationProfileName profile={notification?.profile} />{' '}
                     <span className="pl-0.5 text-gray-600 dark:text-gray-400">mirrored your </span>
-                    <Link href={`/pin/${notification?.publication?.id}`} className="font-bold">
-                        {notification?.publication.__typename?.toLowerCase()}
-                    </Link>
-                    <Link
-                        href={`/pin/${notification?.publication?.id}`}
-                        className="lt-text-gray-500 line-clamp-2 linkify mt-2"
-                    >
-                        <InterweaveContent content={notification?.publication?.metadata?.content}/>
-                    </Link>
+                    {notification?.publication?.__typename?.toLowerCase() !== 'comment' ? (
+                        <>
+                            <Link href={`/pin/${notification?.publication?.id}`} className="brandGradientText">
+                                {notification?.publication?.__typename?.toLowerCase()}
+                            </Link>
+                            <Link
+                                href={`/pin/${notification?.publication?.id}`}
+                                className="lt-text-gray-500 line-clamp-2 linkify mt-2"
+                            >
+                                <InterweaveContent content={notification?.publication?.metadata?.content}/>
+                            </Link>
+                        </>
+                    ) : (
+                            <>
+                                {notification?.publication?.__typename?.toLowerCase()}
+                                <span className="lt-text-gray-500 line-clamp-2 linkify mt-2">
+                                    <InterweaveContent content={notification?.publication?.metadata?.content} />
+                                </span>    
+                            </>
+                    )}
                 </div>
             </div>
             <div className="text-gray-400 text-[12px]" title={formatTime(notification?.createdAt)}>

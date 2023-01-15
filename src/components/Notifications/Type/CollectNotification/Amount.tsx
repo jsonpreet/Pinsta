@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 
 import { formatNumber } from '@utils/functions/formatNumber';
 import getTokenImage from '@utils/functions/getTokenImage';

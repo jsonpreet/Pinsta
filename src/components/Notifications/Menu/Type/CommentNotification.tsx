@@ -23,7 +23,7 @@ const CommentNotification: FC<Props> = ({ notification }) => {
                     <NotificationProfileName profile={notification?.profile} />
                 <div>
                     <span className="text-gray-600 dark:text-gray-400">commented on your </span>
-                    <span className="brandGradientText">
+                    <span>
                         {notification?.comment?.commentOn?.__typename?.toLowerCase()}
                     </span>
                 </div>

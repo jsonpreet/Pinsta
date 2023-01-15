@@ -9,6 +9,7 @@ import { Mention, MentionsInput } from 'react-mentions'
 import { LENS_CUSTOM_FILTERS } from '@utils/constants'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import formatHandle from '@utils/functions/formatHandle'
+import IsVerified from './IsVerified'
 
 interface Props extends ComponentProps<'textarea'> {
   label?: string
@@ -50,7 +51,7 @@ const InputMentions: FC<Props> = ({
       if (data?.search.__typename === 'ProfileSearchResult') {
         const profileItems = data?.search?.items as Profile[]
         const profiles = profileItems?.map((profile: Profile) => ({
-          id: profile.handle,
+          id: profile.id,
           display: profile.handle,
           picture: getProfilePicture(profile),
           followers: profile.stats.totalFollowers
@@ -81,8 +82,8 @@ const InputMentions: FC<Props> = ({
         >
           <Mention
             trigger="@"
-            displayTransform={(handle) => `@${handle} `}
-            markup=" @__id__ "
+            displayTransform={(handle) => `@${formatHandle(handle)} `}
+            markup=" @__display__ "
             appendSpaceOnAdd
             renderSuggestion={(
               suggestion: SuggestionDataItem & {
@@ -105,11 +106,13 @@ const InputMentions: FC<Props> = ({
                   alt="pfp"
                   draggable={false}
                 />
-                <div className="overflow-hidden">
-                  <p className="font-medium leading-4 truncate">
+                <div className="overflow-hidden flex items-center">
+                  <p className="font-medium capitalize leading-4 truncate">
                     {/** @ts-ignore */}
-                    {formatHandle(suggestion?.id)}
+                    {formatHandle(suggestion?.display)}
                   </p>
+                  {/** @ts-ignore */}
+                  <IsVerified id={suggestion?.id} size='xs' />
                   {/* <span className="text-xs opacity-80">
                     {suggestion?.followers} followers
                   </span> */}

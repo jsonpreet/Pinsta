@@ -10,21 +10,15 @@ import { BoardPinsType, BoardType, PinstaPublication } from '@utils/custom-types
 import { usePublicationDetailsQuery } from '@utils/lens'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { BsArrowLeft, BsArrowLeftCircle, BsArrowLeftCircleFill, BsArrowLeftShort } from 'react-icons/bs';
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
-import imageCdn from '@utils/functions/imageCdn'
-import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
+import { BsArrowLeftShort } from 'react-icons/bs';
 import { useEffect, useRef, useState } from 'react'
 import InterweaveContent from '@components/Common/InterweaveContent'
 import User from './User'
 import Share from './Share'
 import Meta from './Meta'
-import { Loader } from '@components/UI/Loader';
 import Comments from './Comments'
-import clsx from 'clsx'
 import RelatedPins from './Related'
 import { directCheckSavedPin, getBoard } from '@lib/db/api'
-import Link from 'next/link'
 import { Analytics, TRACK } from '@utils/analytics'
 import Attachments from './Attachments'
 

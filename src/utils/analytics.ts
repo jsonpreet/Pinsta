@@ -52,7 +52,8 @@ export const TRACK = {
     COLLECT: {
         OPEN: 'Open Collect',
         FREE: 'Collected for Free',
-        FEE: 'Collected for Fee'
+        FEE: 'Collected for Fee',
+        COLLECTED: 'Collected',
     },
     SEARCH_PROFILES: 'Search Profiles',
     SYSTEM: {
