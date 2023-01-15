@@ -65,7 +65,7 @@ const Header: FC<Props> = ({ className }) => {
             <div className="flex flex-row items-center justify-end space-x-2 md:space-x-3">
               {currentProfileId && currentProfile ?
                 <>
-                  {/* <CreateMenu/> */}
+                  <CreateMenu/>
                   { isBrowser ? 
                     <Notifications />
                   : 

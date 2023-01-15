@@ -1,60 +1,38 @@
 fragment PostFields on Post {
   id
-  reaction(request: $reactionRequest)
   profile {
     ...ProfileFields
   }
-  collectedBy {
-    address
-    defaultProfile {
-      handle
-    }
-  }
-  referenceModule {
-    __typename
-  }
+  reaction(request: $reactionRequest)
+  mirrors(by: $profileId)
+  hasCollectedByMe
+  onChainContentURI
   canComment(profileId: $profileId) {
     result
   }
   canMirror(profileId: $profileId) {
     result
   }
-  collectModule {
-    ...CollectFields
+  canDecrypt(profileId: $profileId) {
+    result
+    reasons
   }
-  collectNftAddress
-  onChainContentURI
-  hidden
-  hasCollectedByMe
+  collectedBy {
+    address
+    defaultProfile {
+      ...ProfileFields
+    }
+  }
+  collectModule {
+    ...CollectModuleFields
+  }
   stats {
-    totalAmountOfComments
-    totalAmountOfCollects
-    totalAmountOfMirrors
-    totalUpvotes
+    ...StatsFields
   }
   metadata {
-    name
-    description
-    content
-    contentWarning
-    mainContentFocus
-    tags
-    media {
-      original {
-        url
-        mimeType
-      }
-    }
-    cover {
-      original {
-        url
-      }
-    }
-    attributes {
-      value
-      traitType
-    }
+    ...MetadataFields
   }
+  hidden
   createdAt
   appId
 }

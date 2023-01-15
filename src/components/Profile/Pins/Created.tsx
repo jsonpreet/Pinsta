@@ -1,8 +1,11 @@
+import QueuedPinCard from '@components/Common/Cards/QueuedPinCard';
 import Timeline from '@components/Common/Timeline';
 import TimelineShimmer from '@components/Shimmers/TimelineShimmer';
 import { Loader } from '@components/UI/Loader';
 import { NoDataFound } from '@components/UI/NoDataFound';
 import useAppStore from '@lib/store';
+import usePersistStore from '@lib/store/persist';
+import Masonry from '@mui/lab/Masonry';
 import { Analytics, TRACK } from '@utils/analytics';
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants';
 import { PinstaPublication } from '@utils/custom-types';
@@ -17,6 +20,8 @@ interface Props {
 const Created: FC<Props> = ({ profile }) => {
 
     const currentProfile = useAppStore((state) => state.currentProfile);
+    
+    const queuedPublications = usePersistStore((state) => state.queuedPublications)
 
     const request = {
         publicationTypes: [PublicationTypes.Post],
@@ -59,7 +64,18 @@ const Created: FC<Props> = ({ profile }) => {
 
     return (
         <>
-            {loading && <TimelineShimmer />}
+            {queuedPublications.length === 0 && loading && <TimelineShimmer />}
+            {queuedPublications.length > 0 ?
+                <>
+                    <div className='md:-mx-2 md:px-0 px-2'>
+                        <Masonry sx={{ margin: 0 }} columns={{ xs: 2, sm: 2, lg: 4, xl: 6, xxl: 8 }} spacing={2}>
+                            {queuedPublications?.map((pin: any, index: number) => {
+                                return <QueuedPinCard key={index} pin={pin} />
+                            })} 
+                        </Masonry>
+                    </div>
+                </>
+            : null}
             {!error && !loading && (
                 <>
                     <Timeline pins={pins} />

@@ -48,13 +48,13 @@ const UserMenu = () => {
     disconnect?.()
   }
 
-  const onSelectChannel = (channel: Profile) => {
-    setCurrentProfile(channel)
-    setCurrentProfileId(channel.id)
+  const onSelectAccount = (profile: Profile) => {
+    setCurrentProfile(profile)
+    setCurrentProfileId(profile.id)
     setShowAccountSwitcher(false)
   }
 
-  const onSelectSwitchChannel = async () => {
+  const onSelectSwitchAccount = async () => {
     try {
       setShowAccountSwitcher(true)
       const { data } = await getProfiles({
@@ -104,17 +104,17 @@ const UserMenu = () => {
                     type="button"
                     className="flex w-full justify-between items-center p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                     key={profile.id}
-                    onClick={() => onSelectChannel(profile)}
+                    onClick={() => onSelectAccount(profile)}
                   >
                     <span className="inline-flex items-center space-x-1.5">
                       <img
-                        className="w-6 h-6 rounded-lg"
+                        className="w-6 h-6 rounded-full"
                         src={getProfilePicture(profile)}
-                        alt={profile.handle}
+                        alt={formatHandle(currentProfile?.handle)}
                         draggable={false}
                       />
                       <span className="truncate whitespace-nowrap">
-                        {profile.handle}
+                        {formatHandle(currentProfile?.handle)}
                       </span>
                     </span>
                     {currentProfile?.id === profile.id && (
@@ -138,9 +138,9 @@ const UserMenu = () => {
                     <span className="text-xs opacity-70">Connected as</span>
                     <h6
                       title={currentProfile?.name ?? formatHandle(currentProfile?.handle)}
-                      className="text-base flex space-x-1 items-center truncate leading-4"
+                      className="text-base flex items-center truncate leading-4"
                     >
-                        <span>{currentProfile?.name ?? formatHandle(currentProfile?.handle)}</span>
+                        <span>{formatHandle(currentProfile?.handle)}</span>
                         <IsVerified id={currentProfile?.id} size='xs'/>
                     </h6>
                   </div>
@@ -162,11 +162,11 @@ const UserMenu = () => {
                     <button
                       type="button"
                       className="inline-flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-                      onClick={() => onSelectSwitchChannel()}
+                      onClick={() => onSelectSwitchAccount()}
                     >
                       <MdSwitchAccount className="w-4 h-4" />
                       <span className="truncate whitespace-nowrap">
-                        Switch channel
+                        Switch Account
                       </span>
                     </button>
                   </>

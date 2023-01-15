@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import clsx from 'clsx'
 import type { Profile } from '@utils/lens'
 import { SearchRequestTypes, useSearchProfilesLazyQuery } from '@utils/lens'
@@ -7,6 +8,7 @@ import type { SuggestionDataItem } from 'react-mentions'
 import { Mention, MentionsInput } from 'react-mentions'
 import { LENS_CUSTOM_FILTERS } from '@utils/constants'
 import getProfilePicture from '@utils/functions/getProfilePicture'
+import formatHandle from '@utils/functions/formatHandle'
 
 interface Props extends ComponentProps<'textarea'> {
   label?: string
@@ -94,22 +96,23 @@ const InputMentions: FC<Props> = ({
             ) => (
               <div
                 className={clsx('flex truncate px-1.5 py-1.5 space-x-1', {
-                  'bg-indigo-50 rounded dark:bg-theme': focused
+                  'bg-gray-100 dark:bg-theme': focused
                 })}
               >
                 <img
                   src={suggestion?.picture}
-                  className="w-5 h-5 rounded"
+                  className="w-5 h-5 rounded-full"
                   alt="pfp"
                   draggable={false}
                 />
                 <div className="overflow-hidden">
                   <p className="font-medium leading-4 truncate">
-                    {suggestion?.id}
+                    {/** @ts-ignore */}
+                    {formatHandle(suggestion?.id)}
                   </p>
-                  <span className="text-xs opacity-80">
+                  {/* <span className="text-xs opacity-80">
                     {suggestion?.followers} followers
-                  </span>
+                  </span> */}
                 </div>
               </div>
             )}

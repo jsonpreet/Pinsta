@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useApolloClient } from '@apollo/client'
 import InterweaveContent from '@components/Common/InterweaveContent'
 import IsVerified from '@components/UI/IsVerified'
@@ -115,10 +116,10 @@ const QueuedComment: FC<Props> = ({ queuedComment }) => {
           <span className="flex items-center mb-1 space-x-1">
             <Link
               href={`/${currentProfile.handle}`}
-              className="flex items-center space-x-1 text-sm font-medium"
+              className="flex items-center text-sm font-medium"
             >
               <span>{currentProfile?.handle}</span>
-              <IsVerified id={currentProfile.id} />
+              <IsVerified id={currentProfile.id} size='xs' />
             </Link>
           </span>
           <div className="text-sm opacity-80">
@@ -129,8 +130,8 @@ const QueuedComment: FC<Props> = ({ queuedComment }) => {
       <div>
         <div className="p-2">
           <span className="flex h-2 w-2 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-indigo-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-indigo-500" />
+            <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500" />
           </span>
         </div>
       </div>

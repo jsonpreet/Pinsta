@@ -51,7 +51,8 @@ const ProfilePicture: FC<Props> = ({ profile }) => {
             ...currentProfile,
             picture: { original: { url: selectedPfp } }
         })
-        toast.success('Channel image updated')
+
+        toast.success('Profile image updated')
     }
 
     const { signTypedDataAsync } = useSignTypedData({
@@ -69,8 +70,8 @@ const ProfilePicture: FC<Props> = ({ profile }) => {
 
     const [createSetProfileImageViaDispatcher] =
         useCreateSetProfileImageUriViaDispatcherMutation({
-        onError,
-        onCompleted
+            onError,
+            onCompleted
         })
 
     const [broadcast] = useBroadcastMutation({
@@ -81,8 +82,7 @@ const ProfilePicture: FC<Props> = ({ profile }) => {
     const [createSetProfileImageURITypedData] =
         useCreateSetProfileImageUriTypedDataMutation({
             onCompleted: async (data) => {
-                const { typedData, id } =
-                data.createSetProfileImageURITypedData as CreateSetProfileImageUriBroadcastItemResult
+                const { typedData, id } = data.createSetProfileImageURITypedData as CreateSetProfileImageUriBroadcastItemResult
                 try {
                     const signature = await signTypedDataAsync({
                         domain: omit(typedData?.domain, '__typename'),
@@ -160,7 +160,7 @@ const ProfilePicture: FC<Props> = ({ profile }) => {
                 }
                 className="object-cover w-32 h-32 border-2 rounded-full"
                 draggable={false}
-                alt={selectedPfp ? profile?.handle : profile?.handle}
+                alt={selectedPfp ? currentProfile?.handle : profile?.handle}
             />
             <label
                 htmlFor="choosePfp"

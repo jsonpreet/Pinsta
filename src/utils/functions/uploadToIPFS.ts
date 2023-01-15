@@ -50,6 +50,7 @@ export const everland = async (
         await task.done()
         const result = await client.headObject(params)
         const metadata = result.Metadata
+        console.log('ipfs upload', metadata)
         return {
             url: `ipfs://${metadata?.['ipfs-hash']}`,
             type: file.type

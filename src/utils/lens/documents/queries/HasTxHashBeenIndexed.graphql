@@ -1,10 +1,11 @@
 query HasTxHashBeenIndexed($request: HasTxHashBeenIndexedRequest!) {
   hasTxHashBeenIndexed(request: $request) {
     ... on TransactionIndexedResult {
-      indexed
-      txReceipt {
-        transactionHash
+      metadataStatus {
+        status
       }
+      txHash
+      indexed
     }
     ... on TransactionError {
       reason

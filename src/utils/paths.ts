@@ -3,9 +3,11 @@ export const EXPLORE = '/explore'
 export const LATEST = '/latest'
 export const NOTIFICATIONS = '/notifications'
 export const MESSAGES = '/messages'
-export const SETTINGS = 'settings'
+export const SETTINGS = '/settings'
 export const PRIVACY = '/privacy'
 export const SEARCH = '/search'
+export const CREATE = '/create'
+export const CREATE_PIN = '/create/pin'
 
 export const DISCORD = '/discord'
 

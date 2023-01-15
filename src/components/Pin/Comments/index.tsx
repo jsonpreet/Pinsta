@@ -17,6 +17,8 @@ import useAppStore from '@lib/store'
 const Comment = dynamic(() => import('./Comment'))
 import { HiOutlineChatAlt2 } from 'react-icons/hi';
 import { Button } from '@components/UI/Button'
+import NewComment from './NewComment'
+import formatHandle from '@utils/functions/formatHandle'
 
 type Props = {
     pin: PinstaPublication
@@ -86,7 +88,7 @@ const Comments: FC<Props> = ({ pin }) => {
                     <span className="font-semibold">Comments</span>
                     {data?.publications?.pageInfo.totalCount ? (
                         <span className="text-sm">
-                        ({data?.publications?.pageInfo.totalCount})
+                            ({data?.publications?.pageInfo.totalCount})
                         </span>
                     ) : null}
                 </h1>
@@ -98,13 +100,13 @@ const Comments: FC<Props> = ({ pin }) => {
                 <NoDataFound text="Be the first to comment." />
             )}
             {pin?.canComment.result ? (
-                null // <NewComment pin={pin} />
+                <NewComment pin={pin} />
             ) : currentProfileId ? (
                 <Alert variant="warning">
                     <span className="text-sm">
                         {isFollowerOnlyReferenceModule
                         ? 'Only followers can comment on this publication'
-                        : `Only followers within ${pin.profile.handle}'s preferred network can comment`}
+                        : `Only followers within ${formatHandle(pin.profile.handle)}'s preferred network can comment`}
                     </span>
                 </Alert>
             ) : null}

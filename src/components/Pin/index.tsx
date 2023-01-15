@@ -26,13 +26,13 @@ import RelatedPins from './Related'
 import { directCheckSavedPin, getBoard } from '@lib/db/api'
 import Link from 'next/link'
 import { Analytics, TRACK } from '@utils/analytics'
+import Attachments from './Attachments'
 
 const Pin: NextPage = () => {
     const router = useRouter()
     const { id } = router.query
     const rootRef = useRef();
     const [readMore, setReadMore] = useState(false)
-    const [isLoading, setLoading] = useState(true)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
     const [pinSaved, setPinSaved] = useState(false)
@@ -60,7 +60,6 @@ const Pin: NextPage = () => {
     useEffect(() => {
         if (pin) {
             (pin?.metadata?.content?.length > 300) ? setReadMore(true) : setReadMore(false)
-            setLoading(true)
         }
     }, [pin])
 
@@ -115,38 +114,7 @@ const Pin: NextPage = () => {
                         <div className='w-full max-w-[1024px] md:shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] dark:bg-gray-800 bg-white md:rounded-3xl mx-auto md:mb-0 mb-4'>
                             <div className='flex flex-col lg:flex-row overflow-visible'>
                                 <div className='relative flex-none w-full lg:w-2/4'>
-                                    <div className={clsx(
-                                        'w-full h-full relative md:min-h-[500px] flex flex-col items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4',
-                                            // pin.stats.totalAmountOfComments > 3 ? 'justify-center' : 'justify-start'
-                                        )}
-                                    >
-                                        <div className='sticky top-2 w-full'>
-                                            <img 
-                                                className='rounded-xl object-cover' 
-                                                alt={`Pin by @${pin.profile.handle}`} 
-                                                src={pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} 
-                                                onLoad={() => setLoading(false)}
-                                            />
-                                            {!isLoading && (
-                                                <Link 
-                                                    href={getThumbnailUrl(pin)}
-                                                    target='_blank'
-                                                    onClick={() => {
-                                                        Analytics.track(`clicked_on_view_original_from_pin_${pin.id}`);
-                                                    }}
-                                                    rel='noopener noreferrer'
-                                                    className='absolute bottom-2 z-30 left-2 bg-black/60 py-1 px-2 rounded-md text-white shadow font-semibold text-sm'
-                                                >
-                                                    View Original
-                                                </Link>
-                                            )}
-                                        </div>
-                                        {isLoading && (
-                                            <span className='relative bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-3xl justify-center'>
-                                                <Loader/>
-                                            </span>
-                                        )}
-                                    </div>
+                                    <Attachments pin={pin}/>
                                 </div>  
                                 <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l dark:border-gray-900/30 border-gray-50'>
                                     <Share pin={pin} pinSaved={pinSaved} savedToBoards={savedToBoards}  savedTo={savedTo} />

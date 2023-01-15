@@ -1,12 +1,18 @@
 query PublicationsByIds(
-    $request: PublicationsQueryRequest!
-    $reactionRequest: ReactionFieldResolverRequest
-    $profileId: ProfileId
+  $request: PublicationsQueryRequest!
+  $reactionRequest: ReactionFieldResolverRequest
+  $profileId: ProfileId
 ) {
   publications(request: $request) {
     items {
       ... on Post {
         ...PostFields
+      }
+      ... on Comment {
+        ...CommentFields
+      }
+      ... on Mirror {
+        ...MirrorFields
       }
     }
     pageInfo {

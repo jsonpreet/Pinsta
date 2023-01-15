@@ -11,6 +11,9 @@ query Explore(
       ... on Comment {
         ...CommentFields
       }
+      ... on Mirror {
+        ...MirrorFields
+      }
     }
     pageInfo {
       totalCount

@@ -1,6 +1,10 @@
 export const CREATOR_CATEGORIES = [
   {
-    name: 'People & Blogs',
+    name: 'NFTs',
+    tag: 'nfts'
+  },
+  {
+    name: 'People',
     tag: 'people'
   },
   { name: 'Music', tag: 'music' },
@@ -115,5 +119,25 @@ export const CREATOR_CATEGORIES = [
   {
     name: 'Autos & Vehicles',
     tag: 'vehicles'
+  },
+  {
+    name: 'Fashion',
+    tag: 'fashion'
+  },
+  {
+    name: 'Photography',
+    tag: 'photography'
+  },
+  {
+    name: 'Nature',
+    tag: 'nature'
+  },
+  {
+    name: 'Meme',
+    tag: 'meme'
+  },
+  {
+    name: 'Anime',
+    tag: 'anime'
   }
 ]

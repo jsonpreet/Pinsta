@@ -8,6 +8,7 @@ import { BsBookmarkCheck, BsShieldLock } from 'react-icons/bs'
 import { IoWarningOutline } from "react-icons/io5";
 import ProfilePicture from './ProfilePicture'
 import { SETTINGS, SETTINGS_DANGER_ZONE, SETTINGS_INTERESTS, SETTINGS_PERMISSIONS } from '@utils/paths'
+import IsVerified from '@components/UI/IsVerified'
 
 interface Props {
     profile: Profile
@@ -18,9 +19,16 @@ const SideNav: FC<Props> = ({ profile }) => {
     const isActivePath = (path: string) => router.pathname === path
     return (
         <>
-            <div className=" bg-gray-50 border border-gray-200 rounded-xl dark:bg-theme">
+            <div className=" bg-gray-50 border border-gray-100 rounded-xl dark:bg-theme">
                 <div className="flex flex-col items-center py-4 space-y-2">
                     <ProfilePicture profile={profile} />
+                    <div className='flex flex-col items-center'>
+                        {profile ? <h3 className='font-semibold'>{profile?.name}</h3> : null}
+                        <h6 className="flex items-center">
+                            <span>{profile?.handle}</span>
+                            <IsVerified id={profile?.id} size="xs" />
+                        </h6>
+                    </div>
                 </div>
                 <div className="flex flex-col my-1 text-sm">
                     <Link

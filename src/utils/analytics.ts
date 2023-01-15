@@ -27,6 +27,9 @@ export const TRACK = {
         REMOVE: 'Remove Profile Interest',
         VIEW: 'View Profile Interests'
     },
+    POST: {
+        NEW: 'New Post',
+    },
     NEW_COMMENT: 'New Comment',
     CLICK_VIEW_METADATA: 'Click View Metadata',
     CLICK_VIEW_TOKEN: 'Click View Token',
@@ -85,6 +88,10 @@ export const TRACK = {
         THANKS: 'Thanks Page',
         SETTINGS: 'Settings Page',
         PIN: 'Pin Page',
-        NOTIFICATIONS: 'Notifications Page'
+        NOTIFICATIONS: 'Notifications Page',
+        UPLOAD: {
+            DROPZONE: 'DropZone Page',
+            STEPS: 'Upload Steps Page'
+        },
     }
 }

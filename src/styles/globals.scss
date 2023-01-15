@@ -130,3 +130,19 @@ input[type='number'] {
   box-shadow: 0px 4px 32px 0px rgba(0,0,0,0.1);
   backdrop-filter: blur(8px);
 }
+
+.input-mentions-single {
+  @apply w-full min-h-[2.4rem] text-sm;
+}
+.input-mentions-textarea {
+  @apply min-h-[7rem] w-full text-sm;
+}
+.input-mentions-textarea textarea,
+.input-mentions-single textarea {
+  @apply bg-white text-sm resize-y px-2.5 py-2 rounded-xl focus:ring-0 focus:ring-indigo-500 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 outline-none disabled:opacity-60 disabled:bg-gray-500 disabled:bg-opacity-20 w-full;
+}
+.input-mentions-textarea__suggestions,
+.input-mentions-single__suggestions {
+  @apply bg-white dark:bg-gray-800 border dropdown-shadow border-gray-100 dark:border-gray-700 rounded-xl w-56;
+  margin-top: 35px!important;
+}

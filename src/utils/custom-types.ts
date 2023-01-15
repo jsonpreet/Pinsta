@@ -45,20 +45,11 @@ export type ReferenceModuleType = {
 }
 
 //export type PinstaPublication = Post & Comment & Mirror
-export type PinstaPublication = Post
+export type PinstaPublication = Post & Comment & Mirror
 
 export type IPFSUploadResult = {
   url: string
   type: string
-}
-
-export type VideoUploadForm = {
-  videoThumbnail: IPFSUploadResult | null
-  videoSource: string | null
-  playbackId: string | null
-  title: string
-  description: string
-  adultContent: boolean
 }
 
 export type StreamData = {
@@ -95,13 +86,6 @@ export interface ProfileInterest {
   subCategories: Array<{ label: string; id: string }>
 }
 
-export type QueuedCommentType = {
-  comment: string
-  pubId: string
-  txnId?: string
-  txnHash?: string
-}
-
 export type PinstaFollowModule = FeeFollowModuleSettings &
   ProfileFollowModuleSettings &
   RevertFollowModuleSettings;
@@ -130,3 +114,44 @@ export type BoardPinsType = {
   created_at?: Date;
   updated_at?: Date;
 };
+
+export type CreatePin = {
+  stream: FileReaderStreamType | null
+  preview: string
+  imageType: string
+  file: File | null
+  title: string
+  description: string
+  imageAltTag: string
+  category: { tag: string; name: string }
+  percent: number
+  isSensitiveContent: boolean
+  isUploadToIpfs: boolean
+  loading: boolean
+  imageSource: string
+  board: BoardType
+  buttonText: string
+  collectModule: CollectModuleType
+  referenceModule: ReferenceModuleType
+  isNSFW: boolean
+  isNSFWThumbnail: boolean
+}
+
+export type QueuedCommentType = {
+  comment: string
+  pubId: string
+  txnId?: string
+  txnHash?: string
+}
+
+export type QueuedPublicationType = {
+  publication: CreatePin
+  txnId?: string
+  txnHash?: string
+}
+
+export interface PinstaAttachment {
+  item: string;
+  type: string;
+  altTag: string;
+}

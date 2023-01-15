@@ -3,7 +3,7 @@ query PublicationCollectModule($request: PublicationQueryRequest!) {
     ... on Post {
       collectNftAddress
       collectModule {
-        ...CollectFields
+        ...CollectModuleFields
       }
     }
   }

@@ -11,7 +11,7 @@ fragment CommentFields on Comment {
     }
   }
   collectModule {
-    ...CollectFields
+    ...CollectModuleFields
   }
   referenceModule {
     __typename

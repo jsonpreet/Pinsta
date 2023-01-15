@@ -19,11 +19,13 @@ import formatHandle from '@utils/functions/formatHandle'
 import axios from 'axios'
 import { PINSTA_SERVER_URL } from '@utils/constants'
 import { Analytics, TRACK } from '@utils/analytics'
+import clsx from 'clsx'
 
 type Props = {
     pin?: PinstaPublication,
     setIsSaved?: any
     savePinToBoard?: any
+    refetch?: any
 }
 
 const formSchema = z.object({
@@ -38,7 +40,7 @@ const formSchema = z.object({
 })
 type FormData = z.infer<typeof formSchema>
 
-const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
+const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch }) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
     const setShowCreateBoard = useAppStore((state) => state.setShowCreateBoard)
@@ -101,7 +103,15 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
                 console.log('Board created!')
                 toast.success('Board created successfully!')
                 setCurrentBoard(res.data.data)
-                savePinToBoard(res.data.data)
+                if (refetch) {
+                    refetch()
+                }
+                if(savePinToBoard){
+                    savePinToBoard(res.data.data)
+                } else {
+                    onCancel()
+                    setLoading(false)
+                }
                 Analytics.track('Board Created', {
                     board_id: res.data.data.id,
                     board_name: res.data.data.name,
@@ -141,10 +151,14 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard }) => {
                     show={showCreateBoard}
                     icon={<MdOutlineSpaceDashboard size={24} />}
                     onClose={() => onCancel()}
-                    size='md'
+                    size={pin ? 'md' : 'sm'}
                     className='md:mb-0 mb-20'
                 >
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6 p-4'>
+                    <div className={clsx(
+                        'grid gap-6 p-4',
+                        { 'grid-cols-1 md:grid-cols-2': pin }
+                    )}
+                    >
                         {pin ?
                             <div
                                 className='relative w-full h-full flex flex-col items-center rounded-xl max-h-96 overflow-hidden'

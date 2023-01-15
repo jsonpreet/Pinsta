@@ -13,6 +13,9 @@ import { Loader } from '@components/UI/Loader'
 import MetaTags from '@components/Common/MetaTags'
 import { SETTINGS, SETTINGS_DANGER_ZONE, SETTINGS_INTERESTS, SETTINGS_PERMISSIONS } from '@utils/paths'
 
+const Permissions = dynamic(() => import('./Permissions'))
+const DangerZone = dynamic(() => import('./DangerZone'))
+
 const Settings: NextPage = () => {
     const router = useRouter()
     const currentProfile = useAppStore((state) => state.currentProfile)
@@ -42,9 +45,9 @@ const Settings: NextPage = () => {
                     </div>
                     <div className="md:col-span-3">
                         {router.pathname === SETTINGS && <BasicInfo profile={profile} />}
-                        {/* {router.pathname === SETTINGS_PERMISSIONS && <Permissions />} */}
+                        {router.pathname === SETTINGS_PERMISSIONS && <Permissions />}
                         {router.pathname === SETTINGS_INTERESTS && <ProfileInterests />}
-                        {/* {router.pathname === SETTINGS_DANGER_ZONE && <DangerZone />} */}
+                        {router.pathname === SETTINGS_DANGER_ZONE && <DangerZone />}
                     </div>
                     </div>
                 ) : null}

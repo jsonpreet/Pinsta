@@ -49,7 +49,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
     const [boardURL, setBoardURL] = useState(`${formatHandle(currentProfile?.handle)}${currentBoard ? `/${currentBoard?.slug}` : ''}`)
     const [boardName, setBoardName] = useState(currentBoard ? currentBoard?.name : 'Profile')
 
-    const { data:boards, isError, isFetched, isLoading } = FetchProfileBoards(currentProfileId)
+    const { data:boards, isError, isFetched, isLoading, refetch: refetchBoards } = FetchProfileBoards(currentProfileId)
 
     const onCancel = () => {
         setShowCreateBoard(false)
@@ -162,7 +162,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
 
     return (
         <>
-            <CreateBoardModal pin={pin} savePinToBoard={savePinToBoard} setIsSaved={setIsSaved} />
+            <CreateBoardModal refetch={refetchBoards} pin={pin} savePinToBoard={savePinToBoard} setIsSaved={setIsSaved} />
             <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-col md:flex-row justify-between items-center mb-6 relative z-10'>
                 <div className='flex flex-row items-center justify-center'>
                     <div className='flex back mr-4 lg:hidden'>

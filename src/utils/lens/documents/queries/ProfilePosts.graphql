@@ -8,6 +8,12 @@ query ProfilePosts(
       ... on Post {
         ...PostFields
       }
+      ... on Comment {
+        ...CommentFields
+      }
+      ... on Mirror {
+        ...MirrorFields
+      }
     }
     pageInfo {
       totalCount

@@ -32,12 +32,11 @@ const CommentNotification: FC<Props> = ({ notification }) => {
             <Link href={`/posts/${notification?.comment?.commentOn?.id}`} className="font-bold">
                 {notification?.comment?.commentOn?.__typename?.toLowerCase()}
             </Link>
-            <Link
-                href={`/posts/${notification?.comment.id}`}
+            <span
                 className="lt-text-gray-500 line-clamp-2 linkify mt-2"
             >
                 <InterweaveContent content={notification?.comment?.metadata?.content}/>
-            </Link>
+            </span>
             </div>
         </div>
         <div className="text-gray-400 text-[12px]" title={formatTime(notification?.createdAt)}>
