@@ -25,6 +25,7 @@ import { FiShare2 } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Analytics } from '@utils/analytics';
+import InterweaveContent from '@components/Common/InterweaveContent';
 
 dayjs.extend(dayjsTwitter);
 
@@ -112,7 +113,9 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
                         </>
                     )}
                 </div>
-                <span className='text-gray-500 text-base ml-2'>{board?.description}</span>
+                <span className='text-gray-500 text-base ml-2'>
+                    <InterweaveContent content={board?.description}/>
+                </span>
                 <div className='flex items-center text-sm'>
                     <span>{`${board?.pins?.length} ${board?.pins?.length > 1 ? `Pins` : `Pin`}`}</span>
                     <span className='middot'></span>

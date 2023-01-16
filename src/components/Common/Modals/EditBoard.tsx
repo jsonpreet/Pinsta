@@ -61,10 +61,11 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
     }, [])
 
     const onCreate = async ({ boardName, boardDescription }: FormData) => {
+        let slug = boardName.trim().toLowerCase().replace(/ /g, '-')
         const request = {
             id: board?.id,
             name: boardName.trim(),
-            slug: boardName.trim().toLowerCase().replace(/ /g, '-'),
+            slug: slug.replaceAll(/[^a-zA-Z ]/g,""),
             description: boardDescription,
             pfp: newImage ? newImage : board?.pfp,
             is_private: isPrivate,

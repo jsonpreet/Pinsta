@@ -112,6 +112,7 @@ const NewComment: FC<Props> = ({ pin }) => {
         functionName: 'commentWithSig',
         mode: 'recklesslyUnprepared',
         overrides: {
+            // @ts-ignore
             gasLimit: 1000000
         },
         onError,
