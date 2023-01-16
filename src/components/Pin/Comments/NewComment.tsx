@@ -97,6 +97,8 @@ const NewComment: FC<Props> = ({ pin }) => {
 
     const onError = (error: CustomErrorWithData) => {
         toast.error(error?.data?.message ?? error?.message ?? ERROR_MESSAGE)
+
+    console.log('error', error)
         setLoading(false)
     }
 
@@ -104,11 +106,14 @@ const NewComment: FC<Props> = ({ pin }) => {
         onError
     })
 
-    const { write: writeComment } = useContractWrite({
+    const { error, write: writeComment } = useContractWrite({
         address: LENSHUB_PROXY_ADDRESS,
         abi: LensHubProxy,
         functionName: 'commentWithSig',
         mode: 'recklesslyUnprepared',
+        overrides: {
+            gasLimit: 1000000
+        },
         onError,
         onSuccess: (data) => {
             if (data.hash) {
@@ -116,6 +121,8 @@ const NewComment: FC<Props> = ({ pin }) => {
             }
         }
     })
+
+    console.log('error', error)
 
     const [broadcast] = useBroadcastMutation({
         onError,

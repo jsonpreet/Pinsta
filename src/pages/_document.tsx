@@ -37,6 +37,7 @@ class MyDocument extends Document {
                     <link rel="preconnect" href="https://fonts.googleapis.com"/>
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>
                     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet" /> 
+                    <script defer data-domain="pinsta.xyz,lensverse.web" src="https://plausible.io/js/script.js"></script>
                 </Head>
                 <body>
                     <Main />

@@ -41,6 +41,7 @@ const QueuedComment: FC<Props> = ({ queuedComment }) => {
 
   const [getPublication] = usePublicationDetailsLazyQuery({
     onCompleted: (data) => {
+      console.log(data)
       if (data.publication) {
         cache.modify({
           fields: {
