@@ -110,27 +110,21 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
                         onMouseEnter={() => setShow(true)} 
                         onMouseLeave={() => setShow(false)}
                     >
-                    <img
-                        alt={`Pin by ${formatHandle(pin.profile?.handle)}`}
-                        src={thumbnailUrl}
-                        onLoad={() => setLoading(false)}
-                        className={clsx('rounded-lg border w-full dark:border-gray-700 border-gray-100', {
-                        'h-60': loading
-                        })}
-                    />
-                    <div className="p-2 relative">
-                        <span className="flex h-2 w-2 items-center justify-center">
-                            <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500" />
-                        </span>
-                    </div>
-                    <span className={`${show ? `opacity-100` : `opacity-0`} rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1`}></span>
-                    {/* {loading ?
-                        <span className='absolute bg-gray-100 dark:bg-gray-700 top-0 rounded-lg left-0 right-0 bottom-0 h-full w-full flex items-center justify-center'>
-                            <Loader/>
-                        </span>
-                        : null
-                    } */}
+                        <img
+                            alt={`Pin by ${formatHandle(pin.profile?.handle)}`}
+                            src={thumbnailUrl}
+                            onLoad={() => setLoading(false)}
+                            className={clsx('rounded-lg border w-full dark:border-gray-700 border-gray-100', {
+                            'h-60': loading
+                            })}
+                        />
+                        <div className="p-2 absolute top-0 right-0">
+                            <span className="flex h-4 w-4 bg-white items-center justify-center rounded-full">
+                                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75" />
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500" />
+                            </span>
+                        </div>
+                        <span className={`${show ? `opacity-100` : `opacity-0`} rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1`}></span>
                     </div>
                 </div>
             </>
