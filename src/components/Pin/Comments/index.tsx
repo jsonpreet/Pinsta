@@ -43,7 +43,8 @@ const Comments: FC<Props> = ({ pin }) => {
                 PublicationMainFocus.Article,
                 PublicationMainFocus.Embed,
                 PublicationMainFocus.Link,
-                PublicationMainFocus.TextOnly
+                PublicationMainFocus.TextOnly,
+                PublicationMainFocus.Image
             ]
         }
     }
@@ -70,7 +71,7 @@ const Comments: FC<Props> = ({ pin }) => {
                 ...variables,
                 request: {
                     ...request,
-                    limit: 3,
+                    limit: 5,
                     cursor: pageInfo?.next
                 }
             }
@@ -110,18 +111,20 @@ const Comments: FC<Props> = ({ pin }) => {
                     </span>
                 </Alert>
             ) : null}
+            <div>
+                {queuedComments?.map(
+                    (queuedComment) =>
+                    queuedComment?.pubId === pin?.id && (
+                        <QueuedComment
+                            key={queuedComment?.pubId}
+                            queuedComment={queuedComment}
+                        />
+                    )
+                )}
+            </div>
             {!error && !loading && (
                 <>
                     <div className="space-y-4">
-                        {queuedComments?.map(
-                            (queuedComment) =>
-                            queuedComment?.pubId === pin?.id && (
-                                <QueuedComment
-                                    key={queuedComment?.pubId}
-                                    queuedComment={queuedComment}
-                                />
-                            )
-                        )}
                         {comments?.map((comment: PinstaPublication) => (
                             <Comment
                                 key={`${comment?.id}_${comment.createdAt}`}
@@ -129,19 +132,19 @@ const Comments: FC<Props> = ({ pin }) => {
                             />
                         ))}
                     </div>
-                    {pageInfo?.next && comments.length !== pageInfo?.totalCount && (
-                        <div className='mt-6'>
-                            <Button 
-                                loading={isLoading}
-                                variant="dark"
-                                className="w-full"
-                                onClick={() => loadMoreComments()}
-                            >
-                                Show more comments
-                            </Button>
-                        </div>
-                    )}
                 </>
+            )}
+            {pageInfo?.next && comments.length !== pageInfo?.totalCount && (
+                <div className='mt-6'>
+                    <Button 
+                        loading={isLoading}
+                        variant="dark"
+                        className="w-full"
+                        onClick={() => loadMoreComments()}
+                    >
+                        Show more comments
+                    </Button>
+                </div>
             )}
         </div>
     )

@@ -3,16 +3,16 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { FC, useState } from 'react'
-import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
-import imageCdn from '@utils/functions/imageCdn'
 import { motion } from "framer-motion"
-import { Loader } from '@components/UI/Loader'
 import formatHandle from '@utils/functions/formatHandle'
 import { Analytics } from '@utils/analytics'
 import usePersistStore from '@lib/store/persist'
 import useAppStore from '@lib/store'
 import { useApolloClient } from '@apollo/client'
 import { PublicationDocument, PublicationMetadataStatusType, useHasTxHashBeenIndexedQuery, usePublicationLazyQuery } from '@utils/lens/generated'
+import { PINSTA_SERVER_URL } from '@utils/constants'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
 dayjs.extend(relativeTime)
 
@@ -21,12 +21,12 @@ type Props = {
 }
 
 const QueuedPinCard: FC<Props> = ({ pin }) => {
-    console.log(pin)
     const thumbnailUrl = pin?.publication?.preview
     const [loading, setLoading] = useState(true)
     const [show, setShow] = useState(false)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
+    const createdPin = useAppStore((state) => state.createdPin)
     const queuedPublications = usePersistStore((state) => state.queuedPublications)
     const setQueuedPublications = usePersistStore((state) => state.setQueuedPublications)
 
@@ -44,18 +44,54 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
 
     const [getPublication] = usePublicationLazyQuery({
         onCompleted: (data) => {
-        if (data?.publication) {
-            cache.modify({
-                fields: {
-                    publications() {
-                        cache.writeQuery({ data: data?.publication as any, query: PublicationDocument });
+            if (data?.publication) {
+                cache.modify({
+                    fields: {
+                        publications() {
+                            cache.writeQuery({ data: data?.publication as any, query: PublicationDocument });
+                        }
                     }
-                }
-            });
-            removeTxn();
-        }
+                });
+                savePinToBoard(data?.publication);
+                removeTxn();
+            }
         }
     });
+
+    const savePinToBoard = async (pin?: any) => {
+        const board = createdPin?.board;
+        setLoading(true)
+        const request = {
+            board_id: board ? `${board.id}` : 0,
+            user_id: currentProfileId,
+            post_id: pin.id
+        }
+        return await axios.post(`${PINSTA_SERVER_URL}/save-pin`, request).then((res) => {
+        if (res.status === 200) {
+            setLoading(false)
+            Analytics.track('Pin Saved', {
+                board: board?.name ?? 'Profile',
+                pin: pin.id
+            })
+        } else {
+                console.log('Error creating board', res)
+                setLoading(false)
+                Analytics.track('Error Pin Saved', {
+                    board: board?.name ?? 'Profile',
+                    pin: pin.id
+                })
+                toast.error('Error on saving pin!')
+            }
+        }).catch((err) => {
+            console.log('Error creating board', err)
+            setLoading(false)
+            Analytics.track('Error Pin Saved', {
+                board: board?.name ?? 'Profile',
+                pin: pin.id
+            })
+            toast.error('Error on saving pin!')
+        })
+    }
 
     useHasTxHashBeenIndexedQuery({
         variables: { request: { txHash, txId } },

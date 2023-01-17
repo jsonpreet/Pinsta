@@ -2,7 +2,6 @@ import { PinstaPublication } from "@utils/custom-types";
 import dayjs from "dayjs";
 import { FC, useEffect, useState } from "react";
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { FiShoppingBag } from "react-icons/fi";
 import { useAppStore } from '@lib/store';
 import { motion } from 'framer-motion';
 import dynamic from "next/dynamic";
@@ -14,6 +13,8 @@ import Modal from "@components/UI/Modal";
 import GetModuleIcon from "@components/UI/GetModuleIcon";
 import { toast } from "react-hot-toast";
 import { SIGN_IN_REQUIRED_MESSAGE } from "@utils/constants";
+import { RiShoppingBag3Fill, RiShoppingBag3Line } from "react-icons/ri";
+import clsx from 'clsx';
 
 dayjs.extend(relativeTime)
 
@@ -55,9 +56,16 @@ const Collect: FC<Props> = ({ pin, electedMirror, isComment = false }) => {
                 onClick={() => showModal()}
                 aria-label="Collect"
             >
-                <div className="flex flex-row justify-center items-center">
-                    <FiShoppingBag size={isComment ? 13 : 17} />
-                    <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{count}</span>
+                <div
+                    className='flex flex-row justify-center items-center text-purple-500'
+                >
+                    {hasCollected ? (
+                        <RiShoppingBag3Fill size={isComment ? 14 : 17} />
+                    ) : (
+                            <RiShoppingBag3Line size={isComment ? 14 : 17} />
+                        )
+                    }
+                    <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{count}</span>
                 </div>   
             </motion.button>   
              <Modal

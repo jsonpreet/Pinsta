@@ -34,9 +34,9 @@ const Meta: FC<Props> = ({ pin, isComment = false }) => {
                 <Mirror isComment={isComment} pin={pin}/>
                 : null
             }
-            <div className="flex flex-row justify-center items-center">
+            <div className="flex flex-row justify-center text-blue-500 items-center">
                 <HiOutlineChatAlt2 size={isComment ? 14 : 18} />
-                <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{pin.stats.totalAmountOfComments}</span>
+                <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{pin.stats.totalAmountOfComments}</span>
             </div>
             {collectModuleType !== 'RevertCollectModuleSettings' ?
                 <Collect isComment={isComment} pin={pin} />

@@ -60,7 +60,6 @@ const Created: FC<Props> = ({ profile }) => {
         return <NoDataFound isCenter withImage text="No pins found" />
     }
 
-    console.log(pins)
     return (
         <>
             {queuedPublications.length === 0 && loading && <TimelineShimmer />}

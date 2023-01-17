@@ -43,8 +43,8 @@ const Mirror: FC<Props> = ({ pin, isComment = false }) => {
             id: publicationKeyFields(isMirror ? pin?.mirrorOf : pin),
             fields: {
                 stats: (stats) => ({
-                ...stats,
-                totalAmountOfMirrors: stats.totalAmountOfMirrors + 1
+                    ...stats,
+                    totalAmountOfMirrors: stats.totalAmountOfMirrors + 1
                 })
             }
         });
@@ -125,28 +125,28 @@ const Mirror: FC<Props> = ({ pin, isComment = false }) => {
 
     const createMirror = async () => {
         if (!currentProfile) {
-        return toast.error(SIGN_IN_REQUIRED_MESSAGE);
+            return toast.error(SIGN_IN_REQUIRED_MESSAGE);
         }
 
         try {
-        const request = {
-            profileId: currentProfile?.id,
-            publicationId: pin?.id,
-            referenceModule: {
-            followerOnlyReferenceModule: false
-            }
-        };
+            const request = {
+                profileId: currentProfile?.id,
+                publicationId: pin?.id,
+                referenceModule: {
+                    followerOnlyReferenceModule: false
+                }
+            };
 
-        if (currentProfile?.dispatcher?.canUseRelay) {
-            return await createViaDispatcher(request);
-        }
-
-        return await createMirrorTypedData({
-            variables: {
-            options: { overrideSigNonce: userSigNonce },
-            request
+            if (currentProfile?.dispatcher?.canUseRelay) {
+                return await createViaDispatcher(request);
             }
-        });
+
+            return await createMirrorTypedData({
+                variables: {
+                    options: { overrideSigNonce: userSigNonce },
+                    request
+                }
+            });
         } catch {}
     };
 
@@ -159,13 +159,17 @@ const Mirror: FC<Props> = ({ pin, isComment = false }) => {
                 disabled={isLoading}
                 aria-label="Mirror"
             >   
-            <div className="flex flex-row justify-center items-center">
+                <div
+                    className='flex flex-row justify-center items-center text-green-500'
+                >
                 {isLoading ? (
                     <Loader size="sm" />
                 ) : (
-                    <RiArrowLeftRightFill size={isComment ? 14 : 18} />
+                    <RiArrowLeftRightFill
+                        size={isComment ? 14 : 18}
+                    />
                 )}  
-                <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{pin.stats.totalAmountOfMirrors}</span>
+                <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{pin.stats.totalAmountOfMirrors}</span>
             </div>     
             </motion.button>             
         </>

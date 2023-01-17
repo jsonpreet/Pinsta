@@ -13,6 +13,7 @@ import { SIGN_IN_REQUIRED_MESSAGE } from "@utils/constants";
 import { publicationKeyFields } from "@utils/functions/publicationKeyFields";
 import { motion } from 'framer-motion';
 import { Analytics } from "@utils/analytics";
+import clsx from 'clsx';
 
 dayjs.extend(relativeTime)
 
@@ -100,13 +101,15 @@ const Like: FC<Props> = ({ pin, isComment = false }) => {
     return (
         <>
             <motion.button whileTap={{ scale: 0.9 }} onClick={createLike} aria-label="Like">
-                <div className="flex flex-row justify-center items-center">
+                <div 
+                    className='flex flex-row justify-center items-center text-red-500'
+                >
                     {liked ?
-                        <HiHeart className='text-red-500' size={isComment ? 15 : 20} />
+                        <HiHeart size={isComment ? 15 : 20} />
                         :
                         <HiOutlineHeart size={isComment ? 15 : 20} />
                     }
-                    <span className={`ml-1 ${isComment ? `text-xs` : `text-base`}`}>{count}</span>
+                    <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{count}</span>
                 </div>                
             </motion.button>
         </>
