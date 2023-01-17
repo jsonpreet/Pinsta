@@ -22,6 +22,11 @@ const nextConfig = {
         source: '/lenster',
         destination: 'https://lenster.xyz/u/pinsta',
         permanent: true
+      },
+      {
+        source: '/feedback',
+        destination: 'https://pinsta.canny.io/',
+        permanent: true
       }
     ];
   },
