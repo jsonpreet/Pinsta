@@ -48,14 +48,14 @@ const CollectNotification: FC<Props> = ({ notification }) => {
                                     {notification?.collectedPublication?.__typename?.toLowerCase()}
                                 </>
                         )}
-                        <CollectedContent notification={notification} />
-                        <CollectedAmount notification={notification} />
+                        {/* <CollectedContent notification={notification} />
+                        <CollectedAmount notification={notification} /> */}
                     </div>
                 </div>
             </div>
-            <div className="text-gray-400 text-[12px]" title={formatTime(notification?.createdAt)}>
+            {/* <div className="text-gray-400 text-[12px]" title={formatTime(notification?.createdAt)}>
                 {dayjs(new Date(notification?.createdAt)).fromNow()}
-            </div>
+            </div> */}
         </div>
     );
 };

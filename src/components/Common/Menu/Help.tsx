@@ -5,6 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 import { BsFillPatchQuestionFill } from 'react-icons/bs'
 import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { MdOutlineFeedback } from 'react-icons/md'
 
 const HelpMenu = () => {
     return (
@@ -62,6 +63,18 @@ const HelpMenu = () => {
                         >
                             <FaTwitter size={18} />
                             <span>Twitter</span>
+                        </Link>
+                        <Link
+                            onClick={() => {
+                                Analytics.track(TRACK.CLICK_HELP_MENU.TWITTER)
+                            }}
+                            href="/feedback"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 duration-75 delay-75'
+                        >
+                            <MdOutlineFeedback size={18} />
+                            <span>Feedback</span>
                         </Link>
                     </div>
                 </div>
