@@ -1,0 +1,12 @@
+query AllPublicationsTags($request: AllPublicationsTagsRequest!) {
+  allPublicationsTags(request: $request) {
+    items {
+      tag
+      total
+    }
+    pageInfo {
+      totalCount
+      next
+    }
+  }
+}

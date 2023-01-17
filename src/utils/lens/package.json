@@ -1,0 +1,24 @@
+{
+  "name": "lens",
+  "version": "0.0.0",
+  "main": "./generated.ts",
+  "scripts": {
+    "codegen": "graphql-codegen",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "2.16.1",
+    "@graphql-codegen/fragment-matcher": "^3.3.1",
+    "@graphql-codegen/typescript": "^2.8.2",
+    "@graphql-codegen/typescript-operations": "^2.5.7",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.6",
+    "prettier": "^2.8.1",
+    "tsconfig": "*",
+    "typescript": "^4.9.4",
+    "@graphql-codegen/client-preset": "1.2.3"
+  }
+}
