@@ -86,7 +86,7 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
         setRevenue(revenue + parseFloat(collectModule?.amount?.value));
         setCount(count + 1);
         setHasCollectedByMe(true);
-        toast.success('Transaction submitted successfully!');
+        toast.success('Collected Successfully!');
         Analytics.track(TRACK.COLLECT.COLLECTED);
     };
 
@@ -194,8 +194,8 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
         if (!data?.proxyAction) {
             await createCollectTypedData({
                 variables: {
-                request: { publicationId: publication?.id },
-                options: { overrideSigNonce: userSigNonce }
+                    request: { publicationId: publication?.id },
+                    options: { overrideSigNonce: userSigNonce }
                 }
             });
         }

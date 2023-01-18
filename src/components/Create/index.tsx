@@ -82,7 +82,7 @@ const Create: NextPage = () => {
             <div className='w-full max-w-[1024px] mt-0 md:mt-10 dark:bg-gray-800 md:shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] bg-white md:rounded-3xl mx-auto mb-0'>
                 <div className='flex flex-col items-center justify-center w-full h-full min-h-auto md:min-h-[400px] p-6 md:p-10'>
                     <div className='flex md:flex-row flex-col space-x-0 space-y-10 md:space-y-0 md:space-x-10 w-full h-full min-h-auto md:min-h-[400px]'>
-                        <div className='flex flex-col w-full lg:w-1/3 bg-gray-100 p-4 rounded-md h-full min-h-[200px] md:min-h-[400px]'>
+                        <div className='flex flex-col w-full lg:w-1/3 bg-gray-100 dark:bg-gray-700 p-4 rounded-md h-full min-h-[200px] md:min-h-[400px]'>
                             {createdPin && createdPin?.preview ? (
                                 <div className='relative flex flex-col flex-none w-full h-full min-h-[200px] md:min-h-[400px]'>
                                     <img
@@ -109,7 +109,7 @@ const Create: NextPage = () => {
                             >
                                 <div
                                     className={clsx(
-                                        'border-dashed border-2 h-full w-full rounded-md flex justify-between p-4 md:p-10 flex-col border-gray-200 space-y-6 md:space-y-0 min-h-[200px] md:min-h-[400px]',
+                                        'border-dashed border-2 h-full w-full rounded-md flex justify-between p-4 md:p-10 flex-col border-gray-200 dark:border-gray-400 space-y-6 md:space-y-0 min-h-[200px] md:min-h-[400px]',
                                         { '!border-red-400': dragOver }
                                     )}
                                 >
@@ -133,23 +133,8 @@ const Create: NextPage = () => {
                                             We recommend using high quality images <br /> Max 20MB.
                                         </p>
                                     </div>
-                                    {/* <div>
-                                        <label
-                                            htmlFor="chooseVideo"
-                                            className="px-8 py-4 text-lg text-white bg-indigo-500 cursor-pointer rounded-full"
-                                        >
-                                            or choose video
-                                            <input
-                                                id="chooseVideo"
-                                                onChange={onChooseFile}
-                                                type="file"
-                                                className="hidden"
-                                                accept={ALLOWED_IMAGE_TYPES.join(',')}
-                                            />
-                                        </label>
-                                    </div> */}
                                     {fileDropError && (
-                                        <div className="font-medium text-red-500">{fileDropError}</div>
+                                        <div className="font-medium text-red-500 dark:text-red-400">{fileDropError}</div>
                                     )}
                                 </div>
                             </label>

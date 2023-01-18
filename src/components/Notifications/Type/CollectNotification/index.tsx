@@ -25,7 +25,7 @@ const CollectNotification: FC<Props> = ({ notification }) => {
         <div className="flex justify-between items-start">
             <div className="space-y-2 w-4/5">
                 <div className="flex items-center space-x-3">
-                    <FiShoppingBag className="h-6 w-6 text-pink-500" />
+                    <FiShoppingBag className="h-6 w-6 text-purple-500" />
                     {notification?.wallet?.defaultProfile ? (
                         <UserPreview isBig={false} profile={notification?.wallet?.defaultProfile}>
                         <NotificationProfileAvatar profile={notification?.wallet?.defaultProfile} />

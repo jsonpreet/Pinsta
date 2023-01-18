@@ -246,7 +246,7 @@ const BasicInfo = ({ profile }: Props) => {
   }
 
   return (
-    <div className='bg-gray-50 border border-gray-100 p-4 rounded-xl'>
+    <div className='bg-gray-50 dark:bg-gray-800 dark:border-gray-700 border border-gray-100 p-4 rounded-xl'>
       <Form
         form={form}
         onSubmit={onSaveBasicInfo}
@@ -271,7 +271,7 @@ const BasicInfo = ({ profile }: Props) => {
           />
           <label
             htmlFor="chooseCover"
-            className="absolute p-1 px-3 text-sm bg-white rounded-lg cursor-pointer dark:bg-theme bottom-2 left-2"
+            className="absolute p-1 px-3 text-sm bg-white rounded-lg cursor-pointer  dark:bg-gray-800 bottom-2 left-2"
           >
             Change
             <input

@@ -27,7 +27,7 @@ const FollowerNotification: FC<Props> = ({ notification }) => {
                 {isSuperFollow ? (
                     <HiOutlineUserAdd className="h-6 w-6 text-pink-500" />
                 ) : (
-                    <HiOutlineUserAdd className="h-6 w-6 text-green-500" />
+                    <HiOutlineUserAdd className="h-6 w-6 text-purple-500" />
                 )}
                 {notification?.wallet?.defaultProfile ? (
                     <UserPreview profile={notification?.wallet?.defaultProfile}>

@@ -99,7 +99,7 @@ const Pin: NextPage = () => {
                     <div className='mt-0 flex-none'>
                         <div className='hidden md:flex flex-col items-center relative justify-center'>
                             <button
-                                className='absolute top-0 left-0 z-10 hover:text-white hover:bg-red-600 dark:hover:bg-red-700 dark:bg-gray-800 dark:text-white bg-gray-100 text-gray-800  duration-75 delay-75 rounded-full w-12 h-12 text-center items-center justify-center flex'
+                                className='absolute top-0 left-0 z-10 hover:text-white hover:bg-red-600 dark:hover:bg-red-500 dark:bg-gray-800 dark:text-white bg-gray-100 text-gray-800  duration-75 delay-75 rounded-full w-12 h-12 text-center items-center justify-center flex'
                                 onClick={() => router.back()}
                             >
                                 <BsArrowLeftShort size={26} />

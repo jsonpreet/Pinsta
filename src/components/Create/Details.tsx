@@ -6,7 +6,7 @@ import formatHandle from '@utils/functions/formatHandle'
 import IsVerified from '@components/UI/IsVerified'
 import Category from './Category'
 import useAppStore from '@lib/store'
-import ProfileBoards from './ProfileBoards'
+import ProfileBoards from './Actions/Boards'
 import { Button } from '@components/UI/Button'
 import { toast } from 'react-hot-toast'
 import { APP, ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
@@ -26,6 +26,7 @@ import uploadToAr from '@utils/functions/uploadToAr'
 import uploadToIPFS from '@utils/functions/uploadToIPFS'
 import { useRouter } from 'next/router'
 import InputMentions from '@components/UI/InputMentions'
+import CollectSettings from './Actions/Collect'
 
 const Details: FC = () => {
     const router = useRouter()
@@ -276,7 +277,7 @@ const Details: FC = () => {
                     onContentChange={(value) => {
                         setCreatePin({ ...createdPin, title: value})
                     }}
-                    mentionsSelector="input-mentions-single comment-input !text-2xl font-bold text-black"
+                    mentionsSelector="input-mentions-single comment-input !text-2xl font-bold text-black dark:text-white"
                 />
                 <div className='text-xs text-gray-400 text-right pt-1'>
                     {createdPin.title.length}/100
@@ -290,7 +291,7 @@ const Details: FC = () => {
                     onContentChange={(value) => {
                         setCreatePin({ ...createdPin, description: value})
                     }}
-                    mentionsSelector="input-mentions-single comment-input !h-20 text-black"
+                    mentionsSelector="input-mentions-single comment-input !h-20 text-black dark:text-white"
                 />
                 <div className='text-xs text-gray-400 text-right pt-1'>
                     {createdPin.description.length}/500
@@ -298,6 +299,9 @@ const Details: FC = () => {
             </div>
             <div className='relative'>
                 <Category/>
+            </div>
+            <div className='relative'>
+                <CollectSettings/>
             </div>
             <div className='flex justify-end'>
                 <Button

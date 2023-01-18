@@ -2,6 +2,7 @@ import PinCard from '@components/Common/Cards/Pin'
 import type { FC } from 'react'
 import type { BoardType, PinstaPublication } from '@utils/custom-types'
 import Masonry from '@mui/lab/Masonry';
+import { v4 as uuidv4 } from 'uuid'
 
 type Props = {
     pins: PinstaPublication[]

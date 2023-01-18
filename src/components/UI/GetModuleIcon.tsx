@@ -17,23 +17,23 @@ const GetModuleIcon: FC<Props> = ({ module, size }) => {
         case CollectModules.LimitedFeeCollectModule:
         return (
             <div className="flex gap-1 items-center">
-            <BiStar size={size} />
-            <HiOutlineCash size={size} />
+                <BiStar size={size} />
+                <HiOutlineCash size={size} />
             </div>
         );
         case CollectModules.LimitedTimedFeeCollectModule:
         return (
             <div className="flex gap-1 items-center">
-            <BiStar size={size} />
-            <BsClock size={size} />
-            <HiOutlineCash size={size} />
+                <BiStar size={size} />
+                <BsClock size={size} />
+                <HiOutlineCash size={size} />
             </div>
         );
         case CollectModules.TimedFeeCollectModule:
         return (
             <div className="flex gap-1 items-center">
-            <BsClock size={size} />
-            <HiOutlineCash size={size} />
+                <BsClock size={size} />
+                <HiOutlineCash size={size} />
             </div>
         );
         case CollectModules.RevertCollectModule:
@@ -43,15 +43,15 @@ const GetModuleIcon: FC<Props> = ({ module, size }) => {
         case FollowModules.FeeFollowModule:
         return (
             <div className="flex gap-1 items-center">
-            <HiOutlineCash size={size} />
-            <BiPlusCircle size={size} />
+                <HiOutlineCash size={size} />
+                <BiPlusCircle size={size} />
             </div>
         );
         case ReferenceModules.FollowerOnlyReferenceModule:
         return (
             <div className="flex gap-1 items-center">
-            <BiPlusCircle size={size} />
-            <BiShareAlt size={size} />
+                <BiPlusCircle size={size} />
+                <BiShareAlt size={size} />
             </div>
         );
         default:

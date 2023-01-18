@@ -164,7 +164,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
         <>
             <CreateBoardModal refetch={refetchBoards} pin={pin} savePinToBoard={savePinToBoard} setIsSaved={setIsSaved} />
             <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-col md:flex-row justify-between items-center mb-6 relative z-10'>
-                <div className='flex flex-row items-center justify-center'>
+                <div className='flex flex-row items-center w-full md:w-auto justify-between md:justify-center'>
                     <div className='flex back mr-4 lg:hidden'>
                         <button className='duration-75 delay-75 hover:text-red-500 text-gray-400' onClick={() => router.back()}> <BsArrowLeftCircleFill size={46}/> </button>
                     </div>
@@ -382,17 +382,19 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                             >
                                 Save
                             </Button>
-                        :
-                        <Button
-                            onClick={() => {
-                                savePinToBoard()
-                                Analytics.track('Save Pin', {
-                                    pinId: pin?.id
-                                })
-                            }}
-                        >
-                            Save
-                        </Button>
+                        : 
+                        !isMobile ?
+                            <Button
+                                onClick={() => {
+                                    savePinToBoard()
+                                    Analytics.track('Save Pin', {
+                                        pinId: pin?.id
+                                    })
+                                }}
+                            >
+                                Save
+                            </Button>
+                        : null
                     }
                 </div>
             </div>

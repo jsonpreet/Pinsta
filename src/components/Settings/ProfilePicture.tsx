@@ -158,14 +158,14 @@ const ProfilePicture: FC<Props> = ({ profile }) => {
                     ? sanitizeIpfsUrl(selectedPfp)
                     : getProfilePicture(profile, 'avatar_lg')
                 }
-                className="object-cover w-32 h-32 border-2 rounded-full"
+                className="object-cover w-32 h-32 border-2  dark:border-gray-700 rounded-full"
                 draggable={false}
                 alt={selectedPfp ? currentProfile?.handle : profile?.handle}
             />
             <label
                 htmlFor="choosePfp"
                 className={clsx(
-                'absolute top-0 grid w-32 h-32 bg-white rounded-full cursor-pointer bg-opacity-70 place-items-center backdrop-blur-lg invisible group-hover:visible dark:bg-theme',
+                'absolute top-0 grid w-32 h-32 bg-white rounded-full cursor-pointer bg-opacity-70 place-items-center backdrop-blur-lg invisible group-hover:visible dark:bg-gray-800/30 ',
                 { '!visible': loading && !pfpData?.hash }
                 )}
             >

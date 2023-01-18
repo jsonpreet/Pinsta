@@ -67,16 +67,16 @@ const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
   }
   
   return (
-    <motion.div
-      className="group"
-      initial={{ opacity: 0, y: 200 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        type: "spring", stiffness: 200, damping: 24
-      }}
-    >
+    <>
       {!pin.hidden ? (
-        <>
+        <motion.div
+          className="group"
+          initial={{ opacity: 0, y: 200 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring", stiffness: 200, damping: 24
+          }}
+        >
           <div className="overflow-hidden group relative flex flex-col items-center">
             <Link 
               onClick={() => {
@@ -154,11 +154,11 @@ const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
                 </div>
               </> : null}
           </div>
-        </>
+        </motion.div>
       ) : (
         null
       )}
-    </motion.div>
+    </>
   )
 }
 
