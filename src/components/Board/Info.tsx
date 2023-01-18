@@ -79,7 +79,7 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
     return (
         <>
             <EditBoardModal board={board} show={showEditBoard} setShow={setShowEditBoard} />
-            <div className='flex flex-col w-full max-w-7xl space-y-2 mx-auto justify-center items-center py-8'>
+            <div className='flex flex-col w-full max-w-7xl space-y-2 mx-auto justify-center items-center px-4 md:px-0 py-8'>
                 <div className='flex items-center space-x-2'>
                     <h2 className='text-4xl font-bold'>{board?.name}</h2>
                     {currentProfile?.id === profile?.id && (
