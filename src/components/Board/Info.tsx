@@ -12,12 +12,12 @@ import IsVerified from '@components/UI/IsVerified';
 import useAppStore from '@lib/store';
 import usePersistStore from '@lib/store/persist';
 import DropMenu from '@components/UI/DropMenu';
-import { BiDotsHorizontalRounded, BiDotsVerticalRounded } from 'react-icons/bi';
+import { BiDotsVerticalRounded } from 'react-icons/bi';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import EditBoardModal from '@components/Common/Modals/EditBoard';
 import { toast } from 'react-hot-toast';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { APP, PINSTA_API_URL } from '@utils/constants';
+import { APP, PINSTA_SERVER_URL } from '@utils/constants';
 import { HiOutlineLink } from 'react-icons/hi';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon } from 'next-share';
@@ -57,7 +57,7 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
     const deleteBoard = async (id: string) => {
         const toastId = toast.loading('Deleting board...')
         
-        await axios.post(`${PINSTA_API_URL}/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
+        await axios.post(`${PINSTA_SERVER_URL}/delete-board`, { user_id: currentProfileId, board_id: id }).then((res) => {
             if (res.data.status === 204) {
                 Analytics.track('Board Deleted', {
                     board_id: id,
