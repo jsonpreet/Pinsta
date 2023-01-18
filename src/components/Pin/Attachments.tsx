@@ -7,6 +7,10 @@ import imageCdn from '@utils/functions/imageCdn'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
 import clsx from 'clsx'
+import getTextNftUrl from '@utils/functions/getTextNftUrl'
+import useAppStore from '@lib/store'
+import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
+import getTextImage from '@utils/functions/getTextImage'
 
 interface Props {
     pin: PinstaPublication
@@ -14,11 +18,31 @@ interface Props {
 
 const Attachments: FC<Props> = ({ pin }) => {
     const [isLoading, setLoading] = useState(true)
+    const currentProfile = useAppStore((state) => state.currentProfile)
+    const [thumbnail, setThumbnail] = useState<string | null>(null)
 
     useEffect(() => {
         Analytics.track(`viewed_pin_${pin.id}`)
+        getThumbnail(pin)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const getThumbnail = async (pin: PinstaPublication) => {
+        if (pin?.metadata?.media.length > 0 && pin?.metadata?.media[0] !== null) {
+            if (pin?.metadata?.media[0]?.original.mimeType === 'image/gif') {
+                setThumbnail(getThumbnailUrl(pin));
+            } else {
+                setThumbnail(imageCdn(getThumbnailUrl(pin), 'thumbnail_lg'));
+            }
+        } else {
+            const textNFTImageUrl = await getTextImage(
+                pin?.metadata?.content,
+                pin?.profile?.handle,
+                new Date().toLocaleString()
+            );
+            setThumbnail(textNFTImageUrl);
+        }
+    };
 
     return (
         <>
@@ -28,13 +52,16 @@ const Attachments: FC<Props> = ({ pin }) => {
             >
                 <div className='sticky top-4 w-full flex flex-col justify-center items-center'>
                     <div className='relative'>
-                        <img 
-                            className='rounded-xl object-cover' 
-                            alt={`Pin by @${pin.profile.handle}`} 
-                            src={pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), 'thumbnail_lg')} 
-                            onLoad={() => setLoading(false)}
-                        />
-                        {!isLoading && (
+                        {thumbnail ?
+                            <img
+                                className='rounded-xl object-cover'
+                                alt={`Pin by @${pin.profile.handle}`}
+                                src={thumbnail}
+                                onLoad={() => setLoading(false)}
+                            />
+                            : null
+                        }
+                        {!isLoading && pin?.metadata?.media.length > 0 && pin?.metadata?.media[0] !== null && (
                             <Link 
                                 href={getThumbnailUrl(pin)}
                                 target='_blank'

@@ -38,6 +38,7 @@
     "filereader-stream": "^2.0.0",
     "framer-motion": "^8.0.2",
     "graphql": "^16.6.0",
+    "html-entities": "^2.3.3",
     "interweave": "^13.0.0",
     "interweave-autolink": "^5.1.0",
     "mixpanel-browser": "^2.45.0",

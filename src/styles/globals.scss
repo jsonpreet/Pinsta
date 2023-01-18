@@ -70,7 +70,7 @@ input[type='number'] {
 
 /* interweave linkify */
 .interweave-content a {
-  @apply text-red-500 hover:underline;
+  @apply text-red-500 dark:text-red-400 hover:underline;
 }
 
 .boxShadow {
@@ -109,6 +109,10 @@ input[type='number'] {
 
 .primary-button {
   @apply bg-gradient-to-r from-[#df3f95] to-[#ec1e25] hover:from-[#ec1e25] hover:to-[#ec1e25] text-white;
+}
+
+.label {
+  @apply mb-1 font-medium text-gray-900 dark:text-gray-200;
 }
 
 .border-gradient {

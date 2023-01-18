@@ -13,7 +13,7 @@ export const CardShimmer = () => {
 const PinShimmer = () => {
   return (
     <>
-      <div className='max-w-[1024px] md:shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] bg-white md:rounded-3xl mx-auto md:mb-0 mb-4'>
+      <div className='max-w-[1024px] md:shadow-[rgba(13,_38,_76,_0.10)_0px_9px_15px] bg-white dark:bg-gray-700 md:rounded-3xl mx-auto md:mb-0 mb-4'>
         <div className='flex flex-col lg:flex-row overflow-visible'>
           <div className='relative flex-none w-full lg:w-2/4'>
             <div className='w-full h-full relative md:min-h-[500px] flex flex-col items-center rounded-xl p-4 bg-gray-300 dark:bg-gray-700 ranimate-pulse' />

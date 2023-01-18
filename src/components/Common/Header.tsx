@@ -82,7 +82,7 @@ const Header: FC<Props> = ({ className }) => {
                   }
                 </>
               
-              :  null //<ThemeSwitch />
+              :  <ThemeSwitch /> //<ThemeSwitch />
               }   
               <Login />
               <HelpMenu/>

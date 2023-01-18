@@ -19,6 +19,8 @@ import formatHandle from '@utils/functions/formatHandle'
 import { PINSTA_SERVER_URL } from '@utils/constants'
 import axios from 'axios'
 import { Analytics, TRACK } from '@utils/analytics'
+import { Toggle } from '@components/UI/Toggle'
+import clsx from 'clsx'
 
 type Props = {
     board?: BoardType,
@@ -134,14 +136,17 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                     show={show}
                     icon={<MdOutlineSpaceDashboard size={24} />}
                     onClose={() => onCancel()}
-                    size='md'
+                    size={board?.pfp ? 'md' : 'sm'}
                     className='md:mb-0 mb-20'
                 >
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6 p-4'>
-                        <div className='relative w-full h-full flex flex-col items-center rounded-xl'
-                        >
-                            {board?.pfp ?
-                                <>
+                    <div className={clsx(
+                        'grid gap-6 p-4',
+                        { 'grid-cols-1 md:grid-cols-2': board?.pfp }
+                    )}
+                    >
+                        {board?.pfp ?
+                            <>
+                                <div className='relative w-full h-full flex flex-col items-center rounded-xl'>
                                     <img 
                                         className='rounded-xl object-cover' 
                                         alt={board?.name}
@@ -154,9 +159,9 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                                         </span>
                                         : null
                                     }
-                                </>
-                            : null }
-                        </div>
+                                </div>
+                            </>
+                        : null }
                         <div className="flex flex-col space-y-4 w-full">
                             <Form
                                 form={form}
@@ -181,20 +186,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                                 </div>
                                 <div className="flex space-x-2 mt-4">
                                     <div>
-                                        <Switch
-                                            checked={isPrivate}
-                                            onChange={setIsPrivate}
-                                            className={`${
-                                                isPrivate ? 'bg-red-600' : 'bg-gray-200'
-                                            } relative inline-flex h-6 w-11 items-center rounded-full`}
-                                        >
-                                            <span className="sr-only">Keep this board secret</span>
-                                            <span
-                                                className={`${
-                                                isPrivate ? 'translate-x-6' : 'translate-x-1'
-                                                } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-                                            />
-                                        </Switch>
+                                        <Toggle on={isPrivate} setOn={setIsPrivate} />
                                     </div>
                                     <label htmlFor="boardVisibility" className="text-sm font-medium text-gray-700 dark:text-gray-200">Keep this board secret</label>
                                 </div>

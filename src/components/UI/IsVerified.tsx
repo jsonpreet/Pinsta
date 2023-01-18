@@ -9,13 +9,13 @@ type Props = {
   color?: string
 }
 
-const IsVerified: FC<Props> = ({ id, size = 'sm', color = 'text-red-500' }) => {
+const IsVerified: FC<Props> = ({ id, size = 'sm', color = 'text-red-500 dark:text-red-400' }) => {
     if (!VERIFIED_CHANNELS.includes(id)) return null
     return (
         <div>
             <BsFillPatchCheckFill
                 className={clsx(
-                    'ml-0.5',
+                    'ml-1',
                     {
                         'w-3 h-3': size === 'xs',
                         'w-4 h-4': size === 'sm',

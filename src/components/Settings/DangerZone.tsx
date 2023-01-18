@@ -94,7 +94,7 @@ const DangerZone = () => {
     if (!currentProfile) return <Custom404 />
 
     return (
-        <div className="p-5 bg-gray-50 border border-gray-100 rounded-lg dark:divide-gray-900 dark:bg-theme">
+        <div className="p-5 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 border border-gray-100 rounded-lg dark:divide-gray-900 dark:bg-theme">
             {/* <div className="flex flex-wrap items-center mb-5">
                 <div className="flex items-center">
                     <div className="flex-none mr-3 mt-0.5">

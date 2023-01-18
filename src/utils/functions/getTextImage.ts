@@ -1,7 +1,6 @@
-import uploadToIPFS from './uploadToIPFS'
 import {encode} from 'html-entities';
 
-const getTextNftUrl = async (content: string, username: string, timestamp: string) => {
+const getTextImage = async (content: string, username: string, timestamp: string) => {
   const svg = `<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
     <style>
       .content {
@@ -41,8 +40,7 @@ const getTextNftUrl = async (content: string, username: string, timestamp: strin
 `;
   const blob = new Blob([svg], { type: 'image/svg+xml' });
   const file = new File([blob], 'post.svg', { lastModified: new Date().getTime(), type: blob.type });
-  const result = await uploadToIPFS(file);
-  return result?.url ?? null;
+  return URL.createObjectURL(file);
 };
 
-export default getTextNftUrl;
+export default getTextImage;

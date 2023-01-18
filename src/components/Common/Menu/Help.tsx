@@ -31,7 +31,7 @@ const HelpMenu = () => {
                             href="/lenster"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 duration-75 delay-75'
+                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75'
                         >
                             <img
                                 src='/brands/lenster.svg'
@@ -47,7 +47,7 @@ const HelpMenu = () => {
                             href="/discord"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 duration-75 delay-75'
+                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75'
                         >
                             <FaDiscord size={18} />
                             <span>Discord</span>
@@ -59,7 +59,7 @@ const HelpMenu = () => {
                             href="/twitter"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 duration-75 delay-75'
+                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75'
                         >
                             <FaTwitter size={18} />
                             <span>Twitter</span>
@@ -71,7 +71,7 @@ const HelpMenu = () => {
                             href="/feedback"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 duration-75 delay-75'
+                            className='flex space-x-2 items-center py-2 px-4 w-full hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75'
                         >
                             <MdOutlineFeedback size={18} />
                             <span>Feedback</span>

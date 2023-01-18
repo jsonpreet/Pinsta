@@ -9,7 +9,7 @@ const ThemeSwitch: FC = () => {
         <>
             <button
                 type="button"
-                className="flex items-center px-4"
+                className="flex items-center pr-2"
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
                 {theme === 'dark' ? (

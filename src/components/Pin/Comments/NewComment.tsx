@@ -111,10 +111,10 @@ const NewComment: FC<Props> = ({ pin }) => {
         abi: LensHubProxy,
         functionName: 'commentWithSig',
         mode: 'recklesslyUnprepared',
-        overrides: {
-            // @ts-ignore
-            gasLimit: 1000000
-        },
+        // overrides: {
+        //     // @ts-ignore
+        //     gasLimit: 1000000
+        // },
         onError,
         onSuccess: (data) => {
             if (data.hash) {

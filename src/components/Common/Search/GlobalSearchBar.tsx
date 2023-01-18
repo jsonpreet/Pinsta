@@ -127,7 +127,7 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                             </div>
                         </div>
                         <div
-                            className="relative md:absolute top-0 md:top-[60px] w-full bg-white rounded-br-xl rounded-bl-xl md:shadow-2xl"
+                            className="relative md:absolute top-0 md:top-[60px] w-full bg-white dark:bg-gray-900 rounded-br-xl rounded-bl-xl md:shadow-2xl"
                         >
                             {loading && <div className="flex flex-row items-center py-8 justify-center">
                                 <Loader size='sm' /></div>

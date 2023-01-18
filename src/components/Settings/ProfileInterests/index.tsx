@@ -4,7 +4,7 @@ import Topics from './Topics'
 const ProfileInterests:FC = () => {
   return (
     <>
-      <div className="p-5 space-y-6 bg-gray-50 border border-gray-100 rounded-xl dark:bg-theme">
+      <div className="p-5 space-y-6 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 border border-gray-100 rounded-xl dark:bg-theme">
         <div className="mb-5">
           <h1 className="mb-1 text-xl font-semibold">Interests</h1>
           <p className="text opacity-80">

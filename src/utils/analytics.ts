@@ -55,6 +55,15 @@ export const TRACK = {
         FEE: 'Collected for Fee',
         COLLECTED: 'Collected',
     },
+    COLLECT_MODULE: {
+        OPEN: 'Open Collect Module Settings',
+        CLOSE: 'Close Collect Module Settings',
+        TOGGLE: 'Toggle Collect Module',
+        TOGGLE_CHARGE_FOR_COLLECT: 'Toggle Charge for Collect',
+        TOGGLE_LIMITED_EDITION_COLLECT: 'Toggle Limited Edition Collect',
+        TOGGLE_TIME_LIMIT_COLLECT: 'Toggle Time Limit Collect',
+        TOGGLE_FOLLOWERS_ONLY_COLLECT: 'Toggle Followers Only Collect',
+    },
     SEARCH_PROFILES: 'Search Profiles',
     SYSTEM: {
         THEME: {

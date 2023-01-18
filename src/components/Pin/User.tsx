@@ -56,7 +56,7 @@ const User: FC<Props> = ({ pin }) => {
                                 className='flex justify-center items-center'
                             >
                                 <span className="mr-1 dark:text-white text-black hover:text-red-500 font-semibold leading-none">{pin?.profile?.name ?? formatHandle(pin?.profile?.handle)}</span>
-                                <IsVerified id={pin?.profile?.id} size='sm' color='text-red-600' />
+                                <IsVerified id={pin?.profile?.id} size='sm' />
                             </Link>
                         </div>
                         <div>

@@ -94,14 +94,14 @@ const BoardInfo: FC<Props> = ({ board, profile }) => {
                                 <div className='mt-1.5 w-44 focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow overflow-hidden rounded-xl dark:bg-gray-800 bg-white'>
                                     <div className='flex flex-col divide-y divide-gray-100 dark:divide-gray-700'>
                                         <button 
-                                            className='flex items-center space-x-2 px-5 py-3 w-full hover:bg-gray-100'
+                                            className='flex items-center space-x-2 px-5 py-3 w-full hover:bg-gray-100 dark:hover:bg-gray-700'
                                             onClick={() => setShowEditBoard(true)}
                                         >
                                             <BsPencilSquare size={18} />
                                             <span>Edit</span>
                                         </button>
                                         <button 
-                                            className='flex items-center space-x-2 px-5 py-3 w-full hover:bg-gray-100'
+                                            className='flex items-center space-x-2 px-5 py-3 w-full hover:bg-gray-100 dark:hover:bg-gray-700'
                                             onClick={() => deleteBoard(board?.id)}
                                         >
                                             <BsTrash size={18} />

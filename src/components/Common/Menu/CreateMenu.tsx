@@ -17,7 +17,7 @@ const CreateMenu: FC = () => {
         <>
             <Link
                 href={CREATE}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-white"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800"
             >
                 <HiPlus size='1.5rem' />
             </Link>

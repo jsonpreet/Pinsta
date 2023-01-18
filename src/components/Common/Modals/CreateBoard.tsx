@@ -4,7 +4,6 @@ import usePersistStore from '@lib/store/persist'
 import { FC, useEffect, useState } from 'react'
 import Modal from '@components/UI/Modal'
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
-import { Switch } from '@headlessui/react'
 import { Button } from '@components/UI/Button'
 import { Input } from '@components/UI/Input'
 import z from 'zod'
@@ -20,6 +19,7 @@ import axios from 'axios'
 import { PINSTA_SERVER_URL } from '@utils/constants'
 import { Analytics, TRACK } from '@utils/analytics'
 import clsx from 'clsx'
+import { Toggle } from '@components/UI/Toggle'
 
 type Props = {
     pin?: PinstaPublication,
@@ -145,7 +145,6 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch 
     });
 
     const buttonText = loading ? 'Creating...' : 'Create Board'
-
     return (
         <>
             {showCreateBoard && (
@@ -205,20 +204,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch 
                                 </div>
                                 <div className="flex space-x-2 mt-4">
                                     <div>
-                                        <Switch
-                                            checked={isPrivate}
-                                            onChange={setIsPrivate}
-                                            className={`${
-                                                isPrivate ? 'bg-red-600' : 'bg-gray-200'
-                                            } relative inline-flex h-6 w-11 items-center rounded-full`}
-                                        >
-                                            <span className="sr-only">Keep this board secret</span>
-                                            <span
-                                                className={`${
-                                                isPrivate ? 'translate-x-6' : 'translate-x-1'
-                                                } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-                                            />
-                                        </Switch>
+                                        <Toggle on={isPrivate} setOn={setIsPrivate} />
                                     </div>
                                     <label htmlFor="boardVisibility" className="text-sm font-medium text-gray-700 dark:text-gray-200">Keep this board secret</label>
                                 </div>
