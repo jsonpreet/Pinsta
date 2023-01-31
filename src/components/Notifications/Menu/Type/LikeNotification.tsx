@@ -16,7 +16,7 @@ interface Props {
 const LikeNotification: FC<Props> = ({ notification }) => {
     return (
         <div className="flex justify-between items-start">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center text-sm space-x-2">
                 <div className='flex items-center space-x-1'>
                     {/* <HiHeart className="h-6 w-6 text-red-500" /> */}
                     <NotificationProfileAvatar profile={notification?.profile} />

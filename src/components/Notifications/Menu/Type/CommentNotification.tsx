@@ -16,7 +16,7 @@ interface Props {
 const CommentNotification: FC<Props> = ({ notification }) => {
     return (
         <div className="flex justify-between items-start">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 text-sm">
                 <div className='flex items-center space-x-1'>
                     {/* <HiOutlineChatAlt2 className="h-6 w-6 text-blue-500" /> */}
                     <NotificationProfileAvatar profile={notification?.profile} />

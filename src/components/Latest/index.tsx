@@ -6,7 +6,7 @@ import { Loader } from '@components/UI/Loader'
 import { NoDataFound } from '@components/UI/NoDataFound'
 import { PublicationMainFocus, PublicationSortCriteria, PublicationTypes, useExploreQuery } from '@utils/lens'
 import { useInView } from 'react-cool-inview'
-import type { PinstaPublication } from '@utils/custom-types'
+import { PinstaMainContentFocus, PinstaPublication } from '@utils/custom-types'
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants'
 import useAppStore from '@lib/store'
 import { useEffect } from 'react'
@@ -27,7 +27,7 @@ const Latest: NextPage = () => {
     customFilters: LENS_CUSTOM_FILTERS,
     metadata: {
       tags: activeTagFilter !== 'all' ? { oneOf: [activeTagFilter] } : undefined,
-      mainContentFocus: [PublicationMainFocus.Image]
+      mainContentFocus: PinstaMainContentFocus
     }
   }
 

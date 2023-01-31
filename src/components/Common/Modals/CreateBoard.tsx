@@ -68,7 +68,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch 
         let slug = boardName.trim().toLowerCase().replace(/ /g, '-')
         const request = {
             name: boardName.trim(),
-            slug: slug.replaceAll(/[^a-zA-Z ]/g,""),
+            slug: slug.replaceAll(/[^a-zA-Z ]/g,"-"),
             description: boardDescription,
             pfp: pin ? getThumbnailUrl(pin) : '',
             is_private: isPrivate,

@@ -1,6 +1,6 @@
 import { PinstaPublication } from "@utils/custom-types";
 import dayjs from "dayjs";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { RiArrowLeftRightFill } from "react-icons/ri";
 import { useAppStore } from '@lib/store';
@@ -18,6 +18,7 @@ import onError from "@utils/functions/onError";
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { Loader } from "@components/UI/Loader";
+import wav3sMirror from "@utils/functions/wav3sMirror";
 
 dayjs.extend(relativeTime)
 
@@ -34,7 +35,14 @@ const Mirror: FC<Props> = ({ pin, isComment = false }) => {
     const count = isMirror
         ? pin?.mirrorOf?.stats?.totalAmountOfMirrors
         : pin?.stats?.totalAmountOfMirrors;
-    const [mirrored, setMirrored] = useState(pin?.mirrors?.length > 0 || pin?.mirrorOf?.mirrors?.length > 0);
+    const [mirrored, setMirrored] = useState(isMirror ? pin?.mirrorOf?.mirrors?.length > 0 : pin?.mirrors?.length > 0);
+
+    useEffect(() => {
+        if (mirrored) {
+            updateMirror();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mirrored])
 
     const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
 
@@ -55,6 +63,15 @@ const Mirror: FC<Props> = ({ pin, isComment = false }) => {
         toast.success('Post has been mirrored!');
         Analytics.track('Post has been mirrored!');
     };
+
+    const updateMirror = async () => {
+        const payload = {
+            "appId": 'pinsta',
+            "pubIdPointed": `${isMirror ? pin?.mirrorOf?.id : pin?.id}`,
+            "profileId": `${currentProfile?.id}`,
+        }
+        const response = await wav3sMirror(payload)
+    }
 
     const { isLoading: writeLoading, write } = useContractWrite({
         address: LENSHUB_PROXY_ADDRESS,
@@ -131,7 +148,7 @@ const Mirror: FC<Props> = ({ pin, isComment = false }) => {
         try {
             const request = {
                 profileId: currentProfile?.id,
-                publicationId: pin?.id,
+                publicationId: isMirror ? pin?.mirrorOf?.id : pin?.id,
                 referenceModule: {
                     followerOnlyReferenceModule: false
                 }
@@ -160,16 +177,26 @@ const Mirror: FC<Props> = ({ pin, isComment = false }) => {
                 aria-label="Mirror"
             >   
                 <div
-                    className='flex flex-row justify-center items-center text-green-500'
+                    className='flex flex-row justify-center items-center'
                 >
                 {isLoading ? (
                     <Loader size="sm" />
                 ) : (
-                    <RiArrowLeftRightFill
-                        size={isComment ? 14 : 18}
-                    />
+                        <RiArrowLeftRightFill
+                            className={clsx(
+                                { 'text-fuchsia-500': mirrored },
+                                { 'text-green-500': !mirrored }
+                            )}    
+                            size={isComment ? 14 : 18}
+                        />
                 )}  
-                <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{pin.stats.totalAmountOfMirrors}</span>
+                    <span
+                        className={clsx(`ml-1 ${isComment ? `text-xs` : `text-sm`}`,
+                            { 'text-fuchsia-500': mirrored }, { 'text-green-500': !mirrored }
+                        )}
+                    >
+                        {count}
+                    </span>
             </div>     
             </motion.button>             
         </>

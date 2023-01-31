@@ -4,7 +4,7 @@ export const APP = {
   ID: 'pinsta',
   Name: 'Pinsta',
   URLName: 'Pinsta.xyz',
-  URL: 'https://testnet.pinsta.xyz',
+  URL: 'https://pinsta.xyz',
   Description: 'Pinsta is a decentralized Image & Video Sharing service, designed to save and collect discovery information using Images, Videos, and Animated Gifs in the form of Pin Boards.',
   Twitter: 'PinstaApp',
   Meta: {
@@ -69,7 +69,7 @@ export const SCROLL_ROOT_MARGIN = '40% 0px'
 
 // ipfs
 export const IPFS_FREE_UPLOAD_LIMIT = IS_MAINNET ? 1000 : 100
-export const IPFS_GATEWAY = 'https://lens.infura-ipfs.io/ipfs/'
+export const IPFS_GATEWAY = 'https://pinsta.infura-ipfs.io/ipfs/'
 
 // Messages
 export const ERROR_MESSAGE = 'Oops, something went wrong!'

@@ -8,13 +8,15 @@ import { PinstaPublication } from '@utils/custom-types'
 import { PublicationMainFocus, PublicationSortCriteria, PublicationTypes, useExploreQuery } from '@utils/lens/generated'
 import React, {FC} from 'react'
 import { useInView } from 'react-cool-inview'
+import { getHashTags } from '@utils/functions/getHashTags'
 
 interface Props {
     pin: PinstaPublication
 }
 
 
-const RelatedPins: FC<Props> = ({pin}) => {
+const RelatedPins: FC<Props> = ({ pin }) => {
+    const tags = pin?.metadata?.content ? getHashTags(pin.metadata.content) : []
     const request = {
         sortCriteria: PublicationSortCriteria.Latest,
         limit: 50,
@@ -22,11 +24,13 @@ const RelatedPins: FC<Props> = ({pin}) => {
         publicationTypes: [PublicationTypes.Post],
         customFilters: LENS_CUSTOM_FILTERS,
         metadata: {
+            tags: tags.length > 0 ? { oneOf: tags } : undefined,
             mainContentFocus: [PublicationMainFocus.Image]
         }
     }
 
     const { data, loading, error, fetchMore } = useExploreQuery({
+        // @ts-ignore
         variables: { request }
     })
 
@@ -51,17 +55,16 @@ const RelatedPins: FC<Props> = ({pin}) => {
     if (pins?.length === 0) {
         return <NoDataFound isCenter withImage text="No pins found" />
     }
-        
+    
     return (
         <>
-            <MetaTags />
             {loading && <TimelineShimmer />}
             {!error && !loading && pins && (
                 <>  
                     <div className="flex flex-col space-y-6">
                         <div className="flex items-center justify-center">
                             <h1 className="text-2xl font-black uppercase brandGradientText tracking-widest pb-4 relative">
-                                <span>Recent Pins</span>
+                                <span>Related Pins</span>
                                 <span className="absolute w-1/2 right-0 mx-auto bottom-0 left-0 h-1 bg-gradient-to-r from-[#df3f95] to-[#ec1e25]" />
                             </h1>
                         </div>

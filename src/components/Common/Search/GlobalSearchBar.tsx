@@ -5,7 +5,7 @@ import type { Profile } from '@utils/lens'
 import { SearchProfilesDocument, SearchPublicationsDocument, SearchRequestTypes } from '@utils/lens'
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { LENS_CUSTOM_FILTERS } from '@utils/constants'
+import { LENS_CUSTOM_FILTERS, PINSTA_SERVER_URL } from '@utils/constants'
 import useDebounce from '@hooks/useDebounce'
 import useOutsideClick from '@hooks/useOutsideClick'
 import { BsSearch } from "react-icons/bs";
@@ -15,6 +15,10 @@ import { useDetectClickOutside } from 'react-detect-click-outside';
 import { TAGS } from '@utils/data/tags'
 import Tag from '../Cards/Tag'
 import { Analytics, TRACK } from '@utils/analytics'
+import axios from 'axios'
+import Link from 'next/link'
+import { BoardsType } from '@utils/custom-types'
+import Boards from './Boards'
 
 interface Props {
   onSearchResults?: () => void
@@ -26,35 +30,54 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
     const debouncedValue = useDebounce<string>(keyword, 500)
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [results, setResults] = useState('')
+    const [boards, setBoards] = useState([])
     const [showResults, setShowResults] = useState(false)
     const [showLoader, setLoader] = useState(false)
 
     const resultsRef = useRef(null)
     useOutsideClick(resultsRef, () => setKeyword(''))
 
-    const [searchChannels, { data, loading }] = useLazyQuery(
+    const [searchProfiles, { data, loading }] = useLazyQuery(
         activeSearch === 'PROFILE'
         ? SearchProfilesDocument
         : SearchPublicationsDocument
     )
 
+    const boardSearch = async (payload : {keyword: string}) => {
+        Analytics.track('Board Search!', {
+            query: payload.keyword,
+        })
+        return await axios.post(`${PINSTA_SERVER_URL}/board-search`, { query: payload.keyword }).then((res) => {
+            if (res.data.data && res.data.data.length > 0) {
+                setBoards(res.data.data)
+                return
+            }
+        }).catch((err) => {
+            console.log(err)
+            return
+        })
+    }
+
     const onDebounce = () => {
         if (keyword.trim().length) {
-            searchChannels({
+            searchProfiles({
                 variables: {
-                request: {
-                    type: activeSearch,
-                    query: keyword,
-                    limit: 10,
-                    customFilters: LENS_CUSTOM_FILTERS
+                    request: {
+                        type: activeSearch,
+                        query: keyword,
+                        limit: 5,
+                        customFilters: LENS_CUSTOM_FILTERS
+                    }
                 }
-                }
+            })
+            boardSearch({
+                keyword: keyword,
             })
         }
     }
 
     // @ts-ignore
-    const channels = data?.search?.items
+    const profiles = data?.search?.items
 
     useEffect(() => {
         onDebounce()
@@ -134,13 +157,26 @@ const GlobalSearchBar: FC<Props> = ({ onSearchResults }) => {
                             }
                             {showResults &&
                                 <div className="flex flex-col max-h-96 py-2 overflow-x-hidden overflow-y-scroll" >
-                                    {data?.search?.__typename === 'ProfileSearchResult' && (
-                                        <Profiles
-                                            results={channels as Profile[]}
-                                            loading={loading}
-                                            clearSearch={clearSearch}
-                                        />
-                                    )}
+                                    {boards.length > 0 &&
+                                        <div className="flex flex-col">
+                                            <>
+                                                <Boards
+                                                    results={boards as BoardsType}
+                                                    loading={loading}
+                                                    clearSearch={clearSearch}
+                                                />
+                                            </>
+                                        </div>
+                                    }
+                                    <div className="flex flex-col">
+                                        {data?.search?.__typename === 'ProfileSearchResult' && (
+                                            <Profiles
+                                                results={profiles as Profile[]}
+                                                loading={loading}
+                                                clearSearch={clearSearch}
+                                            />
+                                        )}
+                                    </div>
                                 </div>
                             }
                             {/* {showSuggestions &&

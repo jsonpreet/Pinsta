@@ -13,6 +13,35 @@ query Feed(
           ...CommentFields
         }
       }
+      electedMirror {
+        mirrorId
+        profile {
+          ...ProfileFields
+        }
+        timestamp
+      }
+      mirrors {
+        profile {
+          ...ProfileFields
+        }
+        timestamp
+      }
+      collects {
+        profile {
+          ...ProfileFields
+        }
+        timestamp
+      }
+      reactions {
+        profile {
+          ...ProfileFields
+        }
+        reaction
+        timestamp
+      }
+      comments {
+        ...CommentFields
+      }
     }
     pageInfo {
       next

@@ -35,6 +35,7 @@ type Props = {
 }
 
 const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
+    const isMirror = pin.__typename === 'Mirror'
     const router = useRouter()
     const [isCopied, setIsCopied] = useState(false)
     const [sharePopUpOpen, setSharePopUpOpen] = useState(false)
@@ -58,7 +59,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
     const copied = () => {
         setIsCopied(true);
         Analytics.track('Pin link copied!', {
-            pin: pin.id
+            pin: isMirror ? pin?.mirrorOf?.id : pin.id
         })
         toast.success('Copied! link to your clipboard to share');
     }
@@ -77,7 +78,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
         const request = {
             board_id: currentBoard ?? null,
             user_id: currentProfileId,
-            post_id: pin.id
+            post_id: isMirror ? pin?.mirrorOf?.id : pin.id
         }
         return axios.post(`${PINSTA_SERVER_URL}/unsave-pin`,request).then((res) => {
             if (res.status === 200) {
@@ -88,20 +89,20 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                 setLoading(false)
                 onCancel()
                 Analytics.track('Pin removed', {
-                    pin: pin.id
+                    pin: isMirror ? pin?.mirrorOf?.id : pin.id
                 })
                 setIsSaved(false)
             } else {
                 setLoading(false)
                 Analytics.track('Error on removing pin', {
-                    pin: pin.id
+                    pin: isMirror ? pin?.mirrorOf?.id : pin.id
                 })
                 toast.error('Error on removing pin!')
             }
         }).catch((err) => {
             setLoading(false)
             Analytics.track('Error on removing pin', {
-                pin: pin.id
+                pin: isMirror ? pin?.mirrorOf?.id : pin.id
             })
             toast.error('Error on removing pin!')
         })
@@ -116,7 +117,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
         const request = {
             board_id: board ? `${board.id}` : 0,
             user_id: currentProfileId,
-            post_id: pin.id
+            post_id: isMirror ? pin?.mirrorOf?.id : pin.id
         }
         return await axios.post(`${PINSTA_SERVER_URL}/save-pin`, request).then((res) => {
         if (res.status === 200) {
@@ -127,7 +128,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             setBoardURL(`${formatHandle(currentProfile?.handle)}${board ? `/${board?.slug}` : ''}`)
             Analytics.track('Pin Saved', {
                 board: board?.name ?? 'Profile',
-                pin: pin.id
+                pin: isMirror ? pin?.mirrorOf?.id : pin.id
             })
             toast.success(`Pin saved to ${board?.name ?? 'your profile'}`)
         } else {
@@ -135,7 +136,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                 setLoading(false)
                 Analytics.track('Error Pin Saved', {
                     board: board?.name ?? 'Profile',
-                    pin: pin.id
+                    pin: isMirror ? pin?.mirrorOf?.id : pin.id
                 })
                 toast.error('Error on saving pin!')
             }
@@ -144,7 +145,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
             setLoading(false)
             Analytics.track('Error Pin Saved', {
                 board: board?.name ?? 'Profile',
-                pin: pin.id
+                pin: isMirror ? pin?.mirrorOf?.id : pin.id
             })
             toast.error('Error on saving pin!')
         })
@@ -152,7 +153,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
 
     const shareRef = useDetectClickOutside({ onTriggered: closeSharePopUp, triggerKeys: ['Escape', 'x'], });
 
-    const shareLink = APP.URL+'/pin/'+pin.id
+    const shareLink = `${APP.URL}/pin/${isMirror ? pin?.mirrorOf?.id : pin.id}`
 
     const tweetURL = 'Look at this... 👀' + shareLink
 
@@ -162,7 +163,8 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
 
     return (
         <>
-            <CreateBoardModal refetch={refetchBoards} pin={pin} savePinToBoard={savePinToBoard} setIsSaved={setIsSaved} />
+            {/* @ts-ignore */}
+            <CreateBoardModal refetch={refetchBoards} pin={isMirror ? pin?.mirrorOf : pin} savePinToBoard={savePinToBoard} setIsSaved={setIsSaved} />
             <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-col md:flex-row justify-between items-center mb-6 relative z-10'>
                 <div className='flex flex-row items-center w-full md:w-auto justify-between md:justify-center'>
                     <div className='flex back mr-4 lg:hidden'>
@@ -171,9 +173,10 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                     <div className='options mr-4'>
                         <button
                             onClick={() => {
-                                Analytics.track(`download_pin_button_clicked_${pin.id}`)
+                                Analytics.track(`download_pin_button_clicked_${isMirror ? pin?.mirrorOf?.id : pin.id}`)
                                     setSaving(true)
-                                    exportPNG({ url: getThumbnailUrl(pin) }, setSaving)
+                                    {/* @ts-ignore */}
+                                    exportPNG({ url: getThumbnailUrl(isMirror ? pin?.mirrorOf : pin) }, setSaving)
                                 }
                             }
                             className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'
@@ -186,7 +189,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                         ref={shareRef} 
                         onClick={() => {
                             setSharePopUpOpen(!sharePopUpOpen)
-                            Analytics.track(`share_pin_button_clicked_${pin.id}`)
+                            Analytics.track(`share_pin_button_clicked_${isMirror ? pin?.mirrorOf?.id : pin.id}`)
                         }}
                         className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'
                         >
@@ -199,15 +202,15 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                         <div>
                                             <FacebookShareButton
                                                 url={shareLink}
-                                                hashtag={'#pinesoio'}>
+                                                hashtag={'#pinsta'}>
                                                 <FacebookIcon size={50} round />
                                             </FacebookShareButton>
                                         </div>
                                         <div>
                                             <TwitterShareButton
                                                 url={tweetURL}
-                                                hashtags={['pinesoio', 'deso', 'desoprotocol', 'web3', 'decentralized', 'web3socialmedia']}
-                                                via='pinesoio'>
+                                                hashtags={['pinsta', 'lens', 'lensprotocol', 'web3', 'decentralized', 'web3pinterest']}
+                                                via='PinstaApp'>
                                                 <TwitterIcon size={50} round />
                                             </TwitterShareButton>
                                         </div>
@@ -240,7 +243,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                         )}
                     </div>
                     <div className='link'>
-                        <CopyToClipboard text={`${APP.URL}/pin/${pin.id}`} onCopy={() => copied()}>
+                        <CopyToClipboard text={`${APP.URL}/pin/${isMirror ? pin?.mirrorOf?.id : pin.id}`} onCopy={() => copied()}>
                             <button className='hover:bg-gray-900 hover:text-white bg-gray-100 dark:bg-gray-700 dark:hover:bg-white dark:hover:text-gray-900 duration-75 delay-75 w-12 h-12 flex justify-center items-center text-center rounded-full'>
                                 <HiOutlineLink size={24} />
                             </button>
@@ -361,7 +364,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                 onClick={() => {
                                     unSaveIt()
                                     Analytics.track('Unsaved Pin', {
-                                        pinId: pin?.id,
+                                        pinId: isMirror ? pin?.mirrorOf?.id : pin.id,
                                         boardId: currentBoard?.id,
                                         boardName: currentBoard?.name
                                     })
@@ -388,7 +391,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                                 onClick={() => {
                                     savePinToBoard()
                                     Analytics.track('Save Pin', {
-                                        pinId: pin?.id
+                                        pinId: isMirror ? pin?.mirrorOf?.id : pin.id
                                     })
                                 }}
                             >

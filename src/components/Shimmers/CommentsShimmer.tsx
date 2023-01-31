@@ -4,7 +4,8 @@ import CommentItemShimmer from './CommentItemShimmer'
 
 const CommentsShimmer = () => {
     return (
-        <div>
+        <div className='w-full' >
+            <CommentItemShimmer />
             <CommentItemShimmer />
             <CommentItemShimmer />
         </div>

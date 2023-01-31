@@ -13,7 +13,6 @@ import { SIGN_IN_REQUIRED_MESSAGE } from "@utils/constants";
 import { publicationKeyFields } from "@utils/functions/publicationKeyFields";
 import { motion } from 'framer-motion';
 import { Analytics } from "@utils/analytics";
-import clsx from 'clsx';
 
 dayjs.extend(relativeTime)
 
@@ -23,10 +22,11 @@ type Props = {
 }
 
 const Like: FC<Props> = ({ pin, isComment = false }) => {
+    const isMirror = pin.__typename === 'Mirror'
     const currentProfile = useAppStore((state) => state.currentProfile);
     const { pathname } = useRouter();
-    const [liked, setLiked] = useState(pin?.reaction === 'UPVOTE');
-    const [count, setCount] = useState(pin?.stats?.totalUpvotes);
+    const [liked, setLiked] = useState(isMirror ? pin?.mirrorOf?.reaction === 'UPVOTE' : pin?.reaction === 'UPVOTE');
+    const [count, setCount] = useState(isMirror ? pin?.mirrorOf?.stats?.totalUpvotes : pin?.stats?.totalUpvotes);
 
     const updateCache = (cache: ApolloCache<any>, type: ReactionTypes.Upvote | ReactionTypes.Downvote) => {
         if (pathname === '/pin/[id]') {
@@ -76,7 +76,7 @@ const Like: FC<Props> = ({ pin, isComment = false }) => {
                 request: {
                     profileId: currentProfile?.id,
                     reaction: ReactionTypes.Upvote,
-                    publicationId: pin?.id
+                    publicationId: isMirror ? pin?.mirrorOf?.id : pin?.id
                 }
             }
         };
@@ -86,14 +86,14 @@ const Like: FC<Props> = ({ pin, isComment = false }) => {
             setCount(count - 1);
             removeReaction(variable);
             Analytics.track('Pin liked!', {
-                pin: pin.id
+                pin: isMirror ? pin?.mirrorOf?.id : pin?.id
             })
         } else {
             setLiked(true);
             setCount(count + 1);
             addReaction(variable);
             Analytics.track('Pin unliked!', {
-                pin: pin.id
+                pin: isMirror ? pin?.mirrorOf?.id : pin?.id
             })
         }
     };

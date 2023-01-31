@@ -1,38 +1,33 @@
 fragment MirrorFields on Mirror {
   id
   profile {
-    name
-    handle
+    ...ProfileFields
   }
   reaction(request: $reactionRequest)
+  isGated
+  canComment(profileId: $profileId) {
+    result
+  }
+  canMirror(profileId: $profileId) {
+    result
+  }
+  canDecrypt(profileId: $profileId) {
+    result
+    reasons
+  }
   collectModule {
     ...CollectModuleFields
   }
   stats {
-    totalUpvotes
-    totalAmountOfMirrors
-    totalAmountOfCollects
-    totalAmountOfComments
+    ...StatsFields
   }
   metadata {
     ...MetadataFields
   }
+  hidden
   mirrorOf {
     ... on Post {
-      id
-      profile {
-        ...ProfileFields
-      }
-      metadata {
-        ...MetadataFields
-      }
-      reaction(request: $reactionRequest)
-      stats {
-        totalUpvotes
-        totalAmountOfMirrors
-        totalAmountOfCollects
-        totalAmountOfComments
-      }
+      ...PostFields
     }
     ... on Comment {
       id
@@ -40,12 +35,23 @@ fragment MirrorFields on Mirror {
         ...ProfileFields
       }
       reaction(request: $reactionRequest)
-      stats {
-        totalUpvotes
-        totalAmountOfMirrors
-        totalAmountOfCollects
-        totalAmountOfComments
+      mirrors(by: $profileId)
+      onChainContentURI
+      isGated
+      canComment(profileId: $profileId) {
+        result
       }
+      canMirror(profileId: $profileId) {
+        result
+      }
+      canDecrypt(profileId: $profileId) {
+        result
+        reasons
+      }
+      stats {
+        ...StatsFields
+      }
+      createdAt
     }
   }
   createdAt

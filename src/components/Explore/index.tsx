@@ -21,12 +21,18 @@ const Explore: NextPage = () => {
     const activeTagFilter = useAppStore((state) => state.activeTagFilter)
     const setActiveSortFilter = useAppStore((state) => state.setActiveSortFilter)
     const activeSortFilter = useAppStore((state) => state.activeSortFilter)
+    const currentProfile = useAppStore((state) => state.currentProfile)
 
     useEffect(() => {
+        if (currentProfile) {
+            setActiveSortFilter('profiles')
+        }
         Analytics.track(TRACK.PAGE_VIEW.EXPLORE)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const FILTERS : ExploreFilters = {
+        'profiles': PublicationSortCriteria.CuratedProfiles,
         'collected': PublicationSortCriteria.TopCollected,
         'commented': PublicationSortCriteria.TopCommented,
         'mirrored': PublicationSortCriteria.TopMirrored,
@@ -76,6 +82,17 @@ const Explore: NextPage = () => {
             
             <div className="flex justify-center p-4 md:px-0">
                 <div className="flex bg-white dark:bg-gray-900 bg-gradient-to-r from-[#df3f95] to-[#ec1e25] rounded-full py-2 px-2 items-center space-x-2">
+                    {currentProfile ? (
+                        <button
+                            onClick={() => setActiveSortFilter('profiles')}
+                            className={clsx(
+                                'text-sm p-2 rounded-full', 
+                                activeSortFilter === 'profiles' ? 'bg-white text-gray-800' : 'text-white'
+                            )}
+                        >
+                            <span className='md:inline-flex hidden'>Top</span> Profiles
+                        </button>
+                    ): null}
                     <button
                         onClick={() => setActiveSortFilter('collected')}
                         className={clsx(

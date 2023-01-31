@@ -21,6 +21,9 @@ import RelatedPins from './Related'
 import { directCheckSavedPin, getBoard } from '@lib/db/api'
 import { Analytics, TRACK } from '@utils/analytics'
 import Attachments from './Attachments'
+import getAppName from '@utils/functions/getAppName'
+import Wav3sMeta from './Meta/Wav3s'
+import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
 
 const Pin: NextPage = () => {
     const router = useRouter()
@@ -85,15 +88,21 @@ const Pin: NextPage = () => {
     const canGet =
         pin &&
         publicationType &&
-        ['Post', 'Comment'].includes(publicationType) &&
+        ['Post', 'Comment', 'Mirror'].includes(publicationType) &&
         !pin?.hidden
+
     
     if (error) return <Custom500 />
     if (loading || !data) return <PinShimmer />
     if (!canGet) return <Custom404 />
+
     return (
         <>
-            <MetaTags title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}/>
+            <MetaTags
+                title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}
+                description={pin?.metadata?.content}
+                image={sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url)}
+            />
             {!loading && !error && pin ? (
                 <>
                     <div className='mt-0 flex-none'>
@@ -128,6 +137,12 @@ const Pin: NextPage = () => {
                                             </button>
                                         }
                                     </div>
+                                    {pin?.appId ? 
+                                        <div className='pt-3'>
+                                            <span className='text-sm'>Posted via {getAppName(pin?.appId)}</span>
+                                        </div>
+                                        : null}
+                                    <Wav3sMeta pin={pin} />
                                     <Meta isComment={false} pin={pin} />
                                     <Comments pin={pin}/>
                                 </div> 

@@ -1,3 +1,4 @@
+import { PublicationMainFocus } from './lens/generated';
 import type {
   Attribute,
   Comment,
@@ -95,6 +96,7 @@ export type BoardType = {
   name: string;
   description?: string;
   slug: string;
+  handle?: string;
   user_id: string;
   pfp?: string;
   cover?: string;
@@ -155,3 +157,6 @@ export interface PinstaAttachment {
   type: string;
   altTag: string;
 }
+
+
+export const PinstaMainContentFocus = [PublicationMainFocus.Image] //PublicationMainFocus.Video, PublicationMainFocus.Audio, PublicationMainFocus.Text

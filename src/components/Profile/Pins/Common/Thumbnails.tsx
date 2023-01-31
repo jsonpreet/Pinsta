@@ -14,16 +14,16 @@ interface Props {
 const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const postIds = board?.pins?.length > 0 ? board?.pins?.map((pin: { post_id: string }) => pin.post_id) : []
-    // const postIds = board?.pins?.length > 0 ? board?.pins[0].post_id : []
-
     const request = {
         publicationIds: postIds,
         limit: 3,
     }
 
     const { data, loading, error, fetchMore } = usePublicationsByIdsQuery({
+        fetchPolicy: 'no-cache',
         variables: { request }
     });
+
     
     const pins = data?.publications?.items as PinstaPublication[]
 

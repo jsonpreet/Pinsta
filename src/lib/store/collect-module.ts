@@ -1,6 +1,6 @@
 import { DEFAULT_COLLECT_TOKEN } from '@utils/constants';
 import { CollectModules } from '@utils/lens';
-import create from 'zustand'
+import { create } from 'zustand'
 
 interface CollectModuleState {
   selectedCollectModule: CollectModules;
@@ -24,23 +24,23 @@ interface CollectModuleState {
 
 export const useCollectModuleStore = create<CollectModuleState>((set) => ({
     selectedCollectModule: CollectModules.RevertCollectModule,
-    setSelectedCollectModule: (selectedCollectModule) => set(() => ({ selectedCollectModule })),
+    setSelectedCollectModule: (selectedCollectModule) => set({ selectedCollectModule }),
     amount: null,
-    setAmount: (amount) => set(() => ({ amount })),
+    setAmount: (amount) => set({ amount }),
     selectedCurrency: DEFAULT_COLLECT_TOKEN,
-    setSelectedCurrency: (selectedCurrency) => set(() => ({ selectedCurrency })),
+    setSelectedCurrency: (selectedCurrency) => set({ selectedCurrency }),
     referralFee: null,
-    setReferralFee: (referralFee) => set(() => ({ referralFee })),
+    setReferralFee: (referralFee) => set({ referralFee }),
     collectLimit: null,
-    setCollectLimit: (collectLimit) => set(() => ({ collectLimit })),
+    setCollectLimit: (collectLimit) => set({ collectLimit }),
     hasTimeLimit: false,
-    setHasTimeLimit: (hasTimeLimit) => set(() => ({ hasTimeLimit })),
+    setHasTimeLimit: (hasTimeLimit) => set({ hasTimeLimit }),
     followerOnly: false,
-    setFollowerOnly: (followerOnly) => set(() => ({ followerOnly })),
+    setFollowerOnly: (followerOnly) => set({ followerOnly }),
     payload: { revertCollectModule: true },
-    setPayload: (payload) => set(() => ({ payload })),
+    setPayload: (payload) => set({ payload }),
     reset: () =>
-        set(() => ({
+        set({
         selectedCollectModule: CollectModules.RevertCollectModule,
         amount: null,
         selectedCurrency: DEFAULT_COLLECT_TOKEN,
@@ -49,5 +49,5 @@ export const useCollectModuleStore = create<CollectModuleState>((set) => ({
         hasTimeLimit: false,
         followerOnly: false,
         payload: { revertCollectModule: true }
-        }))
+        })
 }));

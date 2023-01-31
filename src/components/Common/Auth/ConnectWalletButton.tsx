@@ -6,9 +6,12 @@ import React from 'react'
 import toast from 'react-hot-toast'
 import type { CustomErrorWithData } from '@utils/custom-types'
 import { POLYGON_CHAIN_ID } from '@utils/constants'
-import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
+import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi'
+
 
 import UserMenu from '../Menu/UserMenu'
+import { BiExit } from 'react-icons/bi'
+import { Analytics, TRACK } from '@utils/analytics'
 
 type Props = {
   handleSign: () => void
@@ -20,11 +23,19 @@ const ConnectWalletButton = ({ handleSign, signing }: Props) => {
   const currentProfile = useAppStore((state) => state.currentProfile)
 
   const { connector, isConnected } = useAccount()
+
   const { switchNetwork } = useSwitchNetwork({
     onError(error: CustomErrorWithData) {
       toast.error(error?.data?.message ?? error?.message)
     }
   })
+
+  const { disconnect } = useDisconnect({
+    onError(error: CustomErrorWithData) {
+      toast.error(error?.data?.message ?? error?.message)
+    }
+  })
+
   const { chain } = useNetwork()
 
   const { openConnectModal } = useConnectModal()
@@ -34,14 +45,16 @@ const ConnectWalletButton = ({ handleSign, signing }: Props) => {
       currentProfileId && currentProfile ? (
         <UserMenu />
       ) : (
-        <Button
-          loading={signing}
-          onClick={() => handleSign()}
-          disabled={signing}
-        >
-          Sign In
-          <span className="hidden ml-1 md:inline-block">with Lens</span>
-        </Button>
+          <>
+            <Button
+              loading={signing}
+              onClick={() => handleSign()}
+              disabled={signing}
+            >
+              Sign In
+              <span className="hidden ml-1 md:inline-block">with Lens</span>
+            </Button>
+          </>
       )
     ) : (
       <Button
@@ -52,7 +65,12 @@ const ConnectWalletButton = ({ handleSign, signing }: Props) => {
       </Button>
     )
   ) : (
-    <Button onClick={openConnectModal}>
+      <Button
+        onClick={() => {
+          openConnectModal?.()
+          Analytics.track(TRACK.AUTH.CLICK_CONNECT_WALLET)
+        }}
+      >
       Connect
       <span className="hidden ml-1 md:inline-block">Wallet</span>
     </Button>

@@ -43,6 +43,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
     };
 
     const [getPublication] = usePublicationLazyQuery({
+        fetchPolicy: 'no-cache',
         onCompleted: (data) => {
             if (data?.publication) {
                 cache.modify({
@@ -94,6 +95,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
     }
 
     useHasTxHashBeenIndexedQuery({
+        fetchPolicy: 'no-cache',
         variables: { request: { txHash, txId } },
         pollInterval: 1000,
         onCompleted: (data) => {

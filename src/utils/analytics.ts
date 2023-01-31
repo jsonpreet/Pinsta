@@ -22,6 +22,13 @@ export const TRACK = {
     UPDATED_CHANNEL_INFO: 'Updated Channel Info',
     DEPOSIT_MATIC: 'Deposit Matic',
     FILTER_CATEGORIES: 'Filter Categories',
+    AUTH: {
+        CLICK_CONNECT_WALLET: 'Clicked Connect Wallet',
+        CLICK_SIGN_IN: 'Clicked Sign In',
+        SIGN_IN_SUCCESS: 'Successful Sign In',
+        SIGN_IN_FAILED: 'Failed Sign In',
+        CLICK_SIGN_OUT: 'Clicked Sign Out'
+    },
     PROFILE_INTERESTS: {
         ADD: 'Add Profile Interest',
         REMOVE: 'Remove Profile Interest',
@@ -48,6 +55,8 @@ export const TRACK = {
         TWITTER: 'Click Twitter',
         LENSTER: 'Click Lenster',
         DISCORD: 'Click Discord',
+        FEEDBACK: 'Click Feedback',
+        GITHUB: 'Click Github',
     },
     COLLECT: {
         OPEN: 'Open Collect',
@@ -82,6 +91,7 @@ export const TRACK = {
     REPORT: 'Report Publication',
     PAGE_VIEW: {
         HOME: 'Home Page',
+        FEED: 'Feed Page',
         LATEST: 'Latest Page',
         EXPLORE: 'Explore Page',
         PROFILE: 'Profile Page',

@@ -8,7 +8,7 @@ import usePersistStore from '@lib/store/persist';
 import Masonry from '@mui/lab/Masonry';
 import { Analytics, TRACK } from '@utils/analytics';
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants';
-import { PinstaPublication } from '@utils/custom-types';
+import { PinstaMainContentFocus, PinstaPublication } from '@utils/custom-types';
 import { Profile, PublicationMainFocus, PublicationTypes, useProfilePostsQuery } from '@utils/lens/generated'
 import {FC, useEffect} from 'react'
 import { useInView } from 'react-cool-inview';
@@ -28,7 +28,7 @@ const Mirrored: FC<Props> = ({ profile }) => {
         limit: 50,
         customFilters: LENS_CUSTOM_FILTERS,
         profileId: profile?.id,
-        metadata: { mainContentFocus: [PublicationMainFocus.Image] },
+        metadata: { mainContentFocus: PinstaMainContentFocus },
     }
     
     useEffect(() => {
