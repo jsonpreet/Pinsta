@@ -27,15 +27,18 @@ import uploadToIPFS from '@utils/functions/uploadToIPFS'
 import { useRouter } from 'next/router'
 import InputMentions from '@components/UI/InputMentions'
 import CollectSettings from './Actions/Collect'
+import { usePublicationStore } from '@lib/store/publication'
 
 const Details: FC = () => {
     const router = useRouter()
     const userSigNonce = useAppStore((state) => state.userSigNonce);
     const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
-    const setCreatePin = useAppStore((state) => state.setCreatePin)
-    const createdPin = useAppStore((state) => state.createdPin)
+    const setCreatePin = usePublicationStore((state) => state.setCreatePin)
+    const createPin = usePublicationStore((state) => state.createPin)
+    const isUploading = usePublicationStore((state) => state.isUploading)
     const currentProfile = useAppStore((state) => state.currentProfile)
     const queuedPublications = usePersistStore((state) => state.queuedPublications)
+    const attachments = usePublicationStore((state) => state.attachments)
     const setQueuedPublications = usePersistStore((state) => state.setQueuedPublications)
 
     // Collect module store
@@ -50,7 +53,7 @@ const Details: FC = () => {
     const setToQueue = (txn: { txnId?: string; txnHash?: string }) => {
         setQueuedPublications([
             {
-                publication: createdPin,
+                publication: createPin,
                 txnId: txn.txnId,
                 txnHash: txn.txnHash
             },
@@ -159,6 +162,14 @@ const Details: FC = () => {
         return;
     };
 
+    const getAttachmentImage = () => {
+        return attachments[0]?.item;
+    };
+
+    const getAttachmentImageMimeType = () => {
+        return attachments[0]?.type;
+    };
+
     const getMainContentFocus = () => {
         return PublicationMainFocus.Image
     };
@@ -178,12 +189,7 @@ const Details: FC = () => {
             setPublicationContentError('');
             let textNftImageUrl = null;
             // @ts-ignore
-            const image: IPFSUploadResult = await uploadToIPFS(createdPin?.file)
-
-            if (!image.url) {
-                return toast.error(ERROR_MESSAGE);
-            }
-            setCreatePin({ ...createdPin, imageSource: image.url, imageType: image.type })
+            
             const attributes: MetadataAttributeInput[] = [
                 {
                     traitType: 'type',
@@ -191,26 +197,32 @@ const Details: FC = () => {
                     value: getMainContentFocus()?.toLowerCase()
                 },
                 {
+                    traitType: 'title',
+                    displayType: PublicationMetadataDisplayTypes.String,
+                    value: createPin?.title ? createPin?.title : ''
+                },
+                {
                     displayType: PublicationMetadataDisplayTypes.String,
                     traitType: 'app',
                     value: APP.ID
                 }
             ];
-            const attachmentsInput: PinstaAttachment[] = [{
-                type: image?.type,
-                altTag: createdPin?.imageAltTag,
-                item: image?.url
-            }];
+
+            const attachmentsInput: PinstaAttachment[] = attachments.map((attachment) => ({
+                type: attachment.type,
+                altTag: attachment.altTag,
+                item: attachment.item!
+            }));
 
             const metadata: PublicationMetadataV2Input = {
                 version: '2.0.0',
                 metadata_id: uuid(),
-                content: createdPin?.description,
+                content: createPin?.description,
                 external_url: `${APP.URL}/${currentProfile?.handle}`,
-                image: image?.url ?? textNftImageUrl,
-                imageMimeType: image?.type ?? 'image/svg+xml',
-                name: createdPin?.title ? createdPin?.title : `Post by @${currentProfile?.handle}`,
-                tags: [createdPin?.category.tag, ...getTags(createdPin?.description)],
+                image: attachmentsInput.length > 0 ? getAttachmentImage() : textNftImageUrl,
+                imageMimeType: attachmentsInput.length > 0 ? getAttachmentImageMimeType() : 'image/svg+xml',
+                name: createPin?.title ? createPin?.title : `Post by @${currentProfile?.handle}`,
+                tags: [createPin?.category.tag, ...getTags(createPin?.description)],
                 animation_url: null,
                 mainContentFocus: getMainContentFocus(),
                 contentWarning: null,
@@ -245,7 +257,7 @@ const Details: FC = () => {
         }
     };
 
-    const isLoading = loading || typedDataLoading;
+    const isLoading = loading || typedDataLoading || isUploading;
 
     return (
         <>
@@ -273,28 +285,28 @@ const Details: FC = () => {
                 <InputMentions 
                     placeholder="Title"
                     autoComplete="off"
-                    value={createdPin.title}
+                    value={createPin.title}
                     onContentChange={(value) => {
-                        setCreatePin({ ...createdPin, title: value})
+                        setCreatePin({ ...createPin, title: value})
                     }}
                     mentionsSelector="input-mentions-single comment-input !text-2xl font-bold text-black dark:text-white"
                 />
                 <div className='text-xs text-gray-400 text-right pt-1'>
-                    {createdPin.title.length}/100
+                    {createPin.title.length}/100
                 </div>
             </div>
             <div className='relative'>
                 <InputMentions 
                     placeholder="Tell everyone about your Pin"
                     autoComplete="off"
-                    value={createdPin.description}
+                    value={createPin.description}
                     onContentChange={(value) => {
-                        setCreatePin({ ...createdPin, description: value})
+                        setCreatePin({ ...createPin, description: value})
                     }}
                     mentionsSelector="input-mentions-single comment-input !h-20 text-black dark:text-white"
                 />
                 <div className='text-xs text-gray-400 text-right pt-1'>
-                    {createdPin.description.length}/500
+                    {createPin.description.length}/500
                 </div>
             </div>
             <div className='relative'>
@@ -309,7 +321,7 @@ const Details: FC = () => {
                     size='md'
                     loading={isLoading}
                     onClick={createPublication}
-                    disabled={createdPin.title.length < 1 || createdPin.description.length < 1 || isLoading}
+                    disabled={createPin.title.length < 1 || createPin.description.length < 1 || isLoading}
                 >
                     Create Pin
                 </Button>

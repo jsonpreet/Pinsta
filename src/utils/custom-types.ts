@@ -118,19 +118,10 @@ export type BoardPinsType = {
 };
 
 export type CreatePin = {
-  stream: FileReaderStreamType | null
-  preview: string
-  imageType: string
-  file: File | null
   title: string
   description: string
-  imageAltTag: string
   category: { tag: string; name: string }
-  percent: number
   isSensitiveContent: boolean
-  isUploadToIpfs: boolean
-  loading: boolean
-  imageSource: string
   board: BoardType
   buttonText: string
   collectModule: CollectModuleType
@@ -156,6 +147,12 @@ export interface PinstaAttachment {
   item: string;
   type: string;
   altTag: string;
+}
+
+export interface NewPinstaAttachment extends Omit<PinstaAttachment, 'item'> {
+  id: string;
+  item?: string;
+  previewItem?: string;
 }
 
 

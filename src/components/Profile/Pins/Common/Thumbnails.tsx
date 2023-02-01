@@ -29,8 +29,8 @@ const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
 
     return (
         <>
-            <div className='relative z-10 flex w-[240px] h-[160px] bg-gray-100 dark:bg-gray-800 rounded-lg'>
-                <div className='w-[160px] flex h-[160px]'>
+            <div className='relative z-10 flex w-[360px] h-[240px] bg-gray-100 dark:bg-gray-800 rounded-lg'>
+                <div className='w-[240px] flex h-[240px]'>
                     {pins && pins.length > 0 && (
                         <div
                             className='w-full h-full bg-cover bg-center rounded-l-lg'

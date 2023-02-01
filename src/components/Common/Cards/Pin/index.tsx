@@ -70,6 +70,7 @@ const PinCard: FC<Props> = ({pin, isBoard = false, board, isAllPins = false, all
     })
   }
 
+
   // @ts-ignore
   const isUserPin = allPins?.map((pin: any) => pin.user_id === currentProfileId).includes(true)
   return (

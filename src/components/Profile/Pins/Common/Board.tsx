@@ -21,6 +21,9 @@ interface Props {
 const Board: FC<Props> = ({ board, profile }) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const [showEditBoard, setShowEditBoard] = useState(false)
+    if (board?.pins?.length === 0) {
+        return null
+    }
 
     return (
         <>

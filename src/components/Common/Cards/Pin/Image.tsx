@@ -25,7 +25,7 @@ const ImageCard: FC<Props> = ({pin}) => {
     // @ts-ignore
     const createdIn = getAttributeFromTrait(pin?.metadata?.attributes, 'createdIn')
 
-    const splicedMedia = pin?.metadata?.media?.length > 4 ? pin?.metadata?.media?.slice(0, 4) : pin?.metadata?.media
+    const splicedMedia = pin?.metadata?.media?.length > 3 ? pin?.metadata?.media?.slice(0, 4) : pin?.metadata?.media
     return (
         <>
             <div>
@@ -64,41 +64,41 @@ const ImageCard: FC<Props> = ({pin}) => {
                         splicedMedia.map((media: any, index: number) => {
                             if (index == 0) return null
                             const thumbnailUrl = imageCdn(sanitizeIpfsUrl(media.original.url), 'avatar')
-                        if(index === 4 && pin?.metadata?.media?.length > 4){
+                            if(index === 4 && pin?.metadata?.media?.length > 4){
+                                return (
+                                    <>
+                                        <div
+                                            key={uuid()}
+                                            className={clsx(
+                                                'rounded-full shadow-md border w-8 h-8 overflow-hidden dark:border-gray-700 border-gray-50 -ml-3'
+                                            )}
+                                        >
+                                            <span 
+                                                className="flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+                                            >
+                                                <span className="text-white dark:text-gray-800 font-bold text-sm">+{pin?.metadata?.media?.length - 4}</span>
+                                            </span>
+                                        </div>
+                                    </>
+                                )
+                            }
                             return (
                                 <>
                                     <div
-                                    key={uuid()}
-                                    className={clsx(
-                                        'rounded-full shadow-md border w-8 h-8 overflow-hidden dark:border-gray-700 border-gray-50 -ml-3'
-                                    )}
+                                        key={uuid()}
+                                        className={clsx(
+                                            'rounded-full border-2 shadow-md w-8 h-8 overflow-hidden dark:border-gray-700 border-gray-50',
+                                            pin?.metadata?.media.length > 1 && index !== 1 ? '-ml-3' : ''
+                                        )}
                                     >
-                                    <span 
-                                        className="flex items-center justify-center w-full h-full bg-black bg-opacity-50"
-                                    >
-                                        <span className="text-white dark:text-gray-800 font-bold text-sm">+{pin?.metadata?.media?.length - 4}</span>
-                                    </span>
+                                        <img 
+                                            alt={`Pin by ${formatHandle(pin.profile?.handle)}`}
+                                            src={thumbnailUrl}
+                                            className={clsx(
+                                                'rounded-full w-8 h-8'
+                                            )}
+                                        />
                                     </div>
-                                </>
-                            )
-                        }
-                        return (
-                            <>
-                                <div
-                                    key={uuid()}
-                                    className={clsx(
-                                    'rounded-full border-2 shadow-md w-8 h-8 overflow-hidden dark:border-gray-700 border-gray-50',
-                                    pin?.metadata?.media.length > 1 && index !== 1 ? '-ml-3' : ''
-                                    )}
-                                >
-                                    <img 
-                                    alt={`Pin by ${formatHandle(pin.profile?.handle)}`}
-                                    src={thumbnailUrl}
-                                    className={clsx(
-                                        'rounded-full w-8 h-8'
-                                    )}
-                                    />
-                                </div>
                                 </>
                             )
                         })

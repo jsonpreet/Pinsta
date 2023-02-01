@@ -46,7 +46,7 @@ const ImageSlider: FC<Props> = ({ images, pin }) => {
                 <img 
                     src={images[slideIndex - 1]} 
                     className='rounded-xl w-auto'
-                    alt={!isLoading && !slideImageLoading ? `Pin by @${pin.profile.handle}` : ''}
+                    alt={!isLoading && !slideImageLoading ? `Pin by @${pin?.profile?.handle}` : ''}
                     onLoad={() => {
                         setSlideImageLoading(false)
                         setLoading(false)
@@ -57,7 +57,7 @@ const ImageSlider: FC<Props> = ({ images, pin }) => {
                         href={sanitizeIpfsUrl(pin?.metadata?.media[slideIndex - 1]?.original?.url)}
                         target='_blank'
                         onClick={() => {
-                            Analytics.track(`clicked_on_view_original_from_pin_${pin.id}`);
+                            Analytics.track(`clicked_on_view_original_from_pin_${pin?.id}`);
                         }}
                         rel='noopener noreferrer'
                         className='absolute bottom-2 z-30 left-2 bg-black/60 py-1 px-2 rounded-md text-white shadow font-semibold text-sm'

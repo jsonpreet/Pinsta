@@ -1,14 +1,14 @@
 
 import { Listbox, Transition } from '@headlessui/react'
-import useAppStore from '@lib/store'
+import { usePublicationStore } from '@lib/store/publication'
 import { CREATOR_CATEGORIES } from '@utils/data/categories'
 import React, { Fragment } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { BsCheck } from 'react-icons/bs'
 
 const Category = () => {
-    const createdPin = useAppStore((state) => state.createdPin)
-    const setCreatePin = useAppStore((state) => state.setCreatePin)
+    const createPin = usePublicationStore((state) => state.createPin)
+    const setCreatePin = usePublicationStore((state) => state.setCreatePin)
 
     return (
         <>
@@ -18,13 +18,13 @@ const Category = () => {
                 </div>
             </div>
             <Listbox
-                value={createdPin.category}
+                value={createPin.category}
                 onChange={(category) => setCreatePin({ category: category })}
             >
                 <div className="relative mt-1">
                 <Listbox.Button className="relative w-full py-2.5 pr-10 text-left border-b-2 dark:border-gray-700 border-gray-200 focus:outline-none sm:text-sm">
                     <span className="block truncate">
-                        {createdPin.category.name}
+                        {createPin.category.name}
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
                         <BiChevronDown size={18} />

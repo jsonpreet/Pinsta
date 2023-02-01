@@ -13,6 +13,7 @@ import { PublicationDocument, PublicationMetadataStatusType, useHasTxHashBeenInd
 import { PINSTA_SERVER_URL } from '@utils/constants'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
+import { UPLOADED_FORM_DEFAULTS, usePublicationStore } from '@lib/store/publication'
 
 dayjs.extend(relativeTime)
 
@@ -21,14 +22,17 @@ type Props = {
 }
 
 const QueuedPinCard: FC<Props> = ({ pin }) => {
-    const thumbnailUrl = pin?.publication?.preview
+    console.log(pin)
+    const thumbnailUrl = pin?.publication?.previews[0]
     const [loading, setLoading] = useState(true)
     const [show, setShow] = useState(false)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
-    const createdPin = useAppStore((state) => state.createdPin)
+    const createdPin = usePublicationStore((state) => state.createPin)
+    const setCreatedPin = usePublicationStore((state) => state.setCreatePin)
     const queuedPublications = usePersistStore((state) => state.queuedPublications)
     const setQueuedPublications = usePersistStore((state) => state.setQueuedPublications)
+    const removeAttachments = usePublicationStore((state) => state.removeAttachments)
 
     const { cache } = useApolloClient();
     const txHash = pin?.txnHash;
@@ -114,6 +118,8 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
                 }
 
                 if (data.hasTxHashBeenIndexed.indexed) {
+                    setCreatedPin(UPLOADED_FORM_DEFAULTS)
+                    removeAttachments([])
                     getPublication({
                         variables: {
                             request: { txHash: data.hasTxHashBeenIndexed.txHash },

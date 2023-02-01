@@ -24,6 +24,7 @@ import Attachments from './Attachments'
 import getAppName from '@utils/functions/getAppName'
 import Wav3sMeta from './Meta/Wav3s'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
+import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
 
 const Pin: NextPage = () => {
     const router = useRouter()
@@ -96,6 +97,9 @@ const Pin: NextPage = () => {
     if (loading || !data) return <PinShimmer />
     if (!canGet) return <Custom404 />
 
+    // @ts-ignore
+    const pinTitle = pin ? getAttributeFromTrait(pin?.metadata?.attributes, 'title') : '';
+
     return (
         <>
             <MetaTags
@@ -122,6 +126,11 @@ const Pin: NextPage = () => {
                                 <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l dark:border-gray-900/30 border-gray-50'>
                                     <Share pin={pin} pinSaved={pinSaved} savedToBoards={savedToBoards}  savedTo={savedTo} />
                                     <User pin={pin} />
+                                    {pinTitle ?
+                                        <h2 className='mt-4 font-bold text-xl'>
+                                            {pinTitle}
+                                        </h2>
+                                    : null}
                                     <div className='mt-4 whitespace-pre-wrap break-words leading-md linkify text-md'>
                                         <InterweaveContent content={!readMore ? pin?.metadata?.content : `${pin?.metadata?.content?.substring(0, 300)}...`}/>
                                             
