@@ -6,7 +6,7 @@ import { APP } from '@utils/constants'
 
 type Props = {
   title?: string
-  description?: string
+  description?: string | null
   image?: string
 }
 

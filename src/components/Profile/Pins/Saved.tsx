@@ -17,7 +17,7 @@ interface Props {
 const Saved: FC<Props> = ({ profile }) => {
     const { isFetched, isLoading, isError, data } = FetchProfileBoards(profile?.id)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
-    const { isFetched: profilePinsFetched, isLoading: profilePinsLoading, isError: profilePinsError, data: pins } = FetchProfilePins(profile?.id)
+    const { isFetched: profilePinsFetched, isLoading: profilePinsLoading, isError: profilePinsError, refetch: refetchSavedPins, data: pins } = FetchProfilePins(profile?.id)
     
     useEffect(() => {
         Analytics.track(TRACK.PAGE_VIEW.SAVEDPIN)
@@ -46,7 +46,7 @@ const Saved: FC<Props> = ({ profile }) => {
         <>
             <div className='flex flex-col space-y-6 px-4 md:px-0 pb-20 md:pb-0'>
                 {isFetched ?
-                    <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-5 mt-4 gap-4">
                         {boards?.map((board, index) => {
                             const showPrivateBoard = currentProfileId === board?.user_id ? false : board.is_private
                             if (showPrivateBoard) return null
@@ -57,7 +57,7 @@ const Saved: FC<Props> = ({ profile }) => {
                     </div>
                     : null
                 }
-                {profilePinsFetched && pins?.data.length > 0 && <AllPins profile={profile} pins={pins?.data} />}
+                {profilePinsFetched && pins?.data.length > 0 && <AllPins profile={profile} refetchSavedPins={refetchSavedPins} pins={pins?.data} />}
             </div>
         </>
     )

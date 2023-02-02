@@ -65,7 +65,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
         const request = {
             id: board?.id,
             name: boardName.trim(),
-            slug: slug.replaceAll(/[^a-zA-Z ]/g,""),
+            slug: slug.replaceAll(/[^a-zA-Z ]/g,"-"),
             description: boardDescription,
             pfp: newImage ? newImage : board?.pfp,
             is_private: isPrivate,

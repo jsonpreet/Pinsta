@@ -49,16 +49,17 @@ import { MAINNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS } from '@utils/contra
 interface Props {
   count: number;
   setCount: Dispatch<number>;
-  publication: Publication;
+  pin: Publication;
   electedMirror?: ElectedMirror;
 }
 
-const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror }) => {
+const CollectModule: FC<Props> = ({ count, setCount, pin, electedMirror }) => {
+    const isMirror = pin.__typename === 'Mirror'
     const userSigNonce = useAppStore((state) => state.userSigNonce);
     const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [revenue, setRevenue] = useState(0);
-    const [hasCollectedByMe, setHasCollectedByMe] = useState(publication?.hasCollectedByMe);
+    const [hasCollectedByMe, setHasCollectedByMe] = useState(isMirror ? pin?.mirrorOf?.hasCollectedByMe : pin?.hasCollectedByMe);
     const [showCollectorsModal, setShowCollectorsModal] = useState(false);
     const [allowed, setAllowed] = useState(true);
     const { address } = useAccount();
@@ -69,15 +70,15 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
     }
 
     useEffect(() => {
-        if (publication) {
-            (publication?.metadata?.content?.length > 100) ? setReadMore(true) : setReadMore(false)
+        if (pin) {
+            (pin?.metadata?.content?.length > 100) ? setReadMore(true) : setReadMore(false)
         }
-    }, [publication])
+    }, [pin])
 
     const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
 
     const { data, loading } = useCollectModuleQuery({
-        variables: { request: { publicationId: publication?.id } }
+        variables: { request: { publicationId: isMirror ? pin?.mirrorOf?.id : pin?.id } }
     });
 
     const collectModule: any = data?.publication?.collectModule;
@@ -94,7 +95,7 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
         address: MAINNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
         abi: UpdateOwnableFeeCollectModule,
         functionName: 'getPublicationData',
-        args: [parseInt(publication.profile?.id), parseInt(publication?.id.split('-')[1])],
+        args: [parseInt(isMirror ? pin?.mirrorOf?.profile?.id : pin.profile?.id), parseInt(isMirror ? pin?.mirrorOf?.profile?.id : pin?.id.split('-')[1])],
         enabled: false
     });
 
@@ -127,11 +128,11 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
     const { data: revenueData, loading: revenueLoading } = usePublicationRevenueQuery({
         variables: {
             request: {
-                publicationId: publication.__typename === 'Mirror' ? publication?.mirrorOf?.id : publication?.id
+                publicationId: isMirror ? pin?.mirrorOf?.id : pin?.id
             }
         },
         pollInterval: 5000,
-        skip: !publication?.id
+        skip: isMirror ? !pin?.mirrorOf?.id : !pin?.id
     });
 
     const { data: usdPrice } = useQuery(
@@ -194,7 +195,7 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
         if (!data?.proxyAction) {
             await createCollectTypedData({
                 variables: {
-                    request: { publicationId: publication?.id },
+                    request: { publicationId: isMirror ? pin?.mirrorOf?.id : pin?.id },
                     options: { overrideSigNonce: userSigNonce }
                 }
             });
@@ -209,7 +210,7 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
         try {
             if (collectModule?.type === CollectModules.FreeCollectModule) {
                 await createViaProxyAction({
-                    request: { collect: { freeCollect: { publicationId: publication?.id } } }
+                    request: { collect: { freeCollect: { publicationId: pin?.id } } }
                 });
             } else if (collectModule?.__typename === 'UnknownCollectModuleSettings') {
                 refetch().then(async ({ data }) => {
@@ -222,7 +223,7 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
                         await createCollectTypedData({
                             variables: {
                                 options: { overrideSigNonce: userSigNonce },
-                                request: { publicationId: publication?.id, unknownModuleData: encodedData }
+                                request: { publicationId: isMirror ? pin?.mirrorOf?.profile?.id : pin?.id, unknownModuleData: encodedData }
                             }
                         });
                     }
@@ -231,7 +232,7 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
                 await createCollectTypedData({
                     variables: {
                         options: { overrideSigNonce: userSigNonce },
-                        request: { publicationId: electedMirror ? electedMirror.mirrorId : publication?.id }
+                        request: { publicationId: electedMirror ? electedMirror.mirrorId : isMirror ? pin?.mirrorOf?.profile?.id : pin?.id }
                     }
                 });
             }
@@ -259,34 +260,23 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
                 {collectModule?.followerOnly && (
                     <div className="pb-5">
                         <CollectWarning
-                            handle={formatHandle(publication?.profile?.handle)}
-                            isSuperFollow={publication?.profile?.followModule?.__typename === 'FeeFollowModuleSettings'}
+                            handle={formatHandle(isMirror ? pin?.mirrorOf?.profile?.handle : pin?.profile?.handle)}
+                            isSuperFollow={isMirror ? pin?.mirrorOf?.profile?.followModule?.__typename === 'FeeFollowModuleSettings' : pin?.profile?.followModule?.__typename === 'FeeFollowModuleSettings'}
                         />
                     </div>
                 )}
                 <div className="pb-2 space-y-1.5">
-                    {publication?.metadata?.name && (
-                        <div className="text-xl font-bold">{publication?.metadata?.name}</div>
+                    {pin?.metadata?.name && (
+                        <div className="text-xl font-bold">{isMirror ? pin?.mirrorOf?.metadata?.name : pin?.metadata?.name}</div>
                     )}
-                    {publication?.metadata?.content && (
+                    {pin?.metadata?.content && (
                         <div className="lt-text-gray-500">
-                            <InterweaveContent content={!readMore ? publication?.metadata?.content : `${publication?.metadata?.content?.substring(0, 100)}...`}/>
-                            {/* {readMore &&
-                                <button 
-                                    className='ml-1 font-semibold hover:underline' 
-                                    onClick={() => {
-                                        setReadMore(false)
-                                        Analytics.track(`clicked_on_read_less_from_pin_${publication.id}`);
-                                    }}
-                                >
-                                    Read More
-                                </button>
-                            } */}
+                            <InterweaveContent content={!readMore ? isMirror ? pin?.mirrorOf?.metadata?.content : pin?.metadata?.content : `${isMirror ? pin?.mirrorOf?.metadata?.content.substring(0, 100) : pin?.metadata?.content?.substring(0, 100)}...`}/>
                         </div>
                     )}
                     <ReferralAlert
                         electedMirror={electedMirror}
-                        mirror={publication}
+                        mirror={isMirror ? pin.mirrorOf : pin}
                         referralFee={collectModule?.referralFee}
                     />
                 </div>
@@ -379,7 +369,7 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
                                     <>
                                         <span className="lt-text-gray-500">·</span>
                                         <span className="text-xs font-bold lt-text-gray-500">
-                                        ${(revenue * usdPrice).toFixed(2)}
+                                            ${(revenue * usdPrice).toFixed(2)}
                                         </span>
                                     </>
                                     ) : null}
@@ -443,11 +433,11 @@ const CollectModule: FC<Props> = ({ count, setCount, publication, electedMirror 
                         )
                     ) : null}
                 </div>
-                {publication?.hasCollectedByMe && (
-                <div className="mt-3 font-bold text-green-500 flex items-center space-x-1.5">
-                    <BsCheckCircleFill className="h-5 w-5" />
-                    <div>You already collected this</div>
-                </div>
+                {hasCollectedByMe && (
+                    <div className="mt-3 font-bold text-green-500 flex items-center space-x-1.5">
+                        <BsCheckCircleFill className="h-5 w-5" />
+                        <div>You already collected this</div>
+                    </div>
                 )}
             </div>
         </>

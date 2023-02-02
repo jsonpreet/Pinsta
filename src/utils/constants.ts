@@ -4,7 +4,7 @@ export const APP = {
   ID: 'pinsta',
   Name: 'Pinsta',
   URLName: 'Pinsta.xyz',
-  URL: 'https://testnet.pinsta.xyz',
+  URL: 'https://pinsta.xyz',
   Description: 'Pinsta is a decentralized Image & Video Sharing service, designed to save and collect discovery information using Images, Videos, and Animated Gifs in the form of Pin Boards.',
   Twitter: 'PinstaApp',
   Meta: {
@@ -22,7 +22,7 @@ export const MIXPANEL_API_HOST = '/collect'
 
 export const PINSTA_API_URL = 'https://api.pinsta.xyz'
 
-export const PINSTA_SERVER_URL = 'https://server.pinsta.xyz'
+export const PINSTA_SERVER_URL = IS_MAINNET ? 'https://server.pinsta.xyz' : 'https://testnet-server.pinsta.xyz'
 
 export const NEXT_PUBLIC_EVER_BUCKET_NAME = 'pinsta'
 export const EVER_ENDPOINT = 'https://endpoint.4everland.co'
@@ -69,7 +69,7 @@ export const SCROLL_ROOT_MARGIN = '40% 0px'
 
 // ipfs
 export const IPFS_FREE_UPLOAD_LIMIT = IS_MAINNET ? 1000 : 100
-export const IPFS_GATEWAY = 'https://lens.infura-ipfs.io/ipfs/'
+export const IPFS_GATEWAY = 'https://pinsta.infura-ipfs.io/ipfs/'
 
 // Messages
 export const ERROR_MESSAGE = 'Oops, something went wrong!'
@@ -84,7 +84,7 @@ export const LENS_CUSTOM_FILTERS = [CustomFiltersTypes.Gardeners]
 
 // Media
 export const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/mpeg', 'video/ogg', 'video/webm', 'video/quicktime'];
-export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
 export const ALLOWED_MEDIA_TYPES = [...ALLOWED_VIDEO_TYPES, ...ALLOWED_IMAGE_TYPES];
 
 export const DEFAULT_COLLECT_TOKEN = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'

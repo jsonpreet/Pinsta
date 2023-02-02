@@ -31,10 +31,11 @@ type Props = {
 const Collect: FC<Props> = ({ pin, electedMirror, isComment = false }) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [count, setCount] = useState(0);
+    const isMirror = pin.__typename === 'Mirror'
     const [showCollectModal, setShowCollectModal] = useState(false);
-    const isFreeCollect = pin?.collectModule.__typename === 'FreeCollectModuleSettings';
-    const isUnknownCollect = pin?.collectModule.__typename === 'UnknownCollectModuleSettings';
-    const hasCollected = pin?.hasCollectedByMe;
+    const isFreeCollect = isMirror ? pin?.mirrorOf?.collectModule.__typename === 'FreeCollectModuleSettings' : pin?.collectModule.__typename === 'FreeCollectModuleSettings';
+    const isUnknownCollect = isMirror ? pin?.mirrorOf?.collectModule.__typename === 'UnknownCollectModuleSettings' : pin?.collectModule.__typename === 'UnknownCollectModuleSettings';
+    const hasCollected = isMirror ? pin?.mirrorOf?.hasCollectedByMe : pin?.hasCollectedByMe;
 
     const showModal = () => {
         if (!currentProfile) {
@@ -44,9 +45,10 @@ const Collect: FC<Props> = ({ pin, electedMirror, isComment = false }) => {
     }
 
     useEffect(() => {
-        if (pin?.stats?.totalAmountOfCollects) {
-            setCount(pin?.stats?.totalAmountOfCollects);
+        if (isMirror ? pin?.mirrorOf?.stats.totalAmountOfCollects : pin?.stats?.totalAmountOfCollects) {
+            setCount(isMirror ? pin?.mirrorOf?.stats.totalAmountOfCollects : pin?.stats?.totalAmountOfCollects);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pin]);
 
     return (
@@ -87,7 +89,7 @@ const Collect: FC<Props> = ({ pin, electedMirror, isComment = false }) => {
                 show={showCollectModal}
                 onClose={() => setShowCollectModal(false)}
             >
-                <CollectModule count={count} setCount={setCount} publication={pin}/>
+                <CollectModule count={count} setCount={setCount} pin={pin}/>
             </Modal>
         </>
     )

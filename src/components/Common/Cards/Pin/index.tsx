@@ -4,22 +4,22 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Link from 'next/link'
 import { FC, useState } from 'react'
-import type { BoardType, PinstaPublication } from '@utils/custom-types'
-import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
-import imageCdn from '@utils/functions/imageCdn'
+import type { BoardPinsType, BoardType, PinstaPublication } from '@utils/custom-types'
 import { motion } from "framer-motion"
 import getProfilePicture from '@utils/functions/getProfilePicture';
-import { Loader } from '@components/UI/Loader'
 import formatHandle from '@utils/functions/formatHandle'
 import IsVerified from '@components/UI/IsVerified'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { Analytics } from '@utils/analytics'
 import { BsTrash } from 'react-icons/bs'
 import usePersistStore from '@lib/store/persist'
 import useAppStore from '@lib/store'
 import { toast } from 'react-hot-toast'
-import { PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
+import { ALLOWED_IMAGE_TYPES, ALLOWED_VIDEO_TYPES, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
 import axios from 'axios'
+import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
+import ImageCard from './Image'
+import VideoCard from './Video'
 
 dayjs.extend(relativeTime)
 
@@ -27,16 +27,21 @@ type Props = {
   pin: PinstaPublication
   isBoard?: boolean
   board?: BoardType
+  allPins?: BoardPinsType
+  isAllPins?: boolean
+  refetchSavedPins?: () => void
 }
 
-const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
+const PinCard: FC<Props> = ({pin, isBoard = false, board, isAllPins = false, allPins, refetchSavedPins }) => {
   const router = useRouter()
   const isProfile = router.pathname === '/[username]'
-  const thumbnailUrl = pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
-  const [loading, setLoading] = useState(true)
   const [show, setShow] = useState(false)
+  const [loading, setLoading] = useState(true)
   const currentProfileId = usePersistStore((state) => state.currentProfileId)
   const currentProfile = useAppStore((state) => state.currentProfile)
+
+  const isVideo = ALLOWED_VIDEO_TYPES.includes(pin?.metadata?.media[0]?.original.mimeType)
+  const isImage = ALLOWED_IMAGE_TYPES.includes(pin?.metadata?.media[0]?.original.mimeType)
 
   const unsavePin = async (pinId: string) => {
     if (!currentProfileId) {
@@ -52,9 +57,11 @@ const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
     }
     return axios.post(`${PINSTA_SERVER_URL}/unsave-pin`,request).then((res) => {
       if (res.status === 200) {
-        router.replace(window.location.pathname)
         console.log('Pin removed!')
         toast.success('Pin removed!')
+        if (refetchSavedPins) {
+          refetchSavedPins()
+        }
         setLoading(false)
       } else {
         setLoading(false)
@@ -65,7 +72,10 @@ const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
       toast.error('Error on removing pin!')
     })
   }
-  
+
+
+  // @ts-ignore
+  const isUserPin = allPins?.map((pin: any) => pin.user_id === currentProfileId).includes(true)
   return (
     <>
       {!pin.hidden ? (
@@ -85,27 +95,28 @@ const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
                 })
               }}
               href={`/pin/${pin.id}`} 
-              className='cursor-zoom group w-full flex z-0 bg-gray-100 dark:bg-gray-700 rounded-lg relative flex-col' 
+              className={clsx(
+                'group w-full flex z-0 bg-gray-100 dark:bg-gray-700 rounded-lg relative flex-col',
+                isImage ? 'cursor-zoom' : ' '
+              )}
               onMouseEnter={() => setShow(true)} 
               onMouseLeave={() => setShow(false)}
             >
-              <img
-                alt={`Pin by ${formatHandle(pin.profile?.handle)}`}
-                src={thumbnailUrl}
-                onLoad={() => setLoading(false)}
-                className={clsx('rounded-lg border w-full dark:border-gray-700 border-gray-100', {
-                  'h-60': loading
-                })}
+              {isImage && (
+                <ImageCard pin={pin} />
+              )}
+              {isVideo && (
+                <VideoCard pin={pin} />
+              )}
+              <span
+                className={clsx(
+                'rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1',
+                show ? `opacity-100` : `opacity-0`
+              )}
               />
-              <span className={`${show ? `opacity-100` : `opacity-0`} rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1`}></span>
-              {loading ?
-                <span className='absolute bg-gray-100 dark:bg-gray-700 top-0 rounded-lg left-0 right-0 bottom-0 h-full w-full flex items-center justify-center'>
-                  <Loader/>
-                </span>
-                : null
-              }
             </Link>
-            {isBoard && currentProfileId === board?.user_id ? 
+            {isBoard && currentProfileId === board?.user_id || isAllPins && isUserPin
+              ? 
               //delete button
               <>
                 <div 
@@ -141,7 +152,7 @@ const PinCard: FC<Props> = ({ pin, isBoard = false, board }) => {
                       alt={pin.profile?.handle}
                       draggable={false}
                     />
-                    <div className='flex space-x-0.5 items-center'>
+                    <div className='flex items-center'>
                       <span
                         className='text-sm text-light text-gray-500 dark:text-gray-200 hover:text-gray-800'>
                         {/* {pin.profile?.name ?? formatHandle(pin.profile?.handle)} */}

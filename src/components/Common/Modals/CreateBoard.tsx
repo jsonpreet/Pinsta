@@ -26,6 +26,7 @@ type Props = {
     setIsSaved?: any
     savePinToBoard?: any
     refetch?: any
+    setCreatePin?: any
 }
 
 const formSchema = z.object({
@@ -40,7 +41,7 @@ const formSchema = z.object({
 })
 type FormData = z.infer<typeof formSchema>
 
-const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch }) => {
+const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch, setCreatePin }) => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
     const setShowCreateBoard = useAppStore((state) => state.setShowCreateBoard)
@@ -68,15 +69,13 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch 
         let slug = boardName.trim().toLowerCase().replace(/ /g, '-')
         const request = {
             name: boardName.trim(),
-            slug: slug.replaceAll(/[^a-zA-Z ]/g,""),
+            slug: slug.replaceAll(/[^a-zA-Z ]/g,"-"),
             description: boardDescription,
             pfp: pin ? getThumbnailUrl(pin) : '',
             is_private: isPrivate,
             handle: formatHandle(currentProfile?.handle),
             user_id: currentProfileId
         } as any
-
-        console.log(request)
         
         setLoading(true)
 
@@ -108,6 +107,9 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch 
                 setCurrentBoard(res.data.data)
                 if (refetch) {
                     refetch()
+                }
+                if (setCreatePin) {
+                    setCreatePin({board: res.data.data})
                 }
                 if(savePinToBoard){
                     savePinToBoard(res.data.data)

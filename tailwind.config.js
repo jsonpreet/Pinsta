@@ -13,6 +13,9 @@ module.exports = {
         yellow: colors.yellow,
         brand: colors.violet,
         brand2: colors.pink,
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
       }
     }
   },

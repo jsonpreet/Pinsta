@@ -21,6 +21,10 @@ import RelatedPins from './Related'
 import { directCheckSavedPin, getBoard } from '@lib/db/api'
 import { Analytics, TRACK } from '@utils/analytics'
 import Attachments from './Attachments'
+import getAppName from '@utils/functions/getAppName'
+import Wav3sMeta from './Meta/Wav3s'
+import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
+import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
 
 const Pin: NextPage = () => {
     const router = useRouter()
@@ -85,15 +89,24 @@ const Pin: NextPage = () => {
     const canGet =
         pin &&
         publicationType &&
-        ['Post', 'Comment'].includes(publicationType) &&
+        ['Post', 'Comment', 'Mirror'].includes(publicationType) &&
         !pin?.hidden
+
     
     if (error) return <Custom500 />
     if (loading || !data) return <PinShimmer />
     if (!canGet) return <Custom404 />
+
+    // @ts-ignore
+    const pinTitle = pin ? getAttributeFromTrait(pin?.metadata?.attributes, 'title') : '';
+
     return (
         <>
-            <MetaTags title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}/>
+            <MetaTags
+                title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}
+                description={pin?.metadata?.content}
+                image={sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url)}
+            />
             {!loading && !error && pin ? (
                 <>
                     <div className='mt-0 flex-none'>
@@ -113,6 +126,11 @@ const Pin: NextPage = () => {
                                 <div className='content flex flex-col items-start w-full lg:w-2/4 py-6 px-6 border-l dark:border-gray-900/30 border-gray-50'>
                                     <Share pin={pin} pinSaved={pinSaved} savedToBoards={savedToBoards}  savedTo={savedTo} />
                                     <User pin={pin} />
+                                    {pinTitle ?
+                                        <h2 className='mt-4 font-bold text-xl'>
+                                            {pinTitle}
+                                        </h2>
+                                    : null}
                                     <div className='mt-4 whitespace-pre-wrap break-words leading-md linkify text-md'>
                                         <InterweaveContent content={!readMore ? pin?.metadata?.content : `${pin?.metadata?.content?.substring(0, 300)}...`}/>
                                             
@@ -128,6 +146,12 @@ const Pin: NextPage = () => {
                                             </button>
                                         }
                                     </div>
+                                    {pin?.appId ? 
+                                        <div className='pt-3'>
+                                            <span className='text-sm'>Posted via {getAppName(pin?.appId)}</span>
+                                        </div>
+                                        : null}
+                                    <Wav3sMeta pin={pin} />
                                     <Meta isComment={false} pin={pin} />
                                     <Comments pin={pin}/>
                                 </div> 

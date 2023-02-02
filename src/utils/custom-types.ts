@@ -1,3 +1,4 @@
+import { PublicationMainFocus } from './lens/generated';
 import type {
   Attribute,
   Comment,
@@ -95,6 +96,7 @@ export type BoardType = {
   name: string;
   description?: string;
   slug: string;
+  handle?: string;
   user_id: string;
   pfp?: string;
   cover?: string;
@@ -116,19 +118,10 @@ export type BoardPinsType = {
 };
 
 export type CreatePin = {
-  stream: FileReaderStreamType | null
-  preview: string
-  imageType: string
-  file: File | null
   title: string
   description: string
-  imageAltTag: string
   category: { tag: string; name: string }
-  percent: number
   isSensitiveContent: boolean
-  isUploadToIpfs: boolean
-  loading: boolean
-  imageSource: string
   board: BoardType
   buttonText: string
   collectModule: CollectModuleType
@@ -155,3 +148,12 @@ export interface PinstaAttachment {
   type: string;
   altTag: string;
 }
+
+export interface NewPinstaAttachment extends Omit<PinstaAttachment, 'item'> {
+  id: string;
+  item?: string;
+  previewItem?: string;
+}
+
+
+export const PinstaMainContentFocus = [PublicationMainFocus.Image] //PublicationMainFocus.Video, PublicationMainFocus.Audio, PublicationMainFocus.Text

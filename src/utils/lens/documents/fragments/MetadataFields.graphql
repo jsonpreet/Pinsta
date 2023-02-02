@@ -3,6 +3,7 @@ fragment MetadataFields on MetadataOutput {
   content
   image
   attributes {
+    displayType
     traitType
     value
   }

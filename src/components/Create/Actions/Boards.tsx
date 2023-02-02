@@ -5,6 +5,7 @@ import { Input } from '@components/UI/Input'
 import { FetchProfileBoards } from '@lib/db/actions'
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
+import { usePublicationStore } from '@lib/store/publication'
 import { BoardType } from '@utils/custom-types'
 import React, { FC, useState } from 'react'
 import { isMobile } from 'react-device-detect'
@@ -14,13 +15,13 @@ const ProfileBoards: FC = () => {
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
     const setShowCreateBoard = useAppStore((state) => state.setShowCreateBoard)
-    const setCreatePin = useAppStore((state) => state.setCreatePin)
-    const createdPin = useAppStore((state) => state.createdPin)
+    const setCreatePin = usePublicationStore((state) => state.setCreatePin)
+    const createdPin = usePublicationStore((state) => state.createPin)
     const [search, setSearch] = useState('')
     const { data:boards, isError, isFetched, isLoading, refetch } = FetchProfileBoards(currentProfileId)
     return (
         <>
-            <CreateBoardModal refetch={refetch} />
+            <CreateBoardModal refetch={refetch} setCreatePin={setCreatePin} />
             <DropMenu
                 trigger={
                     <button className='flex justify-center items-center text-center rounded-full'>

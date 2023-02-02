@@ -95,7 +95,7 @@ export const RightMetaDetails = ({ profile }: { profile: Profile }) => {
                             target="_blank"
                             rel="noreferrer noopener"
                         >
-                            {getAttribute(profile?.attributes, 'twitter')?.replace('https://twitter.com/', '')}
+                            { getAttribute(profile?.attributes, 'twitter') }
                         </a>
                     </Meta>
                 )}

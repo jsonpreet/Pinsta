@@ -12,6 +12,8 @@ import React, { useEffect } from 'react'
 import Info from './Info'
 import Pins from './Pins'
 import { Analytics, TRACK } from '@utils/analytics'
+import ProfileShimmer from '@components/Shimmers/ProfileShimmer'
+import getProfilePicture from '@utils/functions/getProfilePicture'
 
 const Profile: NextPage = () => {
     const { query } = useRouter()
@@ -32,24 +34,26 @@ const Profile: NextPage = () => {
     })
 
     if (error) return <Custom500 />
-    if (loading || !data) return <PinShimmer />
+    if (loading || !data) return <ProfileShimmer />
     if (!data?.profile) return <Custom404 />
     
     const userProfile = data?.profile as Profile
 
+    const metaTitle = userProfile?.name ? `${userProfile?.name} (@${formatHandle(userProfile?.handle)}) :: ${APP.Name}` : `@${formatHandle(userProfile?.handle)} :: ${APP.Name}`
+
     return (
         <>
-            {userProfile?.name ? (
-                <MetaTags title={`${userProfile?.name} (@${formatHandle(userProfile?.handle)}) :: ${APP.Name}`} />
-            ) : (
-                <MetaTags title={`@${formatHandle(userProfile?.handle)} :: ${APP.Name}`} />
-            )}
+            <MetaTags
+                title={metaTitle}
+                image={getProfilePicture(userProfile, 'avatar_lg')}
+                description={userProfile?.bio}
+            />
             {!loading && !error && userProfile ? (
                 <>
                     <Info profile={userProfile} />
                     <Pins profile={userProfile} />
                 </>
-            ) : null}
+            ) : <ProfileShimmer/>}
         </>
     )
 }

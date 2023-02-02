@@ -1,21 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import MetaTags from '@components/Common/MetaTags'
-import useAppStore, { UPLOADED_FORM_DEFAULTS } from '@lib/store'
 import { Analytics, TRACK } from '@utils/analytics'
-import { ALLOWED_IMAGE_TYPES } from '@utils/constants'
+import { ALLOWED_IMAGE_TYPES, ALLOWED_MEDIA_TYPES } from '@utils/constants'
 import useDragAndDrop from '@utils/hooks/useDragAndDrop'
 import clsx from 'clsx'
 import { NextPage } from 'next'
 import { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
-import { BsCloudUpload, BsTrash } from 'react-icons/bs'
-// @ts-ignore
-import fileReaderStream from 'filereader-stream'
+import { BsCloudUpload } from 'react-icons/bs'
 import Details from './Details'
+import Slider from '@components/Common/Slider/Slider'
+import { usePublicationStore } from '@lib/store/publication'
+import useUploadAttachments from '@hooks/useUploadAttachments'
 
 const Create: NextPage = () => {
-    const setCreatePin = useAppStore((state) => state.setCreatePin)
-    const createdPin = useAppStore((state) => state.createdPin)
+    const createPin = usePublicationStore((state) => state.createPin)
+    const attachments = usePublicationStore((state) => state.attachments)
+    const isUploading = usePublicationStore((state) => state.isUploading)
+    const { handleUploadAttachments } = useUploadAttachments()
+
     const {
         dragOver,
         setDragOver,
@@ -29,45 +32,107 @@ const Create: NextPage = () => {
         Analytics.track('Pageview', { path: TRACK.PAGE_VIEW.UPLOAD.DROPZONE })
     }, [])
 
-    const uploadImage = (file: File) => {
-        try {
-            if (file) {
-                const preview = URL.createObjectURL(file)
-                setCreatePin({
-                    stream: fileReaderStream(file),
-                    preview,
-                    imageType: file?.type || 'image/jpeg',
-                    file
-                })
+    const isTypeAllowed = (files: FileList) => {
+        // @ts-ignore
+        for (const file of files) {
+            if (ALLOWED_MEDIA_TYPES.includes(file.type)) {
+                return true;
             }
-        } catch (error) {
-            toast.error('Error uploading file')
-            console.log('[Error Upload Image]', error)
         }
-    }
 
-    const validateFile = (file: File) => {
-        if (!ALLOWED_IMAGE_TYPES.includes(file?.type)) {
-            const errorMessage = 'Image format not supported!'
-            toast.error(errorMessage)
+        return false;
+    };
+
+    const isImageType = (files: FileList) => {
+        // @ts-ignore
+        for (const file of files) {
+            if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    // const validateFile = (attachments: FileList) => {
+    //     if (!attachments) return
+    //     const files = Array.from(attachments);
+
+    //     if (files.length > 10) {
+    //         const errorMessage = 'You can only upload 10 images at a time!'
+    //         toast.error(errorMessage)
+    //         return setFileDropError(errorMessage)
+    //     }
+
+    //     const previewAttachments: NewPinstaAttachment[] = files.map((file: any) => {
+    //         const attachmentId = uuid();
+    //         // @ts-ignore
+    //         createdPin?.attachmentIds.push(attachmentId);
+    //         return {
+    //             id: attachmentId,
+    //             type: file.type,
+    //             altTag: '',
+    //             previewItem: URL.createObjectURL(file)
+    //         };
+    //     });
+        
+    //     files?.map((file : File, index: number) => {
+    //         if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    //             const errorMessage = 'Image format not supported!'
+    //             toast.error(errorMessage)
+    //             return setFileDropError(errorMessage)
+    //         }
+    //         if (file.size > 20000000) {
+    //             const errorMessage = 'Image size too large!'
+    //             toast.error(errorMessage)
+    //             return setFileDropError(errorMessage)
+    //         }
+    //         addAttachments(previewAttachments);
+            
+    //         setCreatePin({
+    //             previews: previewAttachments,
+    //             files: files,
+    //         })
+    //     })
+    // }
+
+    const handleAttachment = async (files: FileList) => {
+
+        try {
+            // Count check
+            if (files && ((isImageType(files) && files.length + attachments.length > 4))) {
+                const errorMessage = 'You can only upload 4 images at a time!'
+                toast.error(errorMessage);
+                return setFileDropError(errorMessage)
+            }
+
+            // Type check
+            if (isTypeAllowed(files as FileList)) {
+                await handleUploadAttachments(files);
+            } else {
+                const errorMessage = 'File format not allowed.'
+                toast.error(errorMessage);
+                return setFileDropError(errorMessage)
+            }
+        } catch {
+            const errorMessage = 'Something went wrong while uploading!'
+            toast.error(errorMessage);
             return setFileDropError(errorMessage)
         }
-        if (file?.size > 20000000) {
-            const errorMessage = 'Image size too large!'
-            toast.error(errorMessage)
-            return setFileDropError(errorMessage)
-        }
-        uploadImage(file)
-    }
+    };
+    
 
     const onDrop = (e: React.DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         setDragOver(false)
-        validateFile(e?.dataTransfer?.files[0])
+        const { files } = e?.dataTransfer;
+        if (files?.length) handleAttachment(files)
     }
 
     const onChooseFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files?.length) validateFile(e?.target?.files[0])
+        e.preventDefault();
+        const { files } = e.target;
+        if (files?.length) handleAttachment(files)
     }
     return (
         <>
@@ -83,20 +148,12 @@ const Create: NextPage = () => {
                 <div className='flex flex-col items-center justify-center w-full h-full min-h-auto md:min-h-[400px] p-6 md:p-10'>
                     <div className='flex md:flex-row flex-col space-x-0 space-y-10 md:space-y-0 md:space-x-10 w-full h-full min-h-auto md:min-h-[400px]'>
                         <div className='flex flex-col w-full lg:w-1/3 bg-gray-100 dark:bg-gray-700 p-4 rounded-md h-full min-h-[200px] md:min-h-[400px]'>
-                            {createdPin && createdPin?.preview ? (
-                                <div className='relative flex flex-col flex-none w-full h-full min-h-[200px] md:min-h-[400px]'>
-                                    <img
-                                        src={createdPin?.preview}
-                                        className='object-cover rounded-md'
-                                        alt='uploaded'
-                                    />
-                                    <div className='absolute top-2 right-2'>
-                                        <button
-                                            onClick={() => setCreatePin(UPLOADED_FORM_DEFAULTS)}
-                                            className='w-8 h-8 flex items-center justify-center text-red-500 bg-clip-padding backdrop-blur-xl backdrop-filter bg-white rounded-full hover:text-gray-900'
-                                        >
-                                            <BsTrash size={18} />
-                                        </button>
+                            {attachments.length > 0 ? (
+                                <div className='relative flex flex-col w-full h-full min-h-[200px] md:min-h-[400px]'>
+                                    <div className=' w-full h-full  min-h-[200px] md:min-h-[400px] flex flex-col justify-center items-center'>
+                                        <Slider 
+                                            images={attachments}
+                                        />
                                     </div>
                                 </div>
                             ) : (
@@ -118,6 +175,7 @@ const Create: NextPage = () => {
                                         className="hidden"
                                         id="dropImage"
                                         onChange={onChooseFile}
+                                        multiple={true}
                                         accept={ALLOWED_IMAGE_TYPES.join(',')}
                                     />
                                     <div className="text-xl text-center font-semibold">
@@ -125,7 +183,10 @@ const Create: NextPage = () => {
                                             <BsCloudUpload size={24} />
                                         </span>
                                         <span>
-                                            Drag and drop <br /> click to upload
+                                            Drag and drop <br /> click to upload <br />
+                                        </span>
+                                        <span className='text-sm'>
+                                            (up to 4 images)
                                         </span>
                                     </div>
                                     <div>
@@ -134,7 +195,9 @@ const Create: NextPage = () => {
                                         </p>
                                     </div>
                                     {fileDropError && (
-                                        <div className="font-medium text-red-500 dark:text-red-400">{fileDropError}</div>
+                                        <div className="font-medium text-red-500 text-center dark:text-red-400">
+                                            {fileDropError}
+                                        </div>
                                     )}
                                 </div>
                             </label>

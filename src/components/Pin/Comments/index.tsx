@@ -31,12 +31,14 @@ const Comments: FC<Props> = ({ pin }) => {
     const currentProfile = useAppStore((state) => state.currentProfile)
     const [isLoading, setLoading] = useState(false)
 
+    const isMirror = pin.__typename === 'Mirror'
+
     const isFollowerOnlyReferenceModule = pin?.referenceModule?.__typename === 'FollowOnlyReferenceModuleSettings'
 
     const request = {
         limit: 3,
         customFilters: LENS_CUSTOM_FILTERS,
-        commentsOf: id,
+        commentsOf: isMirror ? pin?.mirrorOf?.id : id,
         metadata: {
             mainContentFocus: [
                 PublicationMainFocus.Video,
@@ -58,7 +60,7 @@ const Comments: FC<Props> = ({ pin }) => {
 
     const { data, loading, error, fetchMore } = useProfileCommentsQuery({
         variables,
-        skip: !id
+        skip: isMirror ? !pin?.mirrorOf?.id : !id
     })
 
     const comments = data?.publications?.items as PinstaPublication[]
@@ -87,11 +89,9 @@ const Comments: FC<Props> = ({ pin }) => {
                 <h1 className="flex items-center my-4 space-x-2 text-lg">
                     <HiOutlineChatAlt2 className="w-4 h-4" />
                     <span className="font-semibold">Comments</span>
-                    {data?.publications?.pageInfo.totalCount ? (
-                        <span className="text-sm">
-                            ({data?.publications?.pageInfo.totalCount})
-                        </span>
-                    ) : null}
+                    <span className="text-sm">
+                        ({isMirror ? pin?.mirrorOf?.stats.totalAmountOfComments : pin.stats.totalAmountOfComments})
+                    </span>
                 </h1>
                 {/* {!currentProfileId && (
                     <span className="text-xs">(Sign in required to comment)</span>
@@ -100,7 +100,7 @@ const Comments: FC<Props> = ({ pin }) => {
             {data?.publications?.items.length === 0 && (
                 <NoDataFound text="Be the first to comment." />
             )}
-            {pin?.canComment.result ? (
+            {isMirror ? pin?.mirrorOf?.canComment?.result : pin?.canComment?.result ? (
                 <NewComment pin={pin} />
             ) : currentProfileId ? (
                 <Alert variant="warning">

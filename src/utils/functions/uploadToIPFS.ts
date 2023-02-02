@@ -9,7 +9,7 @@ import {
   PINSTA_API_URL,
   NEXT_PUBLIC_EVER_BUCKET_NAME
 } from '../constants'
-import type { IPFSUploadResult } from '../custom-types'
+import type { IPFSUploadResult, PinstaAttachment } from '../custom-types'
 
 export const everland = async (
   file: File,
@@ -63,6 +63,28 @@ export const everland = async (
         }
     }
 }
+
+export const uploadFilesToIPFS = async (data: any): Promise<PinstaAttachment[]> => {
+    try {
+        const files = Array.from(data);
+        const attachments = await Promise.all(
+            files.map(async (_: any, i: number) => {
+                const file = data.item(i);
+                const { url, type } = await everland(file)
+                return {
+                    item: url,
+                    type: type,
+                    altTag: ''
+                };
+            })
+        );
+
+        return attachments;
+    } catch {
+        return [];
+    }
+};
+
 
 const uploadToIPFS = async (
   file: File,

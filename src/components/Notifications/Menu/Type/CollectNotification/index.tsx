@@ -22,7 +22,7 @@ interface Props {
 const CollectNotification: FC<Props> = ({ notification }) => {
     return (
         <div className="flex justify-between items-start">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center text-sm space-x-2">
                 <div className='flex items-center space-x-1'>
                     {/* <FiShoppingBag className="h-6 w-6 text-pink-500" /> */}
                     {notification?.wallet?.defaultProfile ? (

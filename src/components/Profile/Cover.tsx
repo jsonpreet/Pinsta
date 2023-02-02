@@ -15,7 +15,7 @@ const Cover: FC<Props> = ({ cover, profile }) => {
         <>
             <div className='relative flex flex-col max-w-7xl w-full rounded-xl h-36 sm:h-96'>
                 <div
-                    className="h-36 w-full rounded-xl sm:h-96"
+                    className="h-36 w-full border border-gray-100 dark:border-gray-700 rounded-xl sm:h-96"
                     style={{
                         backgroundImage: `url(${
                             cover ? imageCdn(sanitizeIpfsUrl(cover), COVER) : `/patterns/9.png`

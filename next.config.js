@@ -27,6 +27,11 @@ const nextConfig = {
         source: '/feedback',
         destination: 'https://pinsta.canny.io/',
         permanent: true
+      },
+      {
+        source: '/github',
+        destination: 'https://github.com/jsonpreet/Pinsta',
+        permanent: true
       }
     ];
   },

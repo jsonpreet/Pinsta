@@ -150,7 +150,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                     <div className="space-y-2 pt-3">
                         <div className="flex items-center space-x-2">
                             <RiShoppingBag3Line size={18} className="text-red-500" />
-                            <span className='text-base'>
+                            <span className='text-sm font-bold'>
                                 Charge for collecting
                             </span>
                         </div>
@@ -162,7 +162,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                                     Analytics.track(TRACK.COLLECT_MODULE.TOGGLE_CHARGE_FOR_COLLECT);
                                 }}
                             />
-                            <div className="lt-text-gray-500 text-sm font-semibold">
+                            <div className="lt-text-gray-500 text-sm font-medium">
                                 Get paid whenever someone collects your post
                             </div>
                         </div>
@@ -203,11 +203,11 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                             <div className="space-y-2 pt-5">
                                 <div className="flex items-center space-x-2">
                                     <RiArrowLeftRightFill size={18} className="text-red-500" />
-                                    <span className='text-base'>
+                                    <span className='text-sm font-bold'>
                                         Mirror referral reward
                                     </span>
                                 </div>
-                                <div className="lt-text-gray-500 text-sm font-semibold">
+                                <div className="lt-text-gray-500 text-sm font-medium">
                                     Share your collect fee with people who amplify your content
                                 </div>
                                 <div className="text-sm pt-2 flex space-x-2">
@@ -233,7 +233,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                             <div className="space-y-2 pt-5">
                                 <div className="flex items-center space-x-2">
                                     <BiStar size={18} className="text-red-500" />
-                                    <span className='text-base'>
+                                    <span className='text-sm font-bold'>
                                         Limited edition
                                     </span>
                                 </div>
@@ -245,7 +245,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                                             Analytics.track(TRACK.COLLECT_MODULE.TOGGLE_LIMITED_EDITION_COLLECT);
                                         }}
                                     />
-                                    <div className="lt-text-gray-500 text-sm font-semibold">
+                                    <div className="lt-text-gray-500 text-sm font-medium">
                                         Make the collects exclusive
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                             <div className="space-y-2 pt-5">
                                 <div className="flex items-center space-x-2">
                                     <BsClock size={19} className="text-red-500" />
-                                    <span className='text-base'>
+                                    <span className='text-sm font-bold'>
                                         Time limit
                                     </span>
                                 </div>
@@ -280,7 +280,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                                             Analytics.track(TRACK.COLLECT_MODULE.TOGGLE_TIME_LIMIT_COLLECT);
                                         }}
                                     />
-                                    <div className="lt-text-gray-500 text-sm font-semibold">
+                                    <div className="lt-text-gray-500 text-sm font-medium">
                                         Limit collecting to the first 24h
                                     </div>
                                 </div>
@@ -290,7 +290,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                     <div className="space-y-2 pt-5">
                         <div className="flex items-center space-x-2">
                             <HiOutlineUsers size={18} className="text-red-500" />
-                            <span className='text-base'>
+                            <span className='text-sm font-bold'>
                                 Who can collect
                             </span>
                         </div>
@@ -302,7 +302,7 @@ const CollectForm: FC<Props> = ({ setShowModal }) => {
                                 Analytics.track(TRACK.COLLECT_MODULE.TOGGLE_FOLLOWERS_ONLY_COLLECT);
                                 }}
                             />
-                            <div className="lt-text-gray-500 text-sm font-semibold">
+                            <div className="lt-text-gray-500 text-sm font-medium">
                                 Only followers can collect
                             </div>
                         </div>

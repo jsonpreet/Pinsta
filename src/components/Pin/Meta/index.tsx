@@ -19,6 +19,7 @@ type Props = {
 }
 
 const Meta: FC<Props> = ({ pin, isComment = false }) => {
+    const isMirror = pin?.__typename === 'Mirror';
     const currentProfile = useAppStore((state) => state.currentProfile);
     const canMirror = currentProfile ? pin?.canMirror?.result : true;
     const collectModuleType = pin?.collectModule.__typename
@@ -36,7 +37,7 @@ const Meta: FC<Props> = ({ pin, isComment = false }) => {
             }
             <div className="flex flex-row justify-center text-blue-500 items-center">
                 <HiOutlineChatAlt2 size={isComment ? 14 : 18} />
-                <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{pin.stats.totalAmountOfComments}</span>
+                <span className={`ml-1 ${isComment ? `text-xs` : `text-sm`}`}>{isMirror ? pin?.mirrorOf?.stats.totalAmountOfComments : pin.stats.totalAmountOfComments}</span>
             </div>
             {collectModuleType !== 'RevertCollectModuleSettings' ?
                 <Collect isComment={isComment} pin={pin} />
