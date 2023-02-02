@@ -11,6 +11,7 @@ type Props = {
     currentPinId?: string
     board?: BoardType
     allPins?: BoardPinsType
+    refetchSavedPins?: () => void
     isHome?: boolean
 }
 
@@ -22,6 +23,7 @@ const Timeline: FC<Props> = ({
     isBoard = false,
     isAllPins = false,
     isHome = false,
+    refetchSavedPins,
     allPins
 }) => {
     return (
@@ -39,6 +41,7 @@ const Timeline: FC<Props> = ({
                             isAllPins={isAllPins}
                             allPins={allPins}
                             isBoard={isBoard}
+                            refetchSavedPins={refetchSavedPins}
                             // @ts-ignore
                             key={`${isHome ? pin?.root?.id : pin?.id}_${pin.createdAt}_${pin.__typename}`}
                             // @ts-ignore

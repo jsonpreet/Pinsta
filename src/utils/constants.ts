@@ -22,7 +22,7 @@ export const MIXPANEL_API_HOST = '/collect'
 
 export const PINSTA_API_URL = 'https://api.pinsta.xyz'
 
-export const PINSTA_SERVER_URL = 'https://server.pinsta.xyz'
+export const PINSTA_SERVER_URL = IS_MAINNET ? 'https://server.pinsta.xyz' : 'https://testnet-server.pinsta.xyz'
 
 export const NEXT_PUBLIC_EVER_BUCKET_NAME = 'pinsta'
 export const EVER_ENDPOINT = 'https://endpoint.4everland.co'

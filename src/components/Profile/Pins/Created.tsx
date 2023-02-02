@@ -45,14 +45,14 @@ const Created: FC<Props> = ({ profile }) => {
     const { observe } = useInView({
         rootMargin: SCROLL_ROOT_MARGIN,
         onEnter: async () => {
-        await fetchMore({
-            variables: {
-            request: {
-                ...request,
-                cursor: pageInfo?.next
-            }
-            }
-        })
+            await fetchMore({
+                variables: {
+                request: {
+                    ...request,
+                    cursor: pageInfo?.next
+                }
+                }
+            })
         }
     })
 

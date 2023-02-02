@@ -44,6 +44,7 @@ const Attachments: FC<Props> = ({ pin }) => {
         }
     };
 
+
     return (
         <>
             
@@ -66,7 +67,7 @@ const Attachments: FC<Props> = ({ pin }) => {
                     />
                 </div>
                 
-                {thumbnail && isLoading || slideImageLoading ? (
+                {(thumbnail && isLoading) || (thumbnails?.length > 0 && slideImageLoading) ? (
                     <span className='relative bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-3xl justify-center'>
                         <Loader/>
                     </span>

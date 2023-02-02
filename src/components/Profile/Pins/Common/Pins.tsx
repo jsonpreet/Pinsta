@@ -12,10 +12,11 @@ import { useInView } from 'react-cool-inview'
 type Props = {
     postIds: string[],
     board?: BoardType,
+    refetchSavedPins?: () => void,
     pins?: BoardPinsType
 }
 
-const BoardPins: FC<Props> = ({ postIds, board, pins }) => {
+const BoardPins: FC<Props> = ({ postIds, board, pins, refetchSavedPins }) => {
 
     const currentProfile = useAppStore((state) => state.currentProfile);
 
@@ -58,7 +59,7 @@ const BoardPins: FC<Props> = ({ postIds, board, pins }) => {
             {loading && <TimelineShimmer />}
             {!error && !loading && (
                 <>
-                    <Timeline pins={profilePins} isAllPins={true} allPins={pins} />
+                    <Timeline pins={profilePins} refetchSavedPins={refetchSavedPins} isAllPins={true} allPins={pins} />
                     {pageInfo?.next && profilePins.length !== pageInfo?.totalCount && pageInfo?.totalCount !== null && (
                         <span ref={observe} className="flex justify-center p-10">
                             <Loader />

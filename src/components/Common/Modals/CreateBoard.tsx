@@ -76,8 +76,6 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch,
             handle: formatHandle(currentProfile?.handle),
             user_id: currentProfileId
         } as any
-
-        console.log(request)
         
         setLoading(true)
 

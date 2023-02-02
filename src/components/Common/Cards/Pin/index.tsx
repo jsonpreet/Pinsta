@@ -29,9 +29,10 @@ type Props = {
   board?: BoardType
   allPins?: BoardPinsType
   isAllPins?: boolean
+  refetchSavedPins?: () => void
 }
 
-const PinCard: FC<Props> = ({pin, isBoard = false, board, isAllPins = false, allPins }) => {
+const PinCard: FC<Props> = ({pin, isBoard = false, board, isAllPins = false, allPins, refetchSavedPins }) => {
   const router = useRouter()
   const isProfile = router.pathname === '/[username]'
   const [show, setShow] = useState(false)
@@ -56,9 +57,11 @@ const PinCard: FC<Props> = ({pin, isBoard = false, board, isAllPins = false, all
     }
     return axios.post(`${PINSTA_SERVER_URL}/unsave-pin`,request).then((res) => {
       if (res.status === 200) {
-        router.replace(window.location.pathname)
         console.log('Pin removed!')
         toast.success('Pin removed!')
+        if (refetchSavedPins) {
+          refetchSavedPins()
+        }
         setLoading(false)
       } else {
         setLoading(false)

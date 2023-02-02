@@ -2,28 +2,21 @@
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { toast } from 'react-hot-toast'
-import { BsArrowLeftCircleFill, BsClipboardPlus } from 'react-icons/bs'
+import { BsArrowLeftCircleFill } from 'react-icons/bs'
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { APP, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
-import { BoardPinsType, BoardType, PinstaPublication } from '@utils/custom-types'
+import { BoardType, PinstaPublication } from '@utils/custom-types'
 import { exportPNG } from '@utils/functions/getExport'
-import { HiChevronDown, HiOutlineBookmark, HiOutlineDownload, HiOutlineLink, HiPlus } from 'react-icons/hi'
+import { HiOutlineDownload, HiOutlineLink } from 'react-icons/hi'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon } from 'next-share';
 import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
-import { Button } from '@components/UI/Button'
 import { FiShare2 } from "react-icons/fi";
-import { FetchProfileBoards } from '@lib/db/actions'
-import DropMenu from '@components/UI/DropMenu'
-import { Input } from '@components/UI/Input'
-import CreateBoardModal from '@components/Common/Modals/CreateBoard'
-import Link from 'next/link'
 import formatHandle from '@utils/functions/formatHandle'
 import { Analytics } from '@utils/analytics';
 import { Loader } from '@components/UI/Loader'
-import { isMobile } from 'react-device-detect'
 import axios from 'axios'
 import Saved from './Saved'
 
@@ -44,14 +37,11 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
     const currentProfile = useAppStore((state) => state.currentProfile)
     const setShowCreateBoard = useAppStore((state) => state.setShowCreateBoard)
     const [currentBoard, setCurrentBoard] = useState<BoardType>()
-    const [search, setSearch] = useState('')
     const [loading, setLoading] = useState(false)
     const [isSaving, setSaving] = useState(false)
     const [isSaved, setIsSaved] = useState(false)
     const [boardURL, setBoardURL] = useState(`${formatHandle(currentProfile?.handle)}${currentBoard ? `/${currentBoard?.slug}` : ''}`)
     const [boardName, setBoardName] = useState(currentBoard ? currentBoard?.name : 'Profile')
-
-    const { data:boards, isError, isFetched, isLoading, refetch: refetchBoards } = FetchProfileBoards(currentProfileId)
 
     const onCancel = () => {
         setShowCreateBoard(false)
@@ -164,8 +154,6 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
 
     return (
         <>
-            {/* @ts-ignore */}
-            <CreateBoardModal refetch={refetchBoards} pin={isMirror ? pin?.mirrorOf : pin} savePinToBoard={savePinToBoard} setIsSaved={setIsSaved} />
             <div className='w-full backdrop-blur-3xl bg-opacity-50 top-0 flex flex-col md:flex-row justify-between items-center mb-6 relative z-10'>
                 <div className='flex flex-row items-center w-full md:w-auto justify-between md:justify-center'>
                     <div className='flex back mr-4 lg:hidden'>
@@ -255,10 +243,7 @@ const Share: FC<Props> = ({ pin, pinSaved, savedTo, savedToBoards }) => {
                     <Saved
                         currentBoard={currentBoard}
                         savedTo={savedTo}
-                        setSearch={setSearch}
-                        boards={boards}
                         loading={loading}
-                        isFetched={isFetched}
                         boardURL={boardURL}
                         boardName={boardName}
                         isSaved={isSaved}

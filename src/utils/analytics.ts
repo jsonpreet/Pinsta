@@ -74,6 +74,7 @@ export const TRACK = {
         TOGGLE_FOLLOWERS_ONLY_COLLECT: 'Toggle Followers Only Collect',
     },
     SEARCH_PROFILES: 'Search Profiles',
+    SEARCH_BOARDS: 'Search Boards',
     SYSTEM: {
         THEME: {
             DARK: 'Seleted Dark Theme',
