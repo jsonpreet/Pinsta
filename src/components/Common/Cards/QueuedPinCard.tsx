@@ -164,7 +164,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
                         'h-60': loading
                         })}
                         />
-                    {pin?.previews.length > 1 ? (
+                    {pin?.previews?.length > 1 ? (
                         <span
                         className={clsx(
                             'absolute bottom-0 z-20 left-0 w-full p-2 flex flex-row items-center justify-start overflow-hidden'
@@ -174,7 +174,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
                             splicedMedia.map((media: any, index: number) => {
                                 if (index == 0) return null
                                 const thumbnailUrl = media.previewItem
-                                if(index === 4 && pin?.previews.length > 4){
+                                if(index === 4 && pin?.previews?.length > 4){
                                     return (
                                         <>
                                             <div
