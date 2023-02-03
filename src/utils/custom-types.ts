@@ -139,6 +139,7 @@ export type QueuedCommentType = {
 
 export type QueuedPublicationType = {
   publication: CreatePin
+  previews: NewPinstaAttachment[]
   txnId?: string
   txnHash?: string
 }

@@ -54,6 +54,7 @@ const Details: FC = () => {
         setQueuedPublications([
             {
                 publication: createPin,
+                previews: attachments,
                 txnId: txn.txnId,
                 txnHash: txn.txnHash
             },
