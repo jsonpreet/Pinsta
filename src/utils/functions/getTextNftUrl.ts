@@ -1,4 +1,4 @@
-import uploadToIPFS from './uploadToIPFS'
+import {uploadToIPFS} from './uploadToIPFS'
 import {encode} from 'html-entities';
 
 const getTextNftUrl = async (content: string, username: string, timestamp: string) => {
