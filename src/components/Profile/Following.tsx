@@ -87,7 +87,7 @@ const Following: FC<Props> = ({ profile, onProfileSelected }) => {
                                 profile={following?.profile as Profile}
                                 linkToProfile={!onProfileSelected}
                                 isFollowing={following?.profile?.isFollowedByMe}
-                                showBio
+                                showBio={false}
                                 showFollow
                                 showUserPreview={false}
                             />
