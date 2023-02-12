@@ -23,7 +23,7 @@ import { CustomErrorWithData, IPFSUploadResult, PinstaAttachment } from '@utils/
 import getUserLocale from '@utils/functions/getUserLocale'
 import getTags from '@utils/functions/getTags'
 import uploadToAr from '@utils/functions/uploadToAr'
-import uploadToIPFS from '@utils/functions/uploadToIPFS'
+import {uploadToIPFS} from '@utils/functions/uploadToIPFS'
 import { useRouter } from 'next/router'
 import InputMentions from '@components/UI/InputMentions'
 import CollectSettings from './Actions/Collect'
