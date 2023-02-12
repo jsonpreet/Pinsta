@@ -50,8 +50,8 @@ export const everland = async (
         await task.done()
         const result = await client.headObject(params)
         const metadata = result.Metadata
-        console.log('ipfs upload', metadata)
         return {
+            hash: metadata?.['ipfs-hash'],
             url: `ipfs://${metadata?.['ipfs-hash']}`,
             type: file.type
         }
@@ -86,12 +86,10 @@ export const uploadFilesToIPFS = async (data: any): Promise<PinstaAttachment[]> 
 };
 
 
-const uploadToIPFS = async (
+export const uploadToIPFS = async (
   file: File,
   onProgress?: (percentage: number) => void
 ): Promise<IPFSUploadResult> => {
-    const { url, type } = await everland(file, onProgress)
-    return { url, type }
+    const { hash, url, type } = await everland(file, onProgress)
+    return { hash, url, type }
 }
-
-export default uploadToIPFS

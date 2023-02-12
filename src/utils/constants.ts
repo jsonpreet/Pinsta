@@ -1,4 +1,5 @@
 import { CustomFiltersTypes } from '@utils/lens'
+import packageJson from '../../package.json';
 
 export const APP = {
   ID: 'pinsta',
@@ -10,7 +11,8 @@ export const APP = {
   Meta: {
     image: `/meta.png`,
     type: 'website',
-  }
+  },
+  Version: packageJson.version
 }
 
 export const LENS_ENV = process.env.NEXT_PUBLIC_ENVIRONMENT
@@ -27,6 +29,10 @@ export const PINSTA_SERVER_URL = IS_MAINNET ? 'https://server.pinsta.xyz' : 'htt
 export const NEXT_PUBLIC_EVER_BUCKET_NAME = 'pinsta'
 export const EVER_ENDPOINT = 'https://endpoint.4everland.co'
 export const EVER_REGION = 'us-west-2'
+
+// XMTP
+export const XMTP_ENV = IS_MAINNET ? 'production' : 'dev';
+export const XMTP_PREFIX = 'lens.dev/dm';
 
 // lens
 export const MAINNET_API_URL = 'https://api.lens.dev'
@@ -88,6 +94,10 @@ export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'im
 export const ALLOWED_MEDIA_TYPES = [...ALLOWED_VIDEO_TYPES, ...ALLOWED_IMAGE_TYPES];
 
 export const DEFAULT_COLLECT_TOKEN = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'
+
+export const MESSAGE_PAGE_LIMIT = 15;
+export const SCROLL_THRESHOLD = 0.5;
+export const MIN_WIDTH_DESKTOP = 1024;
 
 // Named transforms
 export const AVATAR = 'avatar';

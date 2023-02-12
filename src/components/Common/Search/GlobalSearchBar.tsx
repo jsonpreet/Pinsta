@@ -6,7 +6,7 @@ import { SearchProfilesDocument, SearchPublicationsDocument, SearchRequestTypes 
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { LENS_CUSTOM_FILTERS, PINSTA_SERVER_URL } from '@utils/constants'
-import useDebounce from '@hooks/useDebounce'
+import useDebounce from '@utils/hooks/useDebounce'
 import useOutsideClick from '@hooks/useOutsideClick'
 import { BsSearch } from "react-icons/bs";
 

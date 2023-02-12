@@ -11,7 +11,7 @@ import { BsCloudUpload } from 'react-icons/bs'
 import Details from './Details'
 import Slider from '@components/Common/Slider/Slider'
 import { usePublicationStore } from '@lib/store/publication'
-import useUploadAttachments from '@hooks/useUploadAttachments'
+import useUploadAttachments from '@utils/hooks/useUploadAttachments'
 
 const Create: NextPage = () => {
     const createPin = usePublicationStore((state) => state.createPin)

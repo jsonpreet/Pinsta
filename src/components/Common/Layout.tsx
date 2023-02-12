@@ -14,7 +14,7 @@ import { CustomErrorWithData } from '@utils/custom-types'
 import clearLocalStorage from '@utils/functions/clearLocalStorage'
 import { getIsAuthTokensAvailable } from '@utils/functions/getIsAuthTokensAvailable'
 import { getToastOptions } from '@utils/functions/getToastOptions'
-import useIsMounted from '@hooks/useIsMounted'
+import useIsMounted from '@utils/hooks/useIsMounted'
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 
 import FullPageLoader from '../UI/FullPageLoader'

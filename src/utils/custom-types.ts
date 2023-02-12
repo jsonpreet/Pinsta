@@ -49,6 +49,7 @@ export type ReferenceModuleType = {
 export type PinstaPublication = Post & Comment & Mirror
 
 export type IPFSUploadResult = {
+  hash?: string
   url: string
   type: string
 }
