@@ -22,7 +22,7 @@ import { ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, RELAYER_ENABLED } from '@utils/co
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import omit from '@utils/functions/omit'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
-import uploadToIPFS from '@utils/functions/uploadToIPFS'
+import {uploadToIPFS} from '@utils/functions/uploadToIPFS'
 import { useContractWrite, useSignTypedData } from 'wagmi'
 import { Loader } from '@components/UI/Loader'
 

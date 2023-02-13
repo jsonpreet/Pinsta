@@ -1,6 +1,6 @@
 import { usePublicationStore } from '@lib/store/publication';
 import { NewPinstaAttachment } from '@utils/custom-types';
-import uploadToIPFS, { uploadFilesToIPFS } from '@utils/functions/uploadToIPFS';
+import {uploadToIPFS, uploadFilesToIPFS } from '@utils/functions/uploadToIPFS';
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 import { v4 as uuid } from 'uuid';

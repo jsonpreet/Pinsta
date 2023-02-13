@@ -18,6 +18,7 @@ import CreateMenu from '@components/Common/Menu/CreateMenu'
 import { Analytics } from '@utils/analytics'
 import HelpMenu from './Menu/Help'
 import { isBrowser } from 'react-device-detect';
+import MessageIcon from '@components/Messages/MessageIcon'
 
 type Props = {
   className?: string
@@ -80,6 +81,7 @@ const Header: FC<Props> = ({ className }) => {
                       </Link>
                     </div>
                   }
+                  <MessageIcon/>
                 </>
               
               :  <ThemeSwitch /> //<ThemeSwitch />

@@ -26,11 +26,9 @@ body{
   @apply flex mx-1 text-[10px] opacity-50;
 }
 
-.dark {
-  body {
-    background-color: rgb(15 15 15);
-    color: #fff;
-  }
+.dark body {
+  background-color: rgb(15 15 15);
+  color: #fff;
 }
 
 * {
@@ -89,15 +87,15 @@ input[type='number'] {
   background: linear-gradient(to right,#fff 10%,rgba(249,249,249,0) 90%)
 }
 
-.dark {
-  .bg-faded-right {
-    background: linear-gradient(to left,#111 10%,rgba(0,0,0,0) 90%)
-  }
-
-  .bg-faded-left {
-    background: linear-gradient(to right,#111 10%,rgba(0,0,0,0) 90%)
-  }
+.dark .bg-faded-right {
+  background: linear-gradient(to left,#111 10%,rgba(0,0,0,0) 90%)
 }
+  
+
+.dark .bg-faded-left {
+  background: linear-gradient(to right,#111 10%,rgba(0,0,0,0) 90%)
+}
+
 
 .header-glassy {
   @apply dark:bg-gray-900/70 bg-white/70 bg-clip-padding backdrop-blur-xl backdrop-filter;
@@ -120,10 +118,6 @@ input[type='number'] {
               linear-gradient(to right, #df3f95, #ec1e25) border-box;
   border: 2px solid transparent;
 }
-
-// .primary-button {
-//   @apply bg-red-600 hover:bg-gray-900 text-white;
-// }
 
 .divider {
   @apply border-b dark:border-gray-700;
@@ -153,4 +147,29 @@ input[type='number'] {
 .input-mentions-single__suggestions {
   @apply bg-white dark:bg-gray-800 border py-2 dropdown-shadow border-gray-100 dark:border-gray-700 rounded-xl w-56;
   margin-top: 35px!important;
+}
+
+.plyr__control--overlaid {
+  @apply !bg-brand2-500;
+}
+
+.plyr--full-ui input[type='range'] {
+  @apply !text-brand2-500;
+}
+
+.plyr__control {
+  @apply hover:!bg-brand2-500;
+}
+
+/** CSS overrides for plyr audio **/
+.plyr--audio .plyr__controls {
+  @apply !bg-transparent !text-white;
+}
+
+.plyr--audio .plyr__control {
+  @apply hover:!bg-transparent;
+}
+
+.plyr--audio.plyr--full-ui input[type='range'] {
+  @apply !text-white;
 }

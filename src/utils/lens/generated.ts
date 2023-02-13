@@ -2267,7 +2267,6 @@ export type NotificationRequest = {
   cursor?: InputMaybe<Scalars["Cursor"]>;
   customFilters?: InputMaybe<Array<CustomFiltersTypes>>;
   limit?: InputMaybe<Scalars["LimitScalar"]>;
-  metadata?: InputMaybe<PublicationMetadataFilters>;
   /** The profile id */
   notificationTypes?: InputMaybe<Array<NotificationTypes>>;
   /** The profile id */
@@ -2385,7 +2384,10 @@ export type PaginatedResultInfo = {
   next?: Maybe<Scalars["Cursor"]>;
   /** Cursor to query the actual results */
   prev?: Maybe<Scalars["Cursor"]>;
-  /** The total number of entities the pagination iterates over. If its null then its not been worked out due to it being an expensive query and not really needed for the client. All main counters are in counter tables to allow them to be faster fetching. */
+  /**
+   * The total number of entities the pagination iterates over. If its null then its not been worked out due to it being an expensive query and not really needed for the client. All main counters are in counter tables to allow them to be faster fetching.
+   * @deprecated Total counts is expensive and in dynamic nature of queries it slows stuff down. Most the time you do not need this you can just use the `next` property to see if there is more data. This will be removed soon. The only use case anyone is using this right now is on notification query, this should be changed to query the notifications and cache the last notification id. You can then keep checking if the id changes you know more notifications.
+   */
   totalCount?: Maybe<Scalars["Int"]>;
 };
 
@@ -8797,6 +8799,123 @@ export type FeedQuery = {
             }
           | null;
       }> | null;
+    }>;
+    pageInfo: {
+      __typename?: "PaginatedResultInfo";
+      next?: any | null;
+      totalCount?: number | null;
+    };
+  };
+};
+
+export type FollowersQueryVariables = Exact<{
+  request: FollowersRequest;
+}>;
+
+export type FollowersQuery = {
+  __typename?: "Query";
+  followers: {
+    __typename?: "PaginatedFollowersResult";
+    items: Array<{
+      __typename?: "Follower";
+      totalAmountOfTimesFollowed: number;
+      wallet: {
+        __typename?: "Wallet";
+        address: any;
+        defaultProfile?: {
+          __typename?: "Profile";
+          isFollowedByMe: boolean;
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          isDefault: boolean;
+          interests?: Array<any> | null;
+          dispatcher?: {
+            __typename?: "Dispatcher";
+            canUseRelay: boolean;
+          } | null;
+          attributes?: Array<{
+            __typename?: "Attribute";
+            key: string;
+            value: string;
+          }> | null;
+          stats: {
+            __typename?: "ProfileStats";
+            totalFollowers: number;
+            totalPosts: number;
+          };
+          picture?:
+            | {
+                __typename?: "MediaSet";
+                original: { __typename?: "Media"; url: any };
+              }
+            | { __typename?: "NftImage"; uri: any }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        } | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: "PaginatedResultInfo";
+      next?: any | null;
+      totalCount?: number | null;
+    };
+  };
+};
+
+export type FollowingQueryVariables = Exact<{
+  request: FollowingRequest;
+}>;
+
+export type FollowingQuery = {
+  __typename?: "Query";
+  following: {
+    __typename?: "PaginatedFollowingResult";
+    items: Array<{
+      __typename?: "Following";
+      totalAmountOfTimesFollowing: number;
+      profile: {
+        __typename?: "Profile";
+        isFollowedByMe: boolean;
+        id: any;
+        name?: string | null;
+        handle: any;
+        bio?: string | null;
+        ownedBy: any;
+        isDefault: boolean;
+        interests?: Array<any> | null;
+        dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
+        attributes?: Array<{
+          __typename?: "Attribute";
+          key: string;
+          value: string;
+        }> | null;
+        stats: {
+          __typename?: "ProfileStats";
+          totalFollowers: number;
+          totalPosts: number;
+        };
+        picture?:
+          | {
+              __typename?: "MediaSet";
+              original: { __typename?: "Media"; url: any };
+            }
+          | { __typename?: "NftImage"; uri: any }
+          | null;
+        followModule?:
+          | { __typename: "FeeFollowModuleSettings" }
+          | { __typename: "ProfileFollowModuleSettings" }
+          | { __typename: "RevertFollowModuleSettings" }
+          | { __typename: "UnknownFollowModuleSettings" }
+          | null;
+      };
     }>;
     pageInfo: {
       __typename?: "PaginatedResultInfo";
@@ -19170,6 +19289,137 @@ export function useFeedLazyQuery(
 export type FeedQueryHookResult = ReturnType<typeof useFeedQuery>;
 export type FeedLazyQueryHookResult = ReturnType<typeof useFeedLazyQuery>;
 export type FeedQueryResult = Apollo.QueryResult<FeedQuery, FeedQueryVariables>;
+export const FollowersDocument = gql`
+  query Followers($request: FollowersRequest!) {
+    followers(request: $request) {
+      items {
+        wallet {
+          address
+          defaultProfile {
+            ...ProfileFields
+            isFollowedByMe
+          }
+        }
+        totalAmountOfTimesFollowed
+      }
+      pageInfo {
+        next
+        totalCount
+      }
+    }
+  }
+  ${ProfileFieldsFragmentDoc}
+`;
+
+/**
+ * __useFollowersQuery__
+ *
+ * To run a query within a React component, call `useFollowersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowersQuery({
+ *   variables: {
+ *      request: // value for 'request'
+ *   },
+ * });
+ */
+export function useFollowersQuery(
+  baseOptions: Apollo.QueryHookOptions<FollowersQuery, FollowersQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FollowersQuery, FollowersQueryVariables>(
+    FollowersDocument,
+    options
+  );
+}
+export function useFollowersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FollowersQuery,
+    FollowersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FollowersQuery, FollowersQueryVariables>(
+    FollowersDocument,
+    options
+  );
+}
+export type FollowersQueryHookResult = ReturnType<typeof useFollowersQuery>;
+export type FollowersLazyQueryHookResult = ReturnType<
+  typeof useFollowersLazyQuery
+>;
+export type FollowersQueryResult = Apollo.QueryResult<
+  FollowersQuery,
+  FollowersQueryVariables
+>;
+export const FollowingDocument = gql`
+  query Following($request: FollowingRequest!) {
+    following(request: $request) {
+      items {
+        profile {
+          ...ProfileFields
+          isFollowedByMe
+        }
+        totalAmountOfTimesFollowing
+      }
+      pageInfo {
+        next
+        totalCount
+      }
+    }
+  }
+  ${ProfileFieldsFragmentDoc}
+`;
+
+/**
+ * __useFollowingQuery__
+ *
+ * To run a query within a React component, call `useFollowingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowingQuery({
+ *   variables: {
+ *      request: // value for 'request'
+ *   },
+ * });
+ */
+export function useFollowingQuery(
+  baseOptions: Apollo.QueryHookOptions<FollowingQuery, FollowingQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FollowingQuery, FollowingQueryVariables>(
+    FollowingDocument,
+    options
+  );
+}
+export function useFollowingLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FollowingQuery,
+    FollowingQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FollowingQuery, FollowingQueryVariables>(
+    FollowingDocument,
+    options
+  );
+}
+export type FollowingQueryHookResult = ReturnType<typeof useFollowingQuery>;
+export type FollowingLazyQueryHookResult = ReturnType<
+  typeof useFollowingLazyQuery
+>;
+export type FollowingQueryResult = Apollo.QueryResult<
+  FollowingQuery,
+  FollowingQueryVariables
+>;
 export const GenerateModuleCurrencyApprovalDataDocument = gql`
   query GenerateModuleCurrencyApprovalData(
     $request: GenerateModuleCurrencyApprovalDataRequest!
