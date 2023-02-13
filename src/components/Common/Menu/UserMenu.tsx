@@ -111,11 +111,11 @@ const UserMenu = () => {
                       <img
                         className="w-6 h-6 rounded-full"
                         src={getProfilePicture(profile)}
-                        alt={formatHandle(currentProfile?.handle)}
+                        alt={formatHandle(profile?.handle)}
                         draggable={false}
                       />
                       <span className="truncate whitespace-nowrap">
-                        {formatHandle(currentProfile?.handle)}
+                        {formatHandle(profile?.handle)}
                       </span>
                     </span>
                     {currentProfile?.id === profile.id && (
