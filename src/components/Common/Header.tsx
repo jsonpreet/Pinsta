@@ -81,7 +81,7 @@ const Header: FC<Props> = ({ className }) => {
                       </Link>
                     </div>
                   }
-                  {/* <MessageIcon/> */}
+                  <MessageIcon/>
                 </>
               
               :  <ThemeSwitch /> //<ThemeSwitch />
