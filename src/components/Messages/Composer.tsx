@@ -148,17 +148,17 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                 className='hidden'
                 onChange={handleUploadImage}
             />
-            <input
+            {/* <input
                 ref={videoRef}
                 type='file'
                 accept={ALLOWED_VIDEO_TYPES.join(',')}
                 multiple={false}
                 className='hidden'
                 onChange={handleUploadVideo}
-            />
-            <button onClick={handleSendVideo}>
+            /> */}
+            {/* <button onClick={handleSendVideo}>
                 <BsCameraVideo size={24}/>
-            </button>
+            </button> */}
             <button onClick={handleSendImage}>
                 <BsImage size={24}/>
             </button>

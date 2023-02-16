@@ -30,30 +30,28 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 export const ClaimHandle = () => (
-    <div className="mt-2">
-        <span className="text-sm opacity-70">
-            Your address does not seem to have Lens handle.
-        </span>
-        <div className="text-base">
-            Visit{' '}
-            <Link
-                href="https://claim.lens.xyz/"
-                target="_blank"
-                className="text-red-500"
-                rel="noreferrer"
-            >
-                lens claiming site
-            </Link>{' '}
-            to claim your handle and then check back here.
-        </div>
+  <div className="mt-2">
+    <span className="text-sm opacity-70">
+        Your address does not seem to have Lens handle.
+    </span>
+    <div className="text-base">
+        Visit{' '}
+        <Link
+            href="https://claim.lens.xyz/"
+            target="_blank"
+            className="text-red-500"
+            rel="noreferrer"
+        >
+            lens claiming site
+        </Link>{' '}
+        to claim your handle and then check back here.
     </div>
+  </div>
 )
 
 const CreateProfile = () => {
   const showCreateAccount = useAppStore((state) => state.showCreateAccount)
-  const setShowCreateAccount = useAppStore(
-    (state) => state.setShowCreateAccount
-  )
+  const setShowCreateAccount = useAppStore((state) => state.setShowCreateAccount)
   const [loading, setLoading] = useState(false)
   const [buttonText, setButtonText] = useState('Create')
   const { mounted } = useIsMounted()
@@ -81,9 +79,9 @@ const CreateProfile = () => {
   }
 
   const [createProfile, { data, reset }] = useCreateProfileMutation({
-    onCompleted: (data) => {
+    onCompleted: ({ createProfile }) => {
       setButtonText('Indexing...')
-      if (data?.createProfile?.__typename === 'RelayError') {
+      if (createProfile?.__typename === 'RelayError') {
         setLoading(false)
         setButtonText('Create')
       }
@@ -145,7 +143,7 @@ const CreateProfile = () => {
         >
           <div className="mt-2">
             <Input
-              {...register('profileName')}
+              {...form.register('profileName')}
               label="Profile Name"
               type="text"
               placeholder="John Deo"

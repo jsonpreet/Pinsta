@@ -2,7 +2,7 @@ import { ContentTypeId, EncodedContent } from "@xmtp/xmtp-js"
 
 export const ContentTypeImageKey = new ContentTypeId({
     authorityId: "xmtp.org",
-    typeId: "media-image",
+    typeId: "media-image-url",
     versionMajor: 1,
     versionMinor: 0,
 })

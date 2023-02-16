@@ -134,7 +134,7 @@ const UserProfile: FC<Props> = ({
     return (
         <div className="flex items-center justify-between">
         {linkToProfile ? (
-            <Link href={`/u/${formatHandle(profile?.handle)}`}>
+            <Link href={`/${formatHandle(profile?.handle)}`}>
                 <UserInfo />
             </Link>
         ) : (
