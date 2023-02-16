@@ -94,6 +94,7 @@ export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'im
 export const ALLOWED_MEDIA_TYPES = [...ALLOWED_VIDEO_TYPES, ...ALLOWED_IMAGE_TYPES];
 
 export const DEFAULT_COLLECT_TOKEN = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'
+export const GIPHY_TOKEN = 'mztAE0vdQdlfCYsM11E6UaPjUmjpYDHV'
 
 export const MESSAGE_PAGE_LIMIT = 15;
 export const SCROLL_THRESHOLD = 0.5;

@@ -13,6 +13,9 @@ import { ContentTypeImageKey } from '@hooks/codecs/Image';
 import { SendOptions } from '@xmtp/xmtp-js';
 import { ContentTypeVideoKey } from '@hooks/codecs/Video';
 import { ALLOWED_IMAGE_TYPES, ALLOWED_VIDEO_TYPES } from '@utils/constants';
+import type { IGif } from '@giphy/js-types';
+
+import Giphy from './Giphy';
 
 interface Props {
     sendMessage: (message: string, option?: SendOptions) => Promise<boolean>;
@@ -96,7 +99,7 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
         }
 
         const { url } = await uploadToIPFS(file)
-        console.log(url);
+       
         if (url) {
             const sent = await sendMessage(url.toString(), {
                 contentType: ContentTypeVideoKey,
@@ -129,8 +132,21 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
         }
     };
 
+    const setGifAttachment = async(gif: IGif) => {
+        const sent = await sendMessage(gif.images.original.url.toString(), {
+            contentType: ContentTypeImageKey,
+            contentFallback: gif.title
+        });
+        if (sent) {
+            setMessage('');
+            setUnsentMessage(conversationKey, null);
+        } else {
+            toast.error(`Error sending message`);
+        }
+    };
+
     return (
-        <div className="flex space-x-4 p-4">
+        <div className="flex space-x-4 items-center p-4">
             <Input
                 type="text"
                 className='!rounded-full'
@@ -159,8 +175,9 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
             {/* <button onClick={handleSendVideo}>
                 <BsCameraVideo size={24}/>
             </button> */}
+            <Giphy setGifAttachment={(gif: IGif) => setGifAttachment(gif)} />
             <button onClick={handleSendImage}>
-                <BsImage size={24}/>
+                <BsImage size={24} className="fill-brand2-500 dark:fill-brand2-400"/>
             </button>
             <Button disabled={!canSendMessage} onClick={handleSend} variant="primary" aria-label="Send message">
                 <div className="flex items-center space-x-2">
