@@ -122,12 +122,12 @@ const Login = () => {
         }
     }
 
-    useEffect(() => {
-        if (isReadyToSign) {
-        handleSign()
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isConnected])
+    // useEffect(() => {
+    //     if (isReadyToSign) {
+    //     handleSign()
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [isConnected])
 
     return (
         <ConnectWalletButton handleSign={() => handleSign()} signing={loading} />
