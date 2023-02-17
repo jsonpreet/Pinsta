@@ -219,17 +219,17 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                 className='hidden'
                 onChange={handleUploadImage}
             />
-            {/* <input
+            <input
                 ref={videoRef}
                 type='file'
                 accept={ALLOWED_VIDEO_TYPES.join(',')}
                 multiple={false}
                 className='hidden'
                 onChange={handleUploadVideo}
-            /> */}
-            {/* <button onClick={handleSendVideo}>
-                <BsCameraVideo size={24}/>
-            </button> */}
+            />
+            <button onClick={handleSendVideo}>
+                <BsCameraVideo size={24} className="fill-brand2-500 dark:fill-brand2-400"/>
+            </button>
             <Giphy setGifAttachment={(gif: IGif) => setGifAttachment(gif)} />
             <button onClick={handleSendImage}>
                 <BsImage size={24} className="fill-brand2-500 dark:fill-brand2-400"/>
