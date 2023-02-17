@@ -215,4 +215,8 @@ export const VERIFIED_CHANNELS = IS_MAINNET
     ...aaveMembers,
     ...pinstaMembers,    
   ]
-  : ['0x5f8e', '0x57a4']
+  : [
+    '0x5f8e',
+    '0x57a4',
+    '0x62fa', // Prashant.lens
+  ]

@@ -4,6 +4,7 @@ import { toNanoString } from '@xmtp/xmtp-js';
 import type { Profile } from '@utils/lens';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { NewPinstaAttachment } from '@utils/custom-types';
 
 type TabValues = 'Following' | 'Requested';
 
@@ -27,6 +28,10 @@ interface MessageState {
     setSelectedProfileId: (selectedProfileId: string) => void;
     selectedTab: TabValues;
     setSelectedTab: (selectedTab: TabValues) => void;
+    attachment: NewPinstaAttachment;
+    setAttachment: (attachment: NewPinstaAttachment) => void;
+    isUploading: boolean;
+    setIsUploading: (isUploading: boolean) => void;
 }
 
 export const useMessageStore = create<MessageState>((set) => ({
@@ -80,6 +85,16 @@ export const useMessageStore = create<MessageState>((set) => ({
                 newPreviewMessages.set(key, message);
                 return { previewMessages: newPreviewMessages };
             }),
+        attachment: {
+            id:'',
+            item: '',
+            altTag: '',
+            type: '',
+            previewItem:'',
+        },
+        setAttachment: (attachment) => set(() => ({ attachment })),
+        isUploading: false,
+        setIsUploading: (isUploading) => set(() => ({ isUploading })),
         setPreviewMessages: (previewMessages) => set(() => ({ previewMessages })),
         selectedProfileId: '',
         setSelectedProfileId: (selectedProfileId) => set(() => ({ selectedProfileId })),

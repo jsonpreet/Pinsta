@@ -51,9 +51,9 @@ const Preview: FC<Props> = ({ profile, message, conversationKey, isSelected }) =
                 />
                 <div className="w-full">
                     <div className="flex w-full justify-between space-x-1">
-                        <div className="flex max-w-sm items-center gap-1">
+                        <div className="flex max-w-sm items-center">
                             <div className="line-clamp-1 text-md">{profile?.name ?? formatHandle(profile.handle)}</div>
-                            <IsVerified id={profile.id} />
+                            <IsVerified id={profile.id} size='xs' />
                         </div>
                         {message.sent && (
                             <span className="lt-text-gray-500 min-w-fit pt-0.5 text-xs" title={formatTime(message.sent)}>

@@ -15,6 +15,9 @@ import { HiOutlineEmojiSad } from 'react-icons/hi';
 import { ContentTypeImageKey } from '@hooks/codecs/Image';
 import MessageMedia from './MessageMedia';
 import { ContentTypeVideoKey } from '@hooks/codecs/Video';
+import { useMessageStore } from '@lib/store/message';
+import { NewPinstaAttachment } from '@utils/custom-types';
+import { Loader } from '@components/UI/Loader';
 
 const isOnSameDay = (d1?: Date, d2?: Date): boolean => {
   return dayjs(d1).format('YYYYMMDD') === dayjs(d2).format('YYYYMMDD');
@@ -84,6 +87,31 @@ const MessageTile: FC<MessageTileProps> = ({ message, profile, currentProfile })
     );
 };
 
+interface AttachmentMessageTileProps {
+    attachment: NewPinstaAttachment;
+    profile?: Profile;
+    currentProfile?: Profile | null;
+}
+
+const AttachmentMessageTile: FC<AttachmentMessageTileProps> = ({ attachment, profile, currentProfile }) => {
+    return (
+        <div className='mr-4 items-end mx-auto mb-4 flex flex-col'>
+            <div className='flex max-w-[60%] relative'>
+                <div className='w-full rounded-2xl p-0'>
+                    <img
+                        src={attachment.item}
+                        alt={attachment.altTag ?? ''}
+                        className='w-full rounded-2xl cursor-pointer'
+                    />
+                </div>
+                <div className='absolute bg-black/50 flex items-center justify-center w-full h-full rounded-2xl'>
+                    <Loader size='sm' />
+                </div>
+            </div>
+        </div>
+    );
+};
+
 interface Props {
     children: ReactNode;
 }
@@ -99,7 +127,7 @@ const DateDividerBorder: FC<Props> = ({ children }) => (
 const DateDivider: FC<{ date?: Date }> = ({ date }) => (
     <div className="align-items-center flex items-center p-4 pt-0 pl-2">
         <DateDividerBorder>
-            <span className="mx-11 flex-none text-sm font-bold text-gray-300">{formatDate(date)}</span>
+            <span className="mx-11 flex-none text-sm font-semibold text-gray-300">{formatDate(date)}</span>
         </DateDividerBorder>
     </div>
 );
@@ -150,7 +178,8 @@ const MessagesList: FC<MessageListProps> = ({
   missingXmtpAuth
 }) => {
     let lastMessageDate: Date | undefined;
-
+    const isUploading = useMessageStore((state) => state.isUploading);
+    const attachment = useMessageStore((state) => state.attachment);
     return (
         <div className="flex h-[75%] flex-grow">
             <div className="relative flex h-full w-full pl-4">
@@ -166,10 +195,17 @@ const MessagesList: FC<MessageListProps> = ({
                         loader={<LoadingMore />}
                         scrollableTarget="scrollableMessageListDiv"
                     >
+                        {
+                            isUploading && attachment?.id !== '' ? (
+                                <div className='attachmentMessage'>
+                                    <AttachmentMessageTile currentProfile={currentProfile} profile={profile} attachment={attachment} />
+                                </div>
+                            ) : null
+                        }
                         {messages?.map((msg: DecodedMessage, index) => {
                             const dateHasChanged = lastMessageDate ? !isOnSameDay(lastMessageDate, msg.sent) : false;
                             const messageDiv = (
-                                <div key={`${msg.id}_${index}`}>
+                                <div className='message' key={`${msg.id}_${index}`}>
                                     <MessageTile currentProfile={currentProfile} profile={profile} message={msg} />
                                     {dateHasChanged ? <DateDivider date={lastMessageDate} /> : null}
                                 </div>
