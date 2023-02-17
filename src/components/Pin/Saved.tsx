@@ -149,32 +149,32 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
                         >
                             <div className='mt-1.5 w-72 divide-y focus-visible:outline-none focus:outline-none focus:ring-0 dropdown-shadow overflow-hidden max-h-[26rem] divide-gray-100 dark:divide-gray-700 border border-gray-100 rounded-xl dark:border-gray-700 dark:bg-gray-800 bg-white'>
                                 {isFetched && boards.data?.length > 0 ?
-                                <>
-                                    {boards.data.length > 4 ? (
-                                        <div className='flex flex-col p-5'>
-                                            <div>
-                                                <Input
-                                                    type="text"
-                                                    placeholder="Search"
-                                                    value={search}
-                                                    onChange={onSearch}
-                                                />
+                                    <>
+                                        {boards.data.length > 4 ? (
+                                            <div className='flex flex-col p-5'>
+                                                <div>
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="Search"
+                                                        value={search}
+                                                        onChange={onSearch}
+                                                    />
+                                                </div>
                                             </div>
+                                        ) : null}
+                                            <div className='flex flex-col divide-y divide-gray-100 dark:divide-gray-700 overflow-scroll h-48'>
+                                                {showResults && searchBoards.length > 0 && searchBoards.map((board: BoardType, index: number) => (
+                                                    <BoardItem key={index} board={board} />
+                                                ))}
+                                                {!showResults && !showLoader && splicedBoards.map((board : BoardType, index : number) => (
+                                                    <BoardItem key={index} board={board} />
+                                                ))}
+                                            </div>
+                                    </>
+                                    :
+                                        <div className='flex py-5 px-5 text-center'>
+                                            <h3>No boards found, Create a New Board</h3>
                                         </div>
-                                    ) : null}
-                                        <div className='flex flex-col divide-y divide-gray-100 dark:divide-gray-700 overflow-scroll h-48'>
-                                            {showResults && searchBoards.length > 0 && searchBoards.map((board: BoardType, index: number) => (
-                                                <BoardItem key={index} board={board} />
-                                            ))}
-                                            {!showResults && !showLoader && splicedBoards.map((board : BoardType, index : number) => (
-                                                <BoardItem key={index} board={board} />
-                                            ))}
-                                        </div>
-                                </>
-                                :
-                                    <div className='flex py-5 px-5 text-center'>
-                                        <h3>No boards found, Create a New Board</h3>
-                                    </div>
                                 }
                                 <div>
                                     <button 

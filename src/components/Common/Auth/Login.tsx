@@ -9,15 +9,17 @@ import {
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { ERROR_MESSAGE } from '@utils/constants'
-import { useAccount, useSignMessage } from 'wagmi'
+import { ERROR_MESSAGE, POLYGON_CHAIN_ID } from '@utils/constants'
+import { useAccount, useNetwork, useSignMessage } from 'wagmi'
 
 import ConnectWalletButton from './ConnectWalletButton'
 import { Analytics, TRACK } from '@utils/analytics'
 
 const Login = () => {
     const router = useRouter()
-    const { address } = useAccount()
+
+    const { chain } = useNetwork()
+    const { address, connector, isConnected } = useAccount()
     const [loading, setLoading] = useState(false)
     const setShowCreateAccount = useAppStore(
         (state) => state.setShowCreateAccount
@@ -25,9 +27,14 @@ const Login = () => {
     const setProfiles = useAppStore((state) => state.setProfiles)
     const setCurrentProfile = useAppStore((state) => state.setCurrentProfile)
     const setCurrentProfileId = usePersistStore((state) => state.setCurrentProfileId)
+    const currentProfile = useAppStore((state) => state.currentProfile)
+    const currentProfileId = usePersistStore((state) => state.currentProfileId)
 
     const onError = () => {
         setLoading(false)
+        signOut()
+        setCurrentProfile(null)
+        setCurrentProfileId(null)
     }
 
     const { signMessageAsync } = useSignMessage({
@@ -56,6 +63,13 @@ const Login = () => {
             ERROR_MESSAGE
         )
     }, [errorAuthenticate, errorChallenge, errorProfiles])
+
+    const isReadyToSign =
+        connector?.id &&
+        isConnected &&
+        chain?.id === POLYGON_CHAIN_ID &&
+        !currentProfile &&
+        !currentProfileId
 
     const handleSign = async () => {
         Analytics.track(TRACK.AUTH.CLICK_SIGN_IN)
@@ -107,6 +121,13 @@ const Login = () => {
             console.error('[Error Sign In]', error)
         }
     }
+
+    useEffect(() => {
+        if (isReadyToSign) {
+        handleSign()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isConnected])
 
     return (
         <ConnectWalletButton handleSign={() => handleSign()} signing={loading} />

@@ -15,7 +15,7 @@ const MessageMedia:FC<Props> = ({message, type}) => {
             {type === 'image' &&
                 <img
                     onClick={() => window.open(sanitizeIpfsUrl(message.content))}
-                    src={imageCdn(sanitizeIpfsUrl(message.content), 'thumbnail_sm')}
+                    src={sanitizeIpfsUrl(message.content)}
                     alt={message.contentFallback ?? ''}
                     className='w-full rounded-2xl cursor-pointer'
                 />

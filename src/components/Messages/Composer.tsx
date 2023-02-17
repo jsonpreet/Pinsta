@@ -1,7 +1,7 @@
 import { Button } from '@components/UI/Button';
 import { Input } from '@components/UI/Input';
 import { Loader } from '@components/UI/Loader';
-import { useMessagePersistStore } from '@lib/store/message';
+import { useMessagePersistStore, useMessageStore } from '@lib/store/message';
 import { MIN_WIDTH_DESKTOP } from '@utils/constants';
 import useWindowSize from '@utils/hooks/useWindowSize';
 import { FC, useRef } from 'react';
@@ -14,6 +14,7 @@ import { SendOptions } from '@xmtp/xmtp-js';
 import { ContentTypeVideoKey } from '@hooks/codecs/Video';
 import { ALLOWED_IMAGE_TYPES, ALLOWED_VIDEO_TYPES } from '@utils/constants';
 import type { IGif } from '@giphy/js-types';
+import { v4 as uuid } from 'uuid';
 
 import Giphy from './Giphy';
 
@@ -31,6 +32,9 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
     const { width } = useWindowSize();
     const unsentMessage = useMessagePersistStore((state) => state.unsentMessages.get(conversationKey));
     const setUnsentMessage = useMessagePersistStore((state) => state.setUnsentMessage);
+    const setIsUploading = useMessageStore((state) => state.setIsUploading);
+    const isUploading = useMessageStore((state) => state.isUploading);
+    const setAttachment = useMessageStore((state) => state.setAttachment);
 
     const canSendMessage = !disabledInput && !sending && message.length > 0;
 
@@ -59,15 +63,25 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
 
     const handleUploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setSending(true);
+        setIsUploading(true);
         const file = event.target.files?.[0];
         if (!file) {
             return;
         }
 
         if (file.size > 10000000) {
+            setIsUploading(false);
             toast.error(`Image size should be less than 10MB`);
             return;
         }
+
+        setAttachment({
+            id: uuid(),
+            type: 'image',
+            item: URL.createObjectURL(file),
+            altTag: file.name,
+            previewItem: URL.createObjectURL(file)
+        })
 
         const { url } = await uploadToIPFS(file)
         if (url) {
@@ -76,14 +90,68 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                 contentFallback: 'Image'
             });
             if (sent) {
+                setAttachment({
+                    id: '',
+                    type: '',
+                    item: '',
+                    altTag: '',
+                    previewItem: ''
+                })
                 setMessage('');
+                setIsUploading(false);
+                setSending(false);
                 setUnsentMessage(conversationKey, null);
             } else {
+                setAttachment({
+                    id: '',
+                    type: '',
+                    item: '',
+                    altTag: '',
+                    previewItem: ''
+                })
+                setIsUploading(false);
+                setSending(false);
                 toast.error(`Error sending message`);
             }
         }
+    };
 
-        setSending(false);
+    const setGifAttachment = async(gif: IGif) => {
+        setIsUploading(true);
+
+        setAttachment({
+            id: uuid(),
+            type: 'image',
+            item: gif.images.original.url,
+            altTag: gif.title,
+            previewItem: gif.images.original.url
+        })
+        const sent = await sendMessage(gif.images.original.url.toString(), {
+            contentType: ContentTypeImageKey,
+            contentFallback: gif.title
+        });
+        if (sent) {
+            setAttachment({
+                id: '',
+                type: '',
+                item: '',
+                altTag: '',
+                previewItem: ''
+            })
+            setIsUploading(false);
+            setMessage('');
+            setUnsentMessage(conversationKey, null);
+        } else {
+            setAttachment({
+                id: '',
+                type: '',
+                item: '',
+                altTag: '',
+                previewItem: ''
+            })
+            setIsUploading(false);
+            toast.error(`Error sending message`);
+        }
     };
 
     const handleUploadVideo = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,19 +197,6 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
     const handleKeyDown = (event: { key: string }) => {
         if (event.key === 'Enter') {
             handleSend();
-        }
-    };
-
-    const setGifAttachment = async(gif: IGif) => {
-        const sent = await sendMessage(gif.images.original.url.toString(), {
-            contentType: ContentTypeImageKey,
-            contentFallback: gif.title
-        });
-        if (sent) {
-            setMessage('');
-            setUnsentMessage(conversationKey, null);
-        } else {
-            toast.error(`Error sending message`);
         }
     };
 

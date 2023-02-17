@@ -61,7 +61,7 @@ const Message: FC<MessageProps> = ({ conversationKey }) => {
     return (
         <>
             <MetaTags title={title} />
-            <div className="flex w-full md:max-w-5xl mx-auto">
+            <div className="flex w-full md:max-w-6xl mx-auto">
                 <PreviewList
                     className="xs:hidden sm:hidden md:hidden lg:block"
                     selectedConversationKey={conversationKey}

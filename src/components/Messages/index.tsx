@@ -34,7 +34,7 @@ const Messages: NextPage = () => {
     return (
         <>
             <MetaTags title={`Messages :: ${APP.Name}`} />
-            <div className="flex w-full md:max-w-5xl mx-auto">
+            <div className="flex w-full md:max-w-6xl mx-auto">
                 <PreviewList />
                 <div className="xs:hidden sm:hidden sm:h-[76vh] md:w-3/4 md:hidden md:h-[80vh] lg:block xl:h-[84vh]">
                     <Card className="h-full !rounded-tr-xl !rounded-br-xl !rounded-none">
