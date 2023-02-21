@@ -3,7 +3,7 @@ import React from 'react'
 import { useRouter } from 'next/router';
 import { LENS_CUSTOM_FILTERS, SCROLL_ROOT_MARGIN } from '@utils/constants';
 import { PublicationMainFocus, PublicationSortCriteria, PublicationTypes, useExploreQuery } from '@utils/lens/generated';
-import { PinstaPublication } from '@utils/custom-types';
+import { PinstaMainContentFocus, PinstaPublication } from '@utils/custom-types';
 import { NoDataFound } from '@components/UI/NoDataFound';
 import TimelineShimmer from '@components/Shimmers/TimelineShimmer';
 import MetaTags from '@components/Common/MetaTags';
@@ -23,7 +23,7 @@ const Hashtag: NextPage = () => {
     customFilters: LENS_CUSTOM_FILTERS,
     metadata: {
       tags: tag ? { oneOf: [tag] } : undefined,
-      mainContentFocus: [PublicationMainFocus.Image]
+      mainContentFocus: PinstaMainContentFocus
     }
   }
 
