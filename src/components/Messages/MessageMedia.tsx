@@ -21,7 +21,7 @@ const MessageMedia:FC<Props> = ({message, type}) => {
                 />
             }
             {type === 'video' &&
-                <Video src={sanitizeIpfsUrl(message.content)} />
+                <Video src={sanitizeIpfsUrl(message.content)} ratio='16to9' />
             }
         </>
     )

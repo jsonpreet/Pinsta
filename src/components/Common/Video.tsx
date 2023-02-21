@@ -6,7 +6,7 @@ import { IPFS_GATEWAY } from '@utils/constants';
 
 export interface PlayerProps {
   playerRef?: (ref: HTMLMediaElement) => void
-  permanentUrl: string
+  src: string
   posterUrl?: string
   ratio?: AspectRatio
   showControls?: boolean
@@ -20,7 +20,7 @@ export interface PlayerProps {
 
 const Video: FC<PlayerProps> = ({
     ratio = '16to9',
-    permanentUrl,
+    src,
     posterUrl,
     playerRef,
     options,
@@ -28,7 +28,7 @@ const Video: FC<PlayerProps> = ({
 }) => {
     return (
         <Player
-            src={permanentUrl}
+            src={src}
             poster={posterUrl}
             showTitle={false}
             objectFit="contain"

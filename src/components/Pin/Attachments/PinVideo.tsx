@@ -17,7 +17,7 @@ const PinVideo:FC<Props> = ({pin}) => {
                     <Video
                         //ratio={`${ALLOWED_APP_IDS.includes(pin?.appId) ? '9to16' : '16to9'}`}
                         ratio={`9to16`}
-                        permanentUrl={url}
+                        src={url}
                         showControls={true}
                     />
                 </div>
