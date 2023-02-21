@@ -45,7 +45,7 @@ const ImageSlider: FC<Props> = ({ images, pin }) => {
             <div className="w-full overflow-hidden mx-auto relative">
                 <img 
                     src={images[slideIndex - 1]} 
-                    className='rounded-xl w-auto'
+                    className='rounded-xl w-full mx-auto'
                     alt={!isLoading && !slideImageLoading ? `Pin by @${pin?.profile?.handle}` : ''}
                     onLoad={() => {
                         setSlideImageLoading(false)

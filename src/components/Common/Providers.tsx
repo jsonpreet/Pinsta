@@ -24,6 +24,8 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 
 import ErrorBoundary from './ErrorBoundary'
+import { getLivepeerClient, videoPlayerTheme } from '@utils/functions/getLivePeer'
+import { LivepeerConfig } from '@livepeer/react'
 
 const { chains, provider } = configureChains(
     [IS_MAINNET ? polygon : polygonMumbai],
@@ -81,15 +83,17 @@ const RainbowKitProviderWrapper = ({ children }: { children: ReactNode }) => {
 const Providers = ({ children }: { children: ReactNode }) => {
     return (
         <ErrorBoundary>
-            <WagmiConfig client={wagmiClient}>
-                <ThemeProvider defaultTheme="light" attribute="class">
-                    <RainbowKitProviderWrapper>
-                        <ApolloProvider client={apolloClient}>
-                            {children}
-                        </ApolloProvider>
-                    </RainbowKitProviderWrapper>
-                </ThemeProvider>
-            </WagmiConfig>
+            <LivepeerConfig client={getLivepeerClient()} theme={videoPlayerTheme}>
+                <WagmiConfig client={wagmiClient}>
+                    <ThemeProvider defaultTheme="light" attribute="class">
+                        <RainbowKitProviderWrapper>
+                            <ApolloProvider client={apolloClient}>
+                                {children}
+                            </ApolloProvider>
+                        </RainbowKitProviderWrapper>
+                    </ThemeProvider>
+                </WagmiConfig>
+            </LivepeerConfig>   
         </ErrorBoundary>
     )
 }

@@ -1,31 +1,55 @@
-import 'plyr-react/plyr.css';
-
-import Plyr from 'plyr-react';
 import type { FC } from 'react';
-import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl';
-import imageCdn from '@utils/functions/imageCdn';
+import type { AspectRatio } from '@livepeer/react'
+import { Player } from '@livepeer/react'
+import React from 'react';
+import { IPFS_GATEWAY } from '@utils/constants';
 
-interface Props {
-  src: string;
-  poster?: string;
+export interface PlayerProps {
+  playerRef?: (ref: HTMLMediaElement) => void
+  src: string
+  posterUrl?: string
+  ratio?: AspectRatio
+  showControls?: boolean
+  options?: {
+    autoPlay?: boolean
+    muted?: boolean
+    loop?: boolean
+    loadingSpinner: boolean
+  }
 }
 
-const Video: FC<Props> = ({ src, poster }) => {
+const Video: FC<PlayerProps> = ({
+    ratio = '16to9',
+    src,
+    posterUrl,
+    playerRef,
+    options,
+    showControls = true
+}) => {
     return (
-        <div className="rounded-lg">
-            <Plyr
-                source={{
-                    type: 'video',
-                    sources: [{ src, provider: 'html5' }],
-                    poster: poster ? imageCdn(sanitizeIpfsUrl(poster)) : src
-                }}
-                options={{
-                    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                    ratio: '16:12'
-                }}
-            />
-        </div>
-    );
-};
+        <Player
+            src={src}
+            poster={posterUrl}
+            showTitle={false}
+            objectFit="contain"
+            aspectRatio={ratio}
+            showPipButton
+            mediaElementRef={playerRef}
+            loop={options?.loop ?? true}
+            showUploadingIndicator={false}
+            muted={options?.muted ?? false}
+            controls={{ defaultVolume: 1 }}
+            autoPlay={options?.autoPlay ?? false}
+            showLoadingSpinner={options?.loadingSpinner}
+            autoUrlUpload={{
+                fallback: true,
+                ipfsGateway: IPFS_GATEWAY
+            }}
+        >
+            {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
+            {!showControls ? <></> : null}
+        </Player>
+    )
+}
 
-export default Video;
+export default React.memo(Video)

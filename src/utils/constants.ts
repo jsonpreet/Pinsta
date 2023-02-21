@@ -95,6 +95,7 @@ export const ALLOWED_MEDIA_TYPES = [...ALLOWED_VIDEO_TYPES, ...ALLOWED_IMAGE_TYP
 
 export const DEFAULT_COLLECT_TOKEN = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'
 export const GIPHY_TOKEN = 'mztAE0vdQdlfCYsM11E6UaPjUmjpYDHV'
+export const LIVEPEER_STUDIO_API_KEY = 'eee152b1-4d35-4594-915c-7e75838f702a'
 
 export const MESSAGE_PAGE_LIMIT = 15;
 export const SCROLL_THRESHOLD = 0.5;
@@ -118,3 +119,8 @@ export const ADDRESS_REGEX = /^(0x)?[\da-f]{40}$/i;
 export const HANDLE_REGEX = /^[\da-z]+$/;
 export const ALL_HANDLES_REGEX = /([\s+])@(\S+)/g;
 export const HANDLE_SANITIZE_REGEX = /[^\d .A-Za-z]/g;
+
+// App Ids
+export const LENSTUBE_APP_ID = 'lenstube'
+export const LENSTUBE_BYTES_APP_ID = 'lenstube-bytes'
+export const ALLOWED_APP_IDS = ['orb', 'lenstube-bytes']

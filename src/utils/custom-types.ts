@@ -158,4 +158,4 @@ export interface NewPinstaAttachment extends Omit<PinstaAttachment, 'item'> {
 }
 
 
-export const PinstaMainContentFocus = [PublicationMainFocus.Image] //PublicationMainFocus.Video, PublicationMainFocus.Audio, PublicationMainFocus.Text
+export const PinstaMainContentFocus = [PublicationMainFocus.Image, PublicationMainFocus.Video] //PublicationMainFocus.Video, PublicationMainFocus.Audio, PublicationMainFocus.Text
