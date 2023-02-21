@@ -42,7 +42,10 @@ const VideoCard: FC<Props> = ({pin}) => {
                         />
                     :
                         <div className='rounded-lg border w-full overflow-hidden dark:border-gray-700 border-gray-100'>
-                            <Video src={url} showControls={false} />
+                            <Video
+                                src={url}
+                                showControls={false}
+                            />
                         </div>
                     }
                 {createdIn === 'wav3s' && (

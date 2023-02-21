@@ -1,6 +1,8 @@
 import Video from '@components/Common/Video'
 import { ALLOWED_APP_IDS } from '@utils/constants'
 import { PinstaPublication } from '@utils/custom-types'
+import getVideoCoverUrl from '@utils/functions/getVideoCoverUrl'
+import imageCdn from '@utils/functions/imageCdn'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
 import React, { FC } from 'react'
 
@@ -19,6 +21,7 @@ const PinVideo:FC<Props> = ({pin}) => {
                         ratio={`9to16`}
                         src={url}
                         showControls={true}
+                        posterUrl={imageCdn(getVideoCoverUrl(pin), 'thumbnail_lg')}
                     />
                 </div>
             </div>
