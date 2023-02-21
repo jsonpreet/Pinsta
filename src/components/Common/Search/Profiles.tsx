@@ -24,7 +24,7 @@ const Profiles: FC<Props> = ({ results, loading, clearSearch, onProfileSelected,
                         }
                     }}
                     key={profile.id}
-                    className="p-5 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900"
+                    className="px-5 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900"
                     role="button"
                 >
                     <UserProfile

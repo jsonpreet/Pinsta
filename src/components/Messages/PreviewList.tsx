@@ -145,8 +145,8 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
                     <div
                         onClick={() => setSelectedTab('Following')}
                         className={clsx(
-                            'text-brand2-500 tab-bg m-2 ml-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
-                            selectedTab === 'Following' ? 'bg-brand2-100' : ''
+                            'text-brand-500 tab-bg m-2 ml-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
+                            selectedTab === 'Following' ? 'bg-brand-100' : ''
                         )}
                     >
                         <HiOutlineUsers className="mr-2 h-4 w-4" />
@@ -155,13 +155,13 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
                     <div
                         onClick={() => setSelectedTab('Requested')}
                         className={clsx(
-                        'text-brand2-500 tab-bg m-2 mr-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
-                        selectedTab === 'Requested' ? 'bg-brand2-100' : ''
+                        'text-brand-500 tab-bg m-2 mr-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
+                        selectedTab === 'Requested' ? 'bg-brand-100' : ''
                         )}
                     >
                         Requested
                         {requestedCount > 0 && (
-                            <span className="bg-brand2-200 ml-2 rounded-2xl px-3 py-0.5 text-sm font-bold">
+                            <span className="bg-brand-200 ml-2 rounded-2xl px-3 py-0.5 text-sm font-bold">
                                 {requestedCount > 99 ? '99+' : requestedCount}
                             </span>
                         )}
@@ -217,7 +217,7 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
             </Card>
             <Modal
                 title={`New message`}
-                icon={<BiMessageRoundedDots className="text-brand2 h-5 w-5" />}
+                icon={<BiMessageRoundedDots className="text-brand h-5 w-5" />}
                 size="sm"
                 show={showSearchModal}
                 onClose={() => setShowSearchModal(false)}

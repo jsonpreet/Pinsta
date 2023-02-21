@@ -110,9 +110,9 @@ const PinCard: FC<Props> = ({pin, isBoard = false, board, isAllPins = false, all
               )}
               <span
                 className={clsx(
-                'rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start justify-start px-4 py-1',
-                show ? `opacity-100` : `opacity-0`
-              )}
+                  'rounded-lg flex absolute top-0 left-0 bg-black bg-opacity-40 delay-75 duration-75 w-full h-full cursor-zoom group flex-col items-start z-20 justify-start px-4 py-1',
+                  show ? `opacity-100` : `opacity-0`
+                )}
               />
             </Link>
             {isBoard && currentProfileId === board?.user_id || isAllPins && isUserPin

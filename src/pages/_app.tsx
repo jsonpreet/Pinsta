@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Suspense fallback={<FullPageLoader />}>
       <Providers>
-        <NextNProgress color="#ec1e25" showOnShallow={true} />
+        <NextNProgress color="#ec4899" showOnShallow={true} />
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <Layout>

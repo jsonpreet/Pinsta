@@ -11,8 +11,7 @@ module.exports = {
         green: colors.emerald,
         purple: colors.violet,
         yellow: colors.yellow,
-        brand: colors.violet,
-        brand2: colors.pink,
+        brand: colors.pink,
       },
       animation: {
         'spin-slow': 'spin 3s linear infinite',

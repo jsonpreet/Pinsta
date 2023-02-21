@@ -150,15 +150,15 @@ input[type='number'] {
 }
 
 .plyr__control--overlaid {
-  @apply !bg-brand2-500;
+  @apply !bg-brand-500;
 }
 
 .plyr--full-ui input[type='range'] {
-  @apply !text-brand2-500;
+  @apply !text-brand-500;
 }
 
 .plyr__control {
-  @apply hover:!bg-brand2-500;
+  @apply hover:!bg-brand-500;
 }
 
 /** CSS overrides for plyr audio **/
