@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from 'nextjs-progressbar';
+import { Analytics } from '@vercel/analytics/react';
+
 const Providers = lazy(() => import('../components/Common/Providers'))
 const Layout = lazy(() => import('../components/Common/Layout'))
 
@@ -37,6 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </Hydrate>
         </QueryClientProvider>
       </Providers>
+      <Analytics />
     </Suspense>
   )
 }
