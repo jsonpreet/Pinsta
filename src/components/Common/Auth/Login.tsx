@@ -10,10 +10,11 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ERROR_MESSAGE, POLYGON_CHAIN_ID } from '@utils/constants'
-import { useAccount, useNetwork, useSignMessage } from 'wagmi'
+import { useAccount, useDisconnect, useNetwork, useSignMessage } from 'wagmi'
 
 import ConnectWalletButton from './ConnectWalletButton'
 import { Analytics, TRACK } from '@utils/analytics'
+import { CustomErrorWithData } from '@utils/custom-types'
 
 const Login = () => {
     const router = useRouter()
@@ -21,14 +22,18 @@ const Login = () => {
     const { chain } = useNetwork()
     const { address, connector, isConnected } = useAccount()
     const [loading, setLoading] = useState(false)
-    const setShowCreateAccount = useAppStore(
-        (state) => state.setShowCreateAccount
-    )
+    const setShowCreateAccount = useAppStore((state) => state.setShowCreateAccount)
     const setProfiles = useAppStore((state) => state.setProfiles)
     const setCurrentProfile = useAppStore((state) => state.setCurrentProfile)
     const setCurrentProfileId = usePersistStore((state) => state.setCurrentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
+
+    const { disconnect } = useDisconnect({
+        onError(error: CustomErrorWithData) {
+            toast.error(error?.data?.message ?? error?.message)
+        }
+    })
 
     const onError = () => {
         setLoading(false)
@@ -72,6 +77,11 @@ const Login = () => {
         !currentProfileId
 
     const handleSign = async () => {
+        if (!isReadyToSign) {
+            disconnect?.()
+            signOut()
+            return toast.error('Unable to connect to your wallet')
+        }
         Analytics.track(TRACK.AUTH.CLICK_SIGN_IN)
         try {
             setLoading(true)
@@ -91,7 +101,7 @@ const Login = () => {
             localStorage.setItem('refreshToken', refreshToken)
             const { data: profilesData } = await getProfiles({
                 variables: {
-                request: { ownedBy: [address] }
+                    request: { ownedBy: [address] }
                 }
             })
             if (
@@ -122,12 +132,12 @@ const Login = () => {
         }
     }
 
-    // useEffect(() => {
-    //     if (isReadyToSign) {
-    //     handleSign()
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isConnected])
+    useEffect(() => {
+        if (isReadyToSign) {
+            handleSign()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isConnected])
 
     return (
         <ConnectWalletButton handleSign={() => handleSign()} signing={loading} />

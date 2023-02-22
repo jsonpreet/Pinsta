@@ -27,6 +27,12 @@ export const UPLOADED_FORM_DEFAULTS = {
     },
     isNSFW: false,
     isNSFWThumbnail: false,
+    durationInSeconds: null,
+    videoThumbnail: '',
+    thumbnailType: '',
+    videoPreview: '',
+    isVideoPublication: false,
+    file: null,
 }
 
 interface PublicationState {
@@ -61,7 +67,7 @@ export const usePublicationStore = create<PublicationState>((set) => ({
             updateAttachments.map((attachment) => {
                 const index = attachments.findIndex((a) => a.id === attachment.id);
                 if (index !== -1) {
-                attachments[index] = attachment;
+                    attachments[index] = attachment;
                 }
             });
             return { attachments };
@@ -72,7 +78,7 @@ export const usePublicationStore = create<PublicationState>((set) => ({
             ids.map((id) => {
                 const index = attachments.findIndex((a) => a.id === id);
                 if (index !== -1) {
-                attachments.splice(index, 1);
+                    attachments.splice(index, 1);
                 }
             });
             return { attachments };

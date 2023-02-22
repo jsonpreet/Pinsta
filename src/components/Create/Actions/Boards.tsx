@@ -88,7 +88,6 @@ const ProfileBoards: FC = () => {
                     className='flex flex-row items-center justify-between px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 text-gray-700 dark:hover:text-white duration-75 delay-75 focus-visible:outline-none focus:outline-none focus:ring-0'
                     onClick={() => {
                         setCreatePin({
-                            ...createdPin,
                             board: board
                         })
                     }}
@@ -158,7 +157,6 @@ const ProfileBoards: FC = () => {
                             className='flex items-center justify-between w-full px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 text-gray-700 dark:hover:text-white duration-75 delay-75 focus-visible:outline-none focus:outline-none focus:ring-0'
                             onClick={() => 
                                 setCreatePin({
-                                    ...createdPin,
                                     board: null
                                 })
                             }

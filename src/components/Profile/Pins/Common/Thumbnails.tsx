@@ -26,7 +26,6 @@ const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
 
     
     const pins = data?.publications?.items as PinstaPublication[]
-
     return (
         <>
             <div className='relative z-10 flex w-[360px] h-[240px] bg-gray-100 dark:bg-gray-800 rounded-lg'>

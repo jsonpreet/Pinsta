@@ -127,8 +127,14 @@ export type CreatePin = {
   buttonText: string
   collectModule: CollectModuleType
   referenceModule: ReferenceModuleType
-  isNSFW: boolean
-  isNSFWThumbnail: boolean
+  isNSFW?: boolean
+  isNSFWThumbnail?: boolean
+  durationInSeconds?: string | null,
+  videoThumbnail?: string | null,
+  isVideoPublication?: boolean,
+  videoPreview?: string | null,
+  thumbnailType?: string | null,
+  file: File | null,
 }
 
 export type QueuedCommentType = {
