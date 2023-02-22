@@ -272,7 +272,7 @@ const NewComment: FC<Props> = ({ pin }) => {
                     <div className="flex-none">
                         <img
                             src={getProfilePicture(currentProfile, 'avatar')}
-                            className="w-8 h-8 md:w-9 md:h-9 rounded-full"
+                            className="w-7 h-7 md:w-9 md:h-9 rounded-full"
                             draggable={false}
                             alt={currentProfile?.handle}
                         />
