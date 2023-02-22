@@ -102,12 +102,12 @@ const MessageIcon: FC = () => {
     return (
         <Link
             href="/messages"
-            className="hidden w-[40px] items-start justify-center rounded-full py-1.5 md:flex"
+            className="md:w-[40px] items-center justify-center rounded-full md:px-0 md:py-1.5 flex px-4 py-2 focus-visible:outline-none focus:outline-none group duration-75 delay-75 hover:bg-white"
             onClick={() => {
                 currentProfile && clearMessagesBadge(currentProfile.id);
             }}
         >
-        <BsEnvelope size={24} />
+        <BsEnvelope size={24} className='group-hover:text-gray-900 text-white font-semibold md:text-gray-800 duration-75 delay-75' />
             {showMessagesBadge.get(currentProfile?.id) ? (
                 <span className="h-2 w-2 rounded-full bg-red-500" />
             ) : null}
