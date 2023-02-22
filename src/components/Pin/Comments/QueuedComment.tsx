@@ -15,6 +15,7 @@ import type { FC } from 'react'
 import React from 'react'
 import type { QueuedCommentType } from '@utils/custom-types'
 import getProfilePicture from '@utils/functions/getProfilePicture'
+import formatHandle from '@utils/functions/formatHandle'
 
 type Props = {
   queuedComment: QueuedCommentType
@@ -119,7 +120,7 @@ const QueuedComment: FC<Props> = ({ queuedComment }) => {
               href={`/${currentProfile.handle}`}
               className="flex items-center text-sm font-medium"
             >
-              <span>{currentProfile?.handle}</span>
+              <span>{currentProfile?.name ?? formatHandle(currentProfile?.handle)}</span>
               <IsVerified id={currentProfile.id} size='xs' />
             </Link>
           </span>
