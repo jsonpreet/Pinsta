@@ -68,7 +68,10 @@ const Header: FC<Props> = ({ className }) => {
                 <>
                   <CreateMenu/>
                   { isBrowser ? 
-                    <Notifications />
+                    <>
+                      <Notifications />
+                      <MessageIcon />
+                    </>
                   : 
                     <div>
                       <Link
@@ -81,7 +84,6 @@ const Header: FC<Props> = ({ className }) => {
                       </Link>
                     </div>
                   }
-                  <MessageIcon/>
                 </>
               
               :  <ThemeSwitch /> //<ThemeSwitch />

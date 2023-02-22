@@ -1,4 +1,6 @@
+import MessageIcon from '@components/Messages/MessageIcon'
 import useAppStore from '@lib/store'
+import usePersistStore from '@lib/store/persist'
 import { Analytics } from '@utils/analytics'
 import { EXPLORE, HOME, LATEST, SEARCH } from '@utils/paths'
 import clsx from 'clsx'
@@ -10,6 +12,8 @@ import { FiCompass, FiHome, FiSearch, FiZap } from 'react-icons/fi'
 const MobileMenu = () => {
     const router = useRouter()
     const setShowSearchModal = useAppStore((state) => state.setShowSearchModal)
+    const currentProfileId = usePersistStore((state) => state.currentProfileId)
+    const currentProfile = useAppStore((state) => state.currentProfile)
 
     const isActivePath = (path: string) => router.pathname === path
 
@@ -61,7 +65,10 @@ const MobileMenu = () => {
     return (
         <>
             <div
-                className="fixed w-full dropdown-shadow max-w-[72%] rounded-full mx-auto p-2 bg-gradient-to-r from-[#df3f95] to-[#ec1e25] bottom-4 left-0 right-0 z-50"
+                className={clsx(
+                    "fixed w-full dropdown-shadow rounded-full mx-auto p-2 bg-gradient-to-r from-[#df3f95] to-[#ec1e25] bottom-4 left-0 right-0 z-50",
+                    currentProfileId && currentProfile ? ' max-w-[84%]' : 'max-w-[74%]'
+                )}
             >
                 <div className='flex justify-center space-x-2'>
                     {MenuItems && MenuItems.map((item) => (
@@ -80,6 +87,12 @@ const MobileMenu = () => {
                     >
                         <FiSearch size={22} className='group-hover:text-gray-900 text-white font-semibold duration-75 delay-75' />
                     </button>
+                    {
+                        currentProfileId && currentProfile ?
+                            <MessageIcon />
+                            : null
+                    }
+                    
                 </div>
             </div>
         </>

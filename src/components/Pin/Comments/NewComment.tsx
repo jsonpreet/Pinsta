@@ -268,7 +268,7 @@ const NewComment: FC<Props> = ({ pin }) => {
                 onSubmit={submitComment}
             >
                 <div 
-                className="flex items-start mb-2 space-x-1 md:space-x-3" >
+                className="flex items-start mb-2 space-x-2 md:space-x-3" >
                     <div className="flex-none">
                         <img
                             src={getProfilePicture(currentProfile, 'avatar')}
