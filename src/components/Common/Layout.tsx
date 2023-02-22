@@ -58,7 +58,7 @@ const Layout: FC<Props> = ({ children }) => {
     const { mounted } = useIsMounted()
     const { address } = useAccount()
     const { pathname, replace, asPath } = useRouter()
-    const showFilter = pathname === '/' || pathname === '/explore' || pathname === '/latest'
+    const showFilter = pathname === '/explore' || pathname === '/latest' 
     //const showFilter = false
 
     const resetAuthState = () => {
@@ -123,6 +123,8 @@ const Layout: FC<Props> = ({ children }) => {
 
     if (loading || !mounted) return <FullPageLoader />
 
+    console.log('showFilter', pathname)
+
     return (
         <>
             <Head>
@@ -138,13 +140,13 @@ const Layout: FC<Props> = ({ children }) => {
             <div className='relative'>
                 <Header />
                 <div className='pb-8'>
-                    {showFilter && 
+                    {showFilter || pathname === '/' && !currentProfile ? 
                         <>
                             <div className='md:pt-3 px-4 md:px-6'>
                                 <TrendingTags />
                             </div>
                         </>
-                    }
+                    : null}
                     <CreateProfile />
                     <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
                         {children}
