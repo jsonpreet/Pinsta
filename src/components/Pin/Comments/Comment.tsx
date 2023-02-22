@@ -63,7 +63,7 @@ const Comment: FC<Props> = ({ comment }) => {
               {dayjs(new Date(comment?.createdAt)).fromNow()}
             </span>
           </span>
-          <div className={clsx('text-sm')}>
+          <div className='text-sm'>
             {comment?.hidden ? (
               <span className="text-xs italic">
                 Comment deleted by user!

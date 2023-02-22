@@ -28,7 +28,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
     const [show, setShow] = useState(false)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
-    const createdPin = usePublicationStore((state) => state.createPin)
+    const createPin = usePublicationStore((state) => state.createPin)
     const setCreatedPin = usePublicationStore((state) => state.setCreatePin)
     const queuedPublications = usePersistStore((state) => state.queuedPublications)
     const setQueuedPublications = usePersistStore((state) => state.setQueuedPublications)
@@ -51,6 +51,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
         fetchPolicy: 'no-cache',
         onCompleted: (data) => {
             if (data?.publication) {
+                console.log(data);
                 cache.modify({
                     fields: {
                         publications() {
@@ -65,7 +66,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
     });
 
     const savePinToBoard = async (pin?: any) => {
-        const board = createdPin?.board;
+        const board = createPin?.board;
         setLoading(true)
         const request = {
             board_id: board ? `${board.id}` : 0,
@@ -75,11 +76,13 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
         return await axios.post(`${PINSTA_SERVER_URL}/save-pin`, request).then((res) => {
         if (res.status === 200) {
             setLoading(false)
+            setCreatedPin(UPLOADED_FORM_DEFAULTS)
             Analytics.track('Pin Saved', {
                 board: board?.name ?? 'Profile',
                 pin: pin.id
             })
         } else {
+                setCreatedPin(UPLOADED_FORM_DEFAULTS)
                 console.log('Error creating board', res)
                 setLoading(false)
                 Analytics.track('Error Pin Saved', {
@@ -89,6 +92,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
                 toast.error('Error on saving pin!')
             }
         }).catch((err) => {
+            setCreatedPin(UPLOADED_FORM_DEFAULTS)
             console.log('Error creating board', err)
             setLoading(false)
             Analytics.track('Error Pin Saved', {
@@ -119,7 +123,6 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
                 }
 
                 if (data.hasTxHashBeenIndexed.indexed) {
-                    setCreatedPin(UPLOADED_FORM_DEFAULTS)
                     removeAttachments([])
                     setAttachments([])
                     getPublication({

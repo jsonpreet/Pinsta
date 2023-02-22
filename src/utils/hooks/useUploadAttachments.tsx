@@ -68,12 +68,13 @@ const useUploadAttachments = () => {
                         item: attachmentsUploaded[index].item
                     }));
                     updateAttachments(attachmentsIPFS);
+                    setIsUploading(false);
                 }
             } catch {
                 removeAttachments(attachmentIds);
+                setIsUploading(false);
                 toast.error('Something went wrong while uploading!');
             }
-            setIsUploading(false);
 
             return attachmentsIPFS;
         },

@@ -4,7 +4,7 @@ import sanitizeIpfsUrl from './sanitizeIpfsUrl'
 
 const getThumbnailUrl = (pin: PinstaPublication): string => {
   const url =
-    pin.metadata?.media[0]?.original.url ||
+    pin.metadata?.cover?.original.url || pin.metadata?.media[0]?.original.url ||
     pin.metadata?.image ||
     `${APP.URL}/fallbackThumbnail.png`
   return sanitizeIpfsUrl(url)

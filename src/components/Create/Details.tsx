@@ -9,8 +9,8 @@ import useAppStore from '@lib/store'
 import ProfileBoards from './Actions/Boards'
 import { Button } from '@components/UI/Button'
 import { toast } from 'react-hot-toast'
-import { APP, ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
-import { MetadataAttributeInput, PublicationMainFocus, PublicationMetadataDisplayTypes, PublicationMetadataV2Input, useBroadcastMutation, useCreatePostTypedDataMutation, useCreatePostViaDispatcherMutation } from '@utils/lens/generated'
+import { ALLOWED_VIDEO_TYPES, APP, ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
+import { MetadataAttributeInput, PublicationMainFocus, PublicationMetadataDisplayTypes, PublicationMetadataMediaInput, PublicationMetadataV2Input, useBroadcastMutation, useCreatePostTypedDataMutation, useCreatePostViaDispatcherMutation } from '@utils/lens/generated'
 import splitSignature from '@utils/functions/splitSignature'
 import getSignature from '@utils/functions/getSignature'
 import { LensHubProxy } from '@utils/abis'
@@ -163,6 +163,14 @@ const Details: FC = () => {
         return;
     };
 
+    const getAnimationUrl = () => {
+        if (attachments.length > 0 && ALLOWED_VIDEO_TYPES.includes(attachments[0]?.type)){
+            return attachments[0]?.item;
+        }
+
+        return null;
+    }
+
     const getAttachmentImage = () => {
         return attachments[0]?.item;
     };
@@ -172,7 +180,16 @@ const Details: FC = () => {
     };
 
     const getMainContentFocus = () => {
-        return PublicationMainFocus.Image
+         if (attachments.length > 0) {
+            if (ALLOWED_VIDEO_TYPES.includes(attachments[0]?.type)) {
+                return PublicationMainFocus.Video;
+            } else {
+                return PublicationMainFocus.TextOnly;
+            }
+        } else {
+            return PublicationMainFocus.Image
+        }
+        
     };
 
     const createMetadata = async (metadata: PublicationMetadataV2Input) => {
@@ -204,10 +221,31 @@ const Details: FC = () => {
                 },
                 {
                     displayType: PublicationMetadataDisplayTypes.String,
+                    traitType: 'handle',
+                    value: `${currentProfile?.handle}`
+                },
+                {
+                    displayType: PublicationMetadataDisplayTypes.String,
                     traitType: 'app',
                     value: APP.ID
                 }
             ];
+
+            const media: Array<PublicationMetadataMediaInput> = [
+                {
+                    item: attachments[0].item,
+                    type: attachments[0].type,
+                    cover: createPin.videoThumbnail
+                }
+            ]
+
+            if (createPin.durationInSeconds) {
+                attributes.push({
+                    displayType: PublicationMetadataDisplayTypes.String,
+                    traitType: 'durationInSeconds',
+                    value: createPin.durationInSeconds.toString()
+                })
+            }
 
             const attachmentsInput: PinstaAttachment[] = attachments.map((attachment) => ({
                 type: attachment.type,
@@ -220,15 +258,15 @@ const Details: FC = () => {
                 metadata_id: uuid(),
                 content: createPin?.description,
                 external_url: `${APP.URL}/${currentProfile?.handle}`,
-                image: attachmentsInput.length > 0 ? getAttachmentImage() : textNftImageUrl,
-                imageMimeType: attachmentsInput.length > 0 ? getAttachmentImageMimeType() : 'image/svg+xml',
+                image: createPin?.isVideoPublication ? createPin.videoThumbnail : attachmentsInput.length > 0 ? getAttachmentImage() : textNftImageUrl,
+                imageMimeType: createPin?.isVideoPublication ? createPin.thumbnailType : attachmentsInput.length > 0 ? getAttachmentImageMimeType() : 'image/svg+xml',
                 name: createPin?.title ? createPin?.title : `Post by @${currentProfile?.handle}`,
                 tags: [createPin?.category.tag, ...getTags(createPin?.description)],
-                animation_url: null,
+                animation_url: getAnimationUrl(),
                 mainContentFocus: getMainContentFocus(),
                 contentWarning: null,
                 attributes,
-                media: attachmentsInput,
+                media: createPin?.isVideoPublication ? media : attachmentsInput,
                 locale: getUserLocale(),
                 appId: APP.ID
             };
@@ -288,7 +326,7 @@ const Details: FC = () => {
                     autoComplete="off"
                     value={createPin.title}
                     onContentChange={(value) => {
-                        setCreatePin({ ...createPin, title: value})
+                        setCreatePin({ title: value})
                     }}
                     mentionsSelector="input-mentions-single comment-input !text-2xl font-bold text-black dark:text-white"
                 />
@@ -302,7 +340,7 @@ const Details: FC = () => {
                     autoComplete="off"
                     value={createPin.description}
                     onContentChange={(value) => {
-                        setCreatePin({ ...createPin, description: value})
+                        setCreatePin({ description: value})
                     }}
                     mentionsSelector="input-mentions-single comment-input !h-20 text-black dark:text-white"
                 />
@@ -324,7 +362,7 @@ const Details: FC = () => {
                     onClick={createPublication}
                     disabled={createPin.title.length < 1 || createPin.description.length < 1 || isLoading}
                 >
-                    Create Pin
+                    {createPin?.buttonText || 'Create Pin'}
                 </Button>
             </div>
             {publicationContentError && (

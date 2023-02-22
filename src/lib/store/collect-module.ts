@@ -23,7 +23,7 @@ interface CollectModuleState {
 }
 
 export const useCollectModuleStore = create<CollectModuleState>((set) => ({
-    selectedCollectModule: CollectModules.RevertCollectModule,
+    selectedCollectModule: CollectModules.FreeCollectModule,
     setSelectedCollectModule: (selectedCollectModule) => set({ selectedCollectModule }),
     amount: null,
     setAmount: (amount) => set({ amount }),
@@ -41,13 +41,13 @@ export const useCollectModuleStore = create<CollectModuleState>((set) => ({
     setPayload: (payload) => set({ payload }),
     reset: () =>
         set({
-        selectedCollectModule: CollectModules.RevertCollectModule,
-        amount: null,
-        selectedCurrency: DEFAULT_COLLECT_TOKEN,
-        referralFee: null,
-        collectLimit: null,
-        hasTimeLimit: false,
-        followerOnly: false,
-        payload: { revertCollectModule: true }
+          selectedCollectModule: CollectModules.FreeCollectModule,
+          amount: null,
+          selectedCurrency: DEFAULT_COLLECT_TOKEN,
+          referralFee: null,
+          collectLimit: null,
+          hasTimeLimit: false,
+          followerOnly: false,
+          payload: { revertCollectModule: true }
         })
 }));
