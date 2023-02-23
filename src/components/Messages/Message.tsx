@@ -61,13 +61,13 @@ const Message: FC<MessageProps> = ({ conversationKey }) => {
     return (
         <>
             <MetaTags title={title} />
-            <div className="flex w-full md:max-w-6xl mx-auto">
+            <div className="flex w-full md:max-w-6xl px-4 md:px-0 mx-auto">
                 <PreviewList
-                    className="xs:hidden sm:hidden md:hidden lg:block"
+                    className="hidden lg:block"
                     selectedConversationKey={conversationKey}
                 />
                 <div className="xs:h-[85vh] mb-0 sm:h-[76vh] md:w-3/4 md:h-[80vh] xl:h-[84vh]">
-                    <Card className="flex h-full flex-col justify-between !rounded-tr-xl !rounded-br-xl !rounded-none">
+                    <Card className="flex h-full flex-col justify-between !rounded-tr-xl !rounded-br-xl !rounded-xl md:!rounded-tl-none md:!rounded-bl-none">
                         {showLoading ? (
                             <div className="flex h-full flex-grow items-center justify-center">
                                 <Loader />

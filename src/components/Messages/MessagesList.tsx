@@ -42,8 +42,8 @@ const MessageTile: FC<MessageTileProps> = ({ message, profile, currentProfile })
         )}
         >
             <div
-                className={clsx( 'flex',
-                    message.contentType.typeId == ContentTypeVideoKey.typeId ? 'w-full max-w-[60%]' : 'max-w-[60%]'
+                className={clsx( 'flex pr-4 md:pr-0',
+                    message.contentType.typeId == ContentTypeVideoKey.typeId ? 'w-full md:max-w-[60%]' : 'md:max-w-[60%]'
                 )}
             >
                 {address !== message.senderAddress && (

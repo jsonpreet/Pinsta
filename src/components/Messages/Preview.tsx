@@ -66,7 +66,7 @@ const Preview: FC<Props> = ({ profile, message, conversationKey, isSelected }) =
                         {
                             message.contentType.typeId == ContentTypeImageKey.typeId ? 'Sent a Image' :
                             message.contentType.typeId == ContentTypeVideoKey.typeId ? 'Sent a Video'
-                            : message.content
+                            : message.content.substring(0, 100)
                         }
                     </span>
                 </div>

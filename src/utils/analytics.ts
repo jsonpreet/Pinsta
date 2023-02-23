@@ -14,6 +14,7 @@ export const TRACK = {
     DISPATCHER_ENABLED: 'Dispatcher Enabled',
     GET_VERIFIED: 'Get Verified',
     CLICK_CHANNEL_SETTINGS: 'Clicked Channel Settings',
+    CLICK_MESSAGE_ATTACHMENT: 'Clicked Message Attachment',
     UPDATE_CHANNEL_INFO: 'Clicked Channel Info',
     CHANGE_CHANNEL_COVER: 'Clicked Channel Cover',
     UPLOADED_BYTE_VIDEO: 'Uploaded Byte Video',
