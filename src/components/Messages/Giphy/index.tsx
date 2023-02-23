@@ -29,7 +29,7 @@ const Giphy: FC<Props> = ({ setGifAttachment }) => {
                     setShowModal(!showModal);
                 }}
                 aria-label="Choose GIFs" 
-                className="fill-brand2-500 dark:fill-brand2-400"
+                className="fill-brand-500 dark:fill-brand-400"
             >
                 <svg viewBox="0 0 24 24" className="h-6 w-6">
                     <g>

@@ -128,11 +128,11 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
     return (
         <div
             className={clsx(
-                'xs:h-[85vh] mb-0 sm:h-[76vh] md:w-1/3 md:h-[80vh] xl:h-[84vh]',
+                'xs:h-[85vh] mb-0 sm:h-[76vh] w-full md:w-1/3 md:h-[80vh] xl:h-[84vh]',
                 className
             )}
         >
-            <Card className="flex h-full flex-col justify-between !border-r-0 !rounded-tl-xl !rounded-bl-xl !rounded-none">
+            <Card className="flex h-full flex-col justify-between md:!border-r-0 md:!rounded-tl-xl md:!rounded-bl-xl md:!rounded-tr-none md:!rounded-br-none !rounded-xl ">
                 <div className="flex items-center justify-between border-b p-5 dark:border-gray-700">
                     <div className="font-bold">Messages</div>
                     {currentProfile && !showAuthenticating && !showLoading && (

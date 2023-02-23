@@ -7,7 +7,7 @@ import useWindowSize from '@utils/hooks/useWindowSize';
 import { FC, useRef } from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { BsArrowRightShort, BsCameraVideo, BsImage } from 'react-icons/bs';
+import { BsArrowRightShort, BsCameraVideo, BsFillPatchQuestionFill, BsImage } from 'react-icons/bs';
 import { uploadToIPFS } from '@utils/functions/uploadToIPFS';
 import { ContentTypeImageKey } from '@hooks/codecs/Image';
 import { SendOptions } from '@xmtp/xmtp-js';
@@ -17,6 +17,11 @@ import type { IGif } from '@giphy/js-types';
 import { v4 as uuid } from 'uuid';
 
 import Giphy from './Giphy';
+import DropMenu from '@components/UI/DropMenu';
+import { Analytics, TRACK } from '@utils/analytics';
+import { isBrowser } from 'react-device-detect';
+import { MdOutlineAttachFile } from 'react-icons/md';
+import { BiSend } from 'react-icons/bi';
 
 interface Props {
     sendMessage: (message: string, option?: SendOptions) => Promise<boolean>;
@@ -201,7 +206,7 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
     };
 
     return (
-        <div className="flex space-x-4 items-center p-4">
+        <div className="flex space-x-2 md:space-x-4 items-center p-4">
             <Input
                 type="text"
                 className='!rounded-full'
@@ -227,19 +232,48 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                 className='hidden'
                 onChange={handleUploadVideo}
             />
-            <button onClick={handleSendVideo}>
-                <BsCameraVideo size={24} className="fill-brand2-500 dark:fill-brand2-400"/>
-            </button>
-            <Giphy setGifAttachment={(gif: IGif) => setGifAttachment(gif)} />
-            <button onClick={handleSendImage}>
-                <BsImage size={24} className="fill-brand2-500 dark:fill-brand2-400"/>
-            </button>
-            <Button disabled={!canSendMessage} onClick={handleSend} variant="primary" aria-label="Send message">
-                <div className="flex items-center space-x-2">
-                    <span>Send</span>
-                    {sending && <Loader size="sm" className="h-5 w-5" />}
+            <DropMenu
+                trigger={
+                    <button
+                        className="!p-0 flex-none ml-1"
+                        onClick={() => {
+                            Analytics.track(TRACK.CLICK_MESSAGE_ATTACHMENT)
+                        }}
+                    >
+                        <MdOutlineAttachFile size={24} className="fill-brand-500 dark:fill-brand-400" />
+                    </button>
+                }
+            >
+                <div className="mt-1.5 focus-visible:outline-none focus:outline-none focus:ring-0 overflow-hidden py-1">
+                    <div className="flex flex-col items-center space-y-3">
+                        <Giphy setGifAttachment={(gif: IGif) => setGifAttachment(gif)} />
+                        <button onClick={handleSendImage}>
+                            <BsImage size={24} className="fill-brand-500 dark:fill-brand-400"/>
+                        </button>
+                        <button onClick={handleSendVideo}>
+                            <BsCameraVideo size={24} className="fill-brand-500 dark:fill-brand-400"/>
+                        </button>
+                    </div>
                 </div>
-            </Button>
+            </DropMenu>
+            {isBrowser ? 
+                <>
+                    <button onClick={handleSendVideo} className='hidden md:block'>
+                        <BsCameraVideo size={24} className="fill-brand-500 dark:fill-brand-400"/>
+                    </button>
+                    <Giphy setGifAttachment={(gif: IGif) => setGifAttachment(gif)} />
+                    <button onClick={handleSendImage} className='hidden md:block'>
+                        <BsImage size={24} className="fill-brand-500 dark:fill-brand-400"/>
+                    </button>
+                    <Button disabled={!canSendMessage} onClick={handleSend} variant="primary" className='!p-0 !px-2 !w-10 !h-9 !rounded-md' aria-label="Send message">
+                        <div className="flex items-center justify-center">
+                            <span className='hidden md:block'>Send</span>
+                            <BiSend size={20} className="fill-white" />
+                            {sending && <Loader size="sm" className="h-5 w-5" />}
+                        </div>
+                    </Button>
+                </>
+            : null}
         </div>
     );
 };
