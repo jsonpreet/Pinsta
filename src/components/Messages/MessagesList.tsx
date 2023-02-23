@@ -58,7 +58,7 @@ const MessageTile: FC<MessageTileProps> = ({ message, profile, currentProfile })
                 className={clsx(
                     address === message.senderAddress ? 'bg-brand2-500' : 'bg-gray-100 dark:bg-gray-700',
                     'w-full',
-                    message.contentType.typeId == ContentTypeImageKey.typeId ? 'rounded-2xl' : 'rounded-full',
+                    message.contentType.typeId == ContentTypeImageKey.typeId ? 'rounded-md md:rounded-2xl' : 'rounded-md md:rounded-full',
                     message.contentType.typeId == ContentTypeImageKey.typeId || message.contentType.typeId == ContentTypeVideoKey.typeId ? 'p-0' : 'px-4 py-2'
                 )}
                 >
@@ -70,7 +70,7 @@ const MessageTile: FC<MessageTileProps> = ({ message, profile, currentProfile })
                             <span
                                 className={clsx(
                                 address === message.senderAddress && 'text-white',
-                                'text-md linkify-message block break-words'
+                                'text-sm md:text-md linkify-message block break-words'
                                 )}
                             >
                                 <InterweaveContent content={message.content} />
