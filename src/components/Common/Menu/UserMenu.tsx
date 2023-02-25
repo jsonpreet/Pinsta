@@ -11,11 +11,11 @@ import { useTheme } from 'next-themes'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import type { CustomErrorWithData } from '@utils/custom-types'
-import { IS_MAINNET } from '@utils/constants'
+import { ADMIN_IDS, IS_MAINNET } from '@utils/constants'
 import clearLocalStorage from '@utils/functions/clearLocalStorage'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import { useAccount, useDisconnect } from 'wagmi'
-import { BsChevronLeft, BsBell, BsGear, BsMoon, BsPersonCircle, BsPlusCircle, BsShuffle, BsSun, BsPower, BsCheck } from "react-icons/bs";
+import { BsChevronLeft, BsBell, BsGear, BsMoon, BsPersonCircle, BsPlusCircle, BsShuffle, BsSun, BsPower, BsCheck, BsBarChart } from "react-icons/bs";
 import { BiExit } from 'react-icons/bi'
 import formatHandle from '@utils/functions/formatHandle'
 import { MdSwitchAccount } from 'react-icons/md'
@@ -207,6 +207,18 @@ const UserMenu = () => {
                     {theme === 'light' ? 'Switch to Dark' : 'Switch to Light'}
                   </span>
                 </button>
+                {ADMIN_IDS.includes(currentProfile?.id) ? (
+                    <Link
+                      href="/stats"
+                      className="flex items-center w-full p-3 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"
+                    >
+                      <BsBarChart className="w-4 h-4" />
+                      <span className="truncate whitespace-nowrap">
+                        Stats
+                      </span>
+                    </Link>
+                  ) : null
+                }
                 <button
                   type="button"
                   className="flex items-center w-full px-3 py-2 space-x-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-75 delay-75"

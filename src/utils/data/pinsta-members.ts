@@ -6,4 +6,6 @@ export const pinstaMembers = [
     '0x01a2ee', // Wav3s.lens
     '0x019b72', // Buttrfly.lens
     '0xbbb9', // OrbApp.lens
+    '0x01b1d6', // Focalize.lens
+    '0xd8', // PaulBurke.lens
 ]
