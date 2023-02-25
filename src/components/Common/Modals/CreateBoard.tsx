@@ -82,9 +82,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch,
         return await axios.post(`${PINSTA_SERVER_URL}/check-board-name`, { name: boardName, user_id: currentProfileId }).then((res) => {
             if (res.data.data && res.data.data[0] !== undefined) {
                 setLoading(false)
-                Analytics.track('Board name already exists!', {
-                    board_name: boardName,
-                })
+                Analytics.track('Board name already exists!')
                 toast.error('Board name already exists!')
                 return
             } else {
@@ -117,10 +115,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch,
                     onCancel()
                     setLoading(false)
                 }
-                Analytics.track('Board Created', {
-                    board_id: res.data.data.id,
-                    board_name: res.data.data.name,
-                })
+                Analytics.track('Board Created')
                 return 
             } else {
                 setLoading(false)

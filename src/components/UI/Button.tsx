@@ -40,7 +40,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                 'relative inline-block duration-75 delay-75 disabled:opacity-50 rounded-full group',
                 {
                     'px-4 py-1.5 text-xs': size === 'sm',
-                    'px-5 py-1.5': size === 'md',
+                    'px-3 md:px-5 py-1.5': size === 'md',
                     'px-6 py-3 text-base': size === 'lg',
                     'px-8 py-4 text-lg': size === 'xl',
                     'primary-button ': variant === 'primary',
@@ -65,7 +65,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                 {icon}
                 {loading && <Loader size="sm" />}
                 <span
-                className={clsx('whitespace-nowrap', {
+                className={clsx('whitespace-nowrap md:text-md text-sm', {
                     'font-regular': variant !== 'secondary'
                 })}
                 >

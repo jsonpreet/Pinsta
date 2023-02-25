@@ -10,6 +10,22 @@ export const FetchProfileBoards = (user : string | null) => {
     )
 }
 
+export const FetchTotalBoards = () => {
+    return useQuery(['total_boards'], api.getTotalBoards,
+        {
+            keepPreviousData: true,
+        }
+    )
+}
+
+export const FetchTotalPins = () => {
+    return useQuery(['total_pins'], api.getTotalPins,
+        {
+            keepPreviousData: true,
+        }
+    )
+}
+
 export const FetchBoardPins = (boardId : string) => {
     return useQuery([['board_pins', boardId], { boardId }], api.getBoardPins,
         {

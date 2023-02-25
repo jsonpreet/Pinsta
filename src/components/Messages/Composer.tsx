@@ -265,15 +265,21 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                     <button onClick={handleSendImage} className='hidden md:block'>
                         <BsImage size={24} className="fill-brand-500 dark:fill-brand-400"/>
                     </button>
-                    <Button disabled={!canSendMessage} onClick={handleSend} variant="primary" className='!p-0 !px-2 !w-10 !h-9 !rounded-md' aria-label="Send message">
-                        <div className="flex items-center justify-center">
-                            <span className='hidden md:block'>Send</span>
-                            <BiSend size={20} className="fill-white" />
-                            {sending && <Loader size="sm" className="h-5 w-5" />}
-                        </div>
-                    </Button>
                 </>
             : null}
+            <Button
+                disabled={!canSendMessage}
+                onClick={handleSend}
+                variant="primary"
+                className='!p-0 !px-2 !w-10 !h-9 md:!px-5 md:!w-auto md:!rounded-full !rounded-md'
+                aria-label="Send message"
+            >
+                <div className="flex items-center justify-center">
+                    <span className='hidden md:block'>Send</span>
+                    <BiSend size={20} className="fill-white block md:hidden" />
+                    {sending && <Loader size="sm" className="h-5 w-5" />}
+                </div>
+            </Button>
         </div>
     );
 };

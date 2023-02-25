@@ -124,3 +124,4 @@ export const HANDLE_SANITIZE_REGEX = /[^\d .A-Za-z]/g;
 export const LENSTUBE_APP_ID = 'lenstube'
 export const LENSTUBE_BYTES_APP_ID = 'lenstube-bytes'
 export const ALLOWED_APP_IDS = ['orb', 'lenstube-bytes']
+export const ADMIN_IDS = IS_MAINNET ? ['0x016efc'] : ['0x57a4']
