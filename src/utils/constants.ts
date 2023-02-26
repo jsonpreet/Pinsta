@@ -1,6 +1,43 @@
 import { CustomFiltersTypes } from '@utils/lens'
 import packageJson from '../../package.json';
 
+export const DEFAULT_SEO = {
+  title: "Pinsta",
+  description: "Pinsta is a decentralized Image & Video Sharing service, designed to save and collect discovery information using Images, Videos, and Animated Gifs in the form of Pin Boards.",
+  canonical: "https://pinsta.xyz",
+  openGraph: {
+    type: 'website',
+    locale: 'en_IE',
+    url: 'https://pinsta.xyz',
+    siteName: 'Pinsta',
+    title: "Pinsta",
+    description: "Pinsta is a decentralized Image & Video Sharing service, designed to save and collect discovery information using Images, Videos, and Animated Gifs in the form of Pin Boards.",
+    images: [
+      {
+        url: 'https://pinsta.xyz/meta.png',
+        width: 1200,
+        height: 630,
+        alt: 'Pinsta',
+      },
+    ],
+  },
+  twitter: {
+    handle: '@PinstaApp',
+    site: '@PinstaApp',
+    cardType: 'summary_large_image',
+    title: "Pinsta",
+    description: "Pinsta is a decentralized Image & Video Sharing service, designed to save and collect discovery information using Images, Videos, and Animated Gifs in the form of Pin Boards.",
+    images: [
+      {
+        url: 'https://pinsta.xyz/meta.png',
+        width: 1200,
+        height: 630,
+        alt: 'Pinsta',
+      },
+    ],
+  },
+};
+
 export const APP = {
   ID: 'pinsta',
   Name: 'Pinsta',

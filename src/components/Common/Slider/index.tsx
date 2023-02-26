@@ -2,7 +2,7 @@
 import React, { FC, useState } from 'react'
 import SliderBtn from './buttons'
 import { PinstaPublication } from '@utils/custom-types'
-import { Analytics } from '@utils/analytics'
+import { Analytics, TRACK } from '@utils/analytics'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
 import { Loader } from '@components/UI/Loader'
 import useAppStore from '@lib/store'
@@ -57,7 +57,7 @@ const ImageSlider: FC<Props> = ({ images, pin }) => {
                         href={sanitizeIpfsUrl(pin?.metadata?.media[slideIndex - 1]?.original?.url)}
                         target='_blank'
                         onClick={() => {
-                            Analytics.track(`clicked_on_view_original_from_pin_${pin?.id}`);
+                            Analytics.track(TRACK.PIN.CLICK_VIEW_ORIGINAL);
                         }}
                         rel='noopener noreferrer'
                         className='absolute bottom-2 z-30 left-2 bg-black/60 py-1 px-2 rounded-md text-white shadow font-semibold text-sm'

@@ -25,7 +25,7 @@ const Attachments: FC<Props> = ({ pin }) => {
     return (
         <>
             <div
-                className='w-full h-full relative md:min-h-[500px] flex flex-col justify-start items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4'
+                className='w-full h-full relative min-h-[100px] md:min-h-[500px] flex flex-col justify-start items-center rounded-xl sm:rounded-bl-3xl sm:rounded-tl-3xl p-4'
             >
                 {isImage ? (
                     <PinImage pin={pin} />

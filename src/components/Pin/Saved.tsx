@@ -53,10 +53,7 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
     }, [isFetched])
 
     const boardSearch = async (payload : {query: string, user_id: string}) => {
-        Analytics.track('User Board Search!', {
-            query: payload.query,
-            user_id: payload.user_id,
-        })
+        Analytics.track(TRACK.BOARD.SEARCH)
         return await axios.post(`${PINSTA_SERVER_URL}/user-board-search`, payload).then((res) => {
             if (res.data.data && res.data.data.length > 0) {
                 setShowResults(true)
@@ -65,6 +62,7 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
             }
         }).catch((err) => {
             console.log(err)
+            Analytics.track(TRACK.BOARD.ERROR.SEARCH)
             return
         })
     }
@@ -181,7 +179,11 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
                                         className='flex items-center justify-between w-full px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 text-gray-700 dark:hover:text-white duration-75 delay-75 focus-visible:outline-none focus:outline-none focus:ring-0'
                                         
                                         // @ts-ignore
-                                        onClick={() => savePinToBoard()}
+                                        onClick={() => {
+                                                Analytics.track(TRACK.PIN.SAVE_PIN)
+                                                savePinToBoard(null)
+                                            }
+                                        }
                                     >
                                         <span className='flex text-left items-center space-x-3'>
                                         <HiOutlineBookmark size={28} />
@@ -200,6 +202,7 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
                                     <Button
                                         variant='dark'
                                         onClick={() => {
+                                            Analytics.track(TRACK.BOARD.CREATE_BOARD)
                                             setShowCreateBoard(true)
                                             setSharePopUpOpen(false)
                                         }}
@@ -228,11 +231,7 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
                         onClick={() => {
                             // @ts-ignore
                             unSaveIt()
-                            Analytics.track('Unsaved Pin', {
-                                pinId: isMirror ? pin?.mirrorOf?.id : pin.id,
-                                boardId: currentBoard?.id,
-                                boardName: currentBoard?.name
-                            })
+                            Analytics.track(TRACK.PIN.UNSAVE_PIN)
                         }}
                     >
                         Saved
@@ -241,12 +240,8 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
                         loading={loading}
                         onClick={() => {
                             // @ts-ignore
-                            savePinToBoard()
-                            Analytics.track('Save Pin', {
-                                pinId: pin?.id,
-                                boardId: currentBoard?.id,
-                                boardName: currentBoard?.name
-                            })
+                            savePinToBoard(null)
+                            Analytics.track(TRACK.PIN.SAVE_PIN)
                         }}
                     >
                         Save
@@ -257,9 +252,7 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
                         onClick={() => {
                             // @ts-ignore
                             savePinToBoard()
-                            Analytics.track('Save Pin', {
-                                pinId: isMirror ? pin?.mirrorOf?.id : pin.id
-                            })
+                            Analytics.track(TRACK.PIN.SAVE_PIN)
                         }}
                     >
                         Save
