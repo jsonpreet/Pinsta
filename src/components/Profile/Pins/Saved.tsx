@@ -46,7 +46,7 @@ const Saved: FC<Props> = ({ profile }) => {
         <>
             <div className='flex flex-col space-y-6 px-4 md:px-0 pb-20 md:pb-0'>
                 {isFetched ?
-                    <div className="grid grid-cols-1 md:grid-cols-5 mt-4 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-4 gap-4">
                         {boards?.map((board, index) => {
                             const showPrivateBoard = currentProfileId === board?.user_id ? false : board.is_private
                             if (showPrivateBoard) return null

@@ -160,7 +160,7 @@ const Saved:FC<Props> = ({ currentBoard, isSaved, setIsSaved, savePinToBoard, se
                                                 </div>
                                             </div>
                                         ) : null}
-                                            <div className='flex flex-col divide-y divide-gray-100 dark:divide-gray-700 overflow-scroll h-48'>
+                                            <div className='flex flex-col divide-y divide-gray-100 dark:divide-gray-700 overflow-y-scroll h-48'>
                                                 {showResults && searchBoards.length > 0 && searchBoards.map((board: BoardType, index: number) => (
                                                     <BoardItem key={index} board={board} />
                                                 ))}

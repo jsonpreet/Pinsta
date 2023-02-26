@@ -28,8 +28,8 @@ const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
     const pins = data?.publications?.items as PinstaPublication[]
     return (
         <>
-            <div className='relative z-10 flex w-[360px] h-[240px] bg-gray-100 dark:bg-gray-800 rounded-lg'>
-                <div className='w-[240px] flex h-[240px]'>
+            <div className='relative z-10 flex w-full h-60 bg-gray-100 dark:bg-gray-800 rounded-lg'>
+                <div className='w-2/3 flex h-full'>
                     {pins && pins.length > 0 && (
                         <div
                             className='w-full h-full bg-cover bg-center rounded-l-lg'
