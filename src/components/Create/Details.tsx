@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { FC, useState }  from 'react'
+import { FC, useEffect, useRef, useState }  from 'react'
 import imageCdn from '@utils/functions/imageCdn'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import formatHandle from '@utils/functions/formatHandle'
@@ -19,17 +19,19 @@ import { Analytics, TRACK } from '@utils/analytics'
 import { v4 as uuid } from 'uuid';
 import { useCollectModuleStore } from '@lib/store/collect-module'
 import usePersistStore from '@lib/store/persist'
-import { CustomErrorWithData, IPFSUploadResult, PinstaAttachment } from '@utils/custom-types'
+import { CustomErrorWithData, PinstaAttachment } from '@utils/custom-types'
 import getUserLocale from '@utils/functions/getUserLocale'
 import getTags from '@utils/functions/getTags'
 import uploadToAr from '@utils/functions/uploadToAr'
-import {uploadToIPFS} from '@utils/functions/uploadToIPFS'
 import { useRouter } from 'next/router'
 import InputMentions from '@components/UI/InputMentions'
 import CollectSettings from './Actions/Collect'
 import { usePublicationStore } from '@lib/store/publication'
+import { BsEmojiFrown, BsEmojiSmile, BsFillEmojiSmileFill } from 'react-icons/bs'
+import EmojiPicker, { EmojiStyle } from 'emoji-picker-react'
+import useOutsideClick from '@hooks/useOutsideClick'
 
-const Details: FC = () => {
+const Details: FC<any> = () => {
     const router = useRouter()
     const userSigNonce = useAppStore((state) => state.userSigNonce);
     const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
@@ -49,6 +51,19 @@ const Details: FC = () => {
     const [publicationContentError, setPublicationContentError] = useState('');
     const [loading, setLoading] = useState(false)
     const [showOnFocus, setShowOnFocus] = useState(false)
+
+    
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const [postEmoji, setEmoji] = useState<any>(null)
+    const emojiRef = useRef(null)
+    useOutsideClick(emojiRef, () => setShowEmojiPicker(false))
+    
+    useEffect(() => {
+        if (postEmoji && postEmoji.emoji.trim().length > 0) {
+            setCreatePin({ description: createPin.description + postEmoji.emoji })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [postEmoji])
 
     const setToQueue = (txn: { txnId?: string; txnHash?: string }) => {
         setQueuedPublications([
@@ -346,6 +361,24 @@ const Details: FC = () => {
                 />
                 <div className='text-xs text-gray-400 text-right pt-1'>
                     {createPin.description.length}/500
+                </div>
+                <div
+                    className='mt-2 cursor-pointer inline-flex'
+                    onClick={() => setShowEmojiPicker(showEmojiPicker ? false : true)}
+                >
+                    {showEmojiPicker ? <BsFillEmojiSmileFill className='text-brand-500' size={19}/> : <BsEmojiSmile size={19}/>}
+                    {showEmojiPicker && (
+                        <div className='absolute top-10 right-0 z-20' ref={emojiRef}>
+                            <EmojiPicker
+                                emojiStyle={EmojiStyle.TWITTER}
+                                onEmojiClick={setEmoji}
+                                lazyLoadEmojis={true}
+                                previewConfig={{
+                                    showPreview: false
+                                }}
+                            />
+                        </div>   
+                    )}
                 </div>
             </div>
             <div className='relative'>

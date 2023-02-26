@@ -90,6 +90,53 @@ export const TRACK = {
             TWITTER: 'Click Twitter'
         }
     },
+    PIN: {
+        CLICK_PIN: 'Click Pin',
+        CLICK_PIN_OPTIONS: 'Click Pin Options',
+        CLICK_PIN_SAVE: 'Click Pin Save',
+        CLICK_PIN_UNSAVE: 'Click Pin Unsave',
+        CLICK_PIN_DELETE: 'Click Pin Delete',
+        CLICK_PIN_EDIT: 'Click Pin Edit',
+        CLICK_PIN_COPY_LINK: 'Click Pin Copy Link',
+        CLICK_PIN_REPORT: 'Click Pin Report',
+        CLICK_PIN_SHARE: 'Click Pin Share',
+        CLICK_PIN_SAVE_TO_BOARD: 'Click Pin Save to Board',
+        CLICK_PIN_SAVE_TO_PROFILE: 'Click Pin Save to Profile',
+        CLICK_VIEW_ORIGINAL: 'Click View Original',
+        UNSAVE_PIN: 'Unsave Pin',
+        SAVE_PIN: 'Save Pin',
+        ERROR: {
+            SAVE: 'Error Saving Pin',
+            UNSAVE: 'Error Unsaving Pin',
+        },
+        SHARE: {
+            OPEN: 'Open Share Pin Modal',
+            FACEBOOK: 'Share Pin to Facebook',
+            TWITTER: 'Share Pin to Twitter',
+            LINKEDIN: 'Share Pin to LinkedIn',
+            REDDIT: 'Share Pin to Reddit',
+            EMAIL: 'Share Pin to Email',
+            COPY_LINK: 'Copy Pin Link',
+            COPY_EMBED: 'Copy Pin Embed',
+            DOWNLOAD: 'Download Pin',
+            WHATSAPP: 'Share Pin to Whatsapp',
+        }
+    },
+    BOARD: {
+        SEARCH: 'Search Boards',
+        CLICK_BOARD: 'Click Board',
+        CLICK_BOARD_OPTIONS: 'Click Board Options',
+        CLICK_BOARD_FOLLOW: 'Click Board Follow',
+        CLICK_BOARD_UNFOLLOW: 'Click Board Unfollow',
+        CREATE_BOARD: 'Create Board',
+        MODAL: {
+            OPEN: 'Open Board Modal',
+            CLOSE: 'Close Board Modal',  
+        },
+        ERROR: {
+            SEARCH: 'Error Searching Boards',
+        }
+    },
     REPORT: 'Report Publication',
     PAGE_VIEW: {
         HOME: 'Home Page',

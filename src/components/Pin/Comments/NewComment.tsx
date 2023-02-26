@@ -15,7 +15,7 @@ import {
   useCreateCommentTypedDataMutation,
   useCreateCommentViaDispatcherMutation
 } from '@utils/lens'
-import type { FC } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -40,6 +40,9 @@ import { Button } from '@components/UI/Button'
 import { Analytics, TRACK } from '@utils/analytics'
 import { Form, useZodForm } from '@components/UI/Form'
 import clsx from 'clsx'
+import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
+import { BsEmojiSmile, BsFillEmojiSmileFill } from 'react-icons/bs'
+import useOutsideClick from '@hooks/useOutsideClick'
 
 type Props = {
     pin: PinstaPublication
@@ -61,6 +64,17 @@ const NewComment: FC<Props> = ({ pin }) => {
     const setQueuedComments = usePersistStore((state) => state.setQueuedComments)
     const userSigNonce = useAppStore((state) => state.userSigNonce)
     const setUserSigNonce = useAppStore((state) => state.setUserSigNonce)
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const [postEmoji, setEmoji] = useState<any>(null)
+    const emojiRef = useRef(null)
+    useOutsideClick(emojiRef, () => setShowEmojiPicker(false))
+    
+    useEffect(() => {
+        if (postEmoji && postEmoji.emoji.trim().length > 0) {
+            form.setValue('comment', form.getValues('comment') + postEmoji.emoji)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [postEmoji])
 
     const form = useZodForm({
         schema: formSchema,
@@ -97,8 +111,6 @@ const NewComment: FC<Props> = ({ pin }) => {
 
     const onError = (error: CustomErrorWithData) => {
         toast.error(error?.data?.message ?? error?.message ?? ERROR_MESSAGE)
-
-    console.log('error', error)
         setLoading(false)
     }
 
@@ -111,10 +123,6 @@ const NewComment: FC<Props> = ({ pin }) => {
         abi: LensHubProxy,
         functionName: 'commentWithSig',
         mode: 'recklesslyUnprepared',
-        // overrides: {
-        //     // @ts-ignore
-        //     gasLimit: 1000000
-        // },
         onError,
         onSuccess: (data) => {
             if (data.hash) {
@@ -123,7 +131,6 @@ const NewComment: FC<Props> = ({ pin }) => {
         }
     })
 
-    console.log('error', error)
 
     const [broadcast] = useBroadcastMutation({
         onError,
@@ -261,6 +268,7 @@ const NewComment: FC<Props> = ({ pin }) => {
 
     if (!currentProfile || !currentProfileId) return null
 
+
     return (
         <div className="my-1">
             <Form
@@ -268,7 +276,8 @@ const NewComment: FC<Props> = ({ pin }) => {
                 onSubmit={submitComment}
             >
                 <div 
-                className="flex items-start mb-2 space-x-2 md:space-x-3" >
+                    className="flex items-start mb-2 space-x-2 md:space-x-3 relative"
+                >
                     <div className="flex-none">
                         <img
                             src={getProfilePicture(currentProfile, 'avatar')}
@@ -287,7 +296,26 @@ const NewComment: FC<Props> = ({ pin }) => {
                         }}
                         mentionsSelector="input-mentions-single comment-input"
                     />
-                </div>    
+                    <div
+                        className='mt-2 cursor-pointer'
+                        onClick={() => setShowEmojiPicker(true)}
+                    >
+                        
+                        {showEmojiPicker ? <BsFillEmojiSmileFill className='text-brand-500' size={19}/> : <BsEmojiSmile size={19}/>}
+                        {showEmojiPicker && (
+                            <div className='absolute top-10 right-0 z-20' ref={emojiRef}>
+                                <EmojiPicker
+                                    emojiStyle={EmojiStyle.TWITTER}
+                                    onEmojiClick={setEmoji}
+                                    lazyLoadEmojis={true}
+                                    previewConfig={{
+                                        showPreview: false
+                                    }}
+                                />
+                            </div>   
+                        )}
+                    </div>
+                </div>
                 <div
                     className={clsx(
                         'flex justify-end items-center w-full',

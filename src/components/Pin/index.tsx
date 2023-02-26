@@ -25,6 +25,7 @@ import getAppName from '@utils/functions/getAppName'
 import Wav3sMeta from './Meta/Wav3s'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
 import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
+import imageCdn from '@utils/functions/imageCdn'
 
 const Pin: NextPage = () => {
     const router = useRouter()
