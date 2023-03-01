@@ -19,7 +19,7 @@ import { v4 as uuid } from 'uuid';
 import Giphy from './Giphy';
 import DropMenu from '@components/UI/DropMenu';
 import { Analytics, TRACK } from '@utils/analytics';
-import { isBrowser } from 'react-device-detect';
+import { isBrowser, isMobile } from 'react-device-detect';
 import { MdOutlineAttachFile } from 'react-icons/md';
 import { BiSend } from 'react-icons/bi';
 
@@ -232,6 +232,7 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                 className='hidden'
                 onChange={handleUploadVideo}
             />
+            { isMobile ? 
             <DropMenu
                 trigger={
                     <button
@@ -256,7 +257,7 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                     </div>
                 </div>
             </DropMenu>
-            {isBrowser ? 
+            :  
                 <>
                     <button onClick={handleSendVideo} className='hidden md:block'>
                         <BsCameraVideo size={24} className="fill-brand-500 dark:fill-brand-400"/>
@@ -266,7 +267,7 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                         <BsImage size={24} className="fill-brand-500 dark:fill-brand-400"/>
                     </button>
                 </>
-            : null}
+            }
             <Button
                 disabled={!canSendMessage}
                 onClick={handleSend}
