@@ -195,11 +195,11 @@ const Details: FC<any> = () => {
     };
 
     const getMainContentFocus = () => {
-         if (attachments.length > 0) {
+        if (attachments.length > 0) {
             if (ALLOWED_VIDEO_TYPES.includes(attachments[0]?.type)) {
                 return PublicationMainFocus.Video;
             } else {
-                return PublicationMainFocus.TextOnly;
+                return PublicationMainFocus.Image;
             }
         } else {
             return PublicationMainFocus.Image
