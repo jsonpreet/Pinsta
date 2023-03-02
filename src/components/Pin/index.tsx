@@ -24,6 +24,8 @@ import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
 import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
 import imageCdn from '@utils/functions/imageCdn'
 import truncate from '@utils/functions/truncate'
+import { NextSeo } from 'next-seo'
+import { APP } from '@utils/constants'
 
 type Props = {
     pin: PinstaPublication
@@ -93,10 +95,21 @@ const Pin: FC<Props> = ({ pin, error, loading }) => {
 
     return (
         <>
-            <MetaTags
+            <NextSeo
                 title={`${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`}
                 description={truncate(pin?.metadata?.content as string, 100)}
-                image={imageCdn(sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url), 'thumbnail') as string}
+                canonical={`${APP.URL}${router.asPath}`}
+                openGraph={{
+                    title: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
+                    description: truncate(pin?.metadata?.content as string, 100),
+                    url: `${APP.URL}${router.asPath}`,
+                    images: [
+                        {
+                            url: imageCdn(sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url), 'thumbnail') as string,
+                            alt: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
+                        },
+                    ],
+                }}
             />
             {!loading && !error && pin ? (
                 <>
