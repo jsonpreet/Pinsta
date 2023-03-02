@@ -9,6 +9,7 @@ import useAppStore from '@lib/store'
 import { Profile, useProfileQuery } from '@utils/lens/generated'
 import TimelineShimmer from '@components/Shimmers/TimelineShimmer'
 import { Analytics, TRACK } from '@utils/analytics'
+import truncate from '@utils/functions/truncate'
 
 interface Props {
     board: any
@@ -40,7 +41,10 @@ const Board: NextPage<Props> = ({ board }) => {
 
     return (
         <>
-            <MetaTags title={`${board?.name} :: Pinsta`} />
+            <MetaTags
+                title={`${truncate(board?.name, 60)} :: Pinsta`}
+                description={truncate(board?.description as string, 100)}
+            />
             <div className='flex flex-col'>
                 {userProfile ?
                     <>

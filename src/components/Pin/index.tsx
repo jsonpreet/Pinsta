@@ -5,13 +5,10 @@ import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import Custom404 from '@pages/404'
 import Custom500 from '@pages/500'
-import { APP } from '@utils/constants'
 import { BoardPinsType, BoardType, PinstaPublication } from '@utils/custom-types'
-import { usePublicationDetailsQuery } from '@utils/lens'
-import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { BsArrowLeftShort } from 'react-icons/bs';
-import { useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import InterweaveContent from '@components/Common/InterweaveContent'
 import User from './User'
 import Share from './Share'
@@ -26,11 +23,16 @@ import Wav3sMeta from './Meta/Wav3s'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
 import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
 import imageCdn from '@utils/functions/imageCdn'
+import truncate from '@utils/functions/truncate'
 
-const Pin: NextPage = () => {
+type Props = {
+    pin: PinstaPublication
+    error?: string 
+    loading?: boolean
+}
+
+const Pin: FC<Props> = ({ pin, error, loading }) => {
     const router = useRouter()
-    const { id } = router.query
-    const rootRef = useRef();
     const [readMore, setReadMore] = useState(false)
     const currentProfileId = usePersistStore((state) => state.currentProfileId)
     const currentProfile = useAppStore((state) => state.currentProfile)
@@ -38,18 +40,6 @@ const Pin: NextPage = () => {
     const [savedTo, setSavedTo] = useState<BoardPinsType[]>([])
     const [savedToBoards, setSavedToBoards] = useState<BoardType[]>([])
 
-    const { data, error, loading } = usePublicationDetailsQuery({
-        variables: {
-            request: { publicationId: id },
-            reactionRequest: currentProfile
-                ? { profileId: currentProfile?.id }
-                : null,
-            profileId: currentProfile?.id ?? null
-        },
-        skip: !id
-    })
-
-    const pin = data?.publication as PinstaPublication
     const publicationType = pin?.__typename
 
     useEffect(() => {
@@ -95,7 +85,7 @@ const Pin: NextPage = () => {
 
     
     if (error) return <Custom500 />
-    if (loading || !data) return <PinShimmer />
+    if (loading || !pin) return <PinShimmer />
     if (!canGet) return <Custom404 />
 
     // @ts-ignore
@@ -104,9 +94,9 @@ const Pin: NextPage = () => {
     return (
         <>
             <MetaTags
-                title={pin?.profile ? `Pin by @${pin.profile.handle}` : APP.Name}
-                description={pin?.metadata?.content}
-                image={sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url)}
+                title={`${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`}
+                description={truncate(pin?.metadata?.content as string, 100)}
+                image={imageCdn(sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url), 'thumbnail') as string}
             />
             {!loading && !error && pin ? (
                 <>
