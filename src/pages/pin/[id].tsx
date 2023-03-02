@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     if (splitted.length !== 2) {
         return { notFound: true }
     }
-    context.res.setHeader('Cache-Control', 'public, s-maxage=86400')
+    // context.res.setHeader('Cache-Control', 'public, s-maxage=86400')
     const { data, error } = await apolloClient.query({
         query: PublicationDetailsDocument,
         variables: {

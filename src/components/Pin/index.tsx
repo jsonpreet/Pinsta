@@ -95,24 +95,24 @@ const Pin: FC<Props> = ({ pin, error, loading }) => {
 
     return (
         <>
-            <NextSeo
-                title={`${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`}
-                description={truncate(pin?.metadata?.content as string, 100)}
-                canonical={`${APP.URL}${router.asPath}`}
-                openGraph={{
-                    title: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
-                    description: truncate(pin?.metadata?.content as string, 100),
-                    url: `${APP.URL}${router.asPath}`,
-                    images: [
-                        {
-                            url: imageCdn(sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url), 'thumbnail') as string,
-                            alt: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
-                        },
-                    ],
-                }}
-            />
             {!loading && !error && pin ? (
                 <>
+                    <NextSeo
+                        title={`${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`}
+                        description={truncate(pin?.metadata?.content as string, 100)}
+                        canonical={`${APP.URL}${router.asPath}`}
+                        openGraph={{
+                            title: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
+                            description: truncate(pin?.metadata?.content as string, 100),
+                            url: `${APP.URL}${router.asPath}`,
+                            images: [
+                                {
+                                    url: imageCdn(sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url), 'thumbnail') as string,
+                                    alt: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
+                                },
+                            ],
+                        }}
+                    />
                     <div className='mt-0 flex-none'>
                         <div className='hidden md:flex flex-col items-center relative justify-center'>
                             <button
