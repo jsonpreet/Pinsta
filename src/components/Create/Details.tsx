@@ -275,7 +275,7 @@ const Details: FC<any> = () => {
                 external_url: `${APP.URL}/${currentProfile?.handle}`,
                 image: createPin?.isVideoPublication ? createPin.videoThumbnail : attachmentsInput.length > 0 ? getAttachmentImage() : textNftImageUrl,
                 imageMimeType: createPin?.isVideoPublication ? createPin.thumbnailType : attachmentsInput.length > 0 ? getAttachmentImageMimeType() : 'image/svg+xml',
-                name: createPin?.title ? createPin?.title : `Post by @${currentProfile?.handle}`,
+                name: createPin?.title ? createPin?.title : `Pin by @${currentProfile?.handle}`,
                 tags: [createPin?.category.tag, ...getTags(createPin?.description)],
                 animation_url: getAnimationUrl(),
                 mainContentFocus: getMainContentFocus(),
