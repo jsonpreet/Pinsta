@@ -278,7 +278,7 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                 <div className="flex items-center justify-center">
                     <span className='hidden md:block'>Send</span>
                     <BiSend size={20} className="fill-white block md:hidden" />
-                    {sending && <Loader size="sm" className="h-5 w-5" />}
+                    {sending && <Loader size="sm" />}
                 </div>
             </Button>
         </div>
