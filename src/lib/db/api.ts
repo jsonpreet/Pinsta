@@ -3,12 +3,12 @@ import { PINSTA_SERVER_URL } from '@utils/constants';
 import axios from 'axios';
 
 export const getTotalBoards = async () => {
-    const { data } = await axios.post(`http://localhost:8989/total-boards`);
+    const { data } = await axios.post(`${PINSTA_SERVER_URL}/total-boards`);
     return data;
 }
 
 export const getTotalPins = async () => {
-    const { data } = await axios.post(`http://localhost:8989/total-pins`);
+    const { data } = await axios.post(`${PINSTA_SERVER_URL}/total-pins`);
     return data;
 }
 

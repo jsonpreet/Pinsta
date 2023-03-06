@@ -123,8 +123,6 @@ const Layout: FC<Props> = ({ children }) => {
 
     if (loading || !mounted) return <FullPageLoader />
 
-    console.log('showFilter', pathname)
-
     return (
         <>
             <Head>
