@@ -2,6 +2,7 @@ Pinsta is a decentralized image and video sharing platform that allows users to 
 
 Built with Lens Protocol 🌿
 
-## Inspired from LensTube
+## Inspired from LensTube & Lenster
 
 [Lenstube](https://github.com/lenstube-xyz/lenstube)
+[Lenster](https://github.com/lensterxyz/lenster)
