@@ -1,11 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react'
-import MetaTags from '../Common/MetaTags'
 
 const FullPageLoader = () => {
   return (
     <>
       <div className="grid h-screen place-items-center">
-        <MetaTags />
         <div className="animate-bounce">
           <img
             src='/logo.png'
