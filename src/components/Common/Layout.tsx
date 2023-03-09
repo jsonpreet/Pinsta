@@ -28,6 +28,8 @@ import MobileMenu from './Menu/MobileMenu'
 import GlobalSearchBar from './Search/GlobalSearchBar'
 import Modal from '@components/UI/Modal'
 import { isMobile } from 'react-device-detect'
+import * as rdd from 'react-device-detect';
+import { AUTH_ROUTES } from '@utils/data/auth-routes'
 
 if (MIXPANEL_TOKEN) {
     mixpanel.init(MIXPANEL_TOKEN)
@@ -47,6 +49,8 @@ const Layout: FC<Props> = ({ children }) => {
     const setCurrentProfileId = usePersistStore((state) => state.setCurrentProfileId)
     const setShowSearchModal = useAppStore((state) => state.setShowSearchModal)
     const showSearchModal = useAppStore((state) => state.showSearchModal)
+
+    //rdd.isMobile = true;
 
     const { chain } = useNetwork()
     const { resolvedTheme } = useTheme()
@@ -92,13 +96,13 @@ const Layout: FC<Props> = ({ children }) => {
     })
 
     const validateAuthentication = () => {
-        // if (
-        //     !currentProfile &&
-        //     !currentProfileId &&
-        //     AUTH_ROUTES.includes(pathname)
-        // ) {
-        //     replace(`/auth?next=${asPath}`) // redirect to signin page
-        // }
+        if (
+            !currentProfile &&
+            !currentProfileId &&
+            AUTH_ROUTES.includes(pathname)
+        ) {
+            replace(`/auth?next=${asPath}`) // redirect to signin page
+        }
         const logout = () => {
             resetAuthState()
             clearLocalStorage()
@@ -130,6 +134,11 @@ const Layout: FC<Props> = ({ children }) => {
                     name="theme-color"
                     content={resolvedTheme === 'dark' ? '#000000' : '#ffffff'}
                 />
+                
+                <meta
+                    name='viewport'
+                    content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover'
+                />
             </Head>
             <Toaster
                 position="top-center"
@@ -137,7 +146,7 @@ const Layout: FC<Props> = ({ children }) => {
             />
             <div className='relative'>
                 <Header />
-                <div className='pb-8'>
+                <div className='pb-12 md:pb-8'>
                     {showFilter || pathname === '/' && !currentProfile ? 
                         <>
                             <div className='md:pt-3 px-4 md:px-6'>

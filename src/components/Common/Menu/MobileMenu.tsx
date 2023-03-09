@@ -43,7 +43,7 @@ const MobileMenu = () => {
                 }}
                 href={route}
                 className={clsx(
-                    'flex items-center px-4 py-2 focus-visible:outline-none focus:outline-none rounded-full group duration-75 delay-75',
+                    'flex items-center px-4 py-4 focus-visible:outline-none focus:outline-none group duration-75 delay-75',
                     isActive ?
                         'bg-white hover:bg-white' :
                         'hover:bg-white'
@@ -66,11 +66,10 @@ const MobileMenu = () => {
         <>
             <div
                 className={clsx(
-                    "fixed w-full dropdown-shadow rounded-full mx-auto p-2 bg-gradient-to-r from-[#df3f95] to-[#ec1e25] bottom-4 left-0 right-0 z-50",
-                    currentProfileId && currentProfile ? ' max-w-[84%]' : 'max-w-[74%]'
+                    "fixed w-full dropdown-shadow mx-auto bg-gradient-to-r from-[#df3f95] to-[#ec1e25] bottom-0 left-0 right-0 z-50",
                 )}
             >
-                <div className='flex justify-center space-x-2'>
+                <div className='flex justify-center space-x-4'>
                     {MenuItems && MenuItems.map((item) => (
                         <div key={item.route}>
                             <MenuLink isActive={isActivePath(item.route)} route={item.route}>
