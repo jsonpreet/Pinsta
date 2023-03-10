@@ -1,8 +1,20 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   experimental: {
     scrollRestoration: true,
     newNextLinkBehavior: true
+  },
+  images: {
+    minimumCacheTTL: 3600,
+    deviceSizes: [96, 128, 256, 384, 512, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
   },
   reactStrictMode: process.env.NODE_ENV === 'production',
   swcMinify: true,
@@ -34,18 +46,7 @@ const nextConfig = {
         permanent: true
       }
     ];
-  },
-  images: {
-    minimumCacheTTL: 360,
-    deviceSizes: [96, 128, 256, 384, 512, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
-  },
+  }
 }
 
 module.exports = nextConfig

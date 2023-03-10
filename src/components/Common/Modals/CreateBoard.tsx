@@ -71,7 +71,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch,
             name: boardName.trim(),
             slug: slug.replaceAll(/[^a-zA-Z ]/g,"-"),
             description: boardDescription,
-            pfp: pin ? getThumbnailUrl(pin) : '',
+            pfp: pin ? pin.metadata?.cover?.original.url || pin.metadata?.media[0]?.original.url : '',
             is_private: isPrivate,
             handle: formatHandle(currentProfile?.handle),
             user_id: currentProfileId

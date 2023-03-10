@@ -130,6 +130,7 @@ const CreateProfile = () => {
       title={IS_MAINNET ? 'Claim Handle' : 'Create Profile'}
       onClose={() => setShowCreateAccount(false)}
       show={mounted && showCreateAccount}
+      className='md:mb-0 mb-20'
     >
       {IS_MAINNET ? (
         <ClaimHandle />

@@ -50,7 +50,7 @@ const Profile: FC<Props> = ({ profile }) => {
             <MetaTags
                 title={metaTitle}
                 image={getProfilePicture(userProfile, 'avatar_lg')}
-                description={truncate(userProfile?.bio as string, 100)}
+                description={userProfile?.bio ? truncate(userProfile?.bio as string, 100) : APP.Description}
             />
             {userProfile ? (
                 <>

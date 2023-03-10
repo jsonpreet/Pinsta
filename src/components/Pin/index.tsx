@@ -99,11 +99,11 @@ const Pin: FC<Props> = ({ pin, error, loading }) => {
                 <>
                     <NextSeo
                         title={`${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`}
-                        description={truncate(pin?.metadata?.content as string, 100)}
+                        description={pin?.metadata?.content ? truncate(pin?.metadata?.content as string, 100) : APP.Description}
                         canonical={`${APP.URL}${router.asPath}`}
                         openGraph={{
                             title: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
-                            description: truncate(pin?.metadata?.content as string, 100),
+                            description: pin?.metadata?.content ? truncate(pin?.metadata?.content as string, 100) : APP.Description,
                             url: `${APP.URL}${router.asPath}`,
                             images: [
                                 {
