@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import Modal from '@components/UI/Modal'
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
 import { Button } from '@components/UI/Button'
@@ -14,11 +14,14 @@ import { BoardType } from '@utils/custom-types'
 import { Loader } from '@components/UI/Loader'
 import imageCdn from '@utils/functions/imageCdn'
 import formatHandle from '@utils/functions/formatHandle'
-import { PINSTA_SERVER_URL } from '@utils/constants'
+import { ALLOWED_IMAGE_TYPES, PINSTA_SERVER_URL } from '@utils/constants'
 import axios from 'axios'
 import { Analytics, TRACK } from '@utils/analytics'
 import { Toggle } from '@components/UI/Toggle'
 import clsx from 'clsx'
+import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
+import { BsUpload } from 'react-icons/bs'
+import { uploadToIPFS } from '@utils/functions/uploadToIPFS'
 
 type Props = {
     board?: BoardType,
@@ -45,6 +48,9 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
     const [loading, setLoading] = useState(false)
     const [isImgLoading, setImgLoading] = useState(true)
     const [newImage, setNewImage] = useState<any>(null)
+    const imageRef = useRef<HTMLInputElement>(null)
+    const [image, setImage] = useState<any>(null)
+    const [imageUploading, setImageUploading] = useState(false)
 
     const onCancel = () => {
         reset()
@@ -116,6 +122,40 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
         }
     }
 
+    const handleImageUpload = () => {
+        imageRef.current?.click()
+    }
+
+    const handleUpload = async(e: any) => {
+        const file = e.target.files[0]
+        if (file) {
+            if (ALLOWED_IMAGE_TYPES.includes(file.type)) {
+                setImageUploading(true)
+                const { url } = await uploadToIPFS(file)
+                if (!url) {
+                    setImageUploading(false)
+                    toast.error('Error uploading image')
+                    return
+                }
+                setImage(url)
+                // const reader = new FileReader()
+                // reader.readAsDataURL(file)
+                // reader.onloadend = () => {
+                //     setImage(reader.result)
+                //     setImgLoading(false)
+                //     setImageUploading(false)
+                // }
+                // reader.onerror = () => {
+                //     console.error('AHHHHHHHH!!')
+                //     setImageUploading(false)
+                // }
+            } else {
+                toast.error('File type not supported')
+            }
+        }
+    }
+
+
     const form = useZodForm({
         schema: formSchema,
         defaultValues: {
@@ -134,32 +174,46 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                     show={show}
                     icon={<MdOutlineSpaceDashboard size={24} />}
                     onClose={() => onCancel()}
-                    size={board?.pfp ? 'md' : 'sm'}
+                    size='md'
                     className='md:mb-0 mb-20'
                 >
-                    <div className={clsx(
-                        'grid gap-6 p-4',
-                        { 'grid-cols-1 md:grid-cols-2': board?.pfp }
-                    )}
+                    <div className={'grid gap-6 p-4 grid-cols-1 md:grid-cols-2'}
                     >
-                        {board?.pfp ?
-                            <>
-                                <div className='relative w-full h-full flex flex-col items-center rounded-xl'>
-                                    <img 
-                                        className='rounded-xl object-cover' 
-                                        alt={board?.name}
-                                        src={imageCdn(board?.pfp, 'thumbnail')} 
-                                        onLoad={() => setImgLoading(false)}
-                                    />
-                                    {isImgLoading ?
-                                        <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-xl justify-center'>
-                                            <Loader/>
-                                        </span>
-                                        : null
-                                    }
+                        <div className='relative w-full h-full flex flex-col items-center rounded-xl'>
+                            {board?.pfp ?
+                                <img 
+                                    className='rounded-xl object-cover' 
+                                    alt={board?.name}
+                                    src={imageCdn(board?.pfp, 'thumbnail')} 
+                                    onLoad={() => setImgLoading(false)}
+                                />
+                            :
+                                <div>
+                                    
                                 </div>
-                            </>
-                        : null }
+                            }
+                            {isImgLoading ?
+                                <span className='absolute bg-gray-100 dark:bg-gray-800 top-0 left-0 right-0 bottom-0 h-full w-full flex items-center rounded-xl justify-center'>
+                                    <Loader/>
+                                </span>
+                                : null
+                            }
+                            <input 
+                                ref={imageRef}
+                                type='file'
+                                accept={ALLOWED_IMAGE_TYPES.join(',')}
+                                className='hidden'
+                                onChange={handleUpload}
+                            />
+                            <div className='absolute bottom-2 right-2 flex flex-col items-center justify-center z-20'>
+                                <Button
+                                    onClick={handleImageUpload}
+                                    variant='light'
+                                >
+                                    <span>{imageUploading ? 'Uploading' : 'Change'}</span>
+                                </Button>
+                            </div>
+                        </div>
                         <div className="flex flex-col space-y-4 w-full">
                             <Form
                                 form={form}
