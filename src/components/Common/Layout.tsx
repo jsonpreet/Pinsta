@@ -159,20 +159,18 @@ const Layout: FC<Props> = ({ children }) => {
                         {children}
                     </div>
                 </div>
-                {isMobile &&
-                    <>
-                        <MobileMenu />
-                        <Modal
-                            title="Search"
-                            onClose={() => setShowSearchModal(false)}
-                            show={showSearchModal}
-                        >
-                            <div className="max-h-[80vh] p-4 overflow-y-auto no-scrollbar">
-                                <GlobalSearchBar onSearchResults={() => setShowSearchModal(false)} />
-                            </div>
-                        </Modal>
-                    </>
-                }
+                <div className='block md:hidden'>
+                    <MobileMenu />
+                    <Modal
+                        title="Search"
+                        onClose={() => setShowSearchModal(false)}
+                        show={showSearchModal}
+                    >
+                        <div className="max-h-[80vh] p-4 overflow-y-auto no-scrollbar">
+                            <GlobalSearchBar onSearchResults={() => setShowSearchModal(false)} />
+                        </div>
+                    </Modal>
+                </div>
             </div>
         </>
     )
