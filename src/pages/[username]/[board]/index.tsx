@@ -8,7 +8,6 @@ export const getServerSideProps = async (ctx : any) => {
     const loading = true;
     
     const response = await getBoardBySlug(username, board);
-
     if (response && response.data.length > 0) {
         const board = response.data[0];
         return {
