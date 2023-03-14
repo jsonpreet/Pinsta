@@ -13,6 +13,10 @@ interface AppState {
   showCreateBoard: boolean
   showLoginModal: boolean
   showSearchModal: boolean
+  showTrendingTags: boolean
+  selectedFocus: string
+  setSelectedFocus: (selectedFocus: string) => void
+  setShowTrendingTags: (showTrendingTags: boolean) => void
   setShowSearchModal: (showSearchModal: boolean) => void
   setShowLoginModal: (showLoginModal: boolean) => void
   setSlideImageLoading: (slideImageLoading: boolean) => void
@@ -34,10 +38,14 @@ export const useAppStore = create<AppState>((set) => ({
   showLoginModal: false,
   slideImageLoading: true,
   showSearchModal: false,
+  showTrendingTags: false,
   userSigNonce: 0,
   currentProfile: null,
   activeTagFilter: 'all',
   activeSortFilter: 'commented',
+  selectedFocus: 'all',
+  setSelectedFocus: (selectedFocus) => set({ selectedFocus }),
+  setShowTrendingTags: (showTrendingTags) => set({ showTrendingTags }),
   setSlideImageLoading: (slideImageLoading) => set({ slideImageLoading }),
   setShowSearchModal: (showSearchModal) => set({ showSearchModal }),
   setShowLoginModal: (showLoginModal) => set({ showLoginModal }),

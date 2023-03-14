@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 const Feed = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
   const activeTagFilter = useAppStore((state) => state.activeTagFilter)
+  const selectedFocus = useAppStore((state) => state.selectedFocus)
 
   const getFeedEventItems = () => {
     const filters: FeedEventItemType[] = [];
@@ -26,13 +27,15 @@ const Feed = () => {
     Analytics.track(TRACK.PAGE_VIEW.FEED)
   }, [])
 
+  const mainFocus = selectedFocus === 'images' ? [PublicationMainFocus.Image] : selectedFocus === 'videos' ? [PublicationMainFocus.Video] : PinstaMainContentFocus ;
+
   const profileId = currentProfile?.id;
   const request: FeedRequest = {
     profileId,
     limit: 50,
     feedEventItemTypes: getFeedEventItems(),
     metadata: {
-      mainContentFocus: PinstaMainContentFocus
+      mainContentFocus: mainFocus
     }
   };
   const reactionRequest = currentProfile ? { profileId } : null;
