@@ -30,6 +30,7 @@ import Modal from '@components/UI/Modal'
 import { isMobile } from 'react-device-detect'
 import * as rdd from 'react-device-detect';
 import { AUTH_ROUTES } from '@utils/data/auth-routes'
+import Filters from './Filters'
 
 if (MIXPANEL_TOKEN) {
     mixpanel.init(MIXPANEL_TOKEN)
@@ -49,6 +50,7 @@ const Layout: FC<Props> = ({ children }) => {
     const setCurrentProfileId = usePersistStore((state) => state.setCurrentProfileId)
     const setShowSearchModal = useAppStore((state) => state.setShowSearchModal)
     const showSearchModal = useAppStore((state) => state.showSearchModal)
+    const showTrendingTags = useAppStore((state) => state.showTrendingTags)
 
     //rdd.isMobile = true;
 
@@ -150,12 +152,17 @@ const Layout: FC<Props> = ({ children }) => {
                     {showFilter || pathname === '/' && !currentProfile ? 
                         <>
                             <div className='md:pt-3 px-4 md:px-6'>
-                                <TrendingTags />
+                                <Filters />
                             </div>
+                            {showTrendingTags ?
+                                <div className='md:pt-3 px-4 md:px-6'>
+                                    <TrendingTags />
+                                </div>
+                            : null}
                         </>
                     : null}
                     <CreateProfile />
-                    <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-8 ultrawide:px-0'>
+                    <div className='py-4 ultrawide:max-w-[110rem] mx-auto md:px-6 ultrawide:px-0'>
                         {children}
                     </div>
                 </div>

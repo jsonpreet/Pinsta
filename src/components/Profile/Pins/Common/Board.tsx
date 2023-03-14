@@ -10,6 +10,7 @@ import formatHandle from '@utils/functions/formatHandle'
 import usePersistStore from '@lib/store/persist'
 import BoardThumbnails from './Thumbnails'
 import { Profile } from '@utils/lens/generated';
+import BoardThumbnail from './Thumbnail';
 
 dayjs.extend(dayjsTwitter);
 
@@ -32,7 +33,10 @@ const Board: FC<Props> = ({ board, profile }) => {
                 <Link
                     href={`/${formatHandle(profile?.handle)}/${board.slug}`}
                 >
-                    <BoardThumbnails board={board} setShowEditBoard={setShowEditBoard} />
+                    {board?.pfp ? 
+                        <BoardThumbnail board={board} setShowEditBoard={setShowEditBoard} />
+                        : <BoardThumbnails board={board} setShowEditBoard={setShowEditBoard} />
+                    }
                     <div className='flex flex-col space-y-1 mt-4'>
                         <h3 className='font-semibold text-base group-hover:text-red-500'>{board.name}</h3>
                         <div className='flex text-sm'>

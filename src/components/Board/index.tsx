@@ -33,6 +33,7 @@ const Board: NextPage<Props> = ({ board }) => {
         skip: !handle
     })
 
+
     const postIds = board?.pins?.map((pin: { post_id: string }) => pin.post_id)
 
     //if (!data?.profile) return <Custom404 />

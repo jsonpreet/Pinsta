@@ -33,11 +33,7 @@ const Saved: FC<Props> = ({ profile }) => {
         )
     } 
 
-    if (
-        (profilePinsFetched && isFetched && pins?.data?.length === 0 && data?.data?.length === 0)
-        ||
-        (isError && profilePinsError)
-    ) {
+    if ((profilePinsFetched && isFetched && pins?.data?.length === 0 && data?.data?.length === 0) || (isError && profilePinsError)) {
         return <NoDataFound isCenter withImage text="No pins found" />
     }
 

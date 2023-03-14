@@ -13,6 +13,9 @@ import { useEffect } from 'react'
 
 const Explore = () => {
   const activeTagFilter = useAppStore((state) => state.activeTagFilter)
+  const selectedFocus = useAppStore((state) => state.selectedFocus)
+
+  const mainFocus = selectedFocus === 'images' ? [PublicationMainFocus.Image] : selectedFocus === 'videos' ? [PublicationMainFocus.Video] : PinstaMainContentFocus ;
 
   useEffect(() => {
     Analytics.track(TRACK.PAGE_VIEW.HOME)
@@ -26,7 +29,7 @@ const Explore = () => {
     customFilters: LENS_CUSTOM_FILTERS,
     metadata: {
       tags: activeTagFilter !== 'all' ? { oneOf: [activeTagFilter] } : undefined,
-      mainContentFocus: PinstaMainContentFocus
+      mainContentFocus: mainFocus
     }
   }
 
