@@ -28,6 +28,7 @@ const Preview: FC<Props> = ({ profile, message, conversationKey, isSelected }) =
     const currentProfile = useAppStore((state) => state.currentProfile);
     const address = currentProfile?.ownedBy;
 
+
     const onConversationSelected = (profileId: string) => {
         router.push(profileId ? `/messages/${conversationKey}` : '/messages');
     };
@@ -66,7 +67,7 @@ const Preview: FC<Props> = ({ profile, message, conversationKey, isSelected }) =
                         {
                             message.contentType.typeId == ContentTypeImageKey.typeId ? 'Sent a Image' :
                             message.contentType.typeId == ContentTypeVideoKey.typeId ? 'Sent a Video'
-                            : message.content.substring(0, 100)
+                            : message?.content?.substring(0, 100)
                         }
                     </span>
                 </div>
