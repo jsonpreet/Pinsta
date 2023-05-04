@@ -9,4 +9,5 @@ export const pinstaMembers = [
     '0x0f85', // punkess.lens
     '0x012b94', // blackjoker.lens
     '0x960f', // zerts.lens
+    '0xacaf', // zelda.lens
 ]

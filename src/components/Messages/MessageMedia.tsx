@@ -9,7 +9,8 @@ interface Props {
     type: 'image' | 'video' | 'audio' | 'file'
 }
 
-const MessageMedia:FC<Props> = ({message, type}) => {
+const MessageMedia: FC<Props> = ({ message, type }) => {
+    console.log(message)
     return (
         <>
             {type === 'image' &&
