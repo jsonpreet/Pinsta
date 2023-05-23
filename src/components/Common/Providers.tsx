@@ -82,7 +82,7 @@ const RainbowKitProviderWrapper = ({ children }: { children: ReactNode }) => {
 
 const Providers = ({ children }: { children: ReactNode }) => {
     return (
-        <ErrorBoundary>
+        <>
             <LivepeerConfig client={getLivepeerClient()} theme={videoPlayerTheme}>
                 <WagmiConfig client={wagmiClient}>
                     <ThemeProvider defaultTheme="light" attribute="class">
@@ -94,7 +94,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
                     </ThemeProvider>
                 </WagmiConfig>
             </LivepeerConfig>   
-        </ErrorBoundary>
+        </>
     )
 }
 
