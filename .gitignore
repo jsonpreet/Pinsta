@@ -34,7 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-yarn.lock
 
 # Auto Generated PWA files
 **/public/sw.js

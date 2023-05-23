@@ -21,7 +21,7 @@ interface Props {
     again?: boolean;
 }
 
-const SuperFollow: FC<Props> = ({ profile, setFollowing, showText = false, again = false }) => {
+const SuperFollow: FC<Props> = ({ profile, setFollowing, showText = false, again = false }): JSX.Element => {
     const [showFollowModal, setShowFollowModal] = useState(false);
 
     return (

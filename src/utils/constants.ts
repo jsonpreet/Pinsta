@@ -112,7 +112,7 @@ export const SCROLL_ROOT_MARGIN = '40% 0px'
 
 // ipfs
 export const IPFS_FREE_UPLOAD_LIMIT = IS_MAINNET ? 1000 : 100
-export const IPFS_GATEWAY = 'https://gateway.ipfscdn.io/ipfs/'
+export const IPFS_GATEWAY = 'https://lens.infura-ipfs.io/ipfs/' //'https://gateway.ipfscdn.io/ipfs/'
 
 // Messages
 export const ERROR_MESSAGE = 'Oops, something went wrong!'
