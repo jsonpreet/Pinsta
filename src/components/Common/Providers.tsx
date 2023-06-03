@@ -18,7 +18,7 @@ import { ThemeProvider, useTheme } from 'next-themes'
 import { ReactNode, useState } from 'react'
 import React from 'react'
 import { IS_MAINNET, APP, POLYGON_RPC_URL } from '@utils/constants'
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { polygon, polygonMumbai } from 'wagmi/chains'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
@@ -27,7 +27,7 @@ import ErrorBoundary from './ErrorBoundary'
 import { getLivepeerClient, videoPlayerTheme } from '@utils/functions/getLivePeer'
 import { LivepeerConfig } from '@livepeer/react'
 
-const { chains, publicClient } = configureChains(
+const { chains, provider } = configureChains(
     [IS_MAINNET ? polygon : polygonMumbai],
     [
       jsonRpcProvider({
@@ -37,6 +37,7 @@ const { chains, publicClient } = configureChains(
       }),
       publicProvider()
     ],
+    { targetQuorum: 1 }
 )
 
 const connectors = connectorsForWallets([
@@ -52,10 +53,10 @@ const connectors = connectorsForWallets([
     }
 ])
 
-const wagmiClient = createConfig({
+const wagmiClient = createClient({
     autoConnect: true,
     connectors,
-    publicClient
+    provider
 })
 
 // Enables usage of theme in RainbowKitProvider
@@ -83,7 +84,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
     return (
         <>
             <LivepeerConfig client={getLivepeerClient()} theme={videoPlayerTheme}>
-                <WagmiConfig config={wagmiClient}>
+                <WagmiConfig client={wagmiClient}>
                     <ThemeProvider defaultTheme="light" attribute="class">
                         <RainbowKitProviderWrapper>
                             <ApolloProvider client={apolloClient}>
