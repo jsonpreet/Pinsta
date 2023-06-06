@@ -1,2 +1,8 @@
 User-agent: Googlebot-Image
 Disallow: /
+
+User-agent: Googlebot
+Allow: /*
+Disallow: /_next/*
+Disallow: /settings/*
+Disallow: /messages/*
