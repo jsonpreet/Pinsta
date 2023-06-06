@@ -6,7 +6,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { NewPinstaAttachment } from '@utils/custom-types';
 
-type TabValues = 'Following' | 'Requested';
+export type TabValues = 'All' | 'Lens' | 'Other' | 'Requests';
 
 interface MessageState {
     client: Client | undefined;
@@ -23,15 +23,21 @@ interface MessageState {
     previewMessages: Map<string, DecodedMessage>;
     setPreviewMessage: (key: string, message: DecodedMessage) => void;
     setPreviewMessages: (previewMessages: Map<string, DecodedMessage>) => void;
-    reset: () => void;
+    ensNames: Map<string, string>;
+    setEnsNames: (ensNames: Map<string, string>) => void;
+    previewMessagesNonLens: Map<string, DecodedMessage>;
+    setPreviewMessagesNonLens: (
+        previewMessagesNonLens: Map<string, DecodedMessage>
+    ) => void;
     selectedProfileId: string;
     setSelectedProfileId: (selectedProfileId: string) => void;
     selectedTab: TabValues;
     setSelectedTab: (selectedTab: TabValues) => void;
-    attachment: NewPinstaAttachment;
-    setAttachment: (attachment: NewPinstaAttachment) => void;
+    attachment: string;
+    setAttachment: (attachment: string) => void;
     isUploading: boolean;
     setIsUploading: (isUploading: boolean) => void;
+    reset: () => void;
 }
 
 export const useMessageStore = create<MessageState>((set) => ({
@@ -75,42 +81,42 @@ export const useMessageStore = create<MessageState>((set) => ({
             } else {
                 profiles = state.messageProfiles;
             }
-            const selectedTab: TabValues = profile.isFollowedByMe ? 'Following' : 'Requested';
+            const selectedTab: TabValues = profile.isFollowedByMe ? 'Lens' : 'Requests';
             return { messageProfiles: profiles, selectedTab: selectedTab };
         }),
-        previewMessages: new Map(),
-        setPreviewMessage: (key: string, message: DecodedMessage) =>
-            set((state) => {
-                const newPreviewMessages = new Map(state.previewMessages);
-                newPreviewMessages.set(key, message);
-                return { previewMessages: newPreviewMessages };
-            }),
-        attachment: {
-            id:'',
-            item: '',
-            altTag: '',
-            type: '',
-            previewItem:'',
-        },
-        setAttachment: (attachment) => set(() => ({ attachment })),
-        isUploading: false,
-        setIsUploading: (isUploading) => set(() => ({ isUploading })),
-        setPreviewMessages: (previewMessages) => set(() => ({ previewMessages })),
-        selectedProfileId: '',
-        setSelectedProfileId: (selectedProfileId) => set(() => ({ selectedProfileId })),
-        selectedTab: 'Following',
-        setSelectedTab: (selectedTab) => set(() => ({ selectedTab })),
-        reset: () =>
+    previewMessages: new Map(),
+    setPreviewMessages: (previewMessages) => set(() => ({ previewMessages })),
+    ensNames: new Map(),
+    setEnsNames: (ensNames) => set(() => ({ ensNames })),
+    previewMessagesNonLens: new Map(),
+    setPreviewMessagesNonLens: (previewMessagesNonLens) => set(() => ({ previewMessagesNonLens })),
+    selectedProfileId: '',
+    setSelectedProfileId: (selectedProfileId) => set(() => ({ selectedProfileId })),
+    selectedTab: 'All',
+    setSelectedTab: (selectedTab) => set(() => ({ selectedTab })),
+    setPreviewMessage: (key: string, message: DecodedMessage) =>
         set((state) => {
-            return {
-                ...state,
-                conversations: new Map(),
-                messages: new Map(),
-                messageProfiles: new Map(),
-                previewMessages: new Map(),
-                selectedTab: 'Following'
-            };
-        })
+            const newPreviewMessages = new Map(state.previewMessages);
+            newPreviewMessages.set(key, message);
+            return { previewMessages: newPreviewMessages };
+        }),
+    attachment: '',
+    setAttachment: (attachment) => set(() => ({ attachment })),
+    isUploading: false,
+    setIsUploading: (isUploading) => set(() => ({ isUploading })),
+    reset: () =>
+    set((state) => {
+        return {
+            ...state,
+            conversations: new Map(),
+            messages: new Map(),
+            messageProfiles: new Map(),
+            previewMessages: new Map(),
+            selectedTab: 'All',
+            previewMessagesNonLens: new Map(),
+            ensNames: new Map()
+        };
+    })
 }));
 
 // Each Map is storing a profileId as the key.

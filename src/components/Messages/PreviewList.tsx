@@ -36,6 +36,8 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
     const addProfileAndSelectTab = useMessageStore((state) => state.addProfileAndSelectTab);
     const selectedTab = useMessageStore((state) => state.selectedTab);
     const setSelectedTab = useMessageStore((state) => state.setSelectedTab);
+    const ensNames = useMessageStore((state) => state.ensNames);
+
     const [showSearchModal, setShowSearchModal] = useState(false);
     const [keyword, setKeyword] = useState('')
     const debouncedValue = useDebounce<string>(keyword, 500)
@@ -143,20 +145,37 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
                 </div>
                 <div className="flex">
                     <div
-                        onClick={() => setSelectedTab('Following')}
+                        onClick={() => setSelectedTab('All')}
                         className={clsx(
                             'text-brand-500 tab-bg m-2 ml-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
-                            selectedTab === 'Following' ? 'bg-brand-100' : ''
+                            selectedTab === 'All' ? 'bg-brand-100' : ''
                         )}
                     >
-                        <HiOutlineUsers className="mr-2 h-4 w-4" />
-                        Following
+                        All
                     </div>
                     <div
-                        onClick={() => setSelectedTab('Requested')}
+                        onClick={() => setSelectedTab('Lens')}
+                        className={clsx(
+                            'text-brand-500 tab-bg m-2 ml-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
+                            selectedTab === 'Lens' ? 'bg-brand-100' : ''
+                        )}
+                    >
+                        Lens
+                    </div>
+                    <div
+                        onClick={() => setSelectedTab('Other')}
+                        className={clsx(
+                            'text-brand-500 tab-bg m-2 ml-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
+                            selectedTab === 'Other' ? 'bg-brand-100' : ''
+                        )}
+                    >
+                        Other
+                    </div>
+                    <div
+                        onClick={() => setSelectedTab('Requests')}
                         className={clsx(
                         'text-brand-500 tab-bg m-2 mr-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
-                        selectedTab === 'Requested' ? 'bg-brand-100' : ''
+                        selectedTab === 'Requests' ? 'bg-brand-100' : ''
                         )}
                     >
                         Requested
@@ -167,7 +186,7 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
                         )}
                     </div>
                 </div>
-                {selectedTab === 'Requested' ? (
+                {selectedTab === 'Requests' ? (
                 <div className="mt-1 bg-yellow-100 p-2 px-5 text-sm text-yellow-800">
                     These conversations are from Lens profiles that you don&apos;t currently follow.
                 </div>

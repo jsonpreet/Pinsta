@@ -40,27 +40,19 @@ const MessageIcon: FC = () => {
 
         const fetchShowBadge = async () => {
             const convos = await cachedClient.conversations.list();
-            const matchingConvos = convos.filter(
-                (convo) => convo.context?.conversationId && matcherRegex.test(convo.context.conversationId)
-            );
-
-            if (matchingConvos.length <= 0) {
+            if (convos.length <= 0) {
                 return;
             }
 
-            const topics = matchingConvos.map((convo) => convo.topic);
-            // const mostRecentMessages = await cachedClient.listEnvelopes(topics, async (e) => e, {
-            //     limit: 1,
-            //     direction: SortDirection.SORT_DIRECTION_DESCENDING
-            // });
-            const mostRecentMessages = await cachedClient.apiClient.batchQuery(
+            const topics = convos.map((convo) => convo.topic);
+            const queryResults = await cachedClient.apiClient.batchQuery(
                 topics.map((topic) => ({
                     contentTopic: topic,
                     pageSize: 1,
                     direction: SortDirection.SORT_DIRECTION_DESCENDING
                 }))
             );
-            const mostRecentMessage = mostRecentMessages.reduce(
+            const mostRecentTimestamp = queryResults.reduce(
                 (lastTimestamp: string | null, envelopes) => {
                     if (!envelopes.length || !envelopes[0]?.timestampNs) {
                         return lastTimestamp;
@@ -72,9 +64,12 @@ const MessageIcon: FC = () => {
                 },
                 null
             );
-            //const mostRecentMessage = mostRecentMessages.length > 0 ? mostRecentMessages[0] : null;
-            const sentAt = fromNanoString(mostRecentMessage ?? undefined);
-            const showBadge = shouldShowBadge(viewedMessagesAtNs.get(currentProfile.id), sentAt);
+            // No messages have been sent or received by the user, ever
+            const sentAt = fromNanoString(mostRecentTimestamp ?? undefined);
+            const showBadge = shouldShowBadge(
+                viewedMessagesAtNs.get(currentProfile.id),
+                sentAt
+            );
             showMessagesBadge.set(currentProfile.id, showBadge);
             setShowMessagesBadge(new Map(showMessagesBadge));
         };
@@ -97,16 +92,11 @@ const MessageIcon: FC = () => {
 
             for await (const message of messageStream) {
                 if (messageValidator(currentProfile.id)) {
-                    const conversationId = message.conversation.context?.conversationId;
                     const isFromPeer = currentProfile.ownedBy !== message.senderAddress;
-                    if (
-                        isFromPeer &&
-                        conversationId &&
-                        matcherRegex.test(conversationId)
-                    ) {
+                    if (isFromPeer) {
                         const showBadge = shouldShowBadge(
-                        viewedMessagesAtNs.get(currentProfile.id),
-                        message.sent
+                            viewedMessagesAtNs.get(currentProfile.id),
+                            message.sent
                         );
                         showMessagesBadge.set(currentProfile.id, showBadge);
                         setShowMessagesBadge(new Map(showMessagesBadge));
