@@ -173,3 +173,6 @@ input[type='number'] {
 .plyr--audio.plyr--full-ui input[type='range'] {
   @apply !text-white;
 }
+.linkify-message .interweave-content a {
+  @apply text-white hover:underline;
+}
