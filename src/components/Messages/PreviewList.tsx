@@ -36,6 +36,8 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
     const addProfileAndSelectTab = useMessageStore((state) => state.addProfileAndSelectTab);
     const selectedTab = useMessageStore((state) => state.selectedTab);
     const setSelectedTab = useMessageStore((state) => state.setSelectedTab);
+    const ensNames = useMessageStore((state) => state.ensNames);
+
     const [showSearchModal, setShowSearchModal] = useState(false);
     const [keyword, setKeyword] = useState('')
     const debouncedValue = useDebounce<string>(keyword, 500)
@@ -141,36 +143,57 @@ const PreviewList: FC<Props> = ({ className, selectedConversationKey }) => {
                         </button>
                     )}
                 </div>
-                <div className="flex">
+                <div className="flex bg-brand-500 p-2 justify-between">
                     <div
-                        onClick={() => setSelectedTab('Following')}
+                        onClick={() => setSelectedTab('All')}
                         className={clsx(
-                            'text-brand-500 tab-bg m-2 ml-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
-                            selectedTab === 'Following' ? 'bg-brand-100' : ''
+                            'tab-bg flex flex-1 cursor-pointer items-center justify-center rounded-full px-3 py-1 font-bold',
+                            selectedTab === 'All' ? 'bg-brand-100 text-brand-500' : 'text-white'
                         )}
                     >
-                        <HiOutlineUsers className="mr-2 h-4 w-4" />
-                        Following
+                        All
                     </div>
                     <div
-                        onClick={() => setSelectedTab('Requested')}
+                        onClick={() => setSelectedTab('Lens')}
                         className={clsx(
-                        'text-brand-500 tab-bg m-2 mr-4 flex flex-1 cursor-pointer items-center justify-center rounded-full p-2 font-bold',
-                        selectedTab === 'Requested' ? 'bg-brand-100' : ''
+                            'tab-bg flex flex-1 cursor-pointer items-center justify-center rounded-full px-3 py-1 font-bold',
+                            selectedTab === 'Lens' ? 'bg-brand-100 text-brand-500' : 'text-white'
+                        )}
+                    >
+                        Lens
+                    </div>
+                    <div
+                        onClick={() => setSelectedTab('Other')}
+                        className={clsx(
+                            'tab-bg flex flex-1 cursor-pointer items-center justify-center rounded-full  px-3 py-1 font-bold',
+                            selectedTab === 'Other' ? 'bg-brand-100 text-brand-500' : 'text-white'
+                        )}
+                    >
+                        Other
+                    </div>
+                    <div
+                        onClick={() => setSelectedTab('Requests')}
+                        className={clsx(
+                            'text-brand-500 tab-bg flex flex-1 cursor-pointer items-center justify-center rounded-full px-3 py-1 font-bold',
+                            selectedTab === 'Requests' ? 'bg-brand-100 text-brand-500' : 'text-white'
                         )}
                     >
                         Requested
                         {requestedCount > 0 && (
-                            <span className="bg-brand-200 ml-2 rounded-2xl px-3 py-0.5 text-sm font-bold">
+                            <span className={clsx(
+                                "ml-2 rounded-full px-2 py-0.5 text-sm font-bold",
+                                selectedTab === 'Requests' ? 'bg-brand-500 text-brand-100' : 'bg-brand-100 text-brand-500'
+                            )}
+                            >
                                 {requestedCount > 99 ? '99+' : requestedCount}
                             </span>
                         )}
                     </div>
                 </div>
-                {selectedTab === 'Requested' ? (
-                <div className="mt-1 bg-yellow-100 p-2 px-5 text-sm text-yellow-800">
-                    These conversations are from Lens profiles that you don&apos;t currently follow.
-                </div>
+                {selectedTab === 'Requests' ? (
+                    <div className="mt-1 bg-yellow-100 p-2 px-5 text-sm text-yellow-800">
+                        These conversations are from Lens profiles that you don&apos;t currently follow.
+                    </div>
                 ) : null}
                 <div className="h-full overflow-y-auto overflow-x-hidden">
                 {showAuthenticating ? (

@@ -4,14 +4,21 @@ import { Loader } from '@components/UI/Loader';
 import { useMessagePersistStore, useMessageStore } from '@lib/store/message';
 import { MIN_WIDTH_DESKTOP } from '@utils/constants';
 import useWindowSize from '@utils/hooks/useWindowSize';
-import { FC, useRef } from 'react';
+import { ChangeEvent, FC, useRef } from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsArrowRightShort, BsCameraVideo, BsFillPatchQuestionFill, BsImage } from 'react-icons/bs';
 import { uploadToIPFS } from '@utils/functions/uploadToIPFS';
-import { ContentTypeImageKey } from '@hooks/codecs/Image';
-import { SendOptions } from '@xmtp/xmtp-js';
-import { ContentTypeVideoKey } from '@hooks/codecs/Video';
+import { ContentTypeId, ContentTypeText, SendOptions } from '@xmtp/xmtp-js';
+import type {
+  Attachment as TAttachment,
+  RemoteAttachment
+} from 'xmtp-content-type-remote-attachment';
+import {
+  AttachmentCodec,
+  ContentTypeRemoteAttachment,
+  RemoteAttachmentCodec
+} from 'xmtp-content-type-remote-attachment';
 import { ALLOWED_IMAGE_TYPES, ALLOWED_VIDEO_TYPES } from '@utils/constants';
 import type { IGif } from '@giphy/js-types';
 import { v4 as uuid } from 'uuid';
@@ -24,22 +31,52 @@ import { MdOutlineAttachFile } from 'react-icons/md';
 import { BiSend } from 'react-icons/bi';
 
 interface Props {
-    sendMessage: (message: string, option?: SendOptions) => Promise<boolean>;
+    sendMessage: (
+        content: string | RemoteAttachment,
+        contentType: ContentTypeId,
+        fallback?: string
+    ) => Promise<boolean>;
     conversationKey: string;
     disabledInput: boolean;
 }
 
+interface AttachmentPreviewProps {
+  onDismiss: () => void;
+  dismissDisabled: boolean;
+  attachment: TAttachment;
+}
+
+const AttachmentPreview: FC<AttachmentPreviewProps> = ({
+  onDismiss,
+  dismissDisabled,
+  attachment
+}) => {
+  return (
+    <div className="relative ml-12 inline-block rounded pt-6">
+      <button
+        disabled={dismissDisabled}
+        type="button"
+        className="absolute top-2 rounded-full bg-gray-900 p-1.5 opacity-75"
+        onClick={onDismiss}
+      >
+        {/* <XIcon className="h-4 w-4 text-white" /> */}
+      </button>
+      {/* <Attachment attachment={attachment} /> */}
+    </div>
+  );
+};
+
+
 const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) => {
     const [message, setMessage] = useState<string>('');
-    const imageRef = useRef<HTMLInputElement>(null);
-    const videoRef = useRef<HTMLInputElement>(null);
     const [sending, setSending] = useState<boolean>(false);
     const { width } = useWindowSize();
+    const imageRef = useRef<HTMLInputElement>(null);
     const unsentMessage = useMessagePersistStore((state) => state.unsentMessages.get(conversationKey));
     const setUnsentMessage = useMessagePersistStore((state) => state.setUnsentMessage);
     const setIsUploading = useMessageStore((state) => state.setIsUploading);
     const isUploading = useMessageStore((state) => state.isUploading);
-    const setAttachment = useMessageStore((state) => state.setAttachment);
+    const [attachment, setAttachment] = useState<TAttachment | null>(null);
 
     const canSendMessage = !disabledInput && !sending && message.length > 0;
 
@@ -48,147 +85,187 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
             return;
         }
         setSending(true);
-        const sent = await sendMessage(message);
-        if (sent) {
-            setMessage('');
-            setUnsentMessage(conversationKey, null);
-        } else {
-            toast.error(`Error sending message`);
+        if (attachment) {
+            const encryptedEncodedContent =
+                await RemoteAttachmentCodec.encodeEncrypted(
+                    attachment,
+                    new AttachmentCodec()
+                );
+
+            const file = new File(
+                [encryptedEncodedContent.payload],
+                    'XMTPEncryptedContent',
+                {
+                    type: attachment.mimeType
+                }
+            );
+
+            const { url } = await uploadToIPFS(file)
+
+            const remoteAttachment: RemoteAttachment = {
+                url,
+                contentDigest: encryptedEncodedContent.digest,
+                salt: encryptedEncodedContent.salt,
+                nonce: encryptedEncodedContent.nonce,
+                secret: encryptedEncodedContent.secret,
+                scheme: 'https://',
+                filename: attachment.filename,
+                contentLength: attachment.data.byteLength
+            };
+
+            // Since we're sending this, we should always load it
+            /* @ts-ignore */
+            setAttachment(url);
+
+            const sentAttachment = await sendMessage(
+                remoteAttachment,
+                ContentTypeRemoteAttachment,
+                `[Attachment] Cannot display "${attachment.filename}". This app does not support attachments yet.`
+            );
+
+            if (sentAttachment) {
+                setAttachment(null);
+            } else {
+                toast.error(`Error sending attachment`);
+            }
+        }
+
+        if (message.length > 0) {
+            const sentMessage = await sendMessage(message, ContentTypeText);
+
+            if (sentMessage) {
+                setMessage('');
+                setUnsentMessage(conversationKey, null);
+            } else {
+                toast.error(`Error sending message`);
+            }
         }
         setSending(false);
     };
+
+    const onAttachmentChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.length) {
+        const file = e.target.files[0];
+
+        const fileReader = new FileReader();
+        fileReader.addEventListener('load', async function () {
+            const data = fileReader.result;
+
+            if (!(data instanceof ArrayBuffer)) {
+                return;
+            }
+
+            const attachment: TAttachment = {
+                filename: file.name,
+                mimeType: file.type,
+                data: new Uint8Array(data)
+            };
+
+            setAttachment(attachment);
+        });
+
+        fileReader.readAsArrayBuffer(file);
+        } else {
+            setAttachment(null);
+        }
+    };
+
+    // const handleUploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSending(true);
+    //     setIsUploading(true);
+    //     const file = event.target.files?.[0];
+    //     if (!file) {
+    //         return;
+    //     }
+
+    //     if (file.size > 10000000) {
+    //         setIsUploading(false);
+    //         toast.error(`Image size should be less than 10MB`);
+    //         return;
+    //     }
+
+    //     setAttachment({
+    //         id: uuid(),
+    //         type: 'image',
+    //         item: URL.createObjectURL(file),
+    //         altTag: file.name,
+    //         previewItem: URL.createObjectURL(file)
+    //     })
+
+    //     const { url } = await uploadToIPFS(file)
+    //     if (url) {
+    //         const sent = await sendMessage(url.toString(), {
+    //             contentType: ContentTypeImageKey,
+    //             contentFallback: 'Image'
+    //         });
+    //         if (sent) {
+    //             setAttachment({
+    //                 id: '',
+    //                 type: '',
+    //                 item: '',
+    //                 altTag: '',
+    //                 previewItem: ''
+    //             })
+    //             setMessage('');
+    //             setIsUploading(false);
+    //             setSending(false);
+    //             setUnsentMessage(conversationKey, null);
+    //         } else {
+    //             setAttachment({
+    //                 id: '',
+    //                 type: '',
+    //                 item: '',
+    //                 altTag: '',
+    //                 previewItem: ''
+    //             })
+    //             setIsUploading(false);
+    //             setSending(false);
+    //             toast.error(`Error sending message`);
+    //         }
+    //     }
+    // };
+
+    // const setGifAttachment = async(gif: IGif) => {
+    //     setIsUploading(true);
+
+    //     setAttachment({
+    //         id: uuid(),
+    //         type: 'image',
+    //         item: gif.images.original.url,
+    //         altTag: gif.title,
+    //         previewItem: gif.images.original.url
+    //     })
+    //     const sent = await sendMessage(gif.images.original.url.toString(), {
+    //         contentType: ContentTypeImageKey,
+    //         contentFallback: gif.title
+    //     });
+    //     if (sent) {
+    //         setAttachment({
+    //             id: '',
+    //             type: '',
+    //             item: '',
+    //             altTag: '',
+    //             previewItem: ''
+    //         })
+    //         setIsUploading(false);
+    //         setMessage('');
+    //         setUnsentMessage(conversationKey, null);
+    //     } else {
+    //         setAttachment({
+    //             id: '',
+    //             type: '',
+    //             item: '',
+    //             altTag: '',
+    //             previewItem: ''
+    //         })
+    //         setIsUploading(false);
+    //         toast.error(`Error sending message`);
+    //     }
+    // }
 
     const handleSendImage = async () => {
         imageRef.current?.click();
     };
-
-    const handleSendVideo = async () => {
-        videoRef.current?.click();
-    };
-
-    const handleUploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSending(true);
-        setIsUploading(true);
-        const file = event.target.files?.[0];
-        if (!file) {
-            return;
-        }
-
-        if (file.size > 10000000) {
-            setIsUploading(false);
-            toast.error(`Image size should be less than 10MB`);
-            return;
-        }
-
-        setAttachment({
-            id: uuid(),
-            type: 'image',
-            item: URL.createObjectURL(file),
-            altTag: file.name,
-            previewItem: URL.createObjectURL(file)
-        })
-
-        const { url } = await uploadToIPFS(file)
-        if (url) {
-            const sent = await sendMessage(url.toString(), {
-                contentType: ContentTypeImageKey,
-                contentFallback: 'Image'
-            });
-            if (sent) {
-                setAttachment({
-                    id: '',
-                    type: '',
-                    item: '',
-                    altTag: '',
-                    previewItem: ''
-                })
-                setMessage('');
-                setIsUploading(false);
-                setSending(false);
-                setUnsentMessage(conversationKey, null);
-            } else {
-                setAttachment({
-                    id: '',
-                    type: '',
-                    item: '',
-                    altTag: '',
-                    previewItem: ''
-                })
-                setIsUploading(false);
-                setSending(false);
-                toast.error(`Error sending message`);
-            }
-        }
-    };
-
-    const setGifAttachment = async(gif: IGif) => {
-        setIsUploading(true);
-
-        setAttachment({
-            id: uuid(),
-            type: 'image',
-            item: gif.images.original.url,
-            altTag: gif.title,
-            previewItem: gif.images.original.url
-        })
-        const sent = await sendMessage(gif.images.original.url.toString(), {
-            contentType: ContentTypeImageKey,
-            contentFallback: gif.title
-        });
-        if (sent) {
-            setAttachment({
-                id: '',
-                type: '',
-                item: '',
-                altTag: '',
-                previewItem: ''
-            })
-            setIsUploading(false);
-            setMessage('');
-            setUnsentMessage(conversationKey, null);
-        } else {
-            setAttachment({
-                id: '',
-                type: '',
-                item: '',
-                altTag: '',
-                previewItem: ''
-            })
-            setIsUploading(false);
-            toast.error(`Error sending message`);
-        }
-    };
-
-    const handleUploadVideo = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSending(true);
-        const file = event.target.files?.[0];
-        if (!file) {
-            return;
-        }
-
-        if (file.size > 100000000) {
-            toast.error(`Video size should be less than 100MB`);
-            return;
-        }
-
-        const { url } = await uploadToIPFS(file)
-       
-        if (url) {
-            const sent = await sendMessage(url.toString(), {
-                contentType: ContentTypeVideoKey,
-                contentFallback: 'Video'
-            });
-            if (sent) {
-                setMessage('');
-                setUnsentMessage(conversationKey, null);
-            } else {
-                toast.error(`Error sending message`);
-            }
-        }
-
-        setSending(false);
-    };
-
 
     useEffect(() => {
         setMessage(unsentMessage ?? '');
@@ -218,21 +295,15 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
             />
             <input
                 ref={imageRef}
-                type='file'
-                accept={ALLOWED_IMAGE_TYPES.join(',')}
-                multiple={false}
-                className='hidden'
-                onChange={handleUploadImage}
+                type="file"
+                accept=".png, .jpg, .jpeg, .gif"
+                className="hidden w-full"
+                onChange={onAttachmentChange}
             />
-            <input
-                ref={videoRef}
-                type='file'
-                accept={ALLOWED_VIDEO_TYPES.join(',')}
-                multiple={false}
-                className='hidden'
-                onChange={handleUploadVideo}
-            />
-            { isMobile ? 
+            <button onClick={handleSendImage} className='hidden md:block'>
+                <BsImage size={24} className="fill-brand-500 dark:fill-brand-400"/>
+            </button>
+            {/* { isMobile ? 
             <DropMenu
                 trigger={
                     <button
@@ -251,9 +322,6 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                         <button onClick={handleSendImage}>
                             <BsImage size={24} className="fill-brand-500 dark:fill-brand-400"/>
                         </button>
-                        <button onClick={handleSendVideo}>
-                            <BsCameraVideo size={24} className="fill-brand-500 dark:fill-brand-400"/>
-                        </button>
                     </div>
                 </div>
             </DropMenu>
@@ -267,7 +335,7 @@ const Composer: FC<Props> = ({ sendMessage, conversationKey, disabledInput }) =>
                         <BsImage size={24} className="fill-brand-500 dark:fill-brand-400"/>
                     </button>
                 </>
-            }
+            } */}
             <Button
                 disabled={!canSendMessage}
                 onClick={handleSend}

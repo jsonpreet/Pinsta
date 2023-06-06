@@ -1,0 +1,26 @@
+User-agent: Googlebot-Image
+Disallow: /
+
+User-agent: Googlebot
+Allow: /*
+Disallow: /_next/*
+Disallow: /settings/*
+Disallow: /messages/*
+
+User-agent: Yandex
+Allow: /*
+Disallow: /_next/*
+Disallow: /settings/*
+Disallow: /messages/*
+
+User-agent: bingbot
+Allow: /*
+Disallow: /_next/*
+Disallow: /settings/*
+Disallow: /messages/*
+
+User-agent: *
+Allow: /*
+Disallow: /_next/*
+Disallow: /settings/*
+Disallow: /messages/*

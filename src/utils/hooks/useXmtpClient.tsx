@@ -4,8 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSigner } from 'wagmi';
 import useAppStore from '@lib/store';
 import { useMessageStore } from '@lib/store/message';
-import { VideoCodec } from './codecs/Video';
-import { ImageCodec } from './codecs/Image';
+import {
+  AttachmentCodec,
+  RemoteAttachmentCodec
+} from 'xmtp-content-type-remote-attachment';
 
 const ENCODING = 'binary';
 
@@ -56,8 +58,9 @@ const useXmtpClient = (cacheOnly = false) => {
                     env: XMTP_ENV,
                     appVersion: APP.Name + '/' + APP.Version,
                     privateKeyOverride: keys,
-                    codecs: [new VideoCodec(), new ImageCodec()]
                 });
+                xmtp.registerCodec(new AttachmentCodec());
+                xmtp.registerCodec(new RemoteAttachmentCodec());
                 setClient(xmtp);
                 setAwaitingXmtpAuth(false);
             } else {

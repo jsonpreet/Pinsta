@@ -12,12 +12,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import formatHandle from '@utils/functions/formatHandle';
 import formatTime from '@utils/functions/formatTime';
 import { HiOutlineEmojiSad } from 'react-icons/hi';
-import { ContentTypeImageKey } from '@hooks/codecs/Image';
 import MessageMedia from './MessageMedia';
-import { ContentTypeVideoKey } from '@hooks/codecs/Video';
 import { useMessageStore } from '@lib/store/message';
 import { NewPinstaAttachment } from '@utils/custom-types';
 import { Loader } from '@components/UI/Loader';
+import { ContentTypeRemoteAttachment } from 'xmtp-content-type-remote-attachment';
 
 const isOnSameDay = (d1?: Date, d2?: Date): boolean => {
   return dayjs(d1).format('YYYYMMDD') === dayjs(d2).format('YYYYMMDD');
@@ -42,9 +41,7 @@ const MessageTile: FC<MessageTileProps> = ({ message, profile, currentProfile })
         )}
         >
             <div
-                className={clsx( 'flex pr-4 md:pr-0',
-                    message.contentType.typeId == ContentTypeVideoKey.typeId ? 'w-full md:max-w-[60%]' : 'md:max-w-[60%]'
-                )}
+                className='flex pr-4 md:pr-0 w-auto'
             >
                 {address !== message.senderAddress && (
                     <img
@@ -56,21 +53,19 @@ const MessageTile: FC<MessageTileProps> = ({ message, profile, currentProfile })
                 )}
                 <div
                 className={clsx(
-                    address === message.senderAddress ? 'bg-brand2-500' : 'bg-gray-100 dark:bg-gray-700',
+                    address === message.senderAddress ? 'bg-brand-500 text-white' : 'bg-gray-100 dark:bg-gray-700',
                     'w-full',
-                    message.contentType.typeId == ContentTypeImageKey.typeId ? 'rounded-md md:rounded-2xl' : 'rounded-md md:rounded-full',
-                    message.contentType.typeId == ContentTypeImageKey.typeId || message.contentType.typeId == ContentTypeVideoKey.typeId ? 'p-0' : 'px-4 py-2'
+                    'rounded-md px-4 py-2'
                 )}
                 >
                     {message.error
                         ? `Error: ${message.error?.message}`
-                            : message.contentType.typeId == ContentTypeImageKey.typeId ? <MessageMedia message={message} type='image' />
-                            : message.contentType.typeId == ContentTypeVideoKey.typeId ? <MessageMedia message={message} type='video' />
+                            : message.contentType.sameAs(ContentTypeRemoteAttachment) ? <MessageMedia remoteAttachment={message.content} />
                             : 
                             <span
                                 className={clsx(
-                                address === message.senderAddress && 'text-black',
-                                'text-sm md:text-md linkify-message block break-words'
+                                address === message.senderAddress && 'text-white',
+                                    'text-sm md:text-md linkify-message block break-words'
                                 )}
                             >
                                 <InterweaveContent content={message.content} />
@@ -88,7 +83,7 @@ const MessageTile: FC<MessageTileProps> = ({ message, profile, currentProfile })
 };
 
 interface AttachmentMessageTileProps {
-    attachment: NewPinstaAttachment;
+    attachment: string;
     profile?: Profile;
     currentProfile?: Profile | null;
 }
@@ -99,8 +94,8 @@ const AttachmentMessageTile: FC<AttachmentMessageTileProps> = ({ attachment, pro
             <div className='flex max-w-[60%] relative'>
                 <div className='w-full rounded-2xl p-0'>
                     <img
-                        src={attachment.item}
-                        alt={attachment.altTag ?? ''}
+                        src={attachment}
+                        alt={''}
                         className='w-full rounded-2xl cursor-pointer'
                     />
                 </div>
@@ -196,7 +191,7 @@ const MessagesList: FC<MessageListProps> = ({
                         scrollableTarget="scrollableMessageListDiv"
                     >
                         {
-                            isUploading && attachment?.id !== '' ? (
+                            isUploading && attachment !== '' ? (
                                 <div className='attachmentMessage'>
                                     <AttachmentMessageTile currentProfile={currentProfile} profile={profile} attachment={attachment} />
                                 </div>

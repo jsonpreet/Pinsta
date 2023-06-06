@@ -1,29 +1,61 @@
 /* eslint-disable @next/next/no-img-element */
-import Video from '@components/Common/Video'
+import useXmtpClient from '@hooks/useXmtpClient'
 import imageCdn from '@utils/functions/imageCdn'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
+import type {
+  Attachment as TAttachment,
+  RemoteAttachment
+} from 'xmtp-content-type-remote-attachment';
+import { RemoteAttachmentCodec } from 'xmtp-content-type-remote-attachment';
+import Attachment from './Attachment';
+import { Loader } from '@components/UI/Loader';
 
 interface Props {
-    message: any
-    type: 'image' | 'video' | 'audio' | 'file'
+    remoteAttachment: any
 }
 
-const MessageMedia: FC<Props> = ({ message, type }) => {
-    console.log(message)
+enum Status {
+  UNLOADED = 'unloaded',
+  LOADING = 'loading',
+  LOADED = 'loaded'
+}
+
+const isImage = (mimeType: string): boolean => ['image/png', 'image/jpeg', 'image/gif'].includes(mimeType);
+
+const MessageMedia: FC<Props> = ({ remoteAttachment }) => {
+    const [status, setStatus] = useState<Status>(Status.UNLOADED);
+    const [attachment, setAttachment] = useState<TAttachment | null>(null);
+    const { client } = useXmtpClient();
+
+    useEffect(() => {
+        async function load() {
+            if (!client) {
+                return;
+            }
+            const attachment: TAttachment = await RemoteAttachmentCodec.load(
+                remoteAttachment,
+                client
+            );
+
+            setAttachment(attachment)
+            setStatus(Status.LOADED)
+        }
+
+        load();
+    }, [
+        client,
+        remoteAttachment,
+    ])
+
     return (
         <>
-            {type === 'image' &&
-                <img
-                    onClick={() => window.open(sanitizeIpfsUrl(message.content))}
-                    src={sanitizeIpfsUrl(message.content)}
-                    alt={message.contentFallback ?? ''}
-                    className='w-full rounded-2xl cursor-pointer'
-                />
-            }
-            {type === 'video' &&
-                <Video src={sanitizeIpfsUrl(message.content)} ratio='16to9' />
-            }
+            <div className="mt-1 items-center flex flex-col space-y-1">
+                {attachment ? <Attachment attachment={attachment} /> : null}
+                {status === Status.LOADING && (
+                    <Loader className="mx-28 my-4 h-48 w-48" size="sm" />
+                )}
+            </div>    
         </>
     )
 }

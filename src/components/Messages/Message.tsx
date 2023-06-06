@@ -28,7 +28,9 @@ interface MessageProps {
 const Message: FC<MessageProps> = ({ conversationKey }) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const profile = useMessageStore((state) => state.messageProfiles.get(conversationKey));
-    const { selectedConversation, missingXmtpAuth } = useGetConversation(conversationKey, profile);
+    const selectedConversation = useMessageStore((state) =>
+        state.conversations.get(conversationKey)
+    );
     const [endTime, setEndTime] = useState<Map<string, Date>>(new Map());
     const { messages, hasMore } = useGetMessages(
         conversationKey,
@@ -36,7 +38,7 @@ const Message: FC<MessageProps> = ({ conversationKey }) => {
         endTime.get(conversationKey)
     );
     useStreamMessages(conversationKey, selectedConversation);
-    const { sendMessage } = useSendMessage(selectedConversation);
+    const { missingXmtpAuth, sendMessage } = useSendMessage(conversationKey);
 
     const fetchNextMessages = useCallback(() => {
         if (hasMore && Array.isArray(messages) && messages.length > 0) {

@@ -162,3 +162,22 @@ export const LENSTUBE_APP_ID = 'lenstube'
 export const LENSTUBE_BYTES_APP_ID = 'lenstube-bytes'
 export const ALLOWED_APP_IDS = ['orb', 'lenstube-bytes']
 export const ADMIN_IDS = IS_MAINNET ? ['0x016efc'] : ['0x57a4']
+
+const RESTRICTED_SYMBOLS = '☑️✓✔✅';
+
+export const Regex = {
+  url: /(http|https):\/\/([\w+.?])+([\w!#$%&'()*+,./:;=?@\\^~\-]*)?/g,
+  mention: /(@[a-z\d-_.]{1,31})/g,
+  hashtag: /(#\w*[A-Za-z]\w*)/g,
+  ethereumAddress: /^(0x)?[\da-f]{40}$/i,
+  handle: /^[\da-z]+$/g,
+  allHandles: /([\s+])@(\S+)/g,
+  santiizeHandle: /[^\d .A-Za-z]/g,
+  profileNameValidator: new RegExp('^[^' + RESTRICTED_SYMBOLS + ']+$'),
+  profileNameFilter: new RegExp('[' + RESTRICTED_SYMBOLS + ']', 'gu'),
+  gm: /\bgm\b/i
+};
+
+export const ENS_RESOLVER_WORKER_URL = IS_MAINNET
+  ? 'https://ens-resolver.lenster.xyz'
+  : 'http://localhost:8086';
