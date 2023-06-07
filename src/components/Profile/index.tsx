@@ -3,7 +3,7 @@ import PinShimmer from '@components/Shimmers/PinShimmer'
 import useAppStore from '@lib/store'
 import Custom404 from '@pages/404'
 import Custom500 from '@pages/500'
-import { APP } from '@utils/constants'
+import { APP, AVATAR } from '@utils/constants'
 import formatHandle from '@utils/functions/formatHandle'
 import { Profile, useProfileQuery } from '@utils/lens/generated'
 import { NextPage } from 'next'
@@ -49,7 +49,7 @@ const Profile: FC<Props> = ({ profile }) => {
         <>
             <MetaTags
                 title={metaTitle}
-                image={getProfilePicture(userProfile, 'avatar_lg')}
+                image={getProfilePicture(userProfile, AVATAR)}
                 description={userProfile?.bio ? truncate(userProfile?.bio as string, 100) : APP.Description}
             />
             {userProfile ? (

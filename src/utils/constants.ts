@@ -106,7 +106,16 @@ export const POLYGONSCAN_URL = IS_MAINNET
 export const POLYGON_CHAIN_ID = IS_MAINNET ? 137 : 80001
 
 // cdn
-export const IMAGE_CDN_URL = 'https://ik.imagekit.io/gzmagoxn0r'
+export const IMAGE_CDN_URL = 'https://ik.imagekit.io/lens/media-snapshot'
+
+// Named transforms for ImageKit
+export const AVATAR = 'tr:w-300,h-300'
+export const EXPANDED_AVATAR = 'tr:w-1000,h-1000'
+export const COVER = 'tr:w-1500,h-500'
+export const SQUARE = 'tr:w-600,h-600,c-at_max'
+export const THUMBNAIL = 'tr:w-450'
+export const THUMBNAIL_SM = 'tr:w-300'
+export const THUMBNAIL_LG = 'tr:w-600'
 
 export const SCROLL_ROOT_MARGIN = '40% 0px'
 
@@ -137,11 +146,6 @@ export const LIVEPEER_STUDIO_API_KEY = 'c2bb473c-47af-46be-b991-08648b229b1e'
 export const MESSAGE_PAGE_LIMIT = 15;
 export const SCROLL_THRESHOLD = 0.5;
 export const MIN_WIDTH_DESKTOP = 1024;
-
-// Named transforms
-export const AVATAR = 'avatar';
-export const COVER = 'cover';
-export const ATTACHMENT = 'attachment';
 
 // External Apps
 export const LENSTER_URL = 'https://lenster.xyz'
@@ -180,4 +184,4 @@ export const Regex = {
 
 export const ENS_RESOLVER_WORKER_URL = IS_MAINNET
   ? 'https://ens-resolver.lenster.xyz'
-  : 'http://localhost:8086';
+  : 'http://localhost:8052';

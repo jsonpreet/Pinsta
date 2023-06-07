@@ -18,7 +18,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { RiImageAddLine } from 'react-icons/ri'
 import type { CustomErrorWithData, IPFSUploadResult } from '@utils/custom-types'
-import { ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, RELAYER_ENABLED } from '@utils/constants'
+import { AVATAR, ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, RELAYER_ENABLED } from '@utils/constants'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import omit from '@utils/functions/omit'
 import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
@@ -41,7 +41,7 @@ const ProfilePicture: FC<Props> = ({ profile }) => {
     const onError = (error: CustomErrorWithData) => {
         toast.error(error?.data?.message ?? error?.message ?? ERROR_MESSAGE)
         setLoading(false)
-        setSelectedPfp(getProfilePicture(profile, 'avatar_lg'))
+        setSelectedPfp(getProfilePicture(profile, AVATAR))
     }
 
     const onCompleted = () => {
@@ -156,7 +156,7 @@ const ProfilePicture: FC<Props> = ({ profile }) => {
                 src={
                 selectedPfp
                     ? sanitizeIpfsUrl(selectedPfp)
-                    : getProfilePicture(profile, 'avatar_lg')
+                    : getProfilePicture(profile, AVATAR)
                 }
                 className="object-cover w-32 h-32 border-2  dark:border-gray-700 rounded-full"
                 draggable={false}

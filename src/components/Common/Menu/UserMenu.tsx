@@ -11,7 +11,7 @@ import { useTheme } from 'next-themes'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import type { CustomErrorWithData } from '@utils/custom-types'
-import { ADMIN_IDS, IS_MAINNET } from '@utils/constants'
+import { ADMIN_IDS, AVATAR, IS_MAINNET } from '@utils/constants'
 import clearLocalStorage from '@utils/functions/clearLocalStorage'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import { useAccount, useDisconnect } from 'wagmi'
@@ -81,7 +81,7 @@ const UserMenu = () => {
           >
             <img
               className="object-cover focus:ring-0 focus-visible:outline-none focus:outline-none bg-white rounded-full dark:bg-theme w-8 h-8 md:w-9 md:h-9"
-              src={getProfilePicture(currentProfile, 'avatar')}
+              src={getProfilePicture(currentProfile, AVATAR)}
               alt={currentProfile.handle}
               draggable={false}
             />
@@ -110,7 +110,7 @@ const UserMenu = () => {
                     <span className="inline-flex items-center space-x-1.5">
                       <img
                         className="w-6 h-6 rounded-full"
-                        src={getProfilePicture(profile)}
+                        src={getProfilePicture(profile, AVATAR)}
                         alt={formatHandle(profile?.handle)}
                         draggable={false}
                       />

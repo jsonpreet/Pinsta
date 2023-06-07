@@ -15,6 +15,7 @@ import IsVerified from '@components/UI/IsVerified';
 import getProfilePicture from '@utils/functions/getProfilePicture';
 import Followerings from './Followerings';
 import { LeftMetaDetails, RightMetaDetails } from './MetaDetails';
+import { AVATAR } from '@utils/constants';
 
 interface Props {
   profile: Profile;
@@ -31,7 +32,7 @@ const Details: FC<Props> = ({ profile }) => {
             <div className="md:mb-10 flex-1 space-y-3 flex flex-col w-full items-center justify-center">
                 <div className="relative -mt-10 w-32 h-32 sm:-mt-24 sm:w-44 sm:h-44">
                     <img
-                        src={getProfilePicture(profile, 'avatar_lg')}
+                        src={getProfilePicture(profile, AVATAR)}
                         className="w-32 h-32 dark:bg-gray-700/40 dark:ring-gray-700/60 bg-gray-100/70 ring-2 ring-white/70 bg-clip-padding backdrop-blur-xl backdrop-filter p-3 rounded-full sm:w-44 sm:h-44"
                         height={128}
                         width={128}

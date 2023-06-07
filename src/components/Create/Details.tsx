@@ -9,7 +9,7 @@ import useAppStore from '@lib/store'
 import ProfileBoards from './Actions/Boards'
 import { Button } from '@components/UI/Button'
 import { toast } from 'react-hot-toast'
-import { ALLOWED_VIDEO_TYPES, APP, ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
+import { ALLOWED_VIDEO_TYPES, APP, AVATAR, ERROR_MESSAGE, LENSHUB_PROXY_ADDRESS, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
 import { MetadataAttributeInput, PublicationMainFocus, PublicationMetadataDisplayTypes, PublicationMetadataMediaInput, PublicationMetadataV2Input, useBroadcastMutation, useCreatePostTypedDataMutation, useCreatePostViaDispatcherMutation } from '@utils/lens/generated'
 import splitSignature from '@utils/functions/splitSignature'
 import getSignature from '@utils/functions/getSignature'
@@ -320,7 +320,7 @@ const Details: FC<any> = () => {
                     {currentProfile &&
                         <div>
                             <img 
-                                src={imageCdn(getProfilePicture(currentProfile), 'avatar')}
+                                src={getProfilePicture(currentProfile,AVATAR)}
                                 className='w-9 h-9 rounded-full'
                                 alt={formatHandle(currentProfile?.handle)}
                             />

@@ -16,6 +16,7 @@ import React from 'react'
 import type { QueuedCommentType } from '@utils/custom-types'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import formatHandle from '@utils/functions/formatHandle'
+import { AVATAR } from '@utils/constants'
 
 type Props = {
   queuedComment: QueuedCommentType
@@ -108,7 +109,7 @@ const QueuedComment: FC<Props> = ({ queuedComment }) => {
           className="flex-none mr-3 mt-0.5"
         >
           <img
-            src={getProfilePicture(currentProfile, 'avatar')}
+            src={getProfilePicture(currentProfile, AVATAR)}
             className="rounded-full w-7 h-7"
             draggable={false}
             alt={currentProfile?.handle}

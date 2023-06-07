@@ -6,6 +6,7 @@ import { usePublicationsByIdsQuery } from '@utils/lens/generated'
 import React, { FC } from 'react'
 import usePersistStore from '@lib/store/persist'
 import clsx from 'clsx'
+import { THUMBNAIL_SM } from '@utils/constants'
 
 interface Props {
     board: any
@@ -20,7 +21,7 @@ const BoardThumbnail: FC<Props> = ({ board, setShowEditBoard }) => {
                 <div className='flex w-full h-full'>
                     <div
                         className='w-full h-full bg-cover bg-center'
-                        style={{ backgroundImage: `url(${imageCdn(board?.pfp, 'thumbnail_sm')})` }}
+                        style={{ backgroundImage: `url(${imageCdn(board?.pfp, THUMBNAIL_SM)})` }}
                     ></div>
                 </div>
             </div>

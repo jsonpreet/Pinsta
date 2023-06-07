@@ -19,6 +19,7 @@ import toast from 'react-hot-toast'
 import type { CustomErrorWithData, IPFSUploadResult } from '@utils/custom-types'
 import {
   APP,
+  COVER,
   ERROR_MESSAGE,
   LENS_PERIPHERY_ADDRESS,
   RELAYER_ENABLED
@@ -262,7 +263,7 @@ const BasicInfo = ({ profile }: Props) => {
               sanitizeIpfsUrl(coverImage) ??
               imageCdn(
                 sanitizeIpfsUrl(getCoverPicture(profile)),
-                'thumbnail'
+                COVER
               )
             }
             className="object-cover object-center w-full h-48 bg-white rounded-xl md:h-56 dark:bg-gray-900"

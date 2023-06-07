@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import formatHandle from '@utils/functions/formatHandle';
 import IsVerified from '@components/UI/IsVerified';
 import Tippy from '@tippyjs/react';
@@ -13,6 +14,7 @@ import Slug from './Slug';
 import SuperFollow from './SuperFollow';
 import { formatNumber } from '@utils/functions/formatNumber';
 import getProfilePicture from '@utils/functions/getProfilePicture';
+import { AVATAR } from '@utils/constants';
 
 type Props = {
   profile: Profile;
@@ -32,7 +34,7 @@ const UserPreview: FC<Props> = ({ profile, isBig, followStatusLoading, children,
 
     const UserAvatar = () => (
         <img
-        src={getProfilePicture(lazyProfile)}
+        src={getProfilePicture(lazyProfile, AVATAR)}
         loading="lazy"
         className={clsx(
             isBig ? 'w-14 h-14' : 'w-10 h-10',
