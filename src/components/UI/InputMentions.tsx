@@ -6,7 +6,7 @@ import type { ComponentProps, FC } from 'react'
 import React, { useId } from 'react'
 import type { SuggestionDataItem } from 'react-mentions'
 import { Mention, MentionsInput } from 'react-mentions'
-import { LENS_CUSTOM_FILTERS } from '@utils/constants'
+import { AVATAR, LENS_CUSTOM_FILTERS } from '@utils/constants'
 import getProfilePicture from '@utils/functions/getProfilePicture'
 import formatHandle from '@utils/functions/formatHandle'
 import IsVerified from './IsVerified'
@@ -53,7 +53,7 @@ const InputMentions: FC<Props> = ({
         const profiles = profileItems?.map((profile: Profile) => ({
           id: profile.id,
           display: profile.handle,
-          picture: getProfilePicture(profile),
+          picture: getProfilePicture(profile, AVATAR),
           followers: profile.stats.totalFollowers
         }))
         callback(profiles)

@@ -1,4 +1,4 @@
-import { LENS_CUSTOM_FILTERS } from "@utils/constants"
+import { LENS_CUSTOM_FILTERS, THUMBNAIL_SM } from "@utils/constants"
 import { PinstaPublication } from "@utils/custom-types"
 import getThumbnailUrl from "@utils/functions/getThumbnailUrl"
 import imageCdn from "@utils/functions/imageCdn"
@@ -39,7 +39,7 @@ const Tag: FC<Props> = ({ tag }) => {
                 {!error && !loading && pins.length > 0 &&
                     <div
                         className='w-full h-full bg-cover bg-center rounded-lg'
-                        style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[0]), 'thumbnail_sm')})` }}
+                        style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[0]), THUMBNAIL_SM)})` }}
                     ></div>
                 }
                     <div className='absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 rounded-lg'></div>

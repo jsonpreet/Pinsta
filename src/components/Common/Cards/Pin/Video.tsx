@@ -13,6 +13,7 @@ import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
 import getVideoCoverUrl from '@utils/functions/getVideoCoverUrl'
 import { BsFillPlayFill } from 'react-icons/bs'
 import Video from '@components/Common/Video'
+import { THUMBNAIL_SM } from '@utils/constants'
 
 dayjs.extend(relativeTime)
 
@@ -23,7 +24,7 @@ type Props = {
 const VideoCard: FC<Props> = ({pin}) => {
     const [loading, setLoading] = useState(true)
     const isCover = pin.metadata.cover?.original?.url ? true : false;
-    const thumbnailUrl = imageCdn(getVideoCoverUrl(pin), 'thumbnail_sm')
+    const thumbnailUrl = imageCdn(getVideoCoverUrl(pin), THUMBNAIL_SM)
     // @ts-ignore
     const createdIn = getAttributeFromTrait(pin?.metadata?.attributes, 'createdIn')
     const url = sanitizeIpfsUrl(pin?.metadata?.media[0].original?.url);

@@ -3,6 +3,7 @@ import ImageSlider from '@components/Common/Slider'
 import { Loader } from '@components/UI/Loader'
 import useAppStore from '@lib/store'
 import { Analytics } from '@utils/analytics'
+import { THUMBNAIL_LG } from '@utils/constants'
 import { PinstaPublication } from '@utils/custom-types'
 import getTextImage from '@utils/functions/getTextImage'
 import imageCdn from '@utils/functions/imageCdn'
@@ -31,7 +32,7 @@ const PinImage: FC<Props> = ({ pin }) => {
     const getThumbnail = async (pin: PinstaPublication) => {
         if (pin?.metadata?.media?.length > 0) {
             const list = pin?.metadata?.media.map(
-                (media) => imageCdn(sanitizeIpfsUrl(media.original.url), 'thumbnail_lg')
+                (media) => imageCdn(sanitizeIpfsUrl(media.original.url), THUMBNAIL_LG)
             );
             setThumbnails(list);
         } else {

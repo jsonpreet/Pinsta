@@ -12,6 +12,7 @@ import sanitizeIpfsUrl from '@utils/functions/sanitizeIpfsUrl'
 import { Tooltip } from '@components/UI/Tooltip'
 import { v4 as uuid } from 'uuid';
 import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
+import { AVATAR, THUMBNAIL_SM } from '@utils/constants'
 
 dayjs.extend(relativeTime)
 
@@ -21,7 +22,7 @@ type Props = {
 
 const ImageCard: FC<Props> = ({pin}) => {
     const [loading, setLoading] = useState(true)
-    const thumbnailUrl = pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), 'thumbnail_sm')
+    const thumbnailUrl = pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), THUMBNAIL_SM)
     // @ts-ignore
     const createdIn = getAttributeFromTrait(pin?.metadata?.attributes, 'createdIn')
 
@@ -63,7 +64,8 @@ const ImageCard: FC<Props> = ({pin}) => {
                     {
                         splicedMedia.map((media: any, index: number) => {
                             if (index == 0) return null
-                            const thumbnailUrl = imageCdn(sanitizeIpfsUrl(media.original.url), 'avatar')
+                            console.log(media.original.url)
+                            const thumbnailUrl = imageCdn(sanitizeIpfsUrl(media.original.url), AVATAR)
                             if(index === 4 && pin?.metadata?.media?.length > 4){
                                 return (
                                     <>

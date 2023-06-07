@@ -5,6 +5,7 @@ import getProfilePicture from '@utils/functions/getProfilePicture';
 import type { Profile } from '@utils/lens';
 import Link from 'next/link';
 import type { FC } from 'react';
+import { AVATAR } from '@utils/constants';
 
 interface Props {
   profile: Profile;
@@ -14,7 +15,7 @@ export const NotificationProfileAvatar: FC<Props> = ({ profile }) => {
   return (
     <Link href={`/${formatHandle(profile?.handle)}`}>
       <img
-        src={getProfilePicture(profile)}
+        src={getProfilePicture(profile, AVATAR)}
         className="w-8 h-8 bg-gray-200 rounded-full border dark:border-gray-700"
         height={32}
         width={32}

@@ -15,7 +15,7 @@ import { BsTrash } from 'react-icons/bs'
 import usePersistStore from '@lib/store/persist'
 import useAppStore from '@lib/store'
 import { toast } from 'react-hot-toast'
-import { ALLOWED_IMAGE_TYPES, ALLOWED_VIDEO_TYPES, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
+import { ALLOWED_IMAGE_TYPES, ALLOWED_VIDEO_TYPES, AVATAR, PINSTA_SERVER_URL, SIGN_IN_REQUIRED_MESSAGE } from '@utils/constants'
 import axios from 'axios'
 import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
 import ImageCard from './Image'
@@ -148,7 +148,7 @@ const PinCard: FC<Props> = ({pin, isBoard = false, board, isAllPins = false, all
                   >
                     <img
                       className="w-7 h-7 rounded-full"
-                      src={getProfilePicture(pin.profile)}
+                      src={getProfilePicture(pin.profile, AVATAR)}
                       alt={pin.profile?.handle}
                       draggable={false}
                     />

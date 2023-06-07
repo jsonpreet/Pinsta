@@ -6,6 +6,7 @@ import { usePublicationsByIdsQuery } from '@utils/lens/generated'
 import React, { FC } from 'react'
 import usePersistStore from '@lib/store/persist'
 import clsx from 'clsx'
+import { THUMBNAIL_SM } from '@utils/constants'
 
 interface Props {
     board: any
@@ -39,7 +40,7 @@ const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
                     {pins && pins.length > 0 && (
                         <div
                             className='w-full h-full bg-cover bg-center'
-                            style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[0]), 'thumbnail_sm')})` }}
+                            style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[0]), THUMBNAIL_SM)})` }}
                         ></div>
                     )}
                 </div>
@@ -49,7 +50,7 @@ const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
                             {pins && pins.length > 1 && (
                                 <div
                                     className='w-full h-full bg-cover bg-center rounded-tr-lg'
-                                    style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[1]), 'thumbnail_sm')})` }}
+                                    style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[1]), THUMBNAIL_SM)})` }}
                                 ></div>
                             )}
                         </div>
@@ -57,7 +58,7 @@ const BoardThumbnails: FC<Props> = ({ board, setShowEditBoard }) => {
                             {pins && pins.length > 2 && (
                                 <div
                                     className='w-full h-full bg-cover bg-center rounded-br-lg'
-                                    style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[2]), 'thumbnail_sm')})` }}
+                                    style={{ backgroundImage: `url(${imageCdn(getThumbnailUrl(pins[2]), THUMBNAIL_SM)})` }}
                                 ></div>
                             )}
                         </div>

@@ -14,7 +14,7 @@ import { BoardType } from '@utils/custom-types'
 import { Loader } from '@components/UI/Loader'
 import imageCdn from '@utils/functions/imageCdn'
 import formatHandle from '@utils/functions/formatHandle'
-import { ALLOWED_IMAGE_TYPES, ALLOWED_MEDIA_TYPES, PINSTA_SERVER_URL } from '@utils/constants'
+import { ALLOWED_IMAGE_TYPES, ALLOWED_MEDIA_TYPES, PINSTA_SERVER_URL, THUMBNAIL } from '@utils/constants'
 import axios from 'axios'
 import { Analytics, TRACK } from '@utils/analytics'
 import { Toggle } from '@components/UI/Toggle'
@@ -190,7 +190,7 @@ const EditBoardModal: FC<Props> = ({ board, show, setShow }) => {
                                 <img 
                                     className='rounded-xl object-cover' 
                                     alt={board?.name}
-                                    src={imageCdn(image ? image : board?.pfp, 'thumbnail')} 
+                                    src={imageCdn(image ? image : board?.pfp, THUMBNAIL)} 
                                     onLoad={() => setImgLoading(false)}
                                 />
                                 {isImgLoading ?

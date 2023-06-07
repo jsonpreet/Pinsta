@@ -16,7 +16,7 @@ import getThumbnailUrl from '@utils/functions/getThumbnailUrl'
 import imageCdn from '@utils/functions/imageCdn'
 import formatHandle from '@utils/functions/formatHandle'
 import axios from 'axios'
-import { PINSTA_SERVER_URL } from '@utils/constants'
+import { PINSTA_SERVER_URL, THUMBNAIL } from '@utils/constants'
 import { Analytics, TRACK } from '@utils/analytics'
 import clsx from 'clsx'
 import { Toggle } from '@components/UI/Toggle'
@@ -165,7 +165,7 @@ const CreateBoardModal: FC<Props> = ({ pin, setIsSaved, savePinToBoard, refetch,
                                 <img
                                     className='rounded-xl object-cover'
                                     alt={`Pin by @${pin?.profile?.handle}`}
-                                    src={imageCdn(getThumbnailUrl(pin), 'thumbnail')}
+                                    src={imageCdn(getThumbnailUrl(pin), THUMBNAIL)}
                                     onLoad={() => setImgLoading(false)}
                                 />
                                 {isImgLoading ?

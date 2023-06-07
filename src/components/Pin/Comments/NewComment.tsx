@@ -22,6 +22,7 @@ import toast from 'react-hot-toast'
 import type { CustomErrorWithData, PinstaPublication } from '@utils/custom-types'
 import {
     APP,
+  AVATAR,
   ERROR_MESSAGE,
   LENSHUB_PROXY_ADDRESS,
   RELAYER_ENABLED
@@ -280,7 +281,7 @@ const NewComment: FC<Props> = ({ pin }) => {
                 >
                     <div className="flex-none">
                         <img
-                            src={getProfilePicture(currentProfile, 'avatar')}
+                            src={getProfilePicture(currentProfile, AVATAR)}
                             className="w-7 h-7 md:w-9 md:h-9 rounded-full"
                             draggable={false}
                             alt={currentProfile?.handle}

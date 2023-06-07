@@ -12,6 +12,7 @@ import Link from 'next/link'
 import React, { FC, useState } from 'react'
 import { Analytics } from '@utils/analytics'
 import { RiArrowLeftRightFill } from 'react-icons/ri'
+import { AVATAR } from '@utils/constants'
 
 type Props = {
   pin: PinstaPublication
@@ -61,7 +62,7 @@ const User: FC<Props> = ({ pin }) => {
                                 alt={`${formatHandle(profile?.handle)}'s profile picture`}
                                 width={48}
                                 height={48}
-                                src={getProfilePicture(profile, 'avatar')}
+                                src={getProfilePicture(profile, AVATAR)}
                             />
                         </Link>
                     </div>

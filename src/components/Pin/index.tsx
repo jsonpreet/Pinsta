@@ -25,7 +25,7 @@ import getAttributeFromTrait from '@utils/functions/getAttributeFromTrait'
 import imageCdn from '@utils/functions/imageCdn'
 import truncate from '@utils/functions/truncate'
 import { NextSeo } from 'next-seo'
-import { APP } from '@utils/constants'
+import { APP, THUMBNAIL } from '@utils/constants'
 
 type Props = {
     pin: PinstaPublication
@@ -107,7 +107,7 @@ const Pin: FC<Props> = ({ pin, error, loading }) => {
                             url: `${APP.URL}${router.asPath}`,
                             images: [
                                 {
-                                    url: imageCdn(sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url), 'thumbnail') as string,
+                                    url: imageCdn(sanitizeIpfsUrl(pin?.metadata?.media?.[0]?.original?.url), THUMBNAIL) as string,
                                     alt: `${truncate(pinTitle ?? `Pin by @${pin?.profile?.handle}`, 60)} :: Pinsta`,
                                 },
                             ],

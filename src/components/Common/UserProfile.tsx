@@ -18,6 +18,7 @@ import formatHandle from '@utils/functions/formatHandle';
 import getProfilePicture from '@utils/functions/getProfilePicture';
 import IsVerified from '@components/UI/IsVerified';
 import formatTime from '@utils/functions/formatTime';
+import { AVATAR } from '@utils/constants';
 
 dayjs.extend(dayjsTwitter);
 
@@ -60,7 +61,7 @@ const UserProfile: FC<Props> = ({
 
     const UserAvatar = () => (
         <img
-            src={getProfilePicture(profile)}
+            src={getProfilePicture(profile, AVATAR)}
             loading="lazy"
             className={clsx(
                 isBig ? 'h-14 w-14' : 'h-10 w-10',

@@ -13,6 +13,7 @@ import getProfilePicture from '@utils/functions/getProfilePicture'
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 import Meta from '../Meta'
 import formatHandle from '@utils/functions/formatHandle'
+import { AVATAR } from '@utils/constants'
 
 dayjs.extend(relativeTime)
 
@@ -43,7 +44,7 @@ const Comment: FC<Props> = ({ comment }) => {
           className="flex-none mr-3 mt-0.5"
         >
           <img
-            src={getProfilePicture(comment?.profile, 'avatar')}
+            src={getProfilePicture(comment?.profile, AVATAR)}
             className="rounded-full w-7 h-7"
             draggable={false}
             alt={`${formatHandle(comment?.profile?.handle)}'s profile picture`}
