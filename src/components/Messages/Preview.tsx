@@ -57,48 +57,53 @@ const Preview: FC<PreviewProps> = ({ ensName, profile, message, conversationKey,
     const url = (ensName && getStampFyiURL(conversationKey?.split('/')[0])) ?? '';
 
     return (
-        <div
-            className={clsx(
-                'cursor-pointer py-3 hover:bg-gray-100 dark:hover:bg-gray-800',
-                isSelected && 'bg-gray-50 dark:bg-gray-800'
-            )}
-            onClick={() => onConversationSelected(profile?.id ? profile.id : conversationKey)}
-        >
-            <div className="flex justify-between space-x-3 px-5">
-                <img
-                    /* @ts-ignore */
-                    src={ensName ? url : getProfilePicture(profile)}
-                    loading="lazy"
-                    className="h-10 w-10 rounded-full border bg-gray-200 dark:border-gray-700"
-                    height={40}
-                    width={40}
-                    alt={formatHandle(profile?.handle)}
-                />
-                <div className="w-full">
-                    <div className="flex w-full justify-between space-x-1">
-                        <div className="flex max-w-sm items-center">
-                            <div className="line-clamp-1 text-md">
-                                {profile?.name
-                                ? sanitizeDisplayName(profile?.name) ??
-                                formatHandle(profile.handle)
-                                : ensName ?? formatAddress(conversationKey?.split('/')[0])}
-                            </div>
-                            <IsVerified id={profile?.id} size='xs' />
-                        </div>
-                        {message?.sent && (
-                            <span className="lt-text-gray-500 min-w-fit pt-0.5 text-xs" title={formatTime(message.sent)}>
-                                {dayjs(new Date(message.sent)).fromNow()}
-                            </span>
-                        )}
-                    </div>
-                    <span className="lt-text-gray-500 line-clamp-1 break-all text-sm">
-                        {address === message?.senderAddress && 'You: '}
-                        {/* @ts-ignore */}
-                        <MessagePreview message={message} />
-                    </span>
+      <div
+        className={clsx(
+          "cursor-pointer py-3 hover:bg-gray-100 dark:hover:bg-gray-800",
+          isSelected && "bg-gray-50 dark:bg-gray-800"
+        )}
+        onClick={() =>
+          onConversationSelected(profile?.id ? profile.id : conversationKey)
+        }
+      >
+        <div className="flex justify-between space-x-3 px-5">
+          <img
+            /* @ts-ignore */
+            src={ensName ? url : getProfilePicture(profile)}
+            loading="lazy"
+            className="h-10 w-10 rounded-full border bg-gray-200 dark:border-gray-700"
+            height={40}
+            width={40}
+            alt={formatHandle(profile?.handle)}
+          />
+          <div className="w-full">
+            <div className="flex w-full justify-between space-x-1">
+              <div className="flex max-w-sm items-center">
+                <div className="line-clamp-1 text-md">
+                  {profile?.name
+                    ? sanitizeDisplayName(profile?.name) : profile?.handle ?
+                      formatHandle(profile?.handle)
+                    : ensName ?? formatAddress(conversationKey?.split("/")[0])}
                 </div>
+                <IsVerified id={profile?.id} size="xs" />
+              </div>
+              {message?.sent && (
+                <span
+                  className="lt-text-gray-500 min-w-fit pt-0.5 text-xs"
+                  title={formatTime(message.sent)}
+                >
+                  {dayjs(new Date(message.sent)).fromNow()}
+                </span>
+              )}
             </div>
+            <span className="lt-text-gray-500 line-clamp-1 break-all text-sm">
+              {address === message?.senderAddress && "You: "}
+              {/* @ts-ignore */}
+              <MessagePreview message={message} />
+            </span>
+          </div>
         </div>
+      </div>
     );
 };
 
