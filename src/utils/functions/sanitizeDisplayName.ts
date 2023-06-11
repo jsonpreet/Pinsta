@@ -1,7 +1,5 @@
 import { Regex } from "@utils/constants";
 
-
-
 /**
  * Remove restricted symbols from profile name
  *
@@ -15,7 +13,7 @@ const sanitizeDisplayName = (
     return null;
   }
 
-  return name.replace(Regex.profileNameFilter, ' ').trim();
+  return name.replace(Regex.profileNameFilter, " ").trim();
 };
 
 export default sanitizeDisplayName;
