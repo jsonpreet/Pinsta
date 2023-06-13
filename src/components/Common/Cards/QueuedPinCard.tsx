@@ -136,7 +136,7 @@ const QueuedPinCard: FC<Props> = ({ pin }) => {
             }
         }
     });
-    const splicedMedia = pin?.previews?.length > 3 ? pin?.previews?.slice(0, 4) : pin?.previews
+    const splicedMedia = pin?.previews?.length > 4 ? pin?.previews?.slice(0, 5) : pin?.previews
     
     return (
         <motion.div

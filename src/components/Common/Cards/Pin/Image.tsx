@@ -25,8 +25,7 @@ const ImageCard: FC<Props> = ({pin}) => {
     const thumbnailUrl = pin?.metadata?.media[0]?.original.mimeType === 'image/gif' ? getThumbnailUrl(pin) : imageCdn(getThumbnailUrl(pin), THUMBNAIL_SM)
     // @ts-ignore
     const createdIn = getAttributeFromTrait(pin?.metadata?.attributes, 'createdIn')
-
-    const splicedMedia = pin?.metadata?.media?.length > 3 ? pin?.metadata?.media?.slice(0, 4) : pin?.metadata?.media
+    const splicedMedia = pin?.metadata?.media?.length > 4 ? pin?.metadata?.media?.slice(0, 5) : pin?.metadata?.media
     return (
         <>
             <div>
@@ -64,7 +63,7 @@ const ImageCard: FC<Props> = ({pin}) => {
                     {
                         splicedMedia.map((media: any, index: number) => {
                             if (index == 0) return null
-                            console.log(media.original.url)
+														console.log('media index', index)
                             const thumbnailUrl = imageCdn(sanitizeIpfsUrl(media.original.url), AVATAR)
                             if(index === 4 && pin?.metadata?.media?.length > 4){
                                 return (
