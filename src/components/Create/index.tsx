@@ -100,8 +100,8 @@ const Create: NextPage = () => {
 
         try {
             // Count check
-            if (files && (hasVideos(files) || (isImageType(files) && files.length + attachments.length > 4))) {
-                const errorMessage = 'Please choose either 1 video or up to 4 photos.'
+            if (files && (hasVideos(files) || (isImageType(files) && files.length + attachments.length >= 10))) {
+                const errorMessage = 'Please choose either 1 video or up to 10 photos.'
                 toast.error(errorMessage);
                 return setFileDropError(errorMessage)
             }
@@ -237,7 +237,7 @@ const Create: NextPage = () => {
                                             Drag and drop <br /> click to upload <br />
                                         </span>
                                         <span className='text-sm'>
-                                            (up to 4 images, 1 video)
+                                            (up to 10 images, 1 video)
                                         </span>
                                     </div>
                                     <div>
